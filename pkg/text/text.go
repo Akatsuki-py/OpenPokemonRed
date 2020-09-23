@@ -8,10 +8,9 @@ type Box interface {
 
 // MessageBox text box window
 type MessageBox struct {
-	Z             int
-	X, Y          uint
+	X, Y, Z       int
 	Width, Height int
-	data          *ebiten.Image
+	Cache         *ebiten.Image
 }
 
 func (m *MessageBox) ID() string {
@@ -20,10 +19,9 @@ func (m *MessageBox) ID() string {
 
 // ListMenu list menu
 type ListMenu struct {
-	Z             int
-	X, Y          uint
+	X, Y, Z       int
 	Width, Height int
-	data          *ebiten.Image
+	Cache         *ebiten.Image
 }
 
 func (l *ListMenu) ID() string {
