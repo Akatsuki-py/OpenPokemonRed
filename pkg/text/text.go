@@ -1,8 +1,12 @@
 package text
 
-type TextBox interface {
-	XYZ() (int, int, int)
+type boxArea struct {
+	X, Y, Z, W, H int
 }
 
-func DrawTextBox(box TextBox) {
+type Box interface {
+	area() boxArea
+}
+
+func DrawTextBox(box Box) {
 }

@@ -4,12 +4,16 @@ import "github.com/hajimehoshi/ebiten"
 
 // ListMenu list menu
 type ListMenu struct {
-	X, Y, Z       int
-	Width, Height int
+	X, Y, Z, W, H int
 	Cache         *ebiten.Image
 }
 
-// XYZ return x, y, z
-func (l *ListMenu) XYZ() (int, int, int) {
-	return l.X, l.Y, l.Z
+func (l *ListMenu) area() boxArea {
+	return boxArea{
+		X: l.X,
+		Y: l.Y,
+		Z: l.Z,
+		W: l.W,
+		H: l.H,
+	}
 }
