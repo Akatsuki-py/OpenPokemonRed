@@ -243,6 +243,7 @@ var charmap = map[string]uint{
 	"?":  0xE6,
 	"!":  0xE7,
 	".":  0xE8,
+	"&":  0xE9,
 
 	"▷": 0xEC,
 	"▶": 0xED,
