@@ -1,6 +1,8 @@
 package text
 
-var charmap = map[string]uint{
+type CharCode = uint
+
+var charmap = map[string]CharCode{
 	"ガ": 0x05,
 	"ギ": 0x06,
 	"グ": 0x07,
