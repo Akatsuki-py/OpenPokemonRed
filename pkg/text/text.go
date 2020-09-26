@@ -7,8 +7,3 @@ type Delay struct {
 	Frame        uint // 1文字ごとに待機するフレーム
 	FrameCounter uint // Vblankごとにデクリメント
 }
-
-// Cursor dest in placing string
-type Cursor struct {
-	X, Y int // tile
-}

@@ -1,12 +1,13 @@
 package text
 
 import (
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
 
-func PlaceChar(target *ebiten.Image, char string, x, y int) {
+func PlaceChar(target *ebiten.Image, char string) {
 	charcode, ok := charmap[char]
 	if !ok {
 		return
@@ -14,13 +15,27 @@ func PlaceChar(target *ebiten.Image, char string, x, y int) {
 
 	switch charcode {
 	case 0x52:
-		place0x52(target, x, y)
+		place0x52(target)
 	default:
-		charImage := chardata[charcode]
-		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Translate(util.TileToFPixel(x, y))
-		target.DrawImage(charImage, op)
+		placeChar(target, charcode)
 	}
 }
 
-func place0x52(target *ebiten.Image, x, y int) {}
+func placeChar(target *ebiten.Image, charcode CharCode) {
+	font := fontmap[charcode]
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(util.TileToFPixel(Cursor()))
+	target.DrawImage(font, op)
+	Next()
+}
+
+func place0x52(target *ebiten.Image) {
+	name := store.PlayerName
+	finishDTE(target, name)
+}
+
+func finishDTE(target *ebiten.Image, str string) {
+	for _, char := range str {
+		PlaceChar(target, string(char))
+	}
+}
