@@ -2,6 +2,7 @@ package util
 
 import (
 	"reflect"
+	"runtime"
 	"strings"
 )
 
@@ -18,4 +19,12 @@ func Contains(list interface{}, target interface{}) bool {
 		return strings.Contains(list.(string), target.(string))
 	}
 	return false
+}
+
+// LF return line feed
+func LF() string {
+	if runtime.GOOS == "windows" {
+		return "\r\n"
+	}
+	return "\n"
 }
