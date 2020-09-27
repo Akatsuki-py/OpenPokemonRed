@@ -2,6 +2,7 @@ NAME := pokered
 BINDIR := ./build
 VERSION := $(shell git describe --tags 2>/dev/null)
 LDFLAGS := -X 'main.version=$(VERSION)'
+GOFILES := $(shell find . -name "*.go")
 
 .PHONY: build
 build:
@@ -23,6 +24,10 @@ build-windows:
 .PHONY: clean
 clean:
 	@-rm -rf $(BINDIR)
+
+.PHONY: misspell
+misspell:
+	@misspell -w $(GOFILES)
 
 .PHONY: help
 help:
