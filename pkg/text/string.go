@@ -5,6 +5,4 @@ var specialChar = [...]string{
 }
 
 // PlaceString place string on screen
-func PlaceString(str string) {
-
-}
+func PlaceString(str string) {}

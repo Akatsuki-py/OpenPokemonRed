@@ -1,5 +1,7 @@
 package text
 
+type Text = string
+
 // Delay text print
 type Delay struct {
 	Option       uint // 設定の文字の速さ
@@ -7,3 +9,5 @@ type Delay struct {
 	Frame        uint // 1文字ごとに待機するフレーム
 	FrameCounter uint // Vblankごとにデクリメント
 }
+
+func PrintText(txt Text) {}
