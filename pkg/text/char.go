@@ -24,7 +24,7 @@ func PlaceChar(target *ebiten.Image, char string) {
 func placeChar(target *ebiten.Image, charcode CharCode) {
 	font := fontmap[charcode]
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(util.TileToFPixel(Cursor()))
+	op.GeoM.Translate(util.TileToFPixel(Caret()))
 	target.DrawImage(font, op)
 	Next()
 }
