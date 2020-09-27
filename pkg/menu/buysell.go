@@ -1,6 +1,10 @@
-package text
+package menu
 
-import "github.com/hajimehoshi/ebiten"
+import (
+	"pokered/pkg/textbox"
+
+	"github.com/hajimehoshi/ebiten"
+)
 
 // BuySell how many buy/sell items?
 type BuySell struct {
@@ -8,8 +12,8 @@ type BuySell struct {
 	Cache         *ebiten.Image
 }
 
-func (b *BuySell) area() boxArea {
-	return boxArea{
+func (b *BuySell) area() textbox.Area {
+	return textbox.Area{
 		X: b.X,
 		Y: b.Y,
 		Z: b.Z,

@@ -1,6 +1,10 @@
-package text
+package menu
 
-import "github.com/hajimehoshi/ebiten"
+import (
+	"pokered/pkg/textbox"
+
+	"github.com/hajimehoshi/ebiten"
+)
 
 // ListMenu list menu
 type ListMenu struct {
@@ -8,8 +12,8 @@ type ListMenu struct {
 	Cache         *ebiten.Image
 }
 
-func (l *ListMenu) area() boxArea {
-	return boxArea{
+func (l *ListMenu) area() textbox.Area {
+	return textbox.Area{
 		X: l.X,
 		Y: l.Y,
 		Z: l.Z,
