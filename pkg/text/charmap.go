@@ -1,5 +1,6 @@
 package text
 
+// CharCode number for char
 type CharCode = uint
 
 var charmap = map[string]CharCode{
