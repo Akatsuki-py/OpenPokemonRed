@@ -28,3 +28,12 @@ func LF() string {
 	}
 	return "\n"
 }
+
+// XOR exclusive-OR
+func XOR(a, b bool) bool {
+	return a != b
+}
+
+func Bit(data byte, bit uint) bool {
+	return data>>bit%2 == 1
+}

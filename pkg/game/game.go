@@ -1,6 +1,7 @@
 package game
 
 import (
+	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 
 	"github.com/hajimehoshi/ebiten"
@@ -36,4 +37,6 @@ func exec() {
 	}
 }
 
-func vBlank() {}
+func vBlank() {
+	joypad.ReadJoypad()
+}

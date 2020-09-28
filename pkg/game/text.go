@@ -3,7 +3,7 @@ package game
 import "pokered/pkg/text"
 
 func execText() {
-	if text.IsDelay() {
+	if text.InDelay() {
 		return
 	}
 	text.PrintText()

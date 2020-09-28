@@ -9,15 +9,19 @@ const (
 // AtOnce trueなら一気にテキストを表示 最優先
 var AtOnce bool = false
 
-// Option 設定の文字の速さ
-var Option uint = normal
-
-// Frame 1文字ごとに待機するフレーム
-var Frame uint = 0
+// Speed 設定の文字の速さ
+var Speed uint = normal
 
 // FrameCounter フレームごとにデクリメント
 var FrameCounter uint = 0
 
-func IsDelay() bool {
+func InDelay() bool {
 	return true
+}
+
+func delay() {
+	if AtOnce {
+		FrameCounter = 0
+	}
+	FrameCounter = Speed
 }
