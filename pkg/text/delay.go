@@ -16,7 +16,7 @@ var Speed uint = normal
 var FrameCounter uint = 0
 
 func InDelay() bool {
-	return true
+	return FrameCounter > 0
 }
 
 func delay() {
