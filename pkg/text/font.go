@@ -1,5 +1,15 @@
 package text
 
+import (
+	"fmt"
+	"image/png"
+
+	"github.com/hajimehoshi/ebiten"
+	"github.com/rakyll/statik/fs"
+
+	_ "pokered/pkg/data/char"
+)
+
 // CharCode number for char
 type CharCode = uint
 
@@ -271,7 +281,25 @@ var charmap = map[string]CharCode{
 	"9": 0xff,
 }
 
+var fontmap map[string]*ebiten.Image = newFontmap()
+
+// IsCorrectChar check char is correct
 func IsCorrectChar(char string) bool {
-	_, ok := charmap[char]
+	_, ok := fontmap[char]
 	return ok
+}
+
+func newFontmap() map[string]*ebiten.Image {
+	FS, _ := fs.New()
+	fontmap := map[string]*ebiten.Image{}
+	for char, charCode := range charmap {
+		f, err := FS.Open(fmt.Sprintf("/%d.png", charCode))
+		if err != nil {
+			continue
+		}
+		defer f.Close()
+		img, _ := png.Decode(f)
+		fontmap[char], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+	}
+	return fontmap
 }

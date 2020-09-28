@@ -37,7 +37,7 @@ func Run() int {
 
 	g := &game.Game{}
 	ebiten.SetWindowTitle(title)
-	ebiten.SetWindowSize(160*2, 144*2)
+	ebiten.SetWindowSize(160, 144)
 	if err := ebiten.RunGame(g); err != nil {
 		return exitCodeError
 	}

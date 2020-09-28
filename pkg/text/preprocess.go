@@ -5,8 +5,7 @@ import (
 	"strings"
 )
 
-// Preprocess raw text data
-func Preprocess(src string) string {
+func preprocess(src string) string {
 	s := strings.Split(src, util.LF())[1:]
 	result := ""
 	cout := false

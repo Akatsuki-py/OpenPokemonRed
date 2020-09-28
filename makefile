@@ -10,7 +10,7 @@ build:
 .PHONY: run
 run:
 	make build && ./$(BINDIR)/darwin-amd64/$(NAME).app
-	make clean
+	@make clean
 
 .PHONY: build-linux
 build-linux:

@@ -15,8 +15,9 @@ var specialChar = [...]string{
 	"${pkmn}", "${PLAYER}", "${RIVAL}", "${TARGET}", "${USER}",
 }
 
-func SetText(str string) {
-	CurText = str
+func SetText(str string, x, y util.Tile) {
+	Seek(x, y)
+	CurText = preprocess(str)
 }
 
 func PrintText() {
@@ -43,6 +44,7 @@ func PrintText() {
 	case "\\":
 		switch string(runes[1]) {
 		case "n":
+			placeLine()
 			CurText = string(runes[2:])
 		case "p":
 			CurText = string(runes[2:])
@@ -64,11 +66,7 @@ func PrintText() {
 }
 
 func placeChar(char string) {
-	charcode, ok := charmap[char]
-	if !ok {
-		return
-	}
-	font, ok := fontmap[charcode]
+	font, ok := fontmap[char]
 	if !ok {
 		return
 	}
@@ -79,8 +77,10 @@ func placeChar(char string) {
 	Next()
 }
 
-func placeNext()   {}
-func placeLine()   {}
+func placeNext() {}
+func placeLine() {
+	Seek(1, 16)
+}
 func placePara()   {}
 func placeCont()   {}
 func placePrompt() {}

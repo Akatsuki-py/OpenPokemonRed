@@ -1,6 +1,8 @@
 package util
 
 import (
+	"image/color"
+	"pokered/pkg/store"
 	"reflect"
 	"runtime"
 	"strings"
@@ -42,4 +44,11 @@ func SetBit(data byte, bit uint) byte {
 }
 func ResBit(data byte, bit uint) byte {
 	return data & ^(1 << bit)
+}
+
+func BlackScreen() {
+	store.TileMap.Fill(color.NRGBA{0x00, 0x00, 0x00, 0xff})
+}
+func WhiteScreen() {
+	store.TileMap.Fill(color.NRGBA{0xf8, 0xf8, 0xf8, 0xff})
 }

@@ -1,19 +1,28 @@
 package game
 
 import (
+	"pokered/pkg/data/txt"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
+	"pokered/pkg/text"
+	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
 
 // Game implements ebiten.Game interface.
-type Game struct{}
+type Game struct {
+	frame uint
+}
 
 // Update proceeds the game state.
 func (g *Game) Update(screen *ebiten.Image) error {
+	if g.frame == 0 {
+		setup()
+	}
 	exec()
 	vBlank()
+	g.frame++
 	return nil
 }
 
@@ -25,7 +34,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.
 // If you don't have to adjust the screen size with the outside size, just return a fixed size.
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 160 * 2, 144 * 2
+	return 160, 144
+}
+
+func setup() {
+	util.WhiteScreen()
+	text.SetText(txt.AgathaBeforeBattleText, 1, 14)
 }
 
 func exec() {
