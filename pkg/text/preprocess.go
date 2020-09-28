@@ -17,6 +17,8 @@ func Preprocess(src string) string {
 			cout = false
 		case "▼":
 			result += "\\▼"
+		case "#":
+			result += "POKé"
 		default:
 			if cout {
 				result += elm + "\\c"
