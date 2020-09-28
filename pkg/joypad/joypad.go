@@ -10,6 +10,11 @@ type Input struct {
 	A, B, Start, Select   bool
 }
 
+var Joy5 Input
+
+var Joy6 bool
+var Joy7 bool
+
 var JoyInput Input
 
 var JoyLast Input
@@ -104,4 +109,30 @@ func Joypad() {
 
 func discardButtonPresses() {
 	JoyReleased, JoyPressed, JoyHeld = Input{}, Input{}, Input{}
+}
+
+func JoypadLowSensitivity() {
+	Joypad()
+
+	Joy5 = JoyPressed
+	if Joy7 {
+		Joy5 = JoyHeld
+	}
+
+	if JoyPressed.Up || JoyPressed.Down || JoyPressed.Left || JoyPressed.Right || JoyPressed.A || JoyPressed.B || JoyPressed.Start || JoyPressed.Select {
+		store.FrameCounter = 30
+		return
+	}
+
+	if store.FrameCounter > 0 {
+		Joy5 = Input{}
+		return
+	}
+
+	if !((!JoyHeld.A && !JoyHeld.B) || Joy6) {
+		Joy5 = Input{}
+	}
+
+	store.FrameCounter = 5
+	return
 }

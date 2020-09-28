@@ -2,18 +2,23 @@ package game
 
 import (
 	"pokered/pkg/joypad"
+	"pokered/pkg/store"
 	"pokered/pkg/text"
 )
 
 func execText() {
-	if text.InDelay() {
+	if store.FrameCounter > 0 {
 		joypad.Joypad()
 		if joypad.JoyHeld.A || joypad.JoyHeld.B {
-			text.FrameCounter = 0
+			store.FrameCounter = 0
 			return
 		}
-		text.FrameCounter--
+		store.FrameCounter--
+		if store.FrameCounter > 0 {
+			store.DelayFrames = 1
+			return
+		}
 		return
 	}
-	text.PrintText()
+	text.PlaceText()
 }

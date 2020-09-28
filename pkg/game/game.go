@@ -39,10 +39,14 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func setup() {
 	util.WhiteScreen()
-	text.SetText(txt.AgathaBeforeBattleText, 1, 14)
+	text.PrintText(txt.AgathaBeforeBattleText)
 }
 
 func exec() {
+	if store.DelayFrames > 0 {
+		store.DelayFrames--
+		return
+	}
 	switch m := mode(); m {
 	case Overworld:
 		execOverworld()
@@ -53,4 +57,5 @@ func exec() {
 
 func vBlank() {
 	joypad.ReadJoypad()
+	store.DecFrameCounter()
 }

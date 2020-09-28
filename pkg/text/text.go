@@ -2,6 +2,7 @@ package text
 
 import (
 	"pokered/pkg/data/txt"
+	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 	"strings"
@@ -15,12 +16,16 @@ var specialChar = [...]string{
 	"${pkmn}", "${PLAYER}", "${RIVAL}", "${TARGET}", "${USER}",
 }
 
-func SetText(str string, x, y util.Tile) {
+func PrintText(str string) {
+	Seek(1, 14)
+	CurText = preprocess(str)
+}
+func SetString(str string, x, y util.Tile) {
 	Seek(x, y)
 	CurText = preprocess(str)
 }
 
-func PrintText() {
+func PlaceText() {
 	if len([]rune(CurText)) == 0 {
 		return
 	}
@@ -49,6 +54,7 @@ func PrintText() {
 		case "p":
 			CurText = string(runes[2:])
 		case "c":
+			placeCont()
 			CurText = string(runes[2:])
 		case "d":
 			CurText = string(runes[2:])
@@ -59,30 +65,55 @@ func PrintText() {
 		}
 	default:
 		if IsCorrectChar(c) {
-			placeChar(c)
+			x, y := Caret()
+			placeChar(c, x, y, true)
 		}
 		CurText = string(runes[1:])
 	}
 }
 
-func placeChar(char string) {
+func placeChar(char string, x, y util.Tile, next bool) {
 	font, ok := fontmap[char]
 	if !ok {
 		return
 	}
 
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(util.TileToFPixel(Caret()))
+	op.GeoM.Translate(util.TileToFPixel(x, y))
 	store.TileMap.DrawImage(font, op)
-	Next()
+	if next {
+		Next()
+	}
 }
 
 func placeNext() {}
 func placeLine() {
 	Seek(1, 16)
 }
-func placePara()   {}
-func placeCont()   {}
+func placePara() {}
+func placeCont() {
+	placeChar("▼", 18, 16, false)
+	store.DelayFrames = 3
+	manualTextScroll()
+}
+
+func manualTextScroll() {
+	waitForTextScrollButtonPress()
+
+}
+
+func waitForTextScrollButtonPress() {
+	handleDownArrowBlinkTiming()
+	joypad.JoypadLowSensitivity()
+	if !joypad.Joy5.A && !joypad.Joy5.B {
+
+	}
+}
+
+func handleDownArrowBlinkTiming() {
+
+}
+
 func placePrompt() {}
 func placePage()   {}
 func placeDex()    {}

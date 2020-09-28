@@ -1,5 +1,7 @@
 package text
 
+import "pokered/pkg/store"
+
 const (
 	fast   uint = 1
 	normal uint = 3
@@ -12,16 +14,9 @@ var AtOnce bool = false
 // Speed 設定の文字の速さ
 var Speed uint = normal
 
-// FrameCounter フレームごとにデクリメント
-var FrameCounter uint = 0
-
-func InDelay() bool {
-	return FrameCounter > 0
-}
-
-func delay() {
+func printCharDelay() {
 	if AtOnce {
-		FrameCounter = 0
+		store.FrameCounter = 0
 	}
-	FrameCounter = Speed
+	store.FrameCounter = Speed
 }

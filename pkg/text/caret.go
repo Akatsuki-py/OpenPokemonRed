@@ -17,6 +17,7 @@ func Next() {
 	if caret > 20*18 {
 		caret = 0
 	}
+	printCharDelay()
 }
 
 // Seek caret
