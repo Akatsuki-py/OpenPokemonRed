@@ -270,3 +270,8 @@ var charmap = map[string]CharCode{
 	"8": 0xfe,
 	"9": 0xff,
 }
+
+func IsCorrectChar(char string) bool {
+	_, ok := charmap[char]
+	return ok
+}

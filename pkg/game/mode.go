@@ -1,5 +1,7 @@
 package game
 
+import "pokered/pkg/text"
+
 const (
 	Overworld uint = iota
 	Text
@@ -13,5 +15,5 @@ func mode() uint {
 }
 
 func isText() bool {
-	return false
+	return len([]rune(text.CurText)) > 0
 }

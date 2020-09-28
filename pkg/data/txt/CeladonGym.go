@@ -1,8 +1,8 @@
 package txt
 
 var ReceivedTM21Text = `
-<PLAYER> received
-$ram:TMName@!
+${PLAYER} received
+${TMName}!
 `
 
 var TM21NoRoomText = `

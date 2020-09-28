@@ -19,7 +19,7 @@ his #DEX! He's
 wrong! #MON
 are for fighting!
 
-<PLAYER>! I'll show
+${PLAYER}! I'll show
 you how a real
 trainer fights!
 `
