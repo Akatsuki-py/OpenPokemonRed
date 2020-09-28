@@ -1,12 +1,12 @@
-package txt
+package text
 
 import (
 	"pokered/pkg/util"
 	"strings"
 )
 
-// Compile raw text data
-func Compile(src string) string {
+// Preprocess raw text data
+func Preprocess(src string) string {
 	s := strings.Split(src, util.LF())[1:]
 	result := ""
 	cout := false

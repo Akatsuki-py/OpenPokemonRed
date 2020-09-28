@@ -70,7 +70,7 @@ func Joypad() {
 
 	JoyLast = JoyInput
 
-	if util.Bit(store.D730, 5) {
+	if util.ReadBit(store.D730, 5) {
 		discardButtonPresses()
 	}
 

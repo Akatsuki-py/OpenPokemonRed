@@ -34,6 +34,12 @@ func XOR(a, b bool) bool {
 	return a != b
 }
 
-func Bit(data byte, bit uint) bool {
+func ReadBit(data byte, bit uint) bool {
 	return data>>bit%2 == 1
+}
+func SetBit(data byte, bit uint) byte {
+	return data | (1 << bit)
+}
+func ResBit(data byte, bit uint) byte {
+	return data & ^(1 << bit)
 }
