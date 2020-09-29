@@ -11,7 +11,6 @@ type Input struct {
 }
 
 var Joy5 Input
-
 var Joy6 bool
 var Joy7 bool
 

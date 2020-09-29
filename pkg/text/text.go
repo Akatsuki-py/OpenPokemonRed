@@ -1,6 +1,7 @@
 package text
 
 import (
+	"image"
 	"pokered/pkg/data/txt"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
@@ -12,9 +13,7 @@ import (
 
 var CurText = ""
 
-var specialChar = [...]string{
-	"${pkmn}", "${PLAYER}", "${RIVAL}", "${TARGET}", "${USER}",
-}
+var InScroll bool
 
 func PrintText(str string) {
 	Seek(1, 14)
@@ -37,7 +36,7 @@ func PlaceText() {
 		lParen := strings.Index(CurText, "{")
 		rParen := strings.Index(CurText, "}")
 		if lParen == 1 || rParen > 1 {
-			key := string(runes[lParen:rParen])
+			key := string(runes[lParen+1 : rParen])
 			CurText = string(runes[rParen:])
 			if value, ok := txt.RAM[key]; ok {
 				CurText = value() + CurText
@@ -46,16 +45,24 @@ func PlaceText() {
 			}
 			return
 		}
+	case "#":
+		CurText = "POKé" + string(runes[1:])
+		PlaceText()
+		return
 	case "\\":
 		switch string(runes[1]) {
 		case "n":
 			placeLine()
 			CurText = string(runes[2:])
 		case "p":
-			CurText = string(runes[2:])
+			if placePara() {
+				CurText = string(runes[2:])
+			}
 		case "c":
-			placeCont()
-			CurText = string(runes[2:])
+			if placeCont() {
+				ScrollTextUpOneLine()
+				CurText = string(runes[2:])
+			}
 		case "d":
 			CurText = string(runes[2:])
 		case "▼":
@@ -77,10 +84,7 @@ func placeChar(char string, x, y util.Tile, next bool) {
 	if !ok {
 		return
 	}
-
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(util.TileToFPixel(x, y))
-	store.TileMap.DrawImage(font, op)
+	util.DrawImage(font, x, y)
 	if next {
 		Next()
 	}
@@ -90,28 +94,60 @@ func placeNext() {}
 func placeLine() {
 	Seek(1, 16)
 }
-func placePara() {}
-func placeCont() {
+func placePara() bool {
 	placeChar("▼", 18, 16, false)
-	store.DelayFrames = 3
-	manualTextScroll()
+	ok := manualTextScroll()
+	if ok {
+		clearScreenArea()
+		store.DelayFrames = 20
+		Seek(1, 14)
+	}
+	return ok
 }
 
-func manualTextScroll() {
-	waitForTextScrollButtonPress()
-
-}
-
-func waitForTextScrollButtonPress() {
-	handleDownArrowBlinkTiming()
-	joypad.JoypadLowSensitivity()
-	if !joypad.Joy5.A && !joypad.Joy5.B {
-
+func clearScreenArea() {
+	for h := 13; h <= 17; h++ {
+		for w := 0; w < 20; w++ {
+			placeChar(" ", w, h, false)
+		}
 	}
 }
 
-func handleDownArrowBlinkTiming() {
+func placeCont() bool {
+	placeChar("▼", 18, 16, false)
+	ok := manualTextScroll()
+	if ok {
+		placeChar(" ", 18, 16, false)
+	}
+	return ok
+}
 
+func manualTextScroll() bool {
+	return waitForTextScrollButtonPress()
+}
+
+func waitForTextScrollButtonPress() bool {
+	handleDownArrowBlinkTiming()
+	joypad.JoypadLowSensitivity()
+	return joypad.Joy5.A || joypad.Joy5.B
+}
+
+func handleDownArrowBlinkTiming() {}
+
+func ScrollTextUpOneLine() {
+	minX, minY := util.TileToPixel(1, 14)
+	min := image.Point{minX, minY}
+	maxX, maxY := util.TileToPixel(19, 17)
+	max := image.Point{maxX, maxY}
+	texts, _ := ebiten.NewImageFromImage(store.TileMap.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
+	util.DrawImage(texts, 1, 13)
+	store.TileMap, _ = ebiten.NewImageFromImage(store.TileMap, ebiten.FilterDefault)
+	for w := 0; w < 20; w++ {
+		placeChar(" ", w, 16, false)
+	}
+	store.DelayFrames = 5
+	InScroll = !InScroll
+	Seek(1, 16)
 }
 
 func placePrompt() {}

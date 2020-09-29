@@ -6,6 +6,8 @@ import (
 	"reflect"
 	"runtime"
 	"strings"
+
+	"github.com/hajimehoshi/ebiten"
 )
 
 func Contains(list interface{}, target interface{}) bool {
@@ -51,4 +53,10 @@ func BlackScreen() {
 }
 func WhiteScreen() {
 	store.TileMap.Fill(color.NRGBA{0xf8, 0xf8, 0xf8, 0xff})
+}
+
+func DrawImage(i *ebiten.Image, x, y Tile) {
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(TileToFPixel(x, y))
+	store.TileMap.DrawImage(i, op)
 }

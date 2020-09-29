@@ -43,6 +43,7 @@ func setup() {
 }
 
 func exec() {
+	joypad.ReadJoypad()
 	if store.DelayFrames > 0 {
 		store.DelayFrames--
 		return

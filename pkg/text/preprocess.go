@@ -8,22 +8,20 @@ import (
 func preprocess(src string) string {
 	s := strings.Split(src, util.LF())[1:]
 	result := ""
-	cout := false
-	for _, elm := range s {
-		switch elm {
+	cont := false
+	for _, line := range s {
+		switch line {
 		case "":
 			result += "\\p"
-			cout = false
+			cont = false
 		case "▼":
 			result += "\\▼"
-		case "#":
-			result += "POKé"
 		default:
-			if cout {
-				result += elm + "\\c"
+			if cont {
+				result += line + "\\c"
 			} else {
-				result += elm + "\\n"
-				cout = true
+				result += line + "\\n"
+				cont = true
 			}
 		}
 	}

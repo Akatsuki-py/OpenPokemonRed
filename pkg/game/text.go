@@ -7,6 +7,10 @@ import (
 )
 
 func execText() {
+	if text.InScroll {
+		text.ScrollTextUpOneLine()
+		return
+	}
 	if store.FrameCounter > 0 {
 		joypad.Joypad()
 		if joypad.JoyHeld.A || joypad.JoyHeld.B {
