@@ -17,12 +17,20 @@ var CurText = ""
 
 // InScroll in scroll
 var InScroll bool
-var blink = " "
+var blink = "▼"
 var downArrowBlinkCnt uint = 6 * 10 // FF8B,FF8C
 
 // Blink ▼ on display
-func Blink() {
+func Blink(b string) {
+	if b == " " || b == "▼" {
+		blink = b
+	}
 	placeChar(blink, 18, 16, false)
+}
+
+func resetBlink() {
+	blink = "▼"
+	downArrowBlinkCnt = 6 * 10
 }
 
 // PrintText print string in text window
@@ -78,15 +86,18 @@ func PlaceChar(str string) string {
 			placeLine()
 			str = string(runes[2:])
 		case "p":
-			Blink()
+			Blink("")
 			if pressed := placePara(); pressed {
 				str = string(runes[2:])
+				resetBlink()
 			}
 		case "c":
-			Blink()
+			Blink("")
 			if pressed := placeCont(); pressed {
+				Blink(" ")
 				ScrollTextUpOneLine()
 				str = string(runes[2:])
+				resetBlink()
 			}
 		case "d":
 			str = string(runes[2:])
@@ -121,7 +132,6 @@ func placeLine() {
 	Seek(1, 16)
 }
 func placePara() bool {
-	placeChar("▼", 18, 16, false)
 	pressed := manualTextScroll()
 	if pressed {
 		clearScreenArea()
@@ -140,12 +150,7 @@ func clearScreenArea() {
 }
 
 func placeCont() bool {
-	Blink()
 	pressed := manualTextScroll()
-	if pressed {
-		blink = " "
-		Blink()
-	}
 	return pressed
 }
 
