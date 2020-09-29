@@ -15,15 +15,19 @@ var CurText = ""
 
 var InScroll bool
 
+// PrintText print string in text window
 func PrintText(str string) {
 	Seek(1, 14)
 	CurText = preprocess(str)
 }
+
+// SetString print string
 func SetString(str string, x, y util.Tile) {
 	Seek(x, y)
 	CurText = preprocess(str)
 }
 
+// PlaceText print string one by one
 func PlaceText() {
 	if len([]rune(CurText)) == 0 {
 		return
