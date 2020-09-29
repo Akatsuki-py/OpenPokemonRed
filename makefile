@@ -26,7 +26,7 @@ clean:
 
 .PHONY: misspell
 misspell:
-	@misspell -w $(shell fd -e go)
+	@misspell -w $(shell fd -E 'statik.go' -e go)
 
 .PHONY: help
 help:
