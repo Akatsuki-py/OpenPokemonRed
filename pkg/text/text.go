@@ -83,7 +83,7 @@ func PlaceChar(str string) string {
 	case "\\":
 		switch string(runes[1]) {
 		case "n":
-			placeLine()
+			placeNext()
 			str = string(runes[2:])
 		case "p":
 			Blink("")
@@ -102,6 +102,7 @@ func PlaceChar(str string) string {
 		case "d":
 			str = string(runes[2:])
 		case "▼":
+			placePrompt()
 			str = string(runes[2:])
 		default:
 			str = string(runes[1:])
@@ -127,9 +128,9 @@ func placeChar(char string, x, y util.Tile, next bool) {
 	}
 }
 
-func placeNext() {}
-func placeLine() {
-	Seek(1, 16)
+func placeNext() {
+	_, y := Caret()
+	Seek(1, y+2)
 }
 func placePara() bool {
 	pressed := manualTextScroll()
@@ -200,6 +201,8 @@ func ScrollTextUpOneLine() {
 	Seek(1, 16)
 }
 
-func placePrompt() {}
-func placePage()   {}
-func placeDex()    {}
+func placePrompt() {
+	placeChar("▼", 18, 16, false)
+}
+func placePage() {}
+func placeDex()  {}
