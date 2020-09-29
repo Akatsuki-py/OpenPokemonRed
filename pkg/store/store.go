@@ -6,6 +6,7 @@ import "github.com/hajimehoshi/ebiten"
 var DelayFrames uint
 
 // FrameCounter VBlankごとにデクリメント
+// 文字の速さの制御などで利用
 var FrameCounter uint = 0
 
 func DecFrameCounter() {

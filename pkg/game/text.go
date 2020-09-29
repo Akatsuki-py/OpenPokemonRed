@@ -24,5 +24,5 @@ func execText() {
 		}
 		return
 	}
-	text.PlaceText()
+	text.CurText = text.PlaceChar(text.CurText)
 }

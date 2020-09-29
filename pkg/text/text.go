@@ -20,78 +20,89 @@ var InScroll bool
 var blink = " "
 var downArrowBlinkCnt uint = 6 * 10 // FF8B,FF8C
 
+// Blink ▼ on display
 func Blink() {
 	placeChar(blink, 18, 16, false)
 }
 
 // PrintText print string in text window
 func PrintText(str string) {
+	DisplayTextBoxID(MESSAGE_BOX)
 	Seek(1, 14)
 	CurText = preprocess(str)
 }
 
-// SetString print string
-func SetString(str string, x, y util.Tile) {
+// PlaceString print string
+func PlaceString(str string, x, y util.Tile) {
 	Seek(x, y)
 	CurText = preprocess(str)
 }
 
-// PlaceText print string one by one
-func PlaceText() {
-	if len([]rune(CurText)) == 0 {
-		return
+// PlaceStringAtOnce print string at once
+func PlaceStringAtOnce(str string, x, y util.Tile) {
+	Seek(x, y)
+	str = preprocess(str)
+	for str != "" {
+		str = PlaceChar(str)
+	}
+}
+
+// PlaceChar place CurText into screen one by one
+func PlaceChar(str string) string {
+	if len([]rune(str)) == 0 {
+		return str
 	}
 
-	runes := []rune(CurText)
+	runes := []rune(str)
 	c := string(runes[0])
 	switch c {
 	case "$":
-		lParen := strings.Index(CurText, "{")
-		rParen := strings.Index(CurText, "}")
+		lParen := strings.Index(str, "{")
+		rParen := strings.Index(str, "}")
 		if lParen == 1 || rParen > 1 {
 			key := string(runes[lParen+1 : rParen])
-			CurText = string(runes[rParen:])
+			str = string(runes[rParen:])
 			if value, ok := txt.RAM[key]; ok {
-				CurText = value() + CurText
+				str = value() + str
 			} else if value, ok := txt.Asm[key]; ok {
 				value()
 			}
-			return
+			return str
 		}
 	case "#":
-		CurText = "POKé" + string(runes[1:])
-		PlaceText()
-		return
+		str = "POKé" + string(runes[1:])
+		return PlaceChar(str)
 	case "\\":
 		switch string(runes[1]) {
 		case "n":
 			placeLine()
-			CurText = string(runes[2:])
+			str = string(runes[2:])
 		case "p":
 			Blink()
 			if pressed := placePara(); pressed {
-				CurText = string(runes[2:])
+				str = string(runes[2:])
 			}
 		case "c":
 			Blink()
 			if pressed := placeCont(); pressed {
 				ScrollTextUpOneLine()
-				CurText = string(runes[2:])
+				str = string(runes[2:])
 			}
 		case "d":
-			CurText = string(runes[2:])
+			str = string(runes[2:])
 		case "▼":
-			CurText = string(runes[2:])
+			str = string(runes[2:])
 		default:
-			CurText = string(runes[1:])
+			str = string(runes[1:])
 		}
 	default:
 		if IsCorrectChar(c) {
 			x, y := Caret()
 			placeChar(c, x, y, true)
 		}
-		CurText = string(runes[1:])
+		str = string(runes[1:])
 	}
+	return str
 }
 
 func placeChar(char string, x, y util.Tile, next bool) {
@@ -121,8 +132,8 @@ func placePara() bool {
 }
 
 func clearScreenArea() {
-	for h := 13; h <= 17; h++ {
-		for w := 0; w < 20; w++ {
+	for h := 13; h <= 16; h++ {
+		for w := 1; w < 19; w++ {
 			placeChar(" ", w, h, false)
 		}
 	}
@@ -176,7 +187,7 @@ func ScrollTextUpOneLine() {
 	texts, _ := ebiten.NewImageFromImage(store.TileMap.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
 	util.DrawImage(texts, 1, 13)
 	store.TileMap, _ = ebiten.NewImageFromImage(store.TileMap, ebiten.FilterDefault)
-	for w := 0; w < 20; w++ {
+	for w := 1; w < 19; w++ {
 		placeChar(" ", w, 16, false)
 	}
 	store.DelayFrames = 5
