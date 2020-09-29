@@ -12,9 +12,17 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
+// CurText text which should be displayed
 var CurText = ""
 
+// InScroll in scroll
 var InScroll bool
+var blink = " "
+var downArrowBlinkCnt uint = 6 * 10 // FF8B,FF8C
+
+func Blink() {
+	placeChar(blink, 18, 16, false)
+}
 
 // PrintText print string in text window
 func PrintText(str string) {
@@ -60,11 +68,13 @@ func PlaceText() {
 			placeLine()
 			CurText = string(runes[2:])
 		case "p":
-			if placePara() {
+			Blink()
+			if pressed := placePara(); pressed {
 				CurText = string(runes[2:])
 			}
 		case "c":
-			if placeCont() {
+			Blink()
+			if pressed := placeCont(); pressed {
 				ScrollTextUpOneLine()
 				CurText = string(runes[2:])
 			}
@@ -101,13 +111,13 @@ func placeLine() {
 }
 func placePara() bool {
 	placeChar("▼", 18, 16, false)
-	ok := manualTextScroll()
-	if ok {
+	pressed := manualTextScroll()
+	if pressed {
 		clearScreenArea()
 		store.DelayFrames = 20
 		Seek(1, 14)
 	}
-	return ok
+	return pressed
 }
 
 func clearScreenArea() {
@@ -119,30 +129,45 @@ func clearScreenArea() {
 }
 
 func placeCont() bool {
-	placeChar("▼", 18, 16, false)
-	ok := manualTextScroll()
-	if ok {
-		placeChar(" ", 18, 16, false)
+	Blink()
+	pressed := manualTextScroll()
+	if pressed {
+		blink = " "
+		Blink()
 	}
-	return ok
+	return pressed
 }
 
 func manualTextScroll() bool {
-	ok := waitForTextScrollButtonPress()
-	if ok {
+	pressed := WaitForTextScrollButtonPress()
+	if pressed {
 		audio.PlaySound(audio.SFX_PRESS_AB)
 	}
-	return ok
+	return pressed
 }
 
-func waitForTextScrollButtonPress() bool {
+// WaitForTextScrollButtonPress wait for AB button press
+func WaitForTextScrollButtonPress() bool {
 	handleDownArrowBlinkTiming()
 	joypad.JoypadLowSensitivity()
-	return joypad.Joy5.A || joypad.Joy5.B
+	pressed := joypad.Joy5.A || joypad.Joy5.B
+	return pressed
 }
 
-func handleDownArrowBlinkTiming() {}
+func handleDownArrowBlinkTiming() {
+	downArrowBlinkCnt--
+	if downArrowBlinkCnt == 0 {
+		switch blink {
+		case "▼":
+			blink = " "
+		case " ":
+			blink = "▼"
+		}
+		downArrowBlinkCnt = 6 * 10
+	}
+}
 
+// ScrollTextUpOneLine scroll text up one line
 func ScrollTextUpOneLine() {
 	minX, minY := util.TileToPixel(1, 14)
 	min := image.Point{minX, minY}
