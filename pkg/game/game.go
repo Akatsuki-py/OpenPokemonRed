@@ -1,11 +1,8 @@
 package game
 
 import (
-	"pokered/pkg/data/txt"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
-	"pokered/pkg/text"
-	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -38,8 +35,6 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func setup() {
-	util.WhiteScreen()
-	text.PrintText(txt.AgathaBeforeBattleText)
 }
 
 func exec() {
