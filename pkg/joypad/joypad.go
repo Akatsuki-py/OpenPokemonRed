@@ -119,7 +119,7 @@ func JoypadLowSensitivity() {
 	}
 
 	if JoyPressed.Up || JoyPressed.Down || JoyPressed.Left || JoyPressed.Right || JoyPressed.A || JoyPressed.B || JoyPressed.Start || JoyPressed.Select {
-		store.FrameCounter = 30
+		store.FrameCounter = 8
 		return
 	}
 
@@ -128,10 +128,14 @@ func JoypadLowSensitivity() {
 		return
 	}
 
-	if !((!JoyHeld.A && !JoyHeld.B) || Joy6) {
+	if JoyHeld.A || JoyHeld.B {
 		Joy5 = Input{}
 	}
 
-	store.FrameCounter = 5
+	if !Joy6 {
+		Joy5 = Input{}
+	}
+
+	store.FrameCounter = 1
 	return
 }

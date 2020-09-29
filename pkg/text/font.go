@@ -7,7 +7,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/rakyll/statik/fs"
 
-	_ "pokered/pkg/data/char"
+	_ "pokered/pkg/data/statik"
 )
 
 // CharCode number for char

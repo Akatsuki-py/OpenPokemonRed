@@ -2,6 +2,7 @@ package text
 
 import (
 	"image"
+	"pokered/pkg/audio"
 	"pokered/pkg/data/txt"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
@@ -127,7 +128,11 @@ func placeCont() bool {
 }
 
 func manualTextScroll() bool {
-	return waitForTextScrollButtonPress()
+	ok := waitForTextScrollButtonPress()
+	if ok {
+		audio.PlaySound(audio.SFX_PRESS_AB)
+	}
+	return ok
 }
 
 func waitForTextScrollButtonPress() bool {
