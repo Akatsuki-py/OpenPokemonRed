@@ -1,6 +1,8 @@
 package store
 
-import "github.com/hajimehoshi/ebiten"
+import (
+	"github.com/hajimehoshi/ebiten"
+)
 
 // DelayFrames VBlank以外を拒否
 var DelayFrames uint
@@ -15,8 +17,7 @@ func DecFrameCounter() {
 	}
 }
 
-var PlayerName = "NINTEN"
-var RivalName = "SONY"
+var PlayerName, RivalName = "NINTEN", "SONY"
 
 // TileMap c3a0
 var TileMap, _ = ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)

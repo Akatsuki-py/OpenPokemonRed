@@ -43,11 +43,11 @@ func drawTextbox(X0, Y0, X1, Y1 util.Tile) {
 	for x := X0; x <= X1; x++ {
 		switch x {
 		case X0:
-			placeChar("┌", x, Y0, false)
+			PlaceChar("┌", x, Y0)
 		case X1:
-			placeChar("┐", x, Y0, false)
+			PlaceChar("┐", x, Y0)
 		default:
-			placeChar("─", x, Y0, false)
+			PlaceChar("─", x, Y0)
 		}
 	}
 
@@ -55,11 +55,11 @@ func drawTextbox(X0, Y0, X1, Y1 util.Tile) {
 		for x := X0; x <= X1; x++ {
 			switch x {
 			case X0:
-				placeChar("│", x, y, false)
+				PlaceChar("│", x, y)
 			case X1:
-				placeChar("│", x, y, false)
+				PlaceChar("│", x, y)
 			default:
-				placeChar(" ", x, y, false)
+				PlaceChar(" ", x, y)
 			}
 		}
 	}
@@ -68,11 +68,11 @@ func drawTextbox(X0, Y0, X1, Y1 util.Tile) {
 	for x := X0; x <= X1; x++ {
 		switch x {
 		case X0:
-			placeChar("└", x, Y1, false)
+			PlaceChar("└", x, Y1)
 		case X1:
-			placeChar("┘", x, Y1, false)
+			PlaceChar("┘", x, Y1)
 		default:
-			placeChar("─", x, Y1, false)
+			PlaceChar("─", x, Y1)
 		}
 	}
 }
