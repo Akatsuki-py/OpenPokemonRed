@@ -10,8 +10,8 @@ type ListMenu struct {
 	Cache         *ebiten.Image
 }
 
-// DisplayListMenuIDLoop list menu でユーザーの入力を待って対応する処理
-func DisplayListMenuIDLoop() bool {
+// DisplayListMenuID list menu でユーザーの入力を待って対応する処理
+func DisplayListMenuID() bool {
 	selected := true
 	return selected
 }
