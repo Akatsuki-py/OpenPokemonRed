@@ -1,6 +1,9 @@
 package menu
 
-import "pokered/pkg/joypad"
+import (
+	"pokered/pkg/joypad"
+	"pokered/pkg/util"
+)
 
 const (
 	// ChoseMenuItem Aボタンでアイテムを選択した or 2択menuの上
@@ -12,6 +15,20 @@ const (
 
 type Menu interface {
 	Z() uint
+	Top() (util.Tile, util.Tile)
+}
+
+func CurMenu() Menu {
+	z := MaxZIndex()
+	for _, s := range CurSelectMenus {
+		if s.z == z {
+			return &s
+		}
+	}
+	if CurListMenu.z == z {
+		return &CurListMenu
+	}
+	return nil
 }
 
 var downArrowBlinkCnt = 6 * 10
@@ -27,8 +44,8 @@ func MaxZIndex() uint {
 			selectZ = s.z
 		}
 	}
-	if CurListMenu.Z() > selectZ {
-		return CurListMenu.Z()
+	if CurListMenu.z > selectZ {
+		return CurListMenu.z
 	}
 	return selectZ
 }
@@ -43,15 +60,30 @@ func MaxZIndex() uint {
 // [wMenuCursorLocation] = カーソルのあるタイルのアドレス
 func HandleMenuInput() {
 	PlaceCursor()
-
 	// TODO: AnimatePartyMon
 
 	joypad.JoypadLowSensitivity()
 	if !joypad.Joy5.Any() {
-		// TODO: blink
-		return
+		return // TODO: blink
 	}
 
+	m := CurMenu()
+	switch m := m.(type) {
+	case *SelectMenu:
+		handleSelectMenuInput(m)
+	case *ListMenu:
+		handleListMenuInput(m)
+	}
+}
+
+func handleSelectMenuInput(m *SelectMenu) {
+	switch {
+	case joypad.Joy5.Up:
+	case joypad.Joy5.Down:
+	}
+}
+
+func handleListMenuInput(m *ListMenu) {
 	switch {
 	case joypad.Joy5.Up:
 	case joypad.Joy5.Down:

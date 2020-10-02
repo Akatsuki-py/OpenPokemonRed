@@ -11,8 +11,6 @@ func setTopMenuItem(x, y util.Tile) {
 	TopMenuItemX, TopMenuItemY = x, y
 }
 
-var PreviousMenuItem, CurrentMenuItem uint = 0, 0
-
 // Cursor cursor location in tileMap
 type Cursor struct {
 	X, Y util.Tile
@@ -21,30 +19,52 @@ type Cursor struct {
 // CursorLocation current cursor tile location in tileMap
 var CursorLocation = Cursor{}
 
-// PlaceCursor place "▶︎"
-// 1. erase previous cursor
-// 2. calc current CursorLocation
-// 3. place "▶︎"
-// 4. set CursorLocation
+// PlaceCursor set "▶︎" into current menu
 // ref: PlaceMenuCursor
 func PlaceCursor() {
-	text.PlaceChar(" ", TopMenuItemX, TopMenuItemY+util.Tile(PreviousMenuItem))
-	X, Y := TopMenuItemX, TopMenuItemY+util.Tile(CurrentMenuItem)
-	text.PlaceChar("▶︎", X, Y)
-	CursorLocation = Cursor{X, Y}
-	PreviousMenuItem = CurrentMenuItem
+	m := CurMenu()
+
+	// erase old cursor
+	switch m := m.(type) {
+	case *SelectMenu:
+		for i := 0; i < len(m.Elm); i++ {
+			text.PlaceChar(" ", m.topX, m.topY+2*i)
+		}
+	case *ListMenu:
+		for i := 0; i < 4; i++ {
+			text.PlaceChar(" ", ListMenuTopX, ListMenuTopY+2*i)
+		}
+	}
+
+	// place current cursor
+	switch m := m.(type) {
+	case *SelectMenu:
+		text.PlaceChar("▶︎", m.topX, m.topY+util.Tile(2*m.Current))
+	case *ListMenu:
+		text.PlaceChar("▶︎", ListMenuTopX, ListMenuTopY+util.Tile(2*m.Current))
+	}
 }
 
 // PlaceUnfilledArrowCursor replace current cursor with "▷"
 // ref: PlaceUnfilledArrowMenuCursor
 func PlaceUnfilledArrowCursor() {
-	x, y := CursorLocation.X, CursorLocation.Y
-	text.PlaceChar("▷", x, y)
+	m := CurMenu()
+	switch m := m.(type) {
+	case *SelectMenu:
+		text.PlaceChar("▷", m.topX, m.topY+util.Tile(2*m.Current))
+	case *ListMenu:
+		text.PlaceChar("▷", ListMenuTopX, ListMenuTopY+util.Tile(2*m.Current))
+	}
 }
 
 // EraseCursor erase cursor
 // ref: EraseMenuCursor
 func EraseCursor() {
-	x, y := CursorLocation.X, CursorLocation.Y
-	text.PlaceChar(" ", x, y)
+	m := CurMenu()
+	switch m := m.(type) {
+	case *SelectMenu:
+		text.PlaceChar(" ", m.topX, m.topY+util.Tile(2*m.Current))
+	case *ListMenu:
+		text.PlaceChar(" ", ListMenuTopX, ListMenuTopY+util.Tile(2*m.Current))
+	}
 }

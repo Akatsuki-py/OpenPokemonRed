@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	ListMenuTopX, ListMenuTopY = 5, 4
+	ListMenuTopX, ListMenuTopY util.Tile = 5, 4
 )
 
 type ListMenuID = uint
@@ -55,18 +55,20 @@ func (l *ListMenu) Z() uint {
 	return l.z
 }
 
+// Top return top tiles
+func (l *ListMenu) Top() (util.Tile, util.Tile) {
+	return ListMenuTopX, ListMenuTopY
+}
+
 // InitListMenuID initialize list menu
 func InitListMenuID(id ListMenuID, elm []ListMenuElm) {
 	util.SetBit(store.D730, 6)
 	text.DisplayTextBoxID(text.LIST_MENU_BOX)
 
 	CurListMenu = ListMenu{
-		ID:      id,
-		Elm:     elm,
-		z:       MaxZIndex() + 1,
-		Swap:    0,
-		Wrap:    false,
-		Current: 0,
+		ID:  id,
+		Elm: elm,
+		z:   MaxZIndex() + 1,
 	}
 }
 
@@ -90,7 +92,7 @@ func ExitListMenu() {
 func (l *ListMenu) PrintEntries() {
 	util.ClearScreenArea(5, 3, 9, 14)
 	for i, e := range l.Elm {
-		nameAtX, nameAtY := 6, 4+i*2
+		nameAtX, nameAtY := ListMenuTopX+1, ListMenuTopY+i*2
 
 		// if a number of entries is more than 4, blink ▼
 		if i == 4 {
