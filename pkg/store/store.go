@@ -8,9 +8,11 @@ import (
 var DelayFrames uint
 
 // FrameCounter VBlankごとにデクリメント
-// 文字の速さの制御などで利用
+// used to control letter print speed
 var FrameCounter uint = 0
 
+// DecFrameCounter decrement FrameCounter
+// this function is called at every vBlank
 func DecFrameCounter() {
 	if FrameCounter > 0 {
 		FrameCounter--

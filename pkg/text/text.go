@@ -7,6 +7,7 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
+	"strconv"
 	"strings"
 
 	"github.com/hajimehoshi/ebiten"
@@ -53,6 +54,12 @@ func PlaceStringAtOnce(str string, x, y util.Tile) {
 	for str != "" {
 		str = PlaceStringOneByOne(str)
 	}
+}
+
+// PlaceUintAtOnce print uint value at once
+func PlaceUintAtOnce(num uint, x, y util.Tile) {
+	str := strconv.FormatUint(uint64(num), 10)
+	PlaceStringAtOnce(str, x, y)
 }
 
 // PlaceStringOneByOne place CurText into screen one by one

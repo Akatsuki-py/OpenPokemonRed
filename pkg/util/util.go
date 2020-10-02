@@ -55,6 +55,14 @@ func WhiteScreen() {
 	store.TileMap.Fill(color.NRGBA{0xf8, 0xf8, 0xf8, 0xff})
 }
 
+// ClearScreenArea clear h×w tiles from (x, y)
+func ClearScreenArea(x, y Tile, h, w uint) {
+	width, height := TileToPixel(Tile(w), Tile(h))
+	sheet, _ := ebiten.NewImage(width, height, ebiten.FilterDefault)
+	sheet.Fill(color.NRGBA{0xf8, 0xf8, 0xf8, 0xff})
+	DrawImage(sheet, x, y)
+}
+
 func DrawImage(i *ebiten.Image, x, y Tile) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(TileToFPixel(x, y))

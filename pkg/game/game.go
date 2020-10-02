@@ -48,6 +48,8 @@ func exec() {
 		execOverworld()
 	case Text:
 		execText()
+	case Menu:
+		execMenu()
 	}
 }
 
