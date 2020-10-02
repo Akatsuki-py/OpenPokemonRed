@@ -30,6 +30,11 @@ var JoyHeld Input
 // JoyIgnore true のものはキーが無視される
 var JoyIgnore Input
 
+// Any button pressed?
+func (i *Input) Any() bool {
+	return i.Up || i.Down || i.Left || i.Right || i.A || i.B || i.Start || i.Select
+}
+
 // ReadJoypad read joypad input
 func ReadJoypad() {
 	JoyInput = Input{
@@ -118,7 +123,7 @@ func JoypadLowSensitivity() {
 		Joy5 = JoyHeld
 	}
 
-	if JoyPressed.Up || JoyPressed.Down || JoyPressed.Left || JoyPressed.Right || JoyPressed.A || JoyPressed.B || JoyPressed.Start || JoyPressed.Select {
+	if JoyPressed.Any() {
 		store.FrameCounter = 8
 		return
 	}

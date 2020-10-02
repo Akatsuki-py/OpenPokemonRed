@@ -30,12 +30,12 @@ type ListMenuElm struct {
 // ListMenu list menu
 // ref: https://github.com/Akatsuki-py/understanding-pokemon-red
 type ListMenu struct {
-	ID     ListMenuID // wListMenuID
-	Elm    []ListMenuElm
-	z      uint // zindex 0:hide
-	Swap   uint // wMenuItemToSwap
-	Wrap   bool // !wMenuWatchMovingOutOfBounds
-	Select uint // wCurrentMenuItem
+	ID      ListMenuID // wListMenuID
+	Elm     []ListMenuElm
+	z       uint // zindex 0:hide
+	Swap    uint // wMenuItemToSwap
+	Wrap    bool // !wMenuWatchMovingOutOfBounds
+	Current uint // wCurrentMenuItem
 }
 
 // CurListMenu list menu displayed now
@@ -61,18 +61,20 @@ func InitListMenuID(id ListMenuID, elm []ListMenuElm) {
 	text.DisplayTextBoxID(text.LIST_MENU_BOX)
 
 	CurListMenu = ListMenu{
-		ID:     id,
-		Elm:    elm,
-		z:      MaxZIndex() + 1,
-		Swap:   0,
-		Wrap:   false,
-		Select: 0,
+		ID:      id,
+		Elm:     elm,
+		z:       MaxZIndex() + 1,
+		Swap:    0,
+		Wrap:    false,
+		Current: 0,
 	}
 }
 
 // DisplayListMenuIDLoop wait for a player's action
 func DisplayListMenuIDLoop() {
-
+	// TODO: old man battle
+	HandleMenuInput()
+	PlaceCursor()
 }
 
 // ExitListMenu exit list menu if player cancel list menu
