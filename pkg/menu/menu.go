@@ -11,8 +11,8 @@ const (
 // MenuExitMethod プレイヤーが menu からどのように抜けたかを記録している
 var MenuExitMethod uint
 
-func maxZIndex() uint {
-	return 1
+func MaxZIndex() uint {
+	return CurListMenu.Z()
 }
 
 // HandleMenuInput メニューでのキー入力に対処するハンドラ

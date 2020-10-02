@@ -7,6 +7,10 @@ import (
 	"pokered/pkg/util"
 )
 
+const (
+	ListMenuTopX, ListMenuTopY = 5, 4
+)
+
 type ListMenuID = uint
 
 const (
@@ -26,13 +30,12 @@ type ListMenuElm struct {
 // ListMenu list menu
 // ref: https://github.com/Akatsuki-py/understanding-pokemon-red
 type ListMenu struct {
-	ID         ListMenuID // wListMenuID
-	Elm        []ListMenuElm
-	z          uint      // zindex 0:hide
-	TopX, TopY util.Tile // wTopMenuItemX,Y
-	Swap       uint      // wMenuItemToSwap
-	Wrap       bool      // !wMenuWatchMovingOutOfBounds
-	Select     uint      // wCurrentMenuItem
+	ID     ListMenuID // wListMenuID
+	Elm    []ListMenuElm
+	z      uint // zindex 0:hide
+	Swap   uint // wMenuItemToSwap
+	Wrap   bool // !wMenuWatchMovingOutOfBounds
+	Select uint // wCurrentMenuItem
 }
 
 // CurListMenu list menu displayed now
@@ -56,18 +59,20 @@ func (l *ListMenu) Z() uint {
 func InitListMenuID(id ListMenuID, elm []ListMenuElm) {
 	util.SetBit(store.D730, 6)
 	text.DisplayTextBoxID(text.LIST_MENU_BOX)
-	util.ClearScreenArea(5, 3, 9, 14)
 
 	CurListMenu = ListMenu{
 		ID:     id,
 		Elm:    elm,
-		z:      maxZIndex(),
-		TopX:   5,
-		TopY:   4,
+		z:      MaxZIndex() + 1,
 		Swap:   0,
 		Wrap:   false,
 		Select: 0,
 	}
+}
+
+// DisplayListMenuIDLoop wait for a player's action
+func DisplayListMenuIDLoop() {
+
 }
 
 // ExitListMenu exit list menu if player cancel list menu
@@ -78,10 +83,19 @@ func ExitListMenu() {
 	util.ResBit(store.D730, 6)
 }
 
-// PrintEntries PrintListMenuEntries
+// PrintEntries print list menu entries in text box
+// ref: PrintListMenuEntries
 func (l *ListMenu) PrintEntries() {
+	util.ClearScreenArea(5, 3, 9, 14)
 	for i, e := range l.Elm {
 		nameAtX, nameAtY := 6, 4+i*2
+
+		// if a number of entries is more than 4, blink ▼
+		if i == 4 {
+			text.PlaceChar("▼", nameAtX+13, nameAtY+1)
+			break
+		}
+
 		switch l.ID {
 		case PCPokemonListMenu:
 			name := constant.PokemonNameMap[e.ID]
@@ -98,6 +112,11 @@ func (l *ListMenu) PrintEntries() {
 		case ItemListMenu:
 			name := constant.ItemNameMap[e.ID]
 			text.PlaceStringAtOnce(name, nameAtX, nameAtY)
+		}
+
+		// print cancel
+		if i == len(l.Elm)-1 && i <= 2 {
+			text.PlaceStringAtOnce("CANCEL", nameAtX, nameAtY+2)
 		}
 	}
 }

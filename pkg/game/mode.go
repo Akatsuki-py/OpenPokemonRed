@@ -26,8 +26,5 @@ func isText() bool {
 }
 
 func isMenu() bool {
-	if menu.CurListMenu.Z() > 0 {
-		return true
-	}
-	return false
+	return menu.MaxZIndex() > 0
 }
