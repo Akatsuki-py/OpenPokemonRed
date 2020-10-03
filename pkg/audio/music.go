@@ -14,6 +14,7 @@ import (
 
 const (
 	MUSIC_PALLET_TOWN uint = iota
+	MUSIC_MEET_PROF_OAK
 	MUSIC_FINAL_BATTLE
 )
 
@@ -30,6 +31,7 @@ func newMusicMap() map[uint]Music {
 	musicMap := map[uint]Music{}
 	FS, _ := fs.New()
 	musicMap[MUSIC_PALLET_TOWN] = newMusic(FS, "/1-02 Pallet Town Theme.ogg", "0:32.167")
+	musicMap[MUSIC_MEET_PROF_OAK] = newMusic(FS, "/1-03 Professor Oak.ogg", "0:13.560")
 	musicMap[MUSIC_FINAL_BATTLE] = newMusic(FS, "/1-43 Final Battle! (Rival).ogg", "1:15.120")
 	return musicMap
 }
