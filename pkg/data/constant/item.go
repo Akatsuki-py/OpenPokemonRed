@@ -1,13 +1,42 @@
 package constant
 
+const (
+	MASTER_BALL uint = 0x01 + iota
+	ULTRA_BALL
+	GREAT_BALL
+	POKE_BALL
+	TOWN_MAP
+	BICYCLE
+	SURFBOARD
+	SAFARI_BALL
+	POKEDEX
+	MOON_STONE
+	ANTIDOTE
+	BURN_HEAL
+	ICE_HEAL
+	AWAKENING
+	PARLYZ_HEAL
+	FULL_RESTORE
+	MAX_POTION
+	HYPER_POTION
+	SUPER_POTION
+	POTION
+	BOULDERBADGE
+	CASCADEBADGE
+)
+
 // ItemNameMap ItemID -> Name
 var ItemNameMap = map[uint]string{
-	0: "ZERO",
-	1: "ONE",
+	MASTER_BALL: "MASTER BALL",
+	ULTRA_BALL:  "ULTRA BALL",
+	GREAT_BALL:  "GREAT BALL",
+	POKE_BALL:   "POKé BALL",
 }
 
 // ItemPriceMap ItemID -> Price
 var ItemPriceMap = map[uint]uint{
-	0: 0,
-	1: 1,
+	MASTER_BALL: 0,
+	ULTRA_BALL:  1200,
+	GREAT_BALL:  600,
+	POKE_BALL:   200,
 }

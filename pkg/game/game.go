@@ -38,30 +38,22 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func setup() {
 	audio.PlayMusic(audio.MUSIC_PALLET_TOWN)
-	menu.InitListMenuID(menu.ItemListMenu, []menu.ListMenuElm{
-		{
-			ID:  0,
-			Num: 1,
-		},
+	menu.InitListMenuID(menu.PricedItemListMenu, []menu.ListMenuElm{
 		{
 			ID:  1,
-			Num: 1,
+			Num: 0,
 		},
 		{
-			ID:  0,
-			Num: 1,
+			ID:  2,
+			Num: 0,
 		},
 		{
-			ID:  1,
-			Num: 1,
+			ID:  3,
+			Num: 0,
 		},
 		{
-			ID:  0,
-			Num: 1,
-		},
-		{
-			ID:  1,
-			Num: 1,
+			ID:  4,
+			Num: 0,
 		},
 	})
 }

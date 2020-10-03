@@ -35,6 +35,7 @@ type ListMenu struct {
 	z       uint // zindex 0:hide
 	Swap    uint // wMenuItemToSwap
 	wrap    bool // !wMenuWatchMovingOutOfBounds
+	offset  uint // wListScrollOffset
 	current uint // wCurrentMenuItem
 }
 
@@ -96,8 +97,27 @@ func InitListMenuID(id ListMenuID, elm []ListMenuElm) {
 func DisplayListMenuIDLoop() {
 	CurListMenu.PrintEntries()
 	// TODO: old man battle
-	HandleMenuInput()
+	previous := CurListMenu.current
+	pressed := HandleMenuInput()
 	PlaceCursor()
+
+	switch {
+	case pressed.A:
+		PlaceUnfilledArrowCursor()
+	case pressed.Down:
+		if CurListMenu.offset+3 < uint(len(CurListMenu.Elm)) {
+			if CurListMenu.current == 3 {
+				CurListMenu.offset++
+				CurListMenu.current--
+			}
+		}
+	case pressed.Up:
+		if CurListMenu.offset > 0 {
+			if previous == 0 {
+				CurListMenu.offset--
+			}
+		}
+	}
 }
 
 // ExitListMenu exit list menu if player cancel list menu
@@ -112,11 +132,16 @@ func ExitListMenu() {
 // ref: PrintListMenuEntries
 func (l *ListMenu) PrintEntries() {
 	util.ClearScreenArea(5, 3, 9, 14)
+	index := 0
 	for i, e := range l.Elm {
-		nameAtX, nameAtY := ListMenuTopX+1, ListMenuTopY+i*2
+		if i < int(l.offset) {
+			continue
+		}
+
+		nameAtX, nameAtY := ListMenuTopX+1, ListMenuTopY+index*2
 
 		// if a number of entries is more than 4, blink ▼
-		if i == 4 {
+		if index == 4 {
 			text.PlaceChar("▼", nameAtX+12, nameAtY-1)
 			break
 		}
@@ -132,16 +157,17 @@ func (l *ListMenu) PrintEntries() {
 			name := constant.ItemNameMap[e.ID]
 			text.PlaceStringAtOnce(name, nameAtX, nameAtY)
 			price := constant.ItemPriceMap[e.ID]
-			text.PlaceChar("¥", nameAtX+9, nameAtY+1)
-			text.PlaceUintAtOnce(price, nameAtX+10, nameAtY+1)
+			text.PlaceChar("¥", nameAtX+8, nameAtY+1)
+			text.PlaceUintAtOnce(price, nameAtX+9, nameAtY+1)
 		case ItemListMenu:
 			name := constant.ItemNameMap[e.ID]
 			text.PlaceStringAtOnce(name, nameAtX, nameAtY)
 		}
 
 		// print cancel
-		if i == len(l.Elm)-1 && i <= 2 {
+		if int(l.offset)+index == len(l.Elm)-1 && index <= 2 {
 			text.PlaceStringAtOnce("CANCEL", nameAtX, nameAtY+2)
 		}
+		index++
 	}
 }
