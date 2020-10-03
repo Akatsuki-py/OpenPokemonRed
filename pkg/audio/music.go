@@ -2,10 +2,14 @@ package audio
 
 import (
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/hajimehoshi/ebiten/audio"
 	"github.com/hajimehoshi/ebiten/audio/mp3"
 	"github.com/rakyll/statik/fs"
+
+	_ "pokered/pkg/data/statik"
 )
 
 const (
@@ -20,20 +24,34 @@ type Music struct {
 
 // MusicMap MusicID -> Music
 var MusicMap = newMusicMap()
+var CurMusic *audio.Player
 
 func newMusicMap() map[uint]Music {
 	musicMap := map[uint]Music{}
 	FS, _ := fs.New()
-	musicMap[MUSIC_PALLET_TOWN] = newMusic(FS, "/1-02 Pallet Town Theme.mp3", getMS(0, 32, 167))
-	musicMap[MUSIC_FINAL_BATTLE] = newMusic(FS, "/1-43 Final Battle! (Rival).mp3", getMS(1, 15, 120))
+	musicMap[MUSIC_PALLET_TOWN] = newMusic(FS, "/1-02 Pallet Town Theme.mp3", "0:32.167")
+	musicMap[MUSIC_FINAL_BATTLE] = newMusic(FS, "/1-43 Final Battle! (Rival).mp3", "1:15.120")
 	return musicMap
 }
 
-func getMS(min, sec, ms uint) float64 {
-	return float64(min)*60 + float64(sec) + float64(ms)/1000
+func parseTime(t string) float64 {
+	s := strings.Split(t, ":")
+	if len(s) < 2 {
+		return 0
+	}
+
+	minute, err := strconv.ParseFloat(s[0], 64)
+	if err != nil {
+		minute = 0
+	}
+	second, err := strconv.ParseFloat(s[1], 64)
+	if err != nil {
+		second = 0
+	}
+	return 60*minute + second
 }
 
-func newMusic(fs http.FileSystem, path string, intro float64) Music {
+func newMusic(fs http.FileSystem, path string, intro string) Music {
 	f, err := fs.Open(path)
 	if err != nil {
 		return Music{}
@@ -43,7 +61,7 @@ func newMusic(fs http.FileSystem, path string, intro float64) Music {
 	if err != nil {
 		return Music{}
 	}
-	return Music{MP3: stream, intro: intro}
+	return Music{MP3: stream, intro: parseTime(intro)}
 }
 
 // PlayMusic play BGM
@@ -52,5 +70,13 @@ func PlayMusic(id uint) {
 	intro := int64(m.intro * 4 * sampleRate)
 	l := audio.NewInfiniteLoopWithIntro(m.MP3, intro, m.MP3.Length())
 	p, _ := audio.NewPlayer(audioContext, l)
+	CurMusic = p
 	go p.Play()
+}
+
+// StopMusic stop BGM
+func StopMusic() {
+	if CurMusic != nil {
+		CurMusic.Close()
+	}
 }
