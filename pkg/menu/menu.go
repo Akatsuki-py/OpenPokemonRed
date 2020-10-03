@@ -24,11 +24,12 @@ type Menu interface {
 	SetCurrent(uint)
 }
 
+// CurMenu get current handled menu
 func CurMenu() Menu {
 	z := MaxZIndex()
 	for _, s := range CurSelectMenus {
 		if s.z == z {
-			return &s
+			return s
 		}
 	}
 	if CurListMenu.z == z {
@@ -71,15 +72,21 @@ func HandleMenuInput() joypad.Input {
 }
 
 func handleMenuInput(m Menu) joypad.Input {
+	maxItem := uint(m.Len() - 1)
+	switch m.(type) {
+	case *ListMenu:
+		maxItem++ // CANCEL
+	}
+
 	switch {
 	case joypad.Joy5.Up:
 		if m.Current() > 0 {
 			m.SetCurrent(m.Current() - 1)
 		} else if m.Wrap() {
-			m.SetCurrent(uint(m.Len()))
+			m.SetCurrent(maxItem)
 		}
 	case joypad.Joy5.Down:
-		if m.Current() < uint(m.Len()) {
+		if m.Current() < maxItem {
 			m.SetCurrent(m.Current() + 1)
 		} else if m.Wrap() {
 			m.SetCurrent(0)

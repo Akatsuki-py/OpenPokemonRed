@@ -44,7 +44,7 @@ func (s *SelectMenu) SetCurrent(c uint) {
 }
 
 // CurSelectMenus current menus
-var CurSelectMenus = []SelectMenu{}
+var CurSelectMenus = []*SelectMenu{}
 
 // NewSelectMenu create new select menu
 func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bool) {
@@ -53,7 +53,7 @@ func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bo
 		topY++
 	}
 	text.DrawTextBox(x0, y0, width+1, height+1)
-	newSelectMenu := SelectMenu{
+	newSelectMenu := &SelectMenu{
 		Elm:  elm,
 		z:    MaxZIndex() + 1,
 		topX: topX,
