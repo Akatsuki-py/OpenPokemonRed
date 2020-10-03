@@ -60,6 +60,7 @@ func MaxZIndex() uint {
 // HandleMenuInput メニューでのキー入力に対処するハンドラ
 func HandleMenuInput() joypad.Input {
 	PlaceCursor()
+	store.DelayFrames = 3
 	// TODO: AnimatePartyMon
 
 	joypad.JoypadLowSensitivity()
