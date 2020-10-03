@@ -34,8 +34,8 @@ type ListMenu struct {
 	Elm     []ListMenuElm
 	z       uint // zindex 0:hide
 	Swap    uint // wMenuItemToSwap
-	Wrap    bool // !wMenuWatchMovingOutOfBounds
-	Current uint // wCurrentMenuItem
+	wrap    bool // !wMenuWatchMovingOutOfBounds
+	current uint // wCurrentMenuItem
 }
 
 // CurListMenu list menu displayed now
@@ -60,6 +60,26 @@ func (l *ListMenu) Top() (util.Tile, util.Tile) {
 	return ListMenuTopX, ListMenuTopY
 }
 
+// Len return a number of items
+func (l *ListMenu) Len() int {
+	return len(l.Elm)
+}
+
+// Wrap return menu wrap is enabled
+func (l *ListMenu) Wrap() bool {
+	return l.wrap
+}
+
+// Current return current selected
+func (l *ListMenu) Current() uint {
+	return l.current
+}
+
+// SetCurrent set current
+func (l *ListMenu) SetCurrent(c uint) {
+	l.current = c
+}
+
 // InitListMenuID initialize list menu
 func InitListMenuID(id ListMenuID, elm []ListMenuElm) {
 	util.SetBit(store.D730, 6)
@@ -74,6 +94,7 @@ func InitListMenuID(id ListMenuID, elm []ListMenuElm) {
 
 // DisplayListMenuIDLoop wait for a player's action
 func DisplayListMenuIDLoop() {
+	CurListMenu.PrintEntries()
 	// TODO: old man battle
 	HandleMenuInput()
 	PlaceCursor()
@@ -96,7 +117,7 @@ func (l *ListMenu) PrintEntries() {
 
 		// if a number of entries is more than 4, blink ▼
 		if i == 4 {
-			text.PlaceChar("▼", nameAtX+13, nameAtY+1)
+			text.PlaceChar("▼", nameAtX+12, nameAtY-1)
 			break
 		}
 

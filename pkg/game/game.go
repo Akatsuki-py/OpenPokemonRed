@@ -3,6 +3,7 @@ package game
 import (
 	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
+	"pokered/pkg/menu"
 	"pokered/pkg/store"
 
 	"github.com/hajimehoshi/ebiten"
@@ -37,6 +38,32 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func setup() {
 	audio.PlayMusic(audio.MUSIC_PALLET_TOWN)
+	menu.InitListMenuID(menu.ItemListMenu, []menu.ListMenuElm{
+		{
+			ID:  0,
+			Num: 1,
+		},
+		{
+			ID:  1,
+			Num: 1,
+		},
+		{
+			ID:  0,
+			Num: 1,
+		},
+		{
+			ID:  1,
+			Num: 1,
+		},
+		{
+			ID:  0,
+			Num: 1,
+		},
+		{
+			ID:  1,
+			Num: 1,
+		},
+	})
 }
 
 func exec() {

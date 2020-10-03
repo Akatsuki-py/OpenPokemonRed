@@ -50,7 +50,6 @@ func PlaceString(str string, x, y util.Tile) {
 // PlaceStringAtOnce print string at once
 func PlaceStringAtOnce(str string, x, y util.Tile) {
 	Seek(x, y)
-	str = preprocess(str)
 	for str != "" {
 		str = PlaceStringOneByOne(str)
 	}

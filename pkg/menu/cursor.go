@@ -39,9 +39,9 @@ func PlaceCursor() {
 	// place current cursor
 	switch m := m.(type) {
 	case *SelectMenu:
-		text.PlaceChar("▶︎", m.topX, m.topY+util.Tile(2*m.Current))
+		text.PlaceChar("▶︎", m.topX, m.topY+util.Tile(2*m.current))
 	case *ListMenu:
-		text.PlaceChar("▶︎", ListMenuTopX, ListMenuTopY+util.Tile(2*m.Current))
+		text.PlaceChar("▶︎", ListMenuTopX, ListMenuTopY+util.Tile(2*m.current))
 	}
 }
 
@@ -51,9 +51,9 @@ func PlaceUnfilledArrowCursor() {
 	m := CurMenu()
 	switch m := m.(type) {
 	case *SelectMenu:
-		text.PlaceChar("▷", m.topX, m.topY+util.Tile(2*m.Current))
+		text.PlaceChar("▷", m.topX, m.topY+util.Tile(2*m.current))
 	case *ListMenu:
-		text.PlaceChar("▷", ListMenuTopX, ListMenuTopY+util.Tile(2*m.Current))
+		text.PlaceChar("▷", ListMenuTopX, ListMenuTopY+util.Tile(2*m.current))
 	}
 }
 
@@ -63,8 +63,8 @@ func EraseCursor() {
 	m := CurMenu()
 	switch m := m.(type) {
 	case *SelectMenu:
-		text.PlaceChar(" ", m.topX, m.topY+util.Tile(2*m.Current))
+		text.PlaceChar(" ", m.topX, m.topY+util.Tile(2*m.current))
 	case *ListMenu:
-		text.PlaceChar(" ", ListMenuTopX, ListMenuTopY+util.Tile(2*m.Current))
+		text.PlaceChar(" ", ListMenuTopX, ListMenuTopY+util.Tile(2*m.current))
 	}
 }

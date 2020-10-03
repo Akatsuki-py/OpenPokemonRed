@@ -1,7 +1,9 @@
 package menu
 
 import (
+	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
 
@@ -16,6 +18,10 @@ const (
 type Menu interface {
 	Z() uint
 	Top() (util.Tile, util.Tile)
+	Len() int
+	Wrap() bool
+	Current() uint
+	SetCurrent(uint)
 }
 
 func CurMenu() Menu {
@@ -51,41 +57,39 @@ func MaxZIndex() uint {
 }
 
 // HandleMenuInput メニューでのキー入力に対処するハンドラ
-// - - -
-// INPUT: [wMenuWatchedKeys] = 反応する対象のキー入力 上下ボタンは必ず反応して選択オフセットを上下に移動させる
-//
-// OUTPUT:
-// a = キー入力 [↓, ↑, ←, →, Start, Select, B, A]
-// [wCurrentMenuItem] = 選択されたメニューアイテム
-// [wMenuCursorLocation] = カーソルのあるタイルのアドレス
-func HandleMenuInput() {
+func HandleMenuInput() joypad.Input {
 	PlaceCursor()
 	// TODO: AnimatePartyMon
 
 	joypad.JoypadLowSensitivity()
 	if !joypad.Joy5.Any() {
-		return // TODO: blink
+		return joypad.Input{} // TODO: blink
 	}
 
 	m := CurMenu()
-	switch m := m.(type) {
-	case *SelectMenu:
-		handleSelectMenuInput(m)
-	case *ListMenu:
-		handleListMenuInput(m)
-	}
+	return handleMenuInput(m)
 }
 
-func handleSelectMenuInput(m *SelectMenu) {
+func handleMenuInput(m Menu) joypad.Input {
 	switch {
 	case joypad.Joy5.Up:
+		if m.Current() > 0 {
+			m.SetCurrent(m.Current() - 1)
+		} else if m.Wrap() {
+			m.SetCurrent(uint(m.Len()))
+		}
 	case joypad.Joy5.Down:
+		if m.Current() < uint(m.Len()) {
+			m.SetCurrent(m.Current() + 1)
+		} else if m.Wrap() {
+			m.SetCurrent(0)
+		}
 	}
-}
 
-func handleListMenuInput(m *ListMenu) {
-	switch {
-	case joypad.Joy5.Up:
-	case joypad.Joy5.Down:
+	if joypad.Joy5.A || joypad.Joy5.B {
+		if !util.ReadBit(store.CD60, 5) {
+			audio.PlaySound(audio.SFX_PRESS_AB)
+		}
 	}
+	return joypad.Joy5
 }

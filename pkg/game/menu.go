@@ -8,4 +8,5 @@ func execMenu() {
 		menu.DisplayListMenuIDLoop()
 		return
 	}
+	menu.HandleMenuInput()
 }
