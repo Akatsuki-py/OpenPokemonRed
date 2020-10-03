@@ -1,6 +1,7 @@
 package game
 
 import (
+	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 
@@ -35,6 +36,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func setup() {
+	audio.PlayMusic(audio.MUSIC_FINAL_BATTLE)
 }
 
 func exec() {
