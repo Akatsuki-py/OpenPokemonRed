@@ -38,11 +38,12 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func setup() {
 	audio.PlayMusic(audio.MUSIC_PALLET_TOWN)
-	menu.NewSelectMenu([]string{
-		"CONTINUE",
-		"NEW GAME",
-		"OPTION",
-	}, 0, 0, 13, 6, true, false)
+	menu.NewQuantityMenu(menu.ItemListMenu)
+	// menu.NewSelectMenu([]string{
+	// 	"CONTINUE",
+	// 	"NEW GAME",
+	// 	"OPTION",
+	// }, 0, 0, 13, 6, true, false)
 	// menu.NewListMenuID(menu.PricedItemListMenu, []menu.ListMenuElm{
 	// 	{
 	// 		ID:  1,

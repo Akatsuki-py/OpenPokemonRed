@@ -77,6 +77,47 @@ func DrawTextBox(X0, Y0, X1, Y1 util.Tile) {
 	}
 }
 
+// DrawTextBoxWH draw text box using width and height
+func DrawTextBoxWH(X0, Y0, w, h util.Tile) {
+	// draw upper boarder
+	X1, Y1 := X0+w+1, Y0+h+1
+	for x := X0; x <= X1; x++ {
+		switch x {
+		case X0:
+			PlaceChar("┌", x, Y0)
+		case X1:
+			PlaceChar("┐", x, Y0)
+		default:
+			PlaceChar("─", x, Y0)
+		}
+	}
+
+	for y := Y0 + 1; y < Y1; y++ {
+		for x := X0; x <= X1; x++ {
+			switch x {
+			case X0:
+				PlaceChar("│", x, y)
+			case X1:
+				PlaceChar("│", x, y)
+			default:
+				PlaceChar(" ", x, y)
+			}
+		}
+	}
+
+	// draw lower boarder
+	for x := X0; x <= X1; x++ {
+		switch x {
+		case X0:
+			PlaceChar("└", x, Y1)
+		case X1:
+			PlaceChar("┘", x, Y1)
+		default:
+			PlaceChar("─", x, Y1)
+		}
+	}
+}
+
 func DisplayTextBoxID(id TextBoxID) {
 	switch id {
 	case MESSAGE_BOX:
