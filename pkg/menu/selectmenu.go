@@ -1,6 +1,9 @@
 package menu
 
-import "pokered/pkg/util"
+import (
+	"pokered/pkg/text"
+	"pokered/pkg/util"
+)
 
 type SelectMenu struct {
 	Elm        []string
@@ -40,4 +43,25 @@ func (s *SelectMenu) SetCurrent(c uint) {
 	s.current = c
 }
 
+// CurSelectMenus current menus
 var CurSelectMenus = []SelectMenu{}
+
+// NewSelectMenu create new select menu
+func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bool) {
+	topX, topY := x0+1, y0+1
+	if space {
+		topY++
+	}
+	text.DrawTextBox(x0, y0, width+1, height+1)
+	newSelectMenu := SelectMenu{
+		Elm:  elm,
+		z:    MaxZIndex() + 1,
+		topX: topX,
+		topY: topY,
+		wrap: wrap,
+	}
+	CurSelectMenus = append(CurSelectMenus, newSelectMenu)
+	for i, elm := range newSelectMenu.Elm {
+		text.PlaceStringAtOnce(elm, topX+1, topY+2*i)
+	}
+}

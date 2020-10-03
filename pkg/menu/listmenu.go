@@ -81,8 +81,8 @@ func (l *ListMenu) SetCurrent(c uint) {
 	l.current = c
 }
 
-// InitListMenuID initialize list menu
-func InitListMenuID(id ListMenuID, elm []ListMenuElm) {
+// NewListMenuID initialize list menu
+func NewListMenuID(id ListMenuID, elm []ListMenuElm) {
 	util.SetBit(store.D730, 6)
 	text.DisplayTextBoxID(text.LIST_MENU_BOX)
 
