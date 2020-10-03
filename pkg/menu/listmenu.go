@@ -96,7 +96,6 @@ func InitListMenuID(id ListMenuID, elm []ListMenuElm) {
 // DisplayListMenuIDLoop wait for a player's action
 func DisplayListMenuIDLoop() {
 	CurListMenu.PrintEntries()
-	// TODO: old man battle
 	previous := CurListMenu.current
 	pressed := HandleMenuInput()
 	PlaceCursor()
