@@ -46,9 +46,10 @@ func newMusic(fs http.FileSystem, path string, intro float64) Music {
 	return Music{MP3: stream, intro: intro}
 }
 
+// PlayMusic play BGM
 func PlayMusic(id uint) {
 	m := MusicMap[id]
-	intro := int64(m.intro*4*100*sampleRate) / 100
+	intro := int64(m.intro * 4 * sampleRate)
 	l := audio.NewInfiniteLoopWithIntro(m.MP3, intro, m.MP3.Length())
 	p, _ := audio.NewPlayer(audioContext, l)
 	go p.Play()
