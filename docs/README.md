@@ -20,7 +20,7 @@ For example, text drawing, sound playback, and combat systems.
 
 ## 🏞 Screenshots
 
-Screenshots as of v0.0.2
+Screenshots as of v0.0.2 (Text engine and Menu engine)
 
 <img src="./screenshots/agatha_text.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/continue_menu.png" width="360px" height="360px" />
 

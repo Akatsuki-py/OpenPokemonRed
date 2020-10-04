@@ -2,7 +2,6 @@ package game
 
 import (
 	"pokered/pkg/joypad"
-	"pokered/pkg/menu"
 	"pokered/pkg/store"
 
 	"github.com/hajimehoshi/ebiten"
@@ -36,11 +35,6 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func setup() {
-	menu.NewSelectMenu([]string{
-		"CONTINUE",
-		"NEW GAME",
-		"OPTION",
-	}, 0, 0, 13, 6, true, false)
 }
 
 func exec() {
