@@ -13,6 +13,7 @@ dirs = os.listdir(path)
 dirs.remove(".git")
 dirs.remove("public")
 dirs.remove(".DS_Store")
+dirs.remove("tools")
 
 for d in dirs:
     files = os.listdir(os.path.join(path, d))
