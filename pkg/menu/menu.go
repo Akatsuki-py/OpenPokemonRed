@@ -76,7 +76,9 @@ func handleMenuInput(m Menu) joypad.Input {
 	maxItem := uint(m.Len() - 1)
 	switch m.(type) {
 	case *ListMenu:
-		maxItem++ // CANCEL
+		if maxItem > 2 {
+			maxItem = 2
+		}
 	}
 
 	switch {

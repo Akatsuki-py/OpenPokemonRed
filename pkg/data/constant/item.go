@@ -31,6 +31,7 @@ var ItemNameMap = map[uint]string{
 	ULTRA_BALL:  "ULTRA BALL",
 	GREAT_BALL:  "GREAT BALL",
 	POKE_BALL:   "POKé BALL",
+	TOWN_MAP:    "TOWN MAP",
 }
 
 // ItemPriceMap ItemID -> Price
@@ -39,4 +40,5 @@ var ItemPriceMap = map[uint]uint{
 	ULTRA_BALL:  1200,
 	GREAT_BALL:  600,
 	POKE_BALL:   200,
+	TOWN_MAP:    0,
 }

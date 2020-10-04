@@ -1,7 +1,6 @@
 package game
 
 import (
-	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/store"
@@ -37,31 +36,11 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func setup() {
-	audio.PlayMusic(audio.MUSIC_PALLET_TOWN)
-	menu.NewQuantityMenu(menu.PricedItemListMenu, 10, 200)
-	// menu.NewSelectMenu([]string{
-	// 	"CONTINUE",
-	// 	"NEW GAME",
-	// 	"OPTION",
-	// }, 0, 0, 13, 6, true, false)
-	// menu.NewListMenuID(menu.PricedItemListMenu, []menu.ListMenuElm{
-	// 	{
-	// 		ID:  1,
-	// 		Num: 0,
-	// 	},
-	// 	{
-	// 		ID:  2,
-	// 		Num: 0,
-	// 	},
-	// 	{
-	// 		ID:  3,
-	// 		Num: 0,
-	// 	},
-	// 	{
-	// 		ID:  4,
-	// 		Num: 0,
-	// 	},
-	// })
+	menu.NewSelectMenu([]string{
+		"CONTINUE",
+		"NEW GAME",
+		"OPTION",
+	}, 0, 0, 13, 6, true, false)
 }
 
 func exec() {

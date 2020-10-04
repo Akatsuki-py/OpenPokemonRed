@@ -104,10 +104,9 @@ func DisplayListMenuIDLoop() {
 	case pressed.A:
 		PlaceUnfilledArrowCursor()
 	case pressed.Down:
-		if CurListMenu.offset+3 < uint(len(CurListMenu.Elm)) {
-			if CurListMenu.current == 3 {
+		if CurListMenu.offset+3 < uint(len(CurListMenu.Elm)+1) {
+			if previous == 2 {
 				CurListMenu.offset++
-				CurListMenu.current--
 			}
 		}
 	case pressed.Up:
