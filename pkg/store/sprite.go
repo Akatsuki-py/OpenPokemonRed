@@ -26,8 +26,8 @@ type Sprite struct {
 	WalkAnimationCounter       uint          // C2x0
 	MapXCoord, MapYCoord       int           // Coord C2x4, C2x5
 	Delay                      uint          // C2x8
-	Images                     struct {
-		Index int // C1x2
-		VRAM  []*ebiten.Image
+	VRAM                       struct {
+		Index  int // C1x2
+		Images []*ebiten.Image
 	}
 }
