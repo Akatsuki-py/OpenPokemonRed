@@ -26,5 +26,8 @@ func isText() bool {
 }
 
 func isMenu() bool {
+	if menu.ItemQuantity > 0 {
+		return true
+	}
 	return menu.MaxZIndex() > 0
 }

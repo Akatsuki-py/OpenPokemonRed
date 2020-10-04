@@ -38,7 +38,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func setup() {
 	audio.PlayMusic(audio.MUSIC_PALLET_TOWN)
-	menu.NewQuantityMenu(menu.ItemListMenu)
+	menu.NewQuantityMenu(menu.PricedItemListMenu, 10, 200)
 	// menu.NewSelectMenu([]string{
 	// 	"CONTINUE",
 	// 	"NEW GAME",
