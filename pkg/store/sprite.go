@@ -9,7 +9,6 @@ var SpriteData [16]*Sprite
 
 // Sprite data
 type Sprite struct {
-	Offset                     int
 	ID                         uint      // C1x0 0:none 1:player 2~:others
 	MovmentStatus              uint      // C1x1
 	ScreenXPixel, ScreenYPixel int       // Pixel C1x4, C1x5
@@ -22,8 +21,9 @@ type Sprite struct {
 		Index  int // C1x2
 		Images []*ebiten.Image
 	}
-	Scripted      bool
-	MovementBytes [2]byte // movement byte 1,2
+	Scripted       bool
+	MovementBytes  [2]byte // movement byte 1,2
+	DeltaX, DeltaY int
 }
 
 func (s *Sprite) AnimationCounter() uint {

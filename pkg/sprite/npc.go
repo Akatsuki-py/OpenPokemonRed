@@ -1,6 +1,9 @@
 package sprite
 
-import "pokered/pkg/store"
+import (
+	"pokered/pkg/store"
+	"pokered/pkg/util"
+)
 
 func UpdateNonPlayerSprite(offset uint) {
 	s := store.SpriteData[offset]
@@ -9,20 +12,30 @@ func UpdateNonPlayerSprite(offset uint) {
 	}
 
 	if s.Scripted {
-		DoScriptedNPCMovement(s)
+		DoScriptedNPCMovement(offset)
 		return
 	}
-	UpdateNPCSprite(s)
+	UpdateNPCSprite(offset)
 }
 
-func DoScriptedNPCMovement(s *store.Sprite) {}
+func DoScriptedNPCMovement(offset uint) {}
 
-func UpdateNPCSprite(s *store.Sprite) {
+func UpdateNPCSprite(offset uint) {
+	s := store.SpriteData[offset]
 	if s.MovmentStatus == Uninitialized {
-		initializeSpriteStatus(s)
+		initializeSpriteStatus(offset)
 		return
 	}
-	if !checkSpriteAvailability() {
+	if !checkSpriteAvailability(offset) {
+		return
+	}
+
+	switch s.MovmentStatus {
+	case Delay:
+		updateSpriteMovementDelay(offset)
+		return
+	case Movement:
+		updateSpriteInWalkingAnimation(offset)
 		return
 	}
 }
@@ -32,12 +45,35 @@ func tryWalking() bool {
 	return true
 }
 
-func initializeSpriteStatus(s *store.Sprite) {
+func initializeSpriteStatus(offset uint) {
+	s := store.SpriteData[offset]
 	s.MovmentStatus = OK
 	s.VRAM.Index = -1
 }
 
-func checkSpriteAvailability() bool {
+func checkSpriteAvailability(offset uint) bool {
+	s := store.SpriteData[offset]
+	// TODO: IsObjectHidden
+
+	// disable sprite when it is out of screen
+	if s.MovementBytes[0] >= 0xfe {
+		p := store.SpriteData[0]
+		tooLeft := p.MapXCoord > s.MapXCoord
+		tooRight := s.MapXCoord > p.MapXCoord+9
+		tooUp := p.MapYCoord > s.MapYCoord
+		tooDown := s.MapYCoord > p.MapYCoord+8
+		if tooLeft || tooRight || tooUp || tooDown {
+			DisableSprite(offset)
+			return false
+		}
+	}
+
+	// if player is in walk, disable sprite
+	if WalkCounter > 0 {
+		return false
+	}
+
+	UpdateSpriteImage(offset)
 	return true
 }
 
@@ -55,10 +91,51 @@ func updateSpriteMovementDelay(offset uint) {
 	notYetMoving(offset)
 }
 
-func updateSpriteInWalkingAnimation() {}
+// increment animation counter
+func updateSpriteInWalkingAnimation(offset uint) {
+	s := store.SpriteData[offset]
+	s.ScreenXPixel += s.DeltaX
+	s.ScreenYPixel += s.DeltaY
+
+	s.WalkAnimationCounter--
+	if s.WalkAnimationCounter != 0 {
+		return
+	}
+
+	if s.MovementBytes[0] < 0xfe {
+		s.MovmentStatus = OK
+		return
+	}
+
+	s.Delay = uint(util.Random() & 0x7f)
+	s.MovmentStatus = Delay
+	s.DeltaX, s.DeltaY = 0, 0
+}
 
 func notYetMoving(offset uint) {
 	s := store.SpriteData[offset]
 	s.AnimationFrame %= 4
 	UpdateSpriteImage(offset)
+}
+
+// make NPC face player when player talk to NPC
+func makeNPCFacePlayer(offset uint) {
+	// D72D[5] is set on talking to SS.anne's captain
+	if util.ReadBit(store.D72D, 5) {
+		notYetMoving(offset)
+		return
+	}
+
+	p, s := store.SpriteData[0], store.SpriteData[offset]
+	switch p.Direction {
+	case store.Up:
+		s.Direction = store.Down
+	case store.Down:
+		s.Direction = store.Up
+	case store.Left:
+		s.Direction = store.Right
+	case store.Right:
+		s.Direction = store.Left
+	}
+	notYetMoving(offset)
 }

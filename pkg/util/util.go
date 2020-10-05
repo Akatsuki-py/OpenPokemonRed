@@ -2,10 +2,12 @@ package util
 
 import (
 	"image/color"
+	"math/rand"
 	"pokered/pkg/store"
 	"reflect"
 	"runtime"
 	"strings"
+	"time"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -67,4 +69,10 @@ func DrawImage(i *ebiten.Image, x, y Tile) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(TileToFPixel(x, y))
 	store.TileMap.DrawImage(i, op)
+}
+
+// Random return random value that is in [0, 255]
+func Random() byte {
+	rand.Seed(time.Now().UnixNano())
+	return byte(rand.Intn(256))
 }
