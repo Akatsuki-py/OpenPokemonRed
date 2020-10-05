@@ -1,4 +1,4 @@
-# PokémonRed
+# OpenPokémonRed
 
 ![CI](https://github.com/Akatsuki-py/PokemonRed/workflows/Go/badge.svg)
 
