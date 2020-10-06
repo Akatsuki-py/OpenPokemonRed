@@ -21,10 +21,11 @@ const (
 	forceLeftRight byte = 0x02
 )
 
-var NPCNumScriptedSteps byte
 var NPCMovementDirections []byte
 
-func UpdateNonPlayerSprite(offset uint) {
+// UpdateNPCSprite update NPC sprite state
+// ref: UpdateNonPlayerSprite
+func UpdateNPCSprite(offset uint) {
 	s := store.SpriteData[offset]
 	if s == nil {
 		return
@@ -34,12 +35,17 @@ func UpdateNonPlayerSprite(offset uint) {
 		DoScriptedNPCMovement(offset)
 		return
 	}
-	UpdateNPCSprite(offset)
+	updateNPCSprite(offset)
 }
 
-func DoScriptedNPCMovement(offset uint) {}
+// DoScriptedNPCMovement update NPC sprite in "NPC movement script"
+func DoScriptedNPCMovement(offset uint) {
+	// TODO: implement
+}
 
-func UpdateNPCSprite(offset uint) {
+// If movement status is OK, try walking.
+// ref: UpdateNPCSprite
+func updateNPCSprite(offset uint) {
 	s := store.SpriteData[offset]
 	if s.MovmentStatus == Uninitialized {
 		initializeSpriteStatus(offset)
@@ -76,7 +82,6 @@ func UpdateNPCSprite(offset uint) {
 	default:
 		// scripted NPC
 		s.MovementBytes[0]++
-		NPCNumScriptedSteps--
 
 		move = byte(stay)
 		if int(s.MovementBytes[0]) < len(NPCMovementDirections) {

@@ -35,6 +35,36 @@ func (i *Input) Any() bool {
 	return i.Up || i.Down || i.Left || i.Right || i.A || i.B || i.Start || i.Select
 }
 
+func ByteToInput(b byte) Input {
+	input := Input{}
+	// [↓, ↑, ←, →, Start, Select, B, A]
+	if util.ReadBit(b, 0) {
+		input.A = true
+	}
+	if util.ReadBit(b, 1) {
+		input.B = true
+	}
+	if util.ReadBit(b, 2) {
+		input.Select = true
+	}
+	if util.ReadBit(b, 3) {
+		input.Start = true
+	}
+	if util.ReadBit(b, 4) {
+		input.Right = true
+	}
+	if util.ReadBit(b, 5) {
+		input.Left = true
+	}
+	if util.ReadBit(b, 6) {
+		input.Up = true
+	}
+	if util.ReadBit(b, 7) {
+		input.Down = true
+	}
+	return input
+}
+
 // ReadJoypad read joypad input
 func ReadJoypad() {
 	JoyInput = Input{

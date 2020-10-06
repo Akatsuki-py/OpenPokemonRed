@@ -1,6 +1,10 @@
 package sprite
 
-import "pokered/pkg/store"
+import (
+	"pokered/pkg/joypad"
+	"pokered/pkg/store"
+	"pokered/pkg/util"
+)
 
 // Movment status
 const (
@@ -20,7 +24,7 @@ func UpdateSprites() {
 			UpdatePlayerSprite()
 			continue
 		}
-		UpdateNonPlayerSprite(uint(offset))
+		UpdateNPCSprite(uint(offset))
 	}
 }
 
@@ -40,9 +44,9 @@ func UpdateSpriteImage(offset uint) {
 	}
 
 	animCounter := s.AnimationFrame >> 2
-	tmp := animCounter + uint(s.Direction)
 
-	switch tmp {
+	// ref:
+	switch animCounter + uint(s.Direction) {
 	case 0, 3:
 		s.VRAM.Index = 1
 		if length == 4 {
@@ -84,4 +88,12 @@ func UpdateSpriteImage(offset uint) {
 func DisableSprite(offset uint) {
 	s := store.SpriteData[offset]
 	s.VRAM.Index = -1
+}
+
+// MoveSprite forcely move sprite by movement data
+// set wNPCMovementDirections
+func MoveSprite(offset uint, movement []byte) {
+	copy(NPCMovementDirections, movement)
+	util.SetBit(store.D730, 0)
+	joypad.JoyIgnore = joypad.ByteToInput(0xff)
 }
