@@ -4,6 +4,8 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
+var SCX, SCY int
+
 // DelayFrames VBlank以外を拒否
 var DelayFrames uint
 

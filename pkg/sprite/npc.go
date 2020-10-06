@@ -244,3 +244,23 @@ func makeNPCFacePlayer(offset uint) {
 	}
 	notYetMoving(offset)
 }
+
+func animScriptedNPCMovement(offset uint) {
+	s := store.SpriteData[offset]
+
+	switch s.Direction {
+	case util.Up, util.Down, util.Left, util.Right:
+		advanceScriptedNPCAnimFrameCounter(offset)
+		s.VRAM.Index = int(s.Direction + (s.AnimationFrame >> 2))
+	default:
+		return
+	}
+}
+
+func advanceScriptedNPCAnimFrameCounter(offset uint) {
+	s := store.SpriteData[offset]
+	s.AnimationFrame++
+	if s.AnimationFrame>>2 == 4 {
+		s.AnimationFrame = 0
+	}
+}

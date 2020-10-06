@@ -14,6 +14,11 @@ const (
 	Movement
 )
 
+// NumSprites a number of sprites at current map
+func NumSprites() uint {
+	return uint(len(store.SpriteData))
+}
+
 // UpdateSprites update sprite data
 func UpdateSprites() {
 	for offset, s := range store.SpriteData {
@@ -35,11 +40,8 @@ func UpdateSpriteImage(offset uint) {
 		return
 	}
 	length := len(s.VRAM.Images)
-	switch length {
-	case 1:
+	if length == 1 {
 		s.VRAM.Index = 0
-	case 4, 10:
-	default:
 		return
 	}
 
@@ -47,36 +49,48 @@ func UpdateSpriteImage(offset uint) {
 
 	// ref:
 	switch animCounter + uint(s.Direction) {
-	case 0, 3:
+
+	// down
+	case 0:
 		s.VRAM.Index = 1
 		if length == 4 {
 			s.VRAM.Index = 0
 		}
-	case 1:
-	case 2:
+	case 1, 2, 3:
+		s.VRAM.Index = 0
+		if length == 4 {
+			s.VRAM.Index = 0
+		}
 
+	// up
 	case 4:
-	case 5:
-	case 6:
-	case 7:
+		s.VRAM.Index = 4
+		if length == 4 {
+			s.VRAM.Index = 1
+		}
+	case 5, 6, 7:
+		s.VRAM.Index = 3
+		if length == 4 {
+			s.VRAM.Index = 1
+		}
 
-	case 8, 11:
+	case 8:
 		s.VRAM.Index = 6
 		if length == 4 {
 			s.VRAM.Index = 2
 		}
-	case 9, 10:
+	case 9, 10, 11:
 		s.VRAM.Index = 7
 		if length == 4 {
 			s.VRAM.Index = 2
 		}
 
-	case 12, 15:
+	case 12:
 		s.VRAM.Index = 8
 		if length == 4 {
 			s.VRAM.Index = 3
 		}
-	case 13, 14:
+	case 13, 14, 15:
 		s.VRAM.Index = 9
 		if length == 4 {
 			s.VRAM.Index = 3
