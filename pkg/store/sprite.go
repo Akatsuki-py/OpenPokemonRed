@@ -9,14 +9,14 @@ var SpriteData [16]*Sprite
 
 // Sprite data
 type Sprite struct {
-	ID                         uint      // C1x0 0:none 1:player 2~:others
-	MovmentStatus              uint      // C1x1
-	ScreenXPixel, ScreenYPixel int       // Pixel C1x4, C1x5
-	AnimationFrame             uint      // C1x7, C1x8 update on UpdateSprites
-	Direction                  Direction // C1x9
-	WalkAnimationCounter       int       // C2x0 本来はNPCのみ
-	MapXCoord, MapYCoord       int       // Coord C2x4, C2x5
-	Delay                      uint      // C2x8
+	ID                         uint // C1x0 0:none 1:player 2~:others
+	MovmentStatus              byte // C1x1 if bit7
+	ScreenXPixel, ScreenYPixel int  // Pixel C1x4, C1x5
+	AnimationFrame             uint // C1x7, C1x8 update on UpdateSprites
+	Direction                  uint // C1x9
+	WalkAnimationCounter       int  // C2x0 本来はNPCのみ
+	MapXCoord, MapYCoord       int  // Coord C2x4, C2x5
+	Delay                      uint // C2x8
 	VRAM                       struct {
 		Index  int // C1x2
 		Images []*ebiten.Image

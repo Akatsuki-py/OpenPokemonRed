@@ -1,6 +1,9 @@
 package sprite
 
-import "pokered/pkg/store"
+import (
+	"pokered/pkg/store"
+	"pokered/pkg/util"
+)
 
 // WalkCounter プレイヤーの歩きモーションカウンタ 最大8
 // ref: wWalkCounter
@@ -31,7 +34,7 @@ func UpdatePlayerSprite() {
 			p.AnimationFrame = 0
 			return
 		}
-		p.Direction = store.Direction(PlayerMovingDirection)
+		p.Direction = util.Direction(PlayerMovingDirection)
 	}
 
 	p.AnimationFrame++

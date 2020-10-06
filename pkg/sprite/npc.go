@@ -5,6 +5,25 @@ import (
 	"pokered/pkg/util"
 )
 
+const (
+	changeDirection byte = 0xe0
+	walk            byte = 0xfe
+	stay            byte = 0xff
+)
+
+// movement byte 2
+const (
+	forceDown      byte = 0xd0
+	forceUp        byte = 0xd1
+	forceLeft      byte = 0xd2
+	forceRight     byte = 0xd3
+	forceUpDown    byte = 0x01
+	forceLeftRight byte = 0x02
+)
+
+var NPCNumScriptedSteps byte
+var NPCMovementDirections []byte
+
 func UpdateNonPlayerSprite(offset uint) {
 	s := store.SpriteData[offset]
 	if s == nil {
@@ -30,6 +49,11 @@ func UpdateNPCSprite(offset uint) {
 		return
 	}
 
+	if util.ReadBit(s.MovmentStatus, 7) {
+		makeNPCFacePlayer(offset)
+		return
+	}
+
 	switch s.MovmentStatus {
 	case Delay:
 		updateSpriteMovementDelay(offset)
@@ -38,10 +62,80 @@ func UpdateNPCSprite(offset uint) {
 		updateSpriteInWalkingAnimation(offset)
 		return
 	}
+
+	// sprite status is OK
+	if WalkCounter > 0 {
+		return
+	}
+
+	var move byte
+	switch s.MovementBytes[0] {
+	case walk, stay:
+		// take random movement
+		move = util.Random()
+	default:
+		// scripted NPC
+		s.MovementBytes[0]++
+		NPCNumScriptedSteps--
+
+		move = byte(stay)
+		if int(s.MovementBytes[0]) < len(NPCMovementDirections) {
+			move = NPCMovementDirections[s.MovementBytes[0]]
+		}
+
+		switch move {
+		case changeDirection:
+			// TODO: ChangeFacingDirection
+		case stay:
+			s.MovementBytes[0] = stay
+			util.ResBit(store.D730, 0)
+			// TODO: [wSimulatedJoypadStatesIndex] = 0
+			return
+		case walk:
+			move = util.Random()
+		}
+	}
+
+	// determine NPC direction
+	var direction util.Direction
+	switch s.MovementBytes[1] {
+	case forceDown:
+		direction = util.Down
+	case forceUp:
+		direction = util.Up
+	case forceLeft:
+		direction = util.Left
+	case forceRight:
+		direction = util.Right
+	default:
+		switch {
+		case move < 0x40:
+			direction = util.Down
+			if s.MovementBytes[1] == forceLeftRight {
+				direction = util.Left
+			}
+		case move < 0x80:
+			direction = util.Up
+			if s.MovementBytes[1] == forceLeftRight {
+				direction = util.Right
+			}
+		case move < 0xc0:
+			direction = util.Left
+			if s.MovementBytes[1] == forceUpDown {
+				direction = util.Up
+			}
+		default:
+			direction = util.Right
+			if s.MovementBytes[1] == forceUpDown {
+				direction = util.Down
+			}
+		}
+	}
+	tryWalking(offset, direction)
 }
 
 // tryWalking UpdateNPCSprite から呼び出される
-func tryWalking() bool {
+func tryWalking(offset uint, direction util.Direction) bool {
 	return true
 }
 
@@ -49,6 +143,12 @@ func initializeSpriteStatus(offset uint) {
 	s := store.SpriteData[offset]
 	s.MovmentStatus = OK
 	s.VRAM.Index = -1
+}
+
+func initializeSpriteScreenPosition(offset uint) {
+	p, s := store.SpriteData[0], store.SpriteData[offset]
+	s.ScreenXPixel = ((s.MapXCoord - p.MapXCoord) * 16) - 4
+	s.ScreenYPixel = ((s.MapYCoord - p.MapYCoord) * 16) - 4
 }
 
 func checkSpriteAvailability(offset uint) bool {
@@ -128,14 +228,14 @@ func makeNPCFacePlayer(offset uint) {
 
 	p, s := store.SpriteData[0], store.SpriteData[offset]
 	switch p.Direction {
-	case store.Up:
-		s.Direction = store.Down
-	case store.Down:
-		s.Direction = store.Up
-	case store.Left:
-		s.Direction = store.Right
-	case store.Right:
-		s.Direction = store.Left
+	case util.Up:
+		s.Direction = util.Down
+	case util.Down:
+		s.Direction = util.Up
+	case util.Left:
+		s.Direction = util.Right
+	case util.Right:
+		s.Direction = util.Left
 	}
 	notYetMoving(offset)
 }

@@ -4,7 +4,7 @@ import "pokered/pkg/store"
 
 // Movment status
 const (
-	Uninitialized uint = iota
+	Uninitialized byte = iota
 	OK
 	Delay
 	Movement

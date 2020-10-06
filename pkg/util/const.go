@@ -1,6 +1,6 @@
-package store
+package util
 
-type Direction uint
+type Direction = uint
 
 const (
 	Down  Direction = 0
