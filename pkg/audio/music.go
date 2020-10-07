@@ -68,6 +68,12 @@ func newMusic(fs http.FileSystem, path string, intro string) Music {
 
 // PlayMusic play BGM
 func PlayMusic(id int) {
+	if id == stopSound {
+		if CurMusic != nil && CurMusic.IsPlaying() {
+			CurMusic.Close()
+		}
+		return
+	}
 	m := MusicMap[id]
 	intro := int64(m.intro * 4 * sampleRate)
 	l := audio.NewInfiniteLoopWithIntro(m.Ogg, intro, m.Ogg.Length())
@@ -79,13 +85,13 @@ func PlayMusic(id int) {
 // StopMusic stop BGM with fadeout
 func StopMusic(fadeout uint) {
 	FadeOut.Control = fadeout
-	NewMusicID = STOP_SOUND
+	NewMusicID = stopSound
 }
 
 // StopMusicImmediately stop BGM
 func StopMusicImmediately() {
 	FadeOut.Control = 0
-	NewMusicID = STOP_SOUND
+	NewMusicID = stopSound
 	if CurMusic != nil {
 		CurMusic.Close()
 	}

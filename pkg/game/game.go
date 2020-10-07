@@ -38,6 +38,14 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 func setup() {
 }
 
+func debug(g *Game, frame int) {
+	if frame >= 0 && int(g.frame) != frame {
+		return
+	}
+	{
+	}
+}
+
 func exec() {
 	joypad.ReadJoypad()
 	if store.DelayFrames > 0 {
