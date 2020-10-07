@@ -1,6 +1,7 @@
 package game
 
 import (
+	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 
@@ -56,4 +57,5 @@ func exec() {
 func vBlank() {
 	joypad.ReadJoypad()
 	store.DecFrameCounter()
+	audio.FadeOutAudio()
 }

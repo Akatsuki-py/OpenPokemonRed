@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	MUSIC_PALLET_TOWN uint = iota
+	MUSIC_PALLET_TOWN int = iota
 	MUSIC_MEET_PROF_OAK
 	MUSIC_FINAL_BATTLE
 )
@@ -27,8 +27,8 @@ type Music struct {
 var MusicMap = newMusicMap()
 var CurMusic *audio.Player
 
-func newMusicMap() map[uint]Music {
-	musicMap := map[uint]Music{}
+func newMusicMap() map[int]Music {
+	musicMap := map[int]Music{}
 	FS, _ := fs.New()
 	musicMap[MUSIC_PALLET_TOWN] = newMusic(FS, "/1-02 Pallet Town Theme.ogg", "0:32.167")
 	musicMap[MUSIC_MEET_PROF_OAK] = newMusic(FS, "/1-03 Professor Oak.ogg", "0:13.560")
@@ -67,7 +67,7 @@ func newMusic(fs http.FileSystem, path string, intro string) Music {
 }
 
 // PlayMusic play BGM
-func PlayMusic(id uint) {
+func PlayMusic(id int) {
 	m := MusicMap[id]
 	intro := int64(m.intro * 4 * sampleRate)
 	l := audio.NewInfiniteLoopWithIntro(m.Ogg, intro, m.Ogg.Length())
@@ -76,8 +76,16 @@ func PlayMusic(id uint) {
 	go p.Play()
 }
 
-// StopMusic stop BGM
-func StopMusic() {
+// StopMusic stop BGM with fadeout
+func StopMusic(fadeout uint) {
+	FadeOut.Control = fadeout
+	NewMusicID = STOP_SOUND
+}
+
+// StopMusicImmediately stop BGM
+func StopMusicImmediately() {
+	FadeOut.Control = 0
+	NewMusicID = STOP_SOUND
 	if CurMusic != nil {
 		CurMusic.Close()
 	}

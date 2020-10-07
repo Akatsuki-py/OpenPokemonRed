@@ -39,6 +39,11 @@ var TMName = ""
 // bit 6: 一度かいりきの岩を押してみた状態か (you need to push twice before it will move)
 var CD60 byte
 
+// D72C :
+// bit 0: if not set, the 3 minimum steps between random battles have passed
+// bit 1: セットされているならオーディオのフェードアウトを防ぐ
+var D72C byte
+
 // D72D :
 // この変数は一時的なフラグの格納に使用されたり、トレードセンターまたはコロシアムにワープするときdestination mapとして使用される
 // bit 0: トレードセンターでスプライトの方向が初期化されているときに立つフラグ
