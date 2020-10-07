@@ -15,12 +15,12 @@ The ROM version is not Japanese but English.
 
 ## 🏜 Roadmap
 
-This project is in the middle of development and is currently creating the underlying system part.  
+**This project is in the middle of development and is currently creating the underlying system part.**  
 For example, text drawing, sound playback, and combat systems.
 
 ## 🏞 Screenshots
 
-Screenshots as of v0.0.2 (Text engine and Menu engine)
+Screenshots as of v0.0.3 (Text engine and Menu engine)
 
 <img src="./screenshots/agatha_text.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/continue_menu.png" width="360px" height="360px" />
 
