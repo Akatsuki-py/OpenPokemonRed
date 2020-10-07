@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	Overworld uint = iota
+	Script uint = iota
+	Overworld
 	Text
 	Menu
 )
@@ -18,7 +19,10 @@ func mode() uint {
 	if isMenu() {
 		return Menu
 	}
-	return Overworld
+	if isOverworld() {
+		return Overworld
+	}
+	return Script
 }
 
 func isText() bool {
@@ -30,4 +34,8 @@ func isMenu() bool {
 		return true
 	}
 	return menu.MaxZIndex() > 0
+}
+
+func isOverworld() bool {
+	return false
 }

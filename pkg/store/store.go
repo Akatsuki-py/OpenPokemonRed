@@ -4,6 +4,15 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
+var menuItem string
+
+func PopMenuItem() string {
+	item := menuItem
+	menuItem = ""
+	return item
+}
+func PushMenuItem(item string) { menuItem = item }
+
 var SCX, SCY int
 
 // DelayFrames VBlank以外を拒否

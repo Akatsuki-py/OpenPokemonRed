@@ -18,13 +18,18 @@ const (
 	CancelledMenu
 )
 
+// Cancelled menu cancel
+const Cancelled = "CANCELLED"
+
 type Menu interface {
 	Z() uint
+	Hide()
 	Top() (util.Tile, util.Tile)
 	Len() int
 	Wrap() bool
 	Current() uint
 	SetCurrent(uint)
+	Item() string
 	Image() *ebiten.Image
 }
 
@@ -113,6 +118,8 @@ func handleMenuInput(m Menu) joypad.Input {
 func VBlank() {
 	listZ, done := CurListMenu.z, false
 	sort.Sort(CurSelectMenus)
+
+	newCurSelectMenus := []*SelectMenu{}
 	for _, m := range CurSelectMenus {
 		if m.z == 0 {
 			continue
@@ -123,8 +130,10 @@ func VBlank() {
 			done = true
 		}
 		util.DrawImage(store.TileMap, m.Image(), 0, 0)
+		newCurSelectMenus = append(newCurSelectMenus, m)
 	}
 	if !done {
 		util.DrawImage(store.TileMap, CurListMenu.image, 0, 0)
 	}
+	CurSelectMenus = newCurSelectMenus
 }

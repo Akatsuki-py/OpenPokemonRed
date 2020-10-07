@@ -12,6 +12,5 @@ func execMenu() {
 		menu.DisplayListMenuIDLoop()
 		return
 	}
-	m := menu.CurMenu()
-	menu.HandleMenuInput(m.Image())
+	menu.HandleSelectMenuInput()
 }

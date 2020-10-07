@@ -5,7 +5,6 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/store"
-	"pokered/pkg/widget"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -39,7 +38,6 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func setup() {
-	widget.DrawStartMenu()
 }
 
 func debug(g *Game, frame int) {
@@ -47,6 +45,9 @@ func debug(g *Game, frame int) {
 		return
 	}
 	{
+		menu.NewListMenuID(menu.PricedItemListMenu, []string{
+			"1", "2",
+		})
 	}
 }
 
@@ -63,6 +64,8 @@ func exec() {
 		execText()
 	case Menu:
 		execMenu()
+	case Script:
+		execScript()
 	}
 }
 

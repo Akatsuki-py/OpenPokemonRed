@@ -5,6 +5,8 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
+	"strconv"
+	"strings"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -23,22 +25,38 @@ const (
 	SpecialListMenu
 )
 
-// ListMenuElm list menu element
-type ListMenuElm struct {
-	ID  uint // pokemonID or itemID
-	Num uint // ITEMLISTMENU only
+func ParseListMenuElm(src string) (uint, uint) {
+	s := strings.Split(src, "@")
+	if len(s) == 1 {
+		num := uint(0)
+		id, err := strconv.ParseUint(s[0], 10, 64)
+		if err != nil {
+			return 0, num
+		}
+		return uint(id), num
+	}
+
+	id, err := strconv.ParseUint(s[0], 10, 64)
+	if err != nil {
+		return 0, 0
+	}
+	num, err := strconv.ParseUint(s[1], 10, 64)
+	if err != nil {
+		return 0, 0
+	}
+	return uint(id), uint(num)
 }
 
 // ListMenu list menu
 // ref: https://github.com/Akatsuki-py/understanding-pokemon-red
 type ListMenu struct {
 	ID      ListMenuID // wListMenuID
-	Elm     []ListMenuElm
-	z       uint // zindex 0:hide
-	Swap    uint // wMenuItemToSwap
-	wrap    bool // !wMenuWatchMovingOutOfBounds
-	offset  uint // wListScrollOffset
-	current uint // wCurrentMenuItem
+	Elm     []string   // // "A@B" A: pokemonID or itemID, B: Num
+	z       uint       // zindex 0:hide
+	Swap    uint       // wMenuItemToSwap
+	wrap    bool       // !wMenuWatchMovingOutOfBounds
+	offset  uint       // wListScrollOffset
+	current uint       // wCurrentMenuItem
 	image   *ebiten.Image
 }
 
@@ -57,6 +75,10 @@ func defaultListMenu() ListMenu {
 // Z return zindex
 func (l *ListMenu) Z() uint {
 	return l.z
+}
+
+func (l *ListMenu) Hide() {
+	l.z = 0
 }
 
 // Top return top tiles
@@ -88,8 +110,15 @@ func (l *ListMenu) Image() *ebiten.Image {
 	return l.image
 }
 
+func (l *ListMenu) Item() string {
+	if l.current >= uint(len(l.Elm)) {
+		return ""
+	}
+	return l.Elm[l.current]
+}
+
 // NewListMenuID initialize list menu
-func NewListMenuID(id ListMenuID, elm []ListMenuElm) {
+func NewListMenuID(id ListMenuID, elm []string) {
 	image := util.NewImage()
 	util.SetBit(store.D730, 6)
 	text.DisplayTextBoxID(image, text.LIST_MENU_BOX)
@@ -155,19 +184,23 @@ func (l *ListMenu) PrintEntries() {
 
 		switch l.ID {
 		case PCPokemonListMenu:
-			name := constant.PokemonNameMap[e.ID]
+			id, _ := ParseListMenuElm(e)
+			name := constant.PokemonNameMap[id]
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		case MovesListMenu:
-			name := constant.MoveNameMap[e.ID]
+			id, _ := ParseListMenuElm(e)
+			name := constant.MoveNameMap[id]
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		case PricedItemListMenu:
-			name := constant.ItemNameMap[e.ID]
+			id, _ := ParseListMenuElm(e)
+			name := constant.ItemNameMap[id]
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
-			price := constant.ItemPriceMap[e.ID]
+			price := constant.ItemPriceMap[id]
 			text.PlaceChar(l.image, "¥", nameAtX+8, nameAtY+1)
 			text.PlaceUintAtOnce(l.image, price, nameAtX+9, nameAtY+1)
 		case ItemListMenu:
-			name := constant.ItemNameMap[e.ID]
+			id, _ := ParseListMenuElm(e)
+			name := constant.ItemNameMap[id]
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		}
 
