@@ -3,7 +3,9 @@ package game
 import (
 	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
+	"pokered/pkg/menu"
 	"pokered/pkg/store"
+	"pokered/pkg/widget"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -18,6 +20,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	if g.frame == 0 {
 		setup()
 	}
+	debug(g, 10)
 	exec()
 	vBlank()
 	g.frame++
@@ -36,6 +39,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func setup() {
+	widget.DrawStartMenu()
 }
 
 func debug(g *Game, frame int) {
@@ -66,4 +70,5 @@ func vBlank() {
 	joypad.ReadJoypad()
 	store.DecFrameCounter()
 	audio.FadeOutAudio()
+	menu.VBlank()
 }

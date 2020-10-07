@@ -4,7 +4,7 @@ import "pokered/pkg/menu"
 
 func execMenu() {
 	z := menu.MaxZIndex()
-	if menu.ItemQuantity > 0 {
+	if menu.Quantity.Quantity > 0 {
 		menu.DisplayChooseQuantityMenu()
 		return
 	}
@@ -12,5 +12,6 @@ func execMenu() {
 		menu.DisplayListMenuIDLoop()
 		return
 	}
-	menu.HandleMenuInput()
+	m := menu.CurMenu()
+	menu.HandleMenuInput(m.Image())
 }

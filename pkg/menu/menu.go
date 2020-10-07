@@ -5,6 +5,9 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
+	"sort"
+
+	"github.com/hajimehoshi/ebiten"
 )
 
 const (
@@ -22,6 +25,7 @@ type Menu interface {
 	Wrap() bool
 	Current() uint
 	SetCurrent(uint)
+	Image() *ebiten.Image
 }
 
 // CurMenu get current handled menu
@@ -58,8 +62,8 @@ func MaxZIndex() uint {
 }
 
 // HandleMenuInput メニューでのキー入力に対処するハンドラ
-func HandleMenuInput() joypad.Input {
-	PlaceCursor()
+func HandleMenuInput(target *ebiten.Image) joypad.Input {
+	PlaceCursor(target)
 	store.DelayFrames = 3
 	// TODO: AnimatePartyMon
 
@@ -78,6 +82,8 @@ func handleMenuInput(m Menu) joypad.Input {
 	case *ListMenu:
 		if maxItem > 2 {
 			maxItem = 2
+		} else {
+			maxItem++
 		}
 	}
 
@@ -105,15 +111,20 @@ func handleMenuInput(m Menu) joypad.Input {
 }
 
 func VBlank() {
-	listZ := CurListMenu.z
+	listZ, done := CurListMenu.z, false
+	sort.Sort(CurSelectMenus)
 	for _, m := range CurSelectMenus {
 		if m.z == 0 {
 			continue
 		}
 
 		if listZ > 0 && listZ < m.z {
-			util.DrawImage(CurListMenu.Image, 0, 0)
+			util.DrawImage(store.TileMap, CurListMenu.image, 0, 0)
+			done = true
 		}
-
+		util.DrawImage(store.TileMap, m.Image(), 0, 0)
+	}
+	if !done {
+		util.DrawImage(store.TileMap, CurListMenu.image, 0, 0)
 	}
 }

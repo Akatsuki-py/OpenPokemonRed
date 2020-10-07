@@ -58,20 +58,28 @@ func WhiteScreen() {
 }
 
 // ClearScreenArea clear h×w tiles from (x, y)
-func ClearScreenArea(x, y Tile, h, w uint) {
+func ClearScreenArea(target *ebiten.Image, x, y Tile, h, w uint) {
 	width, height := TileToPixel(Tile(w), Tile(h))
 	sheet, _ := ebiten.NewImage(width, height, ebiten.FilterDefault)
 	sheet.Fill(color.NRGBA{0xf8, 0xf8, 0xf8, 0xff})
-	DrawImage(sheet, x, y)
+	DrawImage(target, sheet, x, y)
 }
 
-func DrawImage(i *ebiten.Image, x, y Tile) {
-	if i == nil {
+func DrawImage(target, src *ebiten.Image, x, y Tile) {
+	if target == nil {
+		target = store.TileMap
+	}
+	if src == nil {
 		return
 	}
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(TileToFPixel(x, y))
-	store.TileMap.DrawImage(i, op)
+	target.DrawImage(src, op)
+}
+
+func NewImage() *ebiten.Image {
+	img, _ := ebiten.NewImage(160, 144, ebiten.FilterDefault)
+	return img
 }
 
 // Random return random value that is in [0, 255]

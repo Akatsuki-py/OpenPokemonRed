@@ -39,7 +39,7 @@ type ListMenu struct {
 	wrap    bool // !wMenuWatchMovingOutOfBounds
 	offset  uint // wListScrollOffset
 	current uint // wCurrentMenuItem
-	Image   *ebiten.Image
+	image   *ebiten.Image
 }
 
 // CurListMenu list menu displayed now
@@ -84,28 +84,34 @@ func (l *ListMenu) SetCurrent(c uint) {
 	l.current = c
 }
 
+func (l *ListMenu) Image() *ebiten.Image {
+	return l.image
+}
+
 // NewListMenuID initialize list menu
 func NewListMenuID(id ListMenuID, elm []ListMenuElm) {
+	image := util.NewImage()
 	util.SetBit(store.D730, 6)
-	text.DisplayTextBoxID(text.LIST_MENU_BOX)
-
+	text.DisplayTextBoxID(image, text.LIST_MENU_BOX)
 	CurListMenu = ListMenu{
-		ID:  id,
-		Elm: elm,
-		z:   MaxZIndex() + 1,
+		ID:    id,
+		Elm:   elm,
+		z:     MaxZIndex() + 1,
+		image: image,
 	}
 }
 
 // DisplayListMenuIDLoop wait for a player's action
 func DisplayListMenuIDLoop() {
+	target := CurListMenu.image
 	CurListMenu.PrintEntries()
 	previous := CurListMenu.current
-	pressed := HandleMenuInput()
-	PlaceCursor()
+	pressed := HandleMenuInput(target)
+	PlaceCursor(target)
 
 	switch {
 	case pressed.A:
-		PlaceUnfilledArrowCursor()
+		PlaceUnfilledArrowCursor(target)
 	case pressed.Down:
 		if CurListMenu.offset+3 < uint(len(CurListMenu.Elm)+1) {
 			if previous == 2 {
@@ -132,7 +138,7 @@ func ExitListMenu() {
 // PrintEntries print list menu entries in text box
 // ref: PrintListMenuEntries
 func (l *ListMenu) PrintEntries() {
-	util.ClearScreenArea(5, 3, 9, 14)
+	util.ClearScreenArea(l.image, 5, 3, 9, 14)
 	index := 0
 	for i, e := range l.Elm {
 		if i < int(l.offset) {
@@ -143,31 +149,31 @@ func (l *ListMenu) PrintEntries() {
 
 		// if a number of entries is more than 4, blink ▼
 		if index == 4 {
-			text.PlaceChar("▼", nameAtX+12, nameAtY-1)
+			text.PlaceChar(l.image, "▼", nameAtX+12, nameAtY-1)
 			break
 		}
 
 		switch l.ID {
 		case PCPokemonListMenu:
 			name := constant.PokemonNameMap[e.ID]
-			text.PlaceStringAtOnce(name, nameAtX, nameAtY)
+			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		case MovesListMenu:
 			name := constant.MoveNameMap[e.ID]
-			text.PlaceStringAtOnce(name, nameAtX, nameAtY)
+			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		case PricedItemListMenu:
 			name := constant.ItemNameMap[e.ID]
-			text.PlaceStringAtOnce(name, nameAtX, nameAtY)
+			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 			price := constant.ItemPriceMap[e.ID]
-			text.PlaceChar("¥", nameAtX+8, nameAtY+1)
-			text.PlaceUintAtOnce(price, nameAtX+9, nameAtY+1)
+			text.PlaceChar(l.image, "¥", nameAtX+8, nameAtY+1)
+			text.PlaceUintAtOnce(l.image, price, nameAtX+9, nameAtY+1)
 		case ItemListMenu:
 			name := constant.ItemNameMap[e.ID]
-			text.PlaceStringAtOnce(name, nameAtX, nameAtY)
+			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		}
 
 		// print cancel
 		if int(l.offset)+index == len(l.Elm)-1 && index <= 2 {
-			text.PlaceStringAtOnce("CANCEL", nameAtX, nameAtY+2)
+			text.PlaceStringAtOnce(l.image, "CANCEL", nameAtX, nameAtY+2)
 		}
 		index++
 	}

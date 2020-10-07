@@ -3,6 +3,8 @@ package text
 import (
 	"pokered/pkg/data/txt"
 	"pokered/pkg/util"
+
+	"github.com/hajimehoshi/ebiten"
 )
 
 type TextBoxID uint
@@ -38,16 +40,16 @@ const (
 */
 
 // DrawTextBox draw text box
-func DrawTextBox(X0, Y0, X1, Y1 util.Tile) {
+func DrawTextBox(target *ebiten.Image, X0, Y0, X1, Y1 util.Tile) {
 	// draw upper boarder
 	for x := X0; x <= X1; x++ {
 		switch x {
 		case X0:
-			PlaceChar("┌", x, Y0)
+			PlaceChar(target, "┌", x, Y0)
 		case X1:
-			PlaceChar("┐", x, Y0)
+			PlaceChar(target, "┐", x, Y0)
 		default:
-			PlaceChar("─", x, Y0)
+			PlaceChar(target, "─", x, Y0)
 		}
 	}
 
@@ -55,11 +57,11 @@ func DrawTextBox(X0, Y0, X1, Y1 util.Tile) {
 		for x := X0; x <= X1; x++ {
 			switch x {
 			case X0:
-				PlaceChar("│", x, y)
+				PlaceChar(target, "│", x, y)
 			case X1:
-				PlaceChar("│", x, y)
+				PlaceChar(target, "│", x, y)
 			default:
-				PlaceChar(" ", x, y)
+				PlaceChar(target, " ", x, y)
 			}
 		}
 	}
@@ -68,27 +70,27 @@ func DrawTextBox(X0, Y0, X1, Y1 util.Tile) {
 	for x := X0; x <= X1; x++ {
 		switch x {
 		case X0:
-			PlaceChar("└", x, Y1)
+			PlaceChar(target, "└", x, Y1)
 		case X1:
-			PlaceChar("┘", x, Y1)
+			PlaceChar(target, "┘", x, Y1)
 		default:
-			PlaceChar("─", x, Y1)
+			PlaceChar(target, "─", x, Y1)
 		}
 	}
 }
 
 // DrawTextBoxWH draw text box using width and height
-func DrawTextBoxWH(X0, Y0, w, h util.Tile) {
+func DrawTextBoxWH(target *ebiten.Image, X0, Y0, w, h util.Tile) {
 	// draw upper boarder
 	X1, Y1 := X0+w+1, Y0+h+1
 	for x := X0; x <= X1; x++ {
 		switch x {
 		case X0:
-			PlaceChar("┌", x, Y0)
+			PlaceChar(target, "┌", x, Y0)
 		case X1:
-			PlaceChar("┐", x, Y0)
+			PlaceChar(target, "┐", x, Y0)
 		default:
-			PlaceChar("─", x, Y0)
+			PlaceChar(target, "─", x, Y0)
 		}
 	}
 
@@ -96,11 +98,11 @@ func DrawTextBoxWH(X0, Y0, w, h util.Tile) {
 		for x := X0; x <= X1; x++ {
 			switch x {
 			case X0:
-				PlaceChar("│", x, y)
+				PlaceChar(target, "│", x, y)
 			case X1:
-				PlaceChar("│", x, y)
+				PlaceChar(target, "│", x, y)
 			default:
-				PlaceChar(" ", x, y)
+				PlaceChar(target, " ", x, y)
 			}
 		}
 	}
@@ -109,28 +111,28 @@ func DrawTextBoxWH(X0, Y0, w, h util.Tile) {
 	for x := X0; x <= X1; x++ {
 		switch x {
 		case X0:
-			PlaceChar("└", x, Y1)
+			PlaceChar(target, "└", x, Y1)
 		case X1:
-			PlaceChar("┘", x, Y1)
+			PlaceChar(target, "┘", x, Y1)
 		default:
-			PlaceChar("─", x, Y1)
+			PlaceChar(target, "─", x, Y1)
 		}
 	}
 }
 
-func DisplayTextBoxID(id TextBoxID) {
+func DisplayTextBoxID(target *ebiten.Image, id TextBoxID) {
 	switch id {
 	case MESSAGE_BOX:
-		DrawTextBox(0, 12, 19, 17)
+		DrawTextBox(target, 0, 12, 19, 17)
 	case LIST_MENU_BOX:
-		DrawTextBox(4, 2, 19, 12)
+		DrawTextBox(target, 4, 2, 19, 12)
 	case MON_SPRITE_POPUP:
-		DrawTextBox(6, 4, 14, 13) // https://imgur.com/0TKpIiz.png
+		DrawTextBox(target, 6, 4, 14, 13) // https://imgur.com/0TKpIiz.png
 	case JP_MOCHIMONO_MENU_TEMPLATE:
-		DrawTextBox(0, 0, 14, 17)
-		PlaceStringAtOnce(txt.JapaneseMochimonoText, 0, 3)
+		DrawTextBox(target, 0, 0, 14, 17)
+		PlaceStringAtOnce(target, txt.JapaneseMochimonoText, 0, 3)
 	case USE_TOSS_MENU_TEMPLATE:
-		DrawTextBox(13, 10, 19, 14)
-		PlaceStringAtOnce(txt.UseTossText, 15, 11)
+		DrawTextBox(target, 13, 10, 19, 14)
+		PlaceStringAtOnce(target, txt.UseTossText, 15, 11)
 	}
 }

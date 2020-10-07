@@ -4,7 +4,6 @@ import (
 	"pokered/pkg/audio"
 	"pokered/pkg/menu"
 	"pokered/pkg/store"
-	"pokered/pkg/text"
 )
 
 // DrawStartMenu draw start menu
@@ -31,8 +30,6 @@ func DrawStartMenu() {
 			"EXIT",
 		}
 	}
-	text.DrawTextBoxWH(10, 0, 8, height)
-
 	menu.NewSelectMenu(elm, 10, 0, 8, height, true, true)
 }
 

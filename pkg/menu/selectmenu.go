@@ -13,7 +13,7 @@ type SelectMenu struct {
 	topX, topY util.Tile
 	wrap       bool
 	current    uint
-	Image      *ebiten.Image
+	image      *ebiten.Image
 }
 
 // Z return z index
@@ -41,13 +41,24 @@ func (s *SelectMenu) Current() uint {
 	return s.current
 }
 
+func (s *SelectMenu) Image() *ebiten.Image {
+	return s.image
+}
+
 // SetCurrent set current
 func (s *SelectMenu) SetCurrent(c uint) {
 	s.current = c
 }
 
+type SelectMenus []*SelectMenu
+
 // CurSelectMenus current menus
-var CurSelectMenus = []*SelectMenu{}
+var CurSelectMenus = SelectMenus{}
+
+// sort interface
+func (sm SelectMenus) Len() int           { return len(sm) }
+func (sm SelectMenus) Swap(i, j int)      { sm[i], sm[j] = sm[j], sm[i] }
+func (sm SelectMenus) Less(i, j int) bool { return sm[i].z < sm[j].z }
 
 // NewSelectMenu create new select menu
 func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bool) {
@@ -55,16 +66,17 @@ func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bo
 	if space {
 		topY++
 	}
-	text.DrawTextBox(x0, y0, width+1, height+1)
 	newSelectMenu := &SelectMenu{
-		Elm:  elm,
-		z:    MaxZIndex() + 1,
-		topX: topX,
-		topY: topY,
-		wrap: wrap,
+		Elm:   elm,
+		z:     MaxZIndex() + 1,
+		topX:  topX,
+		topY:  topY,
+		wrap:  wrap,
+		image: util.NewImage(),
 	}
+	text.DrawTextBoxWH(newSelectMenu.image, x0, y0, width, height)
 	CurSelectMenus = append(CurSelectMenus, newSelectMenu)
 	for i, elm := range newSelectMenu.Elm {
-		text.PlaceStringAtOnce(elm, topX+1, topY+2*i)
+		text.PlaceStringAtOnce(newSelectMenu.image, elm, topX+1, topY+2*i)
 	}
 }

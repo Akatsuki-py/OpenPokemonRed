@@ -5,33 +5,43 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
+
+	"github.com/hajimehoshi/ebiten"
 )
 
-var quantityMenuID uint
-var ItemQuantity, ChoosenQuantity, maxItemQuantity uint
-var itemPrice uint
+type QuantityMenu struct {
+	MenuID                 uint
+	Quantity, Choosen, Max uint
+	price                  uint
+	image                  *ebiten.Image
+}
+
+var Quantity = QuantityMenu{}
 
 // NewQuantityMenu create quantity menu
 func NewQuantityMenu(id ListMenuID, max, price uint) {
 	if max < 1 {
 		return
 	}
+
+	Quantity = QuantityMenu{
+		MenuID:   id,
+		Quantity: 1,
+		Max:      max,
+		price:    price,
+		image:    util.NewImage(),
+	}
 	switch id {
 	case ItemListMenu:
-		text.DrawTextBoxWH(15, 9, 3, 1)
-		text.PlaceStringAtOnce("×01", 16, 10)
+		text.DrawTextBoxWH(Quantity.image, 15, 9, 3, 1)
+		text.PlaceStringAtOnce(Quantity.image, "×01", 16, 10)
 	case PricedItemListMenu:
-		text.DrawTextBoxWH(7, 9, 11, 1)
-		text.PlaceStringAtOnce("×01", 8, 10)
+		text.DrawTextBoxWH(Quantity.image, 7, 9, 11, 1)
+		text.PlaceStringAtOnce(Quantity.image, "×01", 8, 10)
 	}
 
-	quantityMenuID = id
-	ItemQuantity = 1
-	maxItemQuantity = max
-	itemPrice = price
-
-	if quantityMenuID == PricedItemListMenu {
-		maxItemQuantity = 99
+	if Quantity.MenuID == PricedItemListMenu {
+		Quantity.Max = 99
 		printPrice()
 	}
 }
@@ -41,21 +51,21 @@ func DisplayChooseQuantityMenu() {
 
 	switch {
 	case joypad.JoyPressed.A:
-		ChoosenQuantity = ItemQuantity
-		ItemQuantity = 0
+		Quantity.Choosen = Quantity.Quantity
+		Quantity.Quantity = 0
 	case joypad.JoyPressed.B:
-		ChoosenQuantity = 0
-		ItemQuantity = 0
+		Quantity.Choosen = 0
+		Quantity.Quantity = 0
 	case joypad.JoyPressed.Up:
 		incrementQuantity()
 		printQuantity()
-		if quantityMenuID == PricedItemListMenu {
+		if Quantity.MenuID == PricedItemListMenu {
 			printPrice()
 		}
 	case joypad.JoyPressed.Down:
 		decrementQuantity()
 		printQuantity()
-		if quantityMenuID == PricedItemListMenu {
+		if Quantity.MenuID == PricedItemListMenu {
 			printPrice()
 		}
 	}
@@ -63,35 +73,35 @@ func DisplayChooseQuantityMenu() {
 }
 
 func incrementQuantity() {
-	ItemQuantity++
-	if ItemQuantity > maxItemQuantity {
-		ItemQuantity = 1
+	Quantity.Quantity++
+	if Quantity.Quantity > Quantity.Max {
+		Quantity.Quantity = 1
 	}
 }
 
 func decrementQuantity() {
-	ItemQuantity--
-	if ItemQuantity <= 0 {
-		ItemQuantity = maxItemQuantity
+	Quantity.Quantity--
+	if Quantity.Quantity <= 0 {
+		Quantity.Quantity = Quantity.Max
 	}
 }
 
 func printQuantity() {
 	x, y := 17, 10
-	if quantityMenuID == PricedItemListMenu {
+	if Quantity.MenuID == PricedItemListMenu {
 		x = 9
 	}
-	if ItemQuantity >= 10 {
-		text.PlaceUintAtOnce(ItemQuantity, x, y)
+	if Quantity.Quantity >= 10 {
+		text.PlaceUintAtOnce(Quantity.image, Quantity.Quantity, x, y)
 		return
 	}
-	text.PlaceStringAtOnce(fmt.Sprintf("0%d", ItemQuantity), x, y)
+	text.PlaceStringAtOnce(Quantity.image, fmt.Sprintf("0%d", Quantity.Quantity), x, y)
 }
 
 func printPrice() {
 	x := 12
-	util.ClearScreenArea(x, 10, 1, 6)
-	price := itemPrice * ItemQuantity
+	util.ClearScreenArea(Quantity.image, x, 10, 1, 6)
+	price := Quantity.price * Quantity.Quantity
 	switch {
 	case price >= 10000:
 		x = 13
@@ -104,6 +114,6 @@ func printPrice() {
 	default:
 		x = 17
 	}
-	text.PlaceChar("¥", x, 10)
-	text.PlaceUintAtOnce(price, x+1, 10)
+	text.PlaceChar(Quantity.image, "¥", x, 10)
+	text.PlaceUintAtOnce(Quantity.image, price, x+1, 10)
 }

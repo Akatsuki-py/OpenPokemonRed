@@ -26,7 +26,7 @@ func Blink(b string) {
 	if b == " " || b == "▼" {
 		blink = b
 	}
-	PlaceChar(blink, 18, 16)
+	PlaceChar(store.TileMap, blink, 18, 16)
 }
 
 func resetBlink() {
@@ -35,8 +35,8 @@ func resetBlink() {
 }
 
 // PrintText print string in text window
-func PrintText(str string) {
-	DisplayTextBoxID(MESSAGE_BOX)
+func PrintText(target *ebiten.Image, str string) {
+	DisplayTextBoxID(target, MESSAGE_BOX)
 	Seek(1, 14)
 	CurText = preprocess(str)
 }
@@ -48,21 +48,24 @@ func PlaceString(str string, x, y util.Tile) {
 }
 
 // PlaceStringAtOnce print string at once
-func PlaceStringAtOnce(str string, x, y util.Tile) {
+func PlaceStringAtOnce(target *ebiten.Image, str string, x, y util.Tile) {
+	if target == nil {
+		target = store.TileMap
+	}
 	Seek(x, y)
 	for str != "" {
-		str = PlaceStringOneByOne(str)
+		str = PlaceStringOneByOne(target, str)
 	}
 }
 
 // PlaceUintAtOnce print uint value at once
-func PlaceUintAtOnce(num uint, x, y util.Tile) {
+func PlaceUintAtOnce(target *ebiten.Image, num uint, x, y util.Tile) {
 	str := strconv.FormatUint(uint64(num), 10)
-	PlaceStringAtOnce(str, x, y)
+	PlaceStringAtOnce(target, str, x, y)
 }
 
 // PlaceStringOneByOne place CurText into screen one by one
-func PlaceStringOneByOne(str string) string {
+func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 	if len([]rune(str)) == 0 {
 		return str
 	}
@@ -85,7 +88,7 @@ func PlaceStringOneByOne(str string) string {
 		}
 	case "#":
 		str = "POKé" + string(runes[1:])
-		return PlaceStringOneByOne(str)
+		return PlaceStringOneByOne(target, str)
 	case "\\":
 		switch string(runes[1]) {
 		case "n":
@@ -116,7 +119,7 @@ func PlaceStringOneByOne(str string) string {
 	default:
 		if IsCorrectChar(c) {
 			x, y := Caret()
-			placeCharNext(c, x, y)
+			placeCharNext(target, c, x, y)
 		}
 		str = string(runes[1:])
 	}
@@ -124,16 +127,16 @@ func PlaceStringOneByOne(str string) string {
 }
 
 // PlaceChar place char
-func PlaceChar(char string, x, y util.Tile) {
+func PlaceChar(target *ebiten.Image, char string, x, y util.Tile) {
 	font, ok := fontmap[char]
 	if !ok {
 		return
 	}
-	util.DrawImage(font, x, y)
+	util.DrawImage(target, font, x, y)
 }
 
-func placeCharNext(char string, x, y util.Tile) {
-	PlaceChar(char, x, y)
+func placeCharNext(target *ebiten.Image, char string, x, y util.Tile) {
+	PlaceChar(target, char, x, y)
 	Next()
 }
 
@@ -154,7 +157,7 @@ func placePara() bool {
 func clearScreenArea() {
 	for h := 13; h <= 16; h++ {
 		for w := 1; w < 19; w++ {
-			PlaceChar(" ", w, h)
+			PlaceChar(nil, " ", w, h)
 		}
 	}
 }
@@ -200,10 +203,10 @@ func ScrollTextUpOneLine() {
 	maxX, maxY := util.TileToPixel(19, 17)
 	max := image.Point{maxX, maxY}
 	texts, _ := ebiten.NewImageFromImage(store.TileMap.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
-	util.DrawImage(texts, 1, 13)
+	util.DrawImage(nil, texts, 1, 13)
 	store.TileMap, _ = ebiten.NewImageFromImage(store.TileMap, ebiten.FilterDefault)
 	for w := 1; w < 19; w++ {
-		PlaceChar(" ", w, 16)
+		PlaceChar(nil, " ", w, 16)
 	}
 	store.DelayFrames = 5
 	InScroll = !InScroll
@@ -211,7 +214,7 @@ func ScrollTextUpOneLine() {
 }
 
 func placePrompt() {
-	PlaceChar("▼", 18, 16)
+	PlaceChar(nil, "▼", 18, 16)
 }
 func placePage() {}
 func placeDex()  {}

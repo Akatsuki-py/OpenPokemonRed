@@ -24,5 +24,5 @@ func execText() {
 		}
 		return
 	}
-	text.CurText = text.PlaceStringOneByOne(text.CurText)
+	text.CurText = text.PlaceStringOneByOne(store.TileMap, text.CurText)
 }
