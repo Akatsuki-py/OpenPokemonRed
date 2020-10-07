@@ -13,6 +13,8 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
+var Image = util.NewImage()
+
 // CurText text which should be displayed
 var CurText = ""
 
@@ -22,11 +24,11 @@ var blink = "▼"
 var downArrowBlinkCnt uint = 6 * 10 // FF8B,FF8C
 
 // Blink ▼ on display
-func Blink(b string) {
+func Blink(target *ebiten.Image, b string) {
 	if b == " " || b == "▼" {
 		blink = b
 	}
-	PlaceChar(store.TileMap, blink, 18, 16)
+	PlaceChar(target, blink, 18, 16)
 }
 
 func resetBlink() {
@@ -50,7 +52,7 @@ func PlaceString(str string, x, y util.Tile) {
 // PlaceStringAtOnce print string at once
 func PlaceStringAtOnce(target *ebiten.Image, str string, x, y util.Tile) {
 	if target == nil {
-		target = store.TileMap
+		target = Image
 	}
 	Seek(x, y)
 	for str != "" {
@@ -95,23 +97,23 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 			placeNext()
 			str = string(runes[2:])
 		case "p":
-			Blink("")
-			if pressed := placePara(); pressed {
+			Blink(target, "")
+			if pressed := placePara(target); pressed {
 				str = string(runes[2:])
 				resetBlink()
 			}
 		case "c":
-			Blink("")
+			Blink(target, "")
 			if pressed := placeCont(); pressed {
-				Blink(" ")
-				ScrollTextUpOneLine()
+				Blink(target, " ")
+				ScrollTextUpOneLine(target)
 				str = string(runes[2:])
 				resetBlink()
 			}
 		case "d":
 			str = string(runes[2:])
 		case "▼":
-			placePrompt()
+			placePrompt(target)
 			str = string(runes[2:])
 		default:
 			str = string(runes[1:])
@@ -144,20 +146,20 @@ func placeNext() {
 	_, y := Caret()
 	Seek(1, y+2)
 }
-func placePara() bool {
+func placePara(target *ebiten.Image) bool {
 	pressed := manualTextScroll()
 	if pressed {
-		clearScreenArea()
+		clearScreenArea(target)
 		store.DelayFrames = 20
 		Seek(1, 14)
 	}
 	return pressed
 }
 
-func clearScreenArea() {
+func clearScreenArea(target *ebiten.Image) {
 	for h := 13; h <= 16; h++ {
 		for w := 1; w < 19; w++ {
-			PlaceChar(nil, " ", w, h)
+			PlaceChar(target, " ", w, h)
 		}
 	}
 }
@@ -197,24 +199,27 @@ func handleDownArrowBlinkTiming() {
 }
 
 // ScrollTextUpOneLine scroll text up one line
-func ScrollTextUpOneLine() {
+func ScrollTextUpOneLine(target *ebiten.Image) {
 	minX, minY := util.TileToPixel(1, 14)
 	min := image.Point{minX, minY}
 	maxX, maxY := util.TileToPixel(19, 17)
 	max := image.Point{maxX, maxY}
-	texts, _ := ebiten.NewImageFromImage(store.TileMap.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
-	util.DrawImage(nil, texts, 1, 13)
-	store.TileMap, _ = ebiten.NewImageFromImage(store.TileMap, ebiten.FilterDefault)
+	texts, _ := ebiten.NewImageFromImage(target.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
+	util.DrawImage(target, texts, 1, 13)
 	for w := 1; w < 19; w++ {
-		PlaceChar(nil, " ", w, 16)
+		PlaceChar(target, " ", w, 16)
 	}
 	store.DelayFrames = 5
 	InScroll = !InScroll
 	Seek(1, 16)
 }
 
-func placePrompt() {
-	PlaceChar(nil, "▼", 18, 16)
+func placePrompt(target *ebiten.Image) {
+	PlaceChar(target, "▼", 18, 16)
 }
 func placePage() {}
 func placeDex()  {}
+
+func VBlank() {
+	util.DrawImage(store.TileMap, Image, 0, 0)
+}

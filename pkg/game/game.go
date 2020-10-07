@@ -5,6 +5,8 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/store"
+	"pokered/pkg/text"
+	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -19,7 +21,8 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	if g.frame == 0 {
 		setup()
 	}
-	debug(g, 10)
+	util.BlackScreen()
+	// debug(g, 10)
 	exec()
 	vBlank()
 	g.frame++
@@ -45,14 +48,10 @@ func debug(g *Game, frame int) {
 		return
 	}
 	{
-		menu.NewListMenuID(menu.PricedItemListMenu, []string{
-			"1", "2",
-		})
 	}
 }
 
 func exec() {
-	joypad.ReadJoypad()
 	if store.DelayFrames > 0 {
 		store.DelayFrames--
 		return
@@ -60,10 +59,6 @@ func exec() {
 	switch m := mode(); m {
 	case Overworld:
 		execOverworld()
-	case Text:
-		execText()
-	case Menu:
-		execMenu()
 	case Script:
 		execScript()
 	}
@@ -74,4 +69,5 @@ func vBlank() {
 	store.DecFrameCounter()
 	audio.FadeOutAudio()
 	menu.VBlank()
+	text.VBlank()
 }

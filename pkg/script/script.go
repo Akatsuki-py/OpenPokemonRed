@@ -1,9 +1,11 @@
 package script
 
 import (
-	"fmt"
+	"pokered/pkg/data/txt"
+	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/store"
+	"pokered/pkg/text"
 	"pokered/pkg/widget"
 )
 
@@ -11,6 +13,7 @@ const (
 	Halt uint = iota
 	WidgetStartMenu
 	WidgetStartMenu2
+	TextDebug
 )
 
 // ScriptID current script ID
@@ -21,6 +24,10 @@ var scriptMap = newScriptMap()
 
 func newScriptMap() map[uint]func() {
 	result := map[uint]func(){}
+	result[Halt] = halt
+	result[WidgetStartMenu] = widgetStartMenu
+	result[WidgetStartMenu2] = widgetStartMenu2
+	result[TextDebug] = textDebug
 	return result
 }
 
@@ -40,11 +47,44 @@ func widgetStartMenu() {
 }
 
 func widgetStartMenu2() {
-	item := store.PopMenuItem()
-	switch item {
-	case "EXIT":
-		fmt.Println("exit")
-	case menu.Cancelled:
-		fmt.Println("cancel")
+	m := menu.CurMenu()
+	pressed := menu.HandleMenuInput(m.Image())
+	switch {
+	case pressed.A:
+		switch m.Item() {
+		case "EXIT":
+			m.Hide()
+			ScriptID = Halt
+		case "RED":
+			ScriptID = TextDebug
+			text.PrintText(text.Image, txt.AgathaBeforeBattleText)
+		}
+	case pressed.B:
+		m.Hide()
+		ScriptID = Halt
+	}
+}
+
+func textDebug() {
+	if text.InScroll {
+		text.ScrollTextUpOneLine(text.Image)
+		return
+	}
+	if store.FrameCounter > 0 {
+		joypad.Joypad()
+		if joypad.JoyHeld.A || joypad.JoyHeld.B {
+			store.FrameCounter = 0
+			return
+		}
+		store.FrameCounter--
+		if store.FrameCounter > 0 {
+			store.DelayFrames = 1
+			return
+		}
+		return
+	}
+	text.CurText = text.PlaceStringOneByOne(text.Image, text.CurText)
+	if len([]rune(text.CurText)) == 0 {
+		ScriptID = Halt
 	}
 }

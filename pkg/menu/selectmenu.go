@@ -1,7 +1,6 @@
 package menu
 
 import (
-	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
 
@@ -90,16 +89,5 @@ func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bo
 	CurSelectMenus = append(CurSelectMenus, newSelectMenu)
 	for i, elm := range newSelectMenu.Elm {
 		text.PlaceStringAtOnce(newSelectMenu.image, elm, topX+1, topY+2*i)
-	}
-}
-
-func HandleSelectMenuInput() {
-	m := CurMenu()
-	pressed := HandleMenuInput(m.Image())
-	switch {
-	case pressed.A:
-		store.PushMenuItem(m.Item())
-	case pressed.B:
-		store.PushMenuItem(Cancelled)
 	}
 }
