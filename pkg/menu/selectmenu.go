@@ -3,6 +3,8 @@ package menu
 import (
 	"pokered/pkg/text"
 	"pokered/pkg/util"
+
+	"github.com/hajimehoshi/ebiten"
 )
 
 type SelectMenu struct {
@@ -11,6 +13,7 @@ type SelectMenu struct {
 	topX, topY util.Tile
 	wrap       bool
 	current    uint
+	Image      *ebiten.Image
 }
 
 // Z return z index

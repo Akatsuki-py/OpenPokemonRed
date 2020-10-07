@@ -5,6 +5,8 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
+
+	"github.com/hajimehoshi/ebiten"
 )
 
 const (
@@ -37,6 +39,7 @@ type ListMenu struct {
 	wrap    bool // !wMenuWatchMovingOutOfBounds
 	offset  uint // wListScrollOffset
 	current uint // wCurrentMenuItem
+	Image   *ebiten.Image
 }
 
 // CurListMenu list menu displayed now

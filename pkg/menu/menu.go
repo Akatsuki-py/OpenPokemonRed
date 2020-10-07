@@ -103,3 +103,17 @@ func handleMenuInput(m Menu) joypad.Input {
 	}
 	return joypad.Joy5
 }
+
+func VBlank() {
+	listZ := CurListMenu.z
+	for _, m := range CurSelectMenus {
+		if m.z == 0 {
+			continue
+		}
+
+		if listZ > 0 && listZ < m.z {
+			util.DrawImage(CurListMenu.Image, 0, 0)
+		}
+
+	}
+}
