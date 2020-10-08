@@ -13,7 +13,7 @@ const (
 	Halt uint = iota
 	WidgetStartMenu
 	WidgetStartMenu2
-	TextDebug
+	ExecText
 )
 
 // ScriptID current script ID
@@ -27,7 +27,7 @@ func newScriptMap() map[uint]func() {
 	result[Halt] = halt
 	result[WidgetStartMenu] = widgetStartMenu
 	result[WidgetStartMenu2] = widgetStartMenu2
-	result[TextDebug] = textDebug
+	result[ExecText] = execText
 	return result
 }
 
@@ -41,31 +41,7 @@ func Current() func() {
 
 func halt() {}
 
-func widgetStartMenu() {
-	ScriptID = WidgetStartMenu2
-	widget.DisplayStartMenu()
-}
-
-func widgetStartMenu2() {
-	m := menu.CurMenu()
-	pressed := menu.HandleMenuInput(m.Image())
-	switch {
-	case pressed.A:
-		switch m.Item() {
-		case "EXIT":
-			m.Hide()
-			ScriptID = Halt
-		case "RED":
-			ScriptID = TextDebug
-			text.PrintText(text.Image, txt.AgathaBeforeBattleText)
-		}
-	case pressed.B:
-		m.Hide()
-		ScriptID = Halt
-	}
-}
-
-func textDebug() {
+func execText() {
 	if text.InScroll {
 		text.ScrollTextUpOneLine(text.Image)
 		return
@@ -85,6 +61,30 @@ func textDebug() {
 	}
 	text.CurText = text.PlaceStringOneByOne(text.Image, text.CurText)
 	if len([]rune(text.CurText)) == 0 {
+		ScriptID = Halt
+	}
+}
+
+func widgetStartMenu() {
+	ScriptID = WidgetStartMenu2
+	widget.DisplayStartMenu()
+}
+
+func widgetStartMenu2() {
+	m := menu.CurSelectMenu()
+	pressed := menu.HandleSelectMenuInput()
+	switch {
+	case pressed.A:
+		switch m.Item() {
+		case "EXIT":
+			m.Hide()
+			ScriptID = Halt
+		case "RED":
+			ScriptID = ExecText
+			text.PrintText(text.Image, txt.AgathaBeforeBattleText)
+		}
+	case pressed.B:
+		m.Hide()
 		ScriptID = Halt
 	}
 }

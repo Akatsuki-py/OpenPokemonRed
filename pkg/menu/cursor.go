@@ -7,12 +7,6 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
-var TopMenuItemX, TopMenuItemY util.Tile = 0, 0
-
-func setTopMenuItem(x, y util.Tile) {
-	TopMenuItemX, TopMenuItemY = x, y
-}
-
 // Cursor cursor location in tileMap
 type Cursor struct {
 	X, Y util.Tile
@@ -23,9 +17,7 @@ var CursorLocation = Cursor{}
 
 // PlaceCursor set "▶︎" into current menu
 // ref: PlaceMenuCursor
-func PlaceCursor(target *ebiten.Image) {
-	m := CurMenu()
-
+func PlaceCursor(target *ebiten.Image, m interface{}) {
 	// erase old cursor
 	switch m := m.(type) {
 	case *SelectMenu:
@@ -49,8 +41,7 @@ func PlaceCursor(target *ebiten.Image) {
 
 // PlaceUnfilledArrowCursor replace current cursor with "▷"
 // ref: PlaceUnfilledArrowMenuCursor
-func PlaceUnfilledArrowCursor(target *ebiten.Image) {
-	m := CurMenu()
+func PlaceUnfilledArrowCursor(target *ebiten.Image, m interface{}) {
 	switch m := m.(type) {
 	case *SelectMenu:
 		text.PlaceChar(target, "▷", m.topX, m.topY+util.Tile(2*m.current))
@@ -61,8 +52,7 @@ func PlaceUnfilledArrowCursor(target *ebiten.Image) {
 
 // EraseCursor erase cursor
 // ref: EraseMenuCursor
-func EraseCursor(target *ebiten.Image) {
-	m := CurMenu()
+func EraseCursor(target *ebiten.Image, m interface{}) {
 	switch m := m.(type) {
 	case *SelectMenu:
 		text.PlaceChar(target, " ", m.topX, m.topY+util.Tile(2*m.current))

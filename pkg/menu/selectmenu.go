@@ -1,6 +1,9 @@
 package menu
 
 import (
+	"pokered/pkg/audio"
+	"pokered/pkg/joypad"
+	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
 
@@ -16,37 +19,19 @@ type SelectMenu struct {
 	image      *ebiten.Image
 }
 
-// Z return z index
-func (s *SelectMenu) Z() uint {
-	return s.z
+// CurSelectMenu get current handled select menu
+func CurSelectMenu() *SelectMenu {
+	z := MaxZIndex()
+	for _, s := range CurSelectMenus {
+		if s.z == z {
+			return s
+		}
+	}
+	return nil
 }
 
 func (s *SelectMenu) Hide() {
 	s.z = 0
-}
-
-// Top return top tiles
-func (s *SelectMenu) Top() (util.Tile, util.Tile) {
-	return s.topX, s.topY
-}
-
-// Len return a number of items
-func (s *SelectMenu) Len() int {
-	return len(s.Elm)
-}
-
-// Wrap return menu wrap is enabled
-func (s *SelectMenu) Wrap() bool {
-	return s.wrap
-}
-
-// Current return current selected
-func (s *SelectMenu) Current() uint {
-	return s.current
-}
-
-func (s *SelectMenu) Image() *ebiten.Image {
-	return s.image
 }
 
 func (s *SelectMenu) Item() string {
@@ -90,4 +75,45 @@ func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bo
 	for i, elm := range newSelectMenu.Elm {
 		text.PlaceStringAtOnce(newSelectMenu.image, elm, topX+1, topY+2*i)
 	}
+}
+
+// HandleSelectMenuInput メニューでのキー入力に対処するハンドラ
+func HandleSelectMenuInput() joypad.Input {
+	m := CurSelectMenu()
+	PlaceCursor(m.image, m)
+	store.DelayFrames = 3
+	// TODO: AnimatePartyMon
+
+	joypad.JoypadLowSensitivity()
+	if !joypad.Joy5.Any() {
+		return joypad.Input{} // TODO: blink
+	}
+
+	return handleSelectMenuInput(m)
+}
+
+func handleSelectMenuInput(s *SelectMenu) joypad.Input {
+	maxItem := uint(len(s.Elm) - 1)
+
+	switch {
+	case joypad.Joy5.Up:
+		if s.current > 0 {
+			s.current--
+		} else if s.wrap {
+			s.current = maxItem
+		}
+	case joypad.Joy5.Down:
+		if s.current < maxItem {
+			s.current++
+		} else if s.wrap {
+			s.current = 0
+		}
+	}
+
+	if joypad.Joy5.A || joypad.Joy5.B {
+		if !util.ReadBit(store.CD60, 5) {
+			audio.PlaySound(audio.SFX_PRESS_AB)
+		}
+	}
+	return joypad.Joy5
 }

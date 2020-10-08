@@ -1,7 +1,9 @@
 package menu
 
 import (
+	"pokered/pkg/audio"
 	"pokered/pkg/data/constant"
+	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
@@ -63,51 +65,14 @@ type ListMenu struct {
 // CurListMenu list menu displayed now
 var CurListMenu = defaultListMenu()
 
-// LastListMenu list menu where player select item or exit
-var LastListMenu = defaultListMenu()
-
 func defaultListMenu() ListMenu {
 	return ListMenu{
 		z: 0,
 	}
 }
 
-// Z return zindex
-func (l *ListMenu) Z() uint {
-	return l.z
-}
-
 func (l *ListMenu) Hide() {
 	l.z = 0
-}
-
-// Top return top tiles
-func (l *ListMenu) Top() (util.Tile, util.Tile) {
-	return ListMenuTopX, ListMenuTopY
-}
-
-// Len return a number of items
-func (l *ListMenu) Len() int {
-	return len(l.Elm)
-}
-
-// Wrap return menu wrap is enabled
-func (l *ListMenu) Wrap() bool {
-	return l.wrap
-}
-
-// Current return current selected
-func (l *ListMenu) Current() uint {
-	return l.current
-}
-
-// SetCurrent set current
-func (l *ListMenu) SetCurrent(c uint) {
-	l.current = c
-}
-
-func (l *ListMenu) Image() *ebiten.Image {
-	return l.image
 }
 
 func (l *ListMenu) Item() string {
@@ -135,12 +100,12 @@ func DisplayListMenuIDLoop() {
 	target := CurListMenu.image
 	CurListMenu.PrintEntries()
 	previous := CurListMenu.current
-	pressed := HandleMenuInput(target)
-	PlaceCursor(target)
+	pressed := HandleListMenuInput(target)
+	PlaceCursor(target, &CurListMenu)
 
 	switch {
 	case pressed.A:
-		PlaceUnfilledArrowCursor(target)
+		PlaceUnfilledArrowCursor(target, &CurListMenu)
 	case pressed.Down:
 		if CurListMenu.offset+3 < uint(len(CurListMenu.Elm)+1) {
 			if previous == 2 {
@@ -154,14 +119,6 @@ func DisplayListMenuIDLoop() {
 			}
 		}
 	}
-}
-
-// ExitListMenu exit list menu if player cancel list menu
-func ExitListMenu() {
-	LastListMenu = CurListMenu
-	CurListMenu = defaultListMenu()
-	MenuExitMethod = CancelledMenu
-	util.ResBit(store.D730, 6)
 }
 
 // PrintEntries print list menu entries in text box
@@ -210,4 +167,50 @@ func (l *ListMenu) PrintEntries() {
 		}
 		index++
 	}
+}
+
+// HandleListMenuInput メニューでのキー入力に対処するハンドラ
+func HandleListMenuInput(target *ebiten.Image) joypad.Input {
+	m := &CurListMenu
+	PlaceCursor(target, m)
+	store.DelayFrames = 3
+	// TODO: AnimatePartyMon
+
+	joypad.JoypadLowSensitivity()
+	if !joypad.Joy5.Any() {
+		return joypad.Input{} // TODO: blink
+	}
+
+	return handleListMenuInput(m)
+}
+
+func handleListMenuInput(l *ListMenu) joypad.Input {
+	maxItem := uint(len(l.Elm) - 1)
+	if maxItem > 2 {
+		maxItem = 2
+	} else {
+		maxItem++
+	}
+
+	switch {
+	case joypad.Joy5.Up:
+		if l.current > 0 {
+			l.current--
+		} else if l.wrap {
+			l.current = maxItem
+		}
+	case joypad.Joy5.Down:
+		if l.current < maxItem {
+			l.current++
+		} else if l.wrap {
+			l.current = 0
+		}
+	}
+
+	if joypad.Joy5.A || joypad.Joy5.B {
+		if !util.ReadBit(store.CD60, 5) {
+			audio.PlaySound(audio.SFX_PRESS_AB)
+		}
+	}
+	return joypad.Joy5
 }
