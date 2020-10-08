@@ -45,7 +45,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func setup() {
 	sprite.AddPlayer(sprite.Normal)
-	sprite.AddSprite("sailor", 4, 4)
+	sprite.AddSprite("sailor", 2, 2, [2]byte{0xff, 0xff})
 	player = store.SpriteData[0]
 }
 

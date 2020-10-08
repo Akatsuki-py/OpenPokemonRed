@@ -18,3 +18,8 @@ func TileToFPixel(x, y Tile) (float64, float64) {
 func CoordToPixel(x, y Coord) (Pixel, Pixel) {
 	return x * 16, y * 16
 }
+
+// CoordToFPixel convert pokered coord into ebiten screen pixel
+func CoordToFPixel(x, y Coord) (float64, float64) {
+	return float64(x * 16), float64(y * 16)
+}

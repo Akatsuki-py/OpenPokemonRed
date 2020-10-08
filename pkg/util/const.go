@@ -15,6 +15,6 @@ const (
 )
 
 const (
-	PlayerX = 8
-	PlayerY = 8
+	PlayerX = 4
+	PlayerY = 4
 )

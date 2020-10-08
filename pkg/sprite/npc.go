@@ -148,13 +148,6 @@ func tryWalking(offset uint, direction util.Direction) bool {
 func initializeSpriteStatus(offset uint) {
 	s := store.SpriteData[offset]
 	s.MovmentStatus = OK
-	s.VRAM.Index = -1
-}
-
-func initializeSpriteScreenPosition(offset uint) {
-	p, s := store.SpriteData[0], store.SpriteData[offset]
-	s.ScreenXPixel = ((s.MapXCoord - p.MapXCoord) * 16) - 4
-	s.ScreenYPixel = ((s.MapYCoord - p.MapYCoord) * 16) - 4
 }
 
 func checkSpriteAvailability(offset uint) bool {
@@ -162,16 +155,16 @@ func checkSpriteAvailability(offset uint) bool {
 	// TODO: IsObjectHidden
 
 	// disable sprite when it is out of screen
-	if s.MovementBytes[0] >= 0xfe {
-		p := store.SpriteData[0]
-		tooLeft := p.MapXCoord > s.MapXCoord
-		tooRight := s.MapXCoord > p.MapXCoord+9
-		tooUp := p.MapYCoord > s.MapYCoord
-		tooDown := s.MapYCoord > p.MapYCoord+8
+	if s.MovementBytes[0] >= walk {
+		tooLeft := s.ScreenXPixel < 0
+		tooRight := s.ScreenXPixel > 160
+		tooUp := s.ScreenYPixel > 144
+		tooDown := s.ScreenYPixel < 0
 		if tooLeft || tooRight || tooUp || tooDown {
 			DisableSprite(offset)
 			return false
 		}
+		s.VRAM.Index = Index(offset)
 	}
 
 	// if player is in walk, disable sprite

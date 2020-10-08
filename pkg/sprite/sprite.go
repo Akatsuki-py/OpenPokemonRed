@@ -25,7 +25,7 @@ const (
 	Seel
 )
 
-func AddSprite(name string, x, y util.Tile) {
+func AddSprite(name string, x, y util.Coord, movementBytes [2]byte) {
 	FS, _ := fs.New()
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
@@ -40,9 +40,12 @@ func AddSprite(name string, x, y util.Tile) {
 
 	n := NumSprites()
 	s := &store.Sprite{
-		ID:           n,
-		ScreenXPixel: 8 * x,
-		ScreenYPixel: 8*y - 4,
+		ID:            n,
+		ScreenXPixel:  16 * x,
+		ScreenYPixel:  16*y - 4,
+		MapXCoord:     x,
+		MapYCoord:     y,
+		MovementBytes: movementBytes,
 		VRAM: store.SpriteImage{
 			Index:  1,
 			Images: imgs,
@@ -82,7 +85,7 @@ func Index(offset uint) int {
 	}
 	length := len(s.VRAM.Images)
 	if length == 1 {
-		return -1
+		return 0
 	}
 
 	animCounter := s.AnimationFrame >> 2
@@ -170,6 +173,9 @@ func VBlank() {
 	for i, s := range store.SpriteData {
 		if s == nil || s.ID == 0 {
 			break
+		}
+		if s.VRAM.Index < 0 {
+			return
 		}
 		DrawSprite(uint(i))
 	}

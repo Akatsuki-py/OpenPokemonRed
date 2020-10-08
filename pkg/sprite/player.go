@@ -31,8 +31,10 @@ func AddPlayer(state uint) {
 
 	s := &store.Sprite{
 		ID:           1,
-		ScreenXPixel: 8 * util.PlayerX,
-		ScreenYPixel: 8*util.PlayerY - 4,
+		ScreenXPixel: 16 * util.PlayerX,
+		ScreenYPixel: 16*util.PlayerY - 4,
+		MapXCoord:    util.PlayerX,
+		MapYCoord:    util.PlayerY,
 		VRAM: store.SpriteImage{
 			Index:  1,
 			Images: imgs,
