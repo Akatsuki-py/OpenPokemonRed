@@ -232,7 +232,7 @@ func updateSpriteInWalkingAnimation(offset uint) {
 		return
 	}
 
-	s.Delay = uint(util.Random() & 0x7f)
+	s.Delay = uint(util.Random())
 	s.MovmentStatus = Delay
 	s.DeltaX, s.DeltaY = 0, 0
 }
