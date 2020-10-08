@@ -76,7 +76,7 @@ func (l *ListMenu) Close() {
 
 func (l *ListMenu) Item() string {
 	if l.current >= uint(len(l.Elm)) {
-		return ""
+		return Cancel
 	}
 	return l.Elm[l.current]
 }
@@ -95,7 +95,7 @@ func NewListMenuID(id ListMenuID, elm []string) {
 }
 
 // DisplayListMenuIDLoop wait for a player's action
-func DisplayListMenuIDLoop() {
+func DisplayListMenuIDLoop() joypad.Input {
 	target := CurListMenu.image
 	CurListMenu.PrintEntries()
 	previous := CurListMenu.current
@@ -118,6 +118,7 @@ func DisplayListMenuIDLoop() {
 			}
 		}
 	}
+	return pressed
 }
 
 // HandleListMenuInput メニューでのキー入力に対処するハンドラ
@@ -147,6 +148,11 @@ func HandleListMenuInput(target *ebiten.Image) joypad.Input {
 func (l *ListMenu) PrintEntries() {
 	util.ClearScreenArea(l.image, 5, 3, 9, 14)
 	index := 0
+	if len(l.Elm) == 0 {
+		text.PlaceStringAtOnce(l.image, "CANCEL", ListMenuTopX+1, ListMenuTopY)
+		return
+	}
+
 	for i, e := range l.Elm {
 		if i < int(l.offset) {
 			continue

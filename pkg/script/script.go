@@ -1,6 +1,7 @@
 package script
 
 import (
+	"fmt"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
@@ -8,9 +9,10 @@ import (
 
 const (
 	Halt uint = iota
+	ExecText
 	WidgetStartMenu
 	WidgetStartMenu2
-	ExecText
+	WidgetBag
 )
 
 // ScriptID current script ID
@@ -25,15 +27,17 @@ var scriptMap = newScriptMap()
 func newScriptMap() map[uint]func() {
 	result := map[uint]func(){}
 	result[Halt] = halt
+	result[ExecText] = execText
 	result[WidgetStartMenu] = widgetStartMenu
 	result[WidgetStartMenu2] = widgetStartMenu2
-	result[ExecText] = execText
+	result[WidgetBag] = widgetBag
 	return result
 }
 
 func Current() func() {
 	s, ok := scriptMap[scriptID]
 	if !ok {
+		fmt.Println("this scriptID is not registered")
 		return halt
 	}
 	return s

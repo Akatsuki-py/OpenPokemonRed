@@ -16,8 +16,8 @@ const (
 	CancelledMenu
 )
 
-// Cancelled menu cancel
-const Cancelled = "CANCELLED"
+// Cancel menu cancel
+const Cancel = "CANCEL"
 
 var downArrowBlinkCnt = 6 * 10
 
@@ -55,7 +55,7 @@ func VBlank() {
 		util.DrawImage(store.TileMap, m.image, 0, 0)
 		newCurSelectMenus = append(newCurSelectMenus, m)
 	}
-	if !done {
+	if !done && CurListMenu.z > 0 {
 		util.DrawImage(store.TileMap, CurListMenu.image, 0, 0)
 	}
 	CurSelectMenus = newCurSelectMenus

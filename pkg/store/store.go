@@ -62,3 +62,7 @@ var D72D byte
 // bit 6: 1なら テキスト出力時に文字ごとに遅延を生じない
 // bit 7: キー入力がゲーム内で勝手に入れられているか(simulated joypad)
 var D730 byte
+
+// BagItems items in bag
+// [A@1, B@2, ...]
+var BagItems = []string{}
