@@ -46,6 +46,7 @@ func execOverworld() {
 			sprite.UpdateSprites()
 			sprite.AdvancePlayerSprite()
 		} else {
+			sprite.UpdateSprites()
 			p.RightHand = false
 		}
 	}

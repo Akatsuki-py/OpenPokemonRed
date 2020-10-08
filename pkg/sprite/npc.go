@@ -137,11 +137,31 @@ func updateNPCSprite(offset uint) {
 			}
 		}
 	}
-	tryWalking(offset, direction)
+
+	var deltaX, deltaY int
+	switch direction {
+	case util.Up:
+		deltaX, deltaY = 0, -1
+	case util.Down:
+		deltaX, deltaY = 0, 1
+	case util.Left:
+		deltaX, deltaY = -1, 0
+	case util.Right:
+		deltaX, deltaY = 1, 0
+	}
+
+	tryWalking(offset, direction, deltaX, deltaY)
 }
 
 // tryWalking UpdateNPCSprite から呼び出される
-func tryWalking(offset uint, direction util.Direction) bool {
+func tryWalking(offset uint, direction util.Direction, deltaX, deltaY int) bool {
+	s := store.SpriteData[offset]
+	s.Direction = direction
+
+	s.WalkCounter = 16
+	s.DeltaX, s.DeltaY = deltaX, deltaY
+
+	s.MovmentStatus = Movement
 	return true
 }
 
@@ -182,6 +202,9 @@ func updateSpriteMovementDelay(offset uint) {
 	switch movementByte1 {
 	case 0xfe, 0xff:
 		s.Delay--
+		if s.Delay == 0 {
+			s.MovmentStatus = OK
+		}
 	default:
 		s.Delay = 0
 		s.MovmentStatus = OK
@@ -196,6 +219,10 @@ func updateSpriteInWalkingAnimation(offset uint) {
 	s.ScreenYPixel += s.DeltaY
 
 	s.WalkCounter--
+	s.AnimationFrame++
+	if s.AnimationCounter() == 4 {
+		s.AnimationFrame = 0
+	}
 	if s.WalkCounter != 0 {
 		return
 	}
