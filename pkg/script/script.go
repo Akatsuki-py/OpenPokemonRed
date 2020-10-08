@@ -1,12 +1,9 @@
 package script
 
 import (
-	"pokered/pkg/data/txt"
 	"pokered/pkg/joypad"
-	"pokered/pkg/menu"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
-	"pokered/pkg/widget"
 )
 
 const (
@@ -17,7 +14,10 @@ const (
 )
 
 // ScriptID current script ID
-var ScriptID = Halt
+var scriptID = Halt
+
+func ScriptID() uint      { return scriptID }
+func SetScriptID(id uint) { scriptID = id }
 
 // ScriptMap script ID -> script
 var scriptMap = newScriptMap()
@@ -32,7 +32,7 @@ func newScriptMap() map[uint]func() {
 }
 
 func Current() func() {
-	s, ok := scriptMap[ScriptID]
+	s, ok := scriptMap[scriptID]
 	if !ok {
 		return halt
 	}
@@ -61,30 +61,6 @@ func execText() {
 	}
 	text.CurText = text.PlaceStringOneByOne(text.Image, text.CurText)
 	if len([]rune(text.CurText)) == 0 {
-		ScriptID = Halt
-	}
-}
-
-func widgetStartMenu() {
-	ScriptID = WidgetStartMenu2
-	widget.DisplayStartMenu()
-}
-
-func widgetStartMenu2() {
-	m := menu.CurSelectMenu()
-	pressed := menu.HandleSelectMenuInput()
-	switch {
-	case pressed.A:
-		switch m.Item() {
-		case "EXIT":
-			m.Hide()
-			ScriptID = Halt
-		case "RED":
-			ScriptID = ExecText
-			text.PrintText(text.Image, txt.AgathaBeforeBattleText)
-		}
-	case pressed.B:
-		m.Hide()
-		ScriptID = Halt
+		SetScriptID(Halt)
 	}
 }
