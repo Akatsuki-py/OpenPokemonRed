@@ -1,7 +1,6 @@
 package menu
 
 import (
-	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
@@ -30,7 +29,7 @@ func CurSelectMenu() *SelectMenu {
 	return nil
 }
 
-func (s *SelectMenu) Hide() {
+func (s *SelectMenu) Close() {
 	s.z = 0
 }
 
@@ -79,8 +78,8 @@ func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bo
 
 // HandleSelectMenuInput メニューでのキー入力に対処するハンドラ
 func HandleSelectMenuInput() joypad.Input {
-	m := CurSelectMenu()
-	PlaceCursor(m.image, m)
+	s := CurSelectMenu()
+	PlaceCursor(s.image, s)
 	store.DelayFrames = 3
 	// TODO: AnimatePartyMon
 
@@ -89,31 +88,7 @@ func HandleSelectMenuInput() joypad.Input {
 		return joypad.Input{} // TODO: blink
 	}
 
-	return handleSelectMenuInput(m)
-}
-
-func handleSelectMenuInput(s *SelectMenu) joypad.Input {
 	maxItem := uint(len(s.Elm) - 1)
-
-	switch {
-	case joypad.Joy5.Up:
-		if s.current > 0 {
-			s.current--
-		} else if s.wrap {
-			s.current = maxItem
-		}
-	case joypad.Joy5.Down:
-		if s.current < maxItem {
-			s.current++
-		} else if s.wrap {
-			s.current = 0
-		}
-	}
-
-	if joypad.Joy5.A || joypad.Joy5.B {
-		if !util.ReadBit(store.CD60, 5) {
-			audio.PlaySound(audio.SFX_PRESS_AB)
-		}
-	}
+	s.current = handleMenuInput(s.current, maxItem, s.wrap)
 	return joypad.Joy5
 }

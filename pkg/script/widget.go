@@ -19,14 +19,14 @@ func widgetStartMenu2() {
 	case pressed.A:
 		switch m.Item() {
 		case "EXIT":
-			m.Hide()
+			m.Close()
 			SetScriptID(Halt)
 		case "RED":
 			SetScriptID(ExecText)
 			text.PrintText(text.Image, txt.AgathaBeforeBattleText)
 		}
 	case pressed.B:
-		m.Hide()
+		m.Close()
 		SetScriptID(Halt)
 	}
 }

@@ -1,11 +1,11 @@
 package menu
 
 import (
+	"pokered/pkg/audio"
+	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 	"sort"
-
-	"github.com/hajimehoshi/ebiten"
 )
 
 const (
@@ -18,18 +18,6 @@ const (
 
 // Cancelled menu cancel
 const Cancelled = "CANCELLED"
-
-type Menu interface {
-	Z() uint
-	Hide()
-	Top() (util.Tile, util.Tile)
-	Len() int
-	Wrap() bool
-	Current() uint
-	SetCurrent(uint)
-	Item() string
-	Image() *ebiten.Image
-}
 
 var downArrowBlinkCnt = 6 * 10
 
@@ -71,4 +59,28 @@ func VBlank() {
 		util.DrawImage(store.TileMap, CurListMenu.image, 0, 0)
 	}
 	CurSelectMenus = newCurSelectMenus
+}
+
+func handleMenuInput(current, maxItem uint, wrap bool) uint {
+	switch {
+	case joypad.Joy5.Up:
+		if current > 0 {
+			return current - 1
+		} else if wrap {
+			return maxItem
+		}
+	case joypad.Joy5.Down:
+		if current < maxItem {
+			return current + 1
+		} else if wrap {
+			return 0
+		}
+	}
+
+	if joypad.Joy5.A || joypad.Joy5.B {
+		if !util.ReadBit(store.CD60, 5) {
+			audio.PlaySound(audio.SFX_PRESS_AB)
+		}
+	}
+	return current
 }

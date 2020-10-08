@@ -1,7 +1,6 @@
 package menu
 
 import (
-	"pokered/pkg/audio"
 	"pokered/pkg/data/constant"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
@@ -71,7 +70,7 @@ func defaultListMenu() ListMenu {
 	}
 }
 
-func (l *ListMenu) Hide() {
+func (l *ListMenu) Close() {
 	l.z = 0
 }
 
@@ -121,6 +120,28 @@ func DisplayListMenuIDLoop() {
 	}
 }
 
+// HandleListMenuInput メニューでのキー入力に対処するハンドラ
+func HandleListMenuInput(target *ebiten.Image) joypad.Input {
+	l := &CurListMenu
+	PlaceCursor(target, l)
+	store.DelayFrames = 3
+	// TODO: AnimatePartyMon
+
+	joypad.JoypadLowSensitivity()
+	if !joypad.Joy5.Any() {
+		return joypad.Input{} // TODO: blink
+	}
+
+	maxItem := uint(len(l.Elm) - 1)
+	if maxItem > 2 {
+		maxItem = 2
+	} else {
+		maxItem++
+	}
+	l.current = handleMenuInput(l.current, maxItem, l.wrap)
+	return joypad.Joy5
+}
+
 // PrintEntries print list menu entries in text box
 // ref: PrintListMenuEntries
 func (l *ListMenu) PrintEntries() {
@@ -167,50 +188,4 @@ func (l *ListMenu) PrintEntries() {
 		}
 		index++
 	}
-}
-
-// HandleListMenuInput メニューでのキー入力に対処するハンドラ
-func HandleListMenuInput(target *ebiten.Image) joypad.Input {
-	m := &CurListMenu
-	PlaceCursor(target, m)
-	store.DelayFrames = 3
-	// TODO: AnimatePartyMon
-
-	joypad.JoypadLowSensitivity()
-	if !joypad.Joy5.Any() {
-		return joypad.Input{} // TODO: blink
-	}
-
-	return handleListMenuInput(m)
-}
-
-func handleListMenuInput(l *ListMenu) joypad.Input {
-	maxItem := uint(len(l.Elm) - 1)
-	if maxItem > 2 {
-		maxItem = 2
-	} else {
-		maxItem++
-	}
-
-	switch {
-	case joypad.Joy5.Up:
-		if l.current > 0 {
-			l.current--
-		} else if l.wrap {
-			l.current = maxItem
-		}
-	case joypad.Joy5.Down:
-		if l.current < maxItem {
-			l.current++
-		} else if l.wrap {
-			l.current = 0
-		}
-	}
-
-	if joypad.Joy5.A || joypad.Joy5.B {
-		if !util.ReadBit(store.CD60, 5) {
-			audio.PlaySound(audio.SFX_PRESS_AB)
-		}
-	}
-	return joypad.Joy5
 }
