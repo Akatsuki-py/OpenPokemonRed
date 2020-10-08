@@ -9,7 +9,7 @@ import (
 
 func widgetStartMenu() {
 	SetScriptID(WidgetStartMenu2)
-	widget.DisplayStartMenu()
+	widget.DrawStartMenu()
 }
 
 func widgetStartMenu2() {
