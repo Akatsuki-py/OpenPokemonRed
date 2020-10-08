@@ -77,6 +77,18 @@ func DrawImage(target, src *ebiten.Image, x, y Tile) {
 	target.DrawImage(src, op)
 }
 
+func DrawImagePixel(target, src *ebiten.Image, x, y int) {
+	if target == nil {
+		target = store.TileMap
+	}
+	if src == nil {
+		return
+	}
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(float64(x), float64(y))
+	target.DrawImage(src, op)
+}
+
 func NewImage() *ebiten.Image {
 	img, _ := ebiten.NewImage(160, 144, ebiten.FilterDefault)
 	return img

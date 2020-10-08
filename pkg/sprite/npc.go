@@ -70,7 +70,8 @@ func updateNPCSprite(offset uint) {
 	}
 
 	// sprite status is OK
-	if WalkCounter > 0 {
+	p := store.SpriteData[0]
+	if p != nil && p.WalkCounter > 0 {
 		return
 	}
 
@@ -174,11 +175,10 @@ func checkSpriteAvailability(offset uint) bool {
 	}
 
 	// if player is in walk, disable sprite
-	if WalkCounter > 0 {
+	p := store.SpriteData[0]
+	if p != nil && p.WalkCounter > 0 {
 		return false
 	}
-
-	UpdateSpriteImage(offset)
 	return true
 }
 
@@ -202,8 +202,8 @@ func updateSpriteInWalkingAnimation(offset uint) {
 	s.ScreenXPixel += s.DeltaX
 	s.ScreenYPixel += s.DeltaY
 
-	s.WalkAnimationCounter--
-	if s.WalkAnimationCounter != 0 {
+	s.WalkCounter--
+	if s.WalkCounter != 0 {
 		return
 	}
 
@@ -220,7 +220,6 @@ func updateSpriteInWalkingAnimation(offset uint) {
 func notYetMoving(offset uint) {
 	s := store.SpriteData[offset]
 	s.AnimationFrame %= 4
-	UpdateSpriteImage(offset)
 }
 
 // make NPC face player when player talk to NPC

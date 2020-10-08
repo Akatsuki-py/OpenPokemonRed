@@ -4,12 +4,15 @@ import (
 	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
+	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
+
+var player = store.SpriteData[0]
 
 // Game implements ebiten.Game interface.
 type Game struct {
@@ -41,6 +44,9 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func setup() {
+	sprite.AddPlayer(sprite.Normal)
+	sprite.AddSprite("sailor", 4, 4)
+	player = store.SpriteData[0]
 }
 
 func debug(g *Game, frame int) {
@@ -68,6 +74,7 @@ func vBlank() {
 	joypad.ReadJoypad()
 	store.DecFrameCounter()
 	audio.FadeOutAudio()
+	sprite.VBlank()
 	menu.VBlank()
 	text.VBlank()
 }

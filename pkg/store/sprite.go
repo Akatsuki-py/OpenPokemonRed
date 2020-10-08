@@ -7,6 +7,11 @@ import (
 // SpriteData wSpriteStateData1, wSpriteStateData2
 var SpriteData [16]*Sprite
 
+type SpriteImage struct {
+	Index  int // C1x2
+	Images []*ebiten.Image
+}
+
 // Sprite data
 type Sprite struct {
 	ID                         uint // C1x0 0:none 1:player 2~:others
@@ -14,16 +19,14 @@ type Sprite struct {
 	ScreenXPixel, ScreenYPixel int  // Pixel C1x4, C1x5
 	AnimationFrame             uint // C1x7, C1x8 update on UpdateSprites
 	Direction                  uint // C1x9
-	WalkAnimationCounter       int  // C2x0 本来はNPCのみ
+	WalkCounter                int
 	MapXCoord, MapYCoord       int  // Coord C2x4, C2x5
 	Delay                      uint // C2x8
-	VRAM                       struct {
-		Index  int // C1x2
-		Images []*ebiten.Image
-	}
-	Scripted       bool
-	MovementBytes  [2]byte // movement byte 1,2
-	DeltaX, DeltaY int
+	VRAM                       SpriteImage
+	Scripted                   bool
+	MovementBytes              [2]byte // movement byte 1,2
+	DeltaX, DeltaY             int
+	RightHand                  bool // used to walk animation
 }
 
 func (s *Sprite) AnimationCounter() uint {

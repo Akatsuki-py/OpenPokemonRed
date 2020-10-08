@@ -13,3 +13,8 @@ const (
 	Pokedex = "POKéDEX"
 	Pokemon = "POKéMON"
 )
+
+const (
+	PlayerX = 8
+	PlayerY = 8
+)

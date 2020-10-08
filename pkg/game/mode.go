@@ -1,7 +1,6 @@
 package game
 
 import (
-	"pokered/pkg/joypad"
 	"pokered/pkg/script"
 )
 
@@ -19,13 +18,6 @@ func mode() uint {
 
 func isOverworld() bool {
 	return script.ScriptID() == script.Halt
-}
-
-func execOverworld() {
-	joypad.Joypad()
-	if joypad.JoyHeld.Start {
-		script.SetScriptID(script.WidgetStartMenu)
-	}
 }
 
 func execScript() {
