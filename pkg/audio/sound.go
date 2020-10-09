@@ -1,6 +1,7 @@
 package audio
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/hajimehoshi/ebiten/audio"
@@ -17,6 +18,7 @@ const (
 	SFX_HEAL_AILMENT
 	SFX_START_MENU
 	SFX_PRESS_AB
+	SFX_COLLISION
 )
 
 // WAV wav file
@@ -34,6 +36,7 @@ func newSoundMap() map[uint]*WAV {
 	soundMap[SFX_TINK] = newWav(FS, "/tink.wav")
 	soundMap[SFX_START_MENU] = newWav(FS, "/start_menu.wav")
 	soundMap[SFX_PRESS_AB] = newWav(FS, "/press_ab.wav")
+	soundMap[SFX_COLLISION] = newWav(FS, "/collision.wav")
 
 	return soundMap
 }
@@ -51,6 +54,7 @@ func newWav(fs http.FileSystem, path string) *WAV {
 func PlaySound(soundID uint) {
 	sound, ok := soundMap[soundID]
 	if !ok {
+		fmt.Println("this sfx is not registered")
 		return
 	}
 	if sound.player.IsPlaying() {

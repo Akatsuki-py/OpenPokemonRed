@@ -44,6 +44,9 @@ func execOverworld() {
 		if directionPressed {
 			p.WalkCounter = 16
 			sprite.UpdateSprites()
+			if sprite.CollisionCheckForPlayer() {
+				player.DeltaX, player.DeltaY = 0, 0
+			}
 			sprite.AdvancePlayerSprite()
 		} else {
 			sprite.UpdateSprites()

@@ -158,8 +158,15 @@ func tryWalking(offset uint, direction util.Direction, deltaX, deltaY int) bool 
 	s := store.SpriteData[offset]
 	s.Direction = direction
 
+	if collisionCheckForNPC(offset) {
+		return false
+	}
+
 	s.WalkCounter = 16
 	s.DeltaX, s.DeltaY = deltaX, deltaY
+
+	s.MapXCoord += deltaX
+	s.MapYCoord += deltaY
 
 	s.MovmentStatus = Movement
 	return true
@@ -185,12 +192,6 @@ func checkSpriteAvailability(offset uint) bool {
 			return false
 		}
 		s.VRAM.Index = Index(offset)
-	}
-
-	// if player is in walk, disable sprite
-	p := store.SpriteData[0]
-	if p != nil && p.WalkCounter > 0 {
-		return false
 	}
 	return true
 }
@@ -282,4 +283,46 @@ func advanceScriptedNPCAnimFrameCounter(offset uint) {
 	if s.AnimationFrame>>2 == 4 {
 		s.AnimationFrame = 0
 	}
+}
+
+// collisionCheckForNPC check if collision occurs in npc moving ahead
+// ref: CanWalkOntoTile
+func collisionCheckForNPC(offset uint) bool {
+	collision := false
+	npc := store.SpriteData[offset]
+	if npc == nil || npc.ID == 0 {
+		return false
+	}
+	for o, s := range store.SpriteData {
+		if o == int(offset) {
+			continue
+		}
+		if s == nil || s.ID == 0 {
+			break
+		}
+
+		switch npc.Direction {
+		case util.Up:
+			if npc.MapXCoord == s.MapXCoord && npc.MapYCoord-1 == s.MapYCoord {
+				collision = true
+			}
+		case util.Down:
+			if npc.MapXCoord == s.MapXCoord && npc.MapYCoord+1 == s.MapYCoord {
+				collision = true
+			}
+		case util.Left:
+			if npc.MapXCoord-1 == s.MapXCoord && npc.MapYCoord == s.MapYCoord {
+				collision = true
+			}
+		case util.Right:
+			if npc.MapXCoord+1 == s.MapXCoord && npc.MapYCoord == s.MapYCoord {
+				collision = true
+			}
+		}
+
+		if collision {
+			break
+		}
+	}
+	return collision
 }

@@ -3,6 +3,7 @@ package sprite
 import (
 	"fmt"
 	"image/png"
+	"pokered/pkg/audio"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 
@@ -87,4 +88,48 @@ func AdvancePlayerSprite() {
 		s.ScreenXPixel -= p.DeltaX
 		s.ScreenYPixel -= p.DeltaY
 	}
+}
+
+// CollisionCheckForPlayer check if collision occurs in player moving ahead
+func CollisionCheckForPlayer() bool {
+	collision := false
+	p := store.SpriteData[0]
+	if p == nil || p.ID == 0 {
+		return false
+	}
+	for offset, s := range store.SpriteData {
+		if offset == 0 {
+			continue
+		}
+		if s == nil || s.ID == 0 {
+			break
+		}
+
+		switch p.Direction {
+		case util.Up:
+			if p.MapXCoord == s.MapXCoord && p.MapYCoord-1 == s.MapYCoord {
+				collision = true
+			}
+		case util.Down:
+			if p.MapXCoord == s.MapXCoord && p.MapYCoord+1 == s.MapYCoord {
+				collision = true
+			}
+		case util.Left:
+			if p.MapXCoord-1 == s.MapXCoord && p.MapYCoord == s.MapYCoord {
+				collision = true
+			}
+		case util.Right:
+			if p.MapXCoord+1 == s.MapXCoord && p.MapYCoord == s.MapYCoord {
+				collision = true
+			}
+		}
+
+		if collision {
+			break
+		}
+	}
+	if collision {
+		audio.PlaySound(audio.SFX_COLLISION)
+	}
+	return collision
 }
