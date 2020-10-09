@@ -11,7 +11,8 @@ import (
 	"github.com/rakyll/statik/fs"
 )
 
-func AddPlayer(state uint) {
+// InitPlayer initialize player sprite
+func InitPlayer(state uint) {
 	FS, _ := fs.New()
 
 	imgs := make([]*ebiten.Image, 10)
@@ -42,6 +43,33 @@ func AddPlayer(state uint) {
 		},
 	}
 	store.SpriteData[0] = s
+}
+
+// ChangePlayerSprite change player sprite image
+func ChangePlayerSprite(state uint) {
+	p := store.SpriteData[0]
+	if p == nil || p.ID == 0 {
+		return
+	}
+
+	FS, _ := fs.New()
+
+	imgs := make([]*ebiten.Image, 10)
+	for i := 0; i < 10; i++ {
+		name := "red"
+		switch state {
+		case Cycling:
+			name = "red_cycling"
+		case Seel:
+			name = "seel"
+		}
+
+		f, _ := FS.Open(fmt.Sprintf("/%s_%d.png", name, i))
+		defer f.Close()
+		img, _ := png.Decode(f)
+		imgs[i], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+	}
+	p.VRAM.Images = imgs
 }
 
 // UpdatePlayerSprite update sprite direction and anim counter

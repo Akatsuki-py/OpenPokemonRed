@@ -21,6 +21,7 @@ const (
 	forceLeftRight byte = 0x02
 )
 
+// NPCMovementDirections used for scripted NPC
 var NPCMovementDirections []byte
 
 // UpdateNPCSprite update NPC sprite state
@@ -191,7 +192,7 @@ func checkSpriteAvailability(offset uint) bool {
 			DisableSprite(offset)
 			return false
 		}
-		s.VRAM.Index = Index(offset)
+		UpdateSpriteImage(offset)
 	}
 	return true
 }

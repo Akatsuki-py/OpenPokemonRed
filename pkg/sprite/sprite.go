@@ -19,12 +19,14 @@ const (
 	Movement
 )
 
+// Player sprite state
 const (
 	Normal uint = iota
 	Cycling
 	Seel
 )
 
+// AddSprite add sprite into SpriteData
 func AddSprite(name string, x, y util.Coord, movementBytes [2]byte) {
 	FS, _ := fs.New()
 	imgs := make([]*ebiten.Image, 10)
@@ -77,21 +79,23 @@ func UpdateSprites() {
 	}
 }
 
-// Index update sprite image index
-func Index(offset uint) int {
+// UpdateSpriteImage update sprite image index
+func UpdateSpriteImage(offset uint) {
 	s := store.SpriteData[offset]
+	index := -1
 	if s == nil {
-		return -1
+		return
 	}
 	length := len(s.VRAM.Images)
 	if length == 1 {
-		return 0
+		s.VRAM.Index = 0
+		return
 	}
 
 	animCounter := s.AnimationFrame >> 2
 
 	// ref:
-	index := 0
+	index = 0
 	switch animCounter + uint(s.Direction) {
 
 	// down
@@ -146,7 +150,7 @@ func Index(offset uint) int {
 			index = 3
 		}
 	}
-	return index
+	s.VRAM.Index = index
 }
 
 // DisableSprite hide sprite
@@ -155,20 +159,22 @@ func DisableSprite(offset uint) {
 	s.VRAM.Index = -1
 }
 
-// MoveSprite forcely move sprite by movement data
+// MoveSpriteForcely move sprite by movement data forcely
 // set wNPCMovementDirections
-func MoveSprite(offset uint, movement []byte) {
+func MoveSpriteForcely(offset uint, movement []byte) {
 	copy(NPCMovementDirections, movement)
 	util.SetBit(store.D730, 0)
 	joypad.JoyIgnore = joypad.ByteToInput(0xff)
 }
 
-func DrawSprite(offset uint) {
+// drawSprite
+func drawSprite(offset uint) {
 	s := store.SpriteData[offset]
-	index := Index(offset)
-	util.DrawImagePixel(store.TileMap, s.VRAM.Images[index], s.ScreenXPixel, s.ScreenYPixel)
+	UpdateSpriteImage(offset)
+	util.DrawImagePixel(store.TileMap, s.VRAM.Images[s.VRAM.Index], s.ScreenXPixel, s.ScreenYPixel)
 }
 
+// VBlank script executed in VBlank
 func VBlank() {
 	for i, s := range store.SpriteData {
 		if s == nil || s.ID == 0 {
@@ -177,6 +183,6 @@ func VBlank() {
 		if s.VRAM.Index < 0 {
 			return
 		}
-		DrawSprite(uint(i))
+		drawSprite(uint(i))
 	}
 }
