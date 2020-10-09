@@ -1,6 +1,8 @@
 # OpenPokémonRed
 
 ![CI](https://github.com/Akatsuki-py/PokemonRed/workflows/Go/badge.svg)
+[![GitHub stars](https://img.shields.io/github/stars/Akatsuki-py/OpenPokemonRed)](https://github.com/Akatsuki-py/OpenPokemonRed/stargazers)
+[![GitHub license](https://img.shields.io/github/license/Akatsuki-py/OpenPokemonRed)](https://github.com/Akatsuki-py/OpenPokemonRed/blob/master/LICENSE)
 
 <img src="package.jpg" width="240px" />
 
@@ -20,8 +22,8 @@ For example, text drawing, sound playback, and combat systems.
 
 ## 🏞 Screenshots
 
-Screenshots as of v0.0.3 (Text engine and Menu engine)
+Screenshots as of v0.0.5 (Text engine, Menu engine, Sprites engine)
 
-<img src="./screenshots/agatha_text.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/continue_menu.png" width="360px" height="360px" />
+<img src="./screenshots/start_menu.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/continue_menu.png" width="360px" height="360px" />
 
-<img src="./screenshots/list_menu.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/quantity_menu.png" width="360px" height="360px" />
+<img src="./screenshots/list_menu.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/agatha_text.png" width="360px" height="360px" />
