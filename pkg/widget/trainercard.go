@@ -1,14 +1,12 @@
 package widget
 
 import (
-	"image/png"
-	"pokered/pkg/store"
+	"pokered/pkg/event"
 	"pokered/pkg/util"
 
 	_ "pokered/pkg/data/statik"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/rakyll/statik/fs"
 )
 
 var trainerCard *ebiten.Image
@@ -17,29 +15,53 @@ const (
 	tcPath string = "/trainercard.png"
 )
 
-// InitTrainerCard initialize trainer card gfx data
-func InitTrainerCard() {
-	FS, _ := fs.New()
-	f, err := FS.Open(tcPath)
-	if err != nil {
-		util.NotFoundFileError(tcPath)
-		return
-	}
-	defer f.Close()
-
-	img, _ := png.Decode(f)
-	trainerCard, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+var leader = [8]string{
+	"brock",
+	"misty",
+	"lt_surge",
+	"erika",
+	"koga",
+	"sabrina",
+	"blaine",
+	"giovanni",
 }
 
-// DrawTrainerCard draw trainer card on screen
+const faceSuffix = "_face"
+const badgeSuffix = "_badge"
+const pngSuffix = ".png"
+
+// DrawTrainerCard initialize trainer card gfx data
 func DrawTrainerCard() {
+	trainerCard = util.OpenImage(tcPath)
 	if trainerCard == nil {
 		return
 	}
-	util.DrawImage(store.TileMap, trainerCard, 0, 0)
+
+	drawBadges()
 }
 
-// ExitTrainerCard release trainer card gfx data
-func ExitTrainerCard() {
+func drawBadges() {
+	badges := event.Badges()
+	for i := 0; i < 8; i++ {
+		x := 24 + 32*(i%4)
+		y := 96
+		if i > 3 {
+			y = 120
+		}
+
+		path := "/" + leader[i]
+		if badges[i] {
+			path += badgeSuffix + pngSuffix
+		} else {
+			path += faceSuffix + pngSuffix
+		}
+
+		badge := util.OpenImage(path)
+		util.DrawImagePixel(trainerCard, badge, x, y)
+	}
+}
+
+// CloseTrainerCard release trainer card gfx data
+func CloseTrainerCard() {
 	trainerCard = nil
 }

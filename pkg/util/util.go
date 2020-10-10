@@ -2,6 +2,7 @@ package util
 
 import (
 	"image/color"
+	"image/png"
 	"math/rand"
 	"pokered/pkg/store"
 	"reflect"
@@ -98,4 +99,17 @@ func NewImage() *ebiten.Image {
 func Random() byte {
 	rand.Seed(time.Now().UnixNano())
 	return byte(rand.Intn(256))
+}
+
+func OpenImage(path string) *ebiten.Image {
+	f, err := store.FS.Open(path)
+	if err != nil {
+		NotFoundFileError(path)
+		return nil
+	}
+	defer f.Close()
+
+	img, _ := png.Decode(f)
+	result, _ := ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+	return result
 }

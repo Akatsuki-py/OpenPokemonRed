@@ -8,13 +8,10 @@ import (
 	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/rakyll/statik/fs"
 )
 
 // InitPlayer initialize player sprite
 func InitPlayer(state uint) {
-	FS, _ := fs.New()
-
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
 		name := "red"
@@ -26,7 +23,7 @@ func InitPlayer(state uint) {
 		}
 
 		path := fmt.Sprintf("/%s_%d.png", name, i)
-		f, err := FS.Open(path)
+		f, err := store.FS.Open(path)
 		if err != nil {
 			util.NotFoundFileError(path)
 		}
@@ -56,8 +53,6 @@ func ChangePlayerSprite(state uint) {
 		return
 	}
 
-	FS, _ := fs.New()
-
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
 		name := "red"
@@ -69,7 +64,7 @@ func ChangePlayerSprite(state uint) {
 		}
 
 		path := fmt.Sprintf("/%s_%d.png", name, i)
-		f, err := FS.Open(path)
+		f, err := store.FS.Open(path)
 		if err != nil {
 			util.NotFoundFileError(path)
 		}

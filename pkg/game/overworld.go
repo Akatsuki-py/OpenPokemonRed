@@ -1,6 +1,7 @@
 package game
 
 import (
+	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/script"
 	"pokered/pkg/sprite"
@@ -23,7 +24,8 @@ func execOverworld() {
 		directionPressed := false
 		switch {
 		case joypad.JoyHeld.Start:
-			script.SetScriptID(script.WidgetStartMenu)
+			audio.PlaySound(audio.SFX_START_MENU)
+			script.SetID(script.WidgetStartMenu)
 			return
 		case joypad.JoyHeld.Down:
 			player.DeltaY = 1

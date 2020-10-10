@@ -5,9 +5,9 @@ import (
 
 	"github.com/hajimehoshi/ebiten/audio"
 	"github.com/hajimehoshi/ebiten/audio/wav"
-	"github.com/rakyll/statik/fs"
 
 	_ "pokered/pkg/data/statik"
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
 
@@ -31,12 +31,11 @@ var soundMap = newSoundMap()
 
 func newSoundMap() map[uint]*WAV {
 	soundMap := map[uint]*WAV{}
-	FS, _ := fs.New()
 
-	soundMap[SFX_TINK] = newWav(FS, "/tink.wav")
-	soundMap[SFX_START_MENU] = newWav(FS, "/start_menu.wav")
-	soundMap[SFX_PRESS_AB] = newWav(FS, "/press_ab.wav")
-	soundMap[SFX_COLLISION] = newWav(FS, "/collision.wav")
+	soundMap[SFX_TINK] = newWav(store.FS, "/tink.wav")
+	soundMap[SFX_START_MENU] = newWav(store.FS, "/start_menu.wav")
+	soundMap[SFX_PRESS_AB] = newWav(store.FS, "/press_ab.wav")
+	soundMap[SFX_COLLISION] = newWav(store.FS, "/collision.wav")
 
 	return soundMap
 }

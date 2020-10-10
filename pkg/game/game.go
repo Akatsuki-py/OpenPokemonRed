@@ -8,6 +8,7 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
+	"pokered/pkg/widget"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -81,6 +82,7 @@ func vBlank() {
 	audio.FadeOutAudio()
 	sprite.VBlank()
 	menu.VBlank()
+	widget.VBlank()
 	text.VBlank()
 }
 

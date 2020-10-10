@@ -1,8 +1,14 @@
 package store
 
 import (
+	_ "pokered/pkg/data/statik"
+
 	"github.com/hajimehoshi/ebiten"
+	"github.com/rakyll/statik/fs"
 )
+
+// FS statik filesystem
+var FS, _ = fs.New()
 
 var SCX, SCY int
 

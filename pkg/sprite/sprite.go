@@ -8,7 +8,6 @@ import (
 	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/rakyll/statik/fs"
 )
 
 // Movment status
@@ -28,11 +27,10 @@ const (
 
 // AddSprite add sprite into SpriteData
 func AddSprite(name string, x, y util.Coord, movementBytes [2]byte) {
-	FS, _ := fs.New()
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
 		path := fmt.Sprintf("/%s_%d.png", name, i)
-		f, err := FS.Open(path)
+		f, err := store.FS.Open(path)
 		if err != nil {
 			// NOTE: NotFoundFileError isn't needed
 			break

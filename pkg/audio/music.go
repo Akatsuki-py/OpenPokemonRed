@@ -7,9 +7,9 @@ import (
 
 	"github.com/hajimehoshi/ebiten/audio"
 	"github.com/hajimehoshi/ebiten/audio/vorbis"
-	"github.com/rakyll/statik/fs"
 
 	_ "pokered/pkg/data/statik"
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
 
@@ -32,10 +32,9 @@ var CurMusic *audio.Player
 
 func newMusicMap() map[int]Music {
 	musicMap := map[int]Music{}
-	FS, _ := fs.New()
-	musicMap[MUSIC_PALLET_TOWN] = newMusic(FS, "/1-02 Pallet Town Theme.ogg", "0:32.167")
-	musicMap[MUSIC_MEET_PROF_OAK] = newMusic(FS, "/1-03 Professor Oak.ogg", "0:13.560")
-	musicMap[MUSIC_FINAL_BATTLE] = newMusic(FS, "/1-43 Final Battle! (Rival).ogg", "1:15.120")
+	musicMap[MUSIC_PALLET_TOWN] = newMusic(store.FS, "/1-02 Pallet Town Theme.ogg", "0:32.167")
+	musicMap[MUSIC_MEET_PROF_OAK] = newMusic(store.FS, "/1-03 Professor Oak.ogg", "0:13.560")
+	musicMap[MUSIC_FINAL_BATTLE] = newMusic(store.FS, "/1-43 Final Battle! (Rival).ogg", "1:15.120")
 	return musicMap
 }
 

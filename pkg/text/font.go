@@ -5,9 +5,9 @@ import (
 	"image/png"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/rakyll/statik/fs"
 
 	_ "pokered/pkg/data/statik"
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
 
@@ -295,11 +295,10 @@ func IsCorrectChar(char string) bool {
 }
 
 func newFontmap() map[string]*ebiten.Image {
-	FS, _ := fs.New()
 	fontmap := map[string]*ebiten.Image{}
 	for char, charCode := range charmap {
 		path := fmt.Sprintf("/%d.png", charCode)
-		f, err := FS.Open(path)
+		f, err := store.FS.Open(path)
 		if err != nil {
 			// NOTE: NotFoundFileError isn't needed
 			continue

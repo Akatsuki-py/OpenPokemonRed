@@ -1,7 +1,6 @@
 package widget
 
 import (
-	"pokered/pkg/audio"
 	"pokered/pkg/event"
 	"pokered/pkg/menu"
 	"pokered/pkg/util"
@@ -10,7 +9,6 @@ import (
 // DrawStartMenu draw start menu
 // ref: DrawStartMenu
 func DrawStartMenu() {
-	audio.PlaySound(audio.SFX_START_MENU)
 	height := 12
 	elm := []string{
 		util.Pokemon,
