@@ -66,7 +66,7 @@ names_num = [
     ["bruno", 10],
     ["agatha", 10],
     ["lance", 10]
-    ]
+]
 for h, name_num in enumerate(names_num):
     name = name_num[0]
     width = name_num[1]
@@ -74,6 +74,8 @@ for h, name_num in enumerate(names_num):
         x0 = 9+(17*w)
         x1 = x0 + 16
         y0 = 34 + (17*h)
+        if h >= 9:
+            y0 += 1
         y1 = y0 + 16
 
         tile = img[y0:y1, x0:x1]
@@ -92,7 +94,8 @@ for h in range(4):
         cv2.imwrite("./result/{}_{}.png".format(names[h], w), tile)
 
 # misc
-names = ["book_map_dex", "ball", "omanyte", "old_amber", "lying_old_man", "snorlax", "boulder", "clipboard", "paper_sheet"]
+names = ["book_map_dex", "ball", "omanyte", "old_amber",
+         "lying_old_man", "snorlax", "boulder", "clipboard", "paper_sheet"]
 for w in range(9):
     x0 = 9+(17*w)
     x1 = x0 + 16

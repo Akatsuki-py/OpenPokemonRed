@@ -15,7 +15,7 @@ for f in files:
     width = img.shape[0]
     height = img.shape[1]
     out = np.zeros([16, 16, 4], np.uint8)
-    
+
     for i in range(width):
         for j in range(height):
             b = img[i][j][0]
@@ -38,4 +38,3 @@ for f in files:
                 out[i][j][3] = 0xff
 
     cv2.imwrite(name, out)
-
