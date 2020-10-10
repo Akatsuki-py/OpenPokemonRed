@@ -10,6 +10,7 @@ import (
 	"github.com/rakyll/statik/fs"
 
 	_ "pokered/pkg/data/statik"
+	"pokered/pkg/util"
 )
 
 const (
@@ -74,7 +75,11 @@ func PlayMusic(id int) {
 		}
 		return
 	}
-	m := MusicMap[id]
+	m, ok := MusicMap[id]
+	if !ok {
+		util.NotRegisteredError("MusicMap", id)
+		return
+	}
 	intro := int64(m.intro * 4 * sampleRate)
 	l := audio.NewInfiniteLoopWithIntro(m.Ogg, intro, m.Ogg.Length())
 	p, _ := audio.NewPlayer(audioContext, l)

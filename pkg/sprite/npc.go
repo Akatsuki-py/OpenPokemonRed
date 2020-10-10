@@ -272,7 +272,7 @@ func animScriptedNPCMovement(offset uint) {
 	switch s.Direction {
 	case util.Up, util.Down, util.Left, util.Right:
 		advanceScriptedNPCAnimFrameCounter(offset)
-		s.VRAM.Index = int(s.Direction + (s.AnimationFrame >> 2))
+		s.VRAM.Index = int(s.Direction + s.AnimationCounter())
 	default:
 		return
 	}
@@ -289,16 +289,17 @@ func advanceScriptedNPCAnimFrameCounter(offset uint) {
 // collisionCheckForNPC check if collision occurs in npc moving ahead
 // ref: CanWalkOntoTile
 func collisionCheckForNPC(offset uint) bool {
-	collision := false
-	npc := store.SpriteData[offset]
-	if npc == nil || npc.ID == 0 {
+	if store.IsInvalidSprite(offset) {
 		return false
 	}
+
+	collision := false
+	npc := store.SpriteData[offset]
 	for o, s := range store.SpriteData {
 		if o == int(offset) {
 			continue
 		}
-		if s == nil || s.ID == 0 {
+		if store.IsInvalidSprite(uint(o)) {
 			break
 		}
 

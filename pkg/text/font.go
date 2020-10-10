@@ -8,6 +8,7 @@ import (
 	"github.com/rakyll/statik/fs"
 
 	_ "pokered/pkg/data/statik"
+	"pokered/pkg/util"
 )
 
 // CharCode number for char
@@ -287,6 +288,9 @@ var fontmap map[string]*ebiten.Image = newFontmap()
 // IsCorrectChar check char is correct
 func IsCorrectChar(char string) bool {
 	_, ok := fontmap[char]
+	if !ok {
+		util.NotRegisteredError("fontmap", char)
+	}
 	return ok
 }
 

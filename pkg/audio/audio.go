@@ -12,15 +12,15 @@ const (
 	stopSound  int = -1
 )
 
+const reloadFadeOut = 10
+
 var audioContext, _ = audio.NewContext(sampleRate)
 
+// FadeOut control fadeout switch and counter
 var FadeOut = struct {
 	Control uint
 	Counter uint
-	Reload  uint
-}{
-	Reload: 10,
-}
+}{}
 
 // NewMusicID Music ID played on current music fadeout is completed
 var NewMusicID int
@@ -49,7 +49,7 @@ func FadeOutAudio() {
 
 	// counterReachedZero
 	{
-		FadeOut.Counter = FadeOut.Reload
+		FadeOut.Counter = reloadFadeOut
 
 		// fadeOutComplete
 		if Volume == 0 {

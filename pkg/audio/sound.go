@@ -1,7 +1,6 @@
 package audio
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/hajimehoshi/ebiten/audio"
@@ -9,6 +8,7 @@ import (
 	"github.com/rakyll/statik/fs"
 
 	_ "pokered/pkg/data/statik"
+	"pokered/pkg/util"
 )
 
 const (
@@ -54,7 +54,7 @@ func newWav(fs http.FileSystem, path string) *WAV {
 func PlaySound(soundID uint) {
 	sound, ok := soundMap[soundID]
 	if !ok {
-		fmt.Println("this sfx is not registered")
+		util.NotRegisteredError("soundMap", soundID)
 		return
 	}
 	if sound.player.IsPlaying() {

@@ -42,7 +42,6 @@ func AddSprite(name string, x, y util.Coord, movementBytes [2]byte) {
 
 	n := NumSprites()
 	s := &store.Sprite{
-		ID:            n,
 		ScreenXPixel:  16 * x,
 		ScreenYPixel:  16*y - 4,
 		MapXCoord:     x,
@@ -59,7 +58,7 @@ func AddSprite(name string, x, y util.Coord, movementBytes [2]byte) {
 // NumSprites a number of sprites at current map
 func NumSprites() uint {
 	i := uint(0)
-	for store.SpriteData[i] != nil && store.SpriteData[i].ID > 0 {
+	for store.SpriteData[i] != nil {
 		i++
 	}
 	return i
@@ -67,8 +66,8 @@ func NumSprites() uint {
 
 // UpdateSprites update sprite data
 func UpdateSprites() {
-	for offset, s := range store.SpriteData {
-		if s == nil || s.ID == 0 {
+	for offset := range store.SpriteData {
+		if store.IsInvalidSprite(uint(offset)) {
 			break
 		}
 		if offset == 0 {
@@ -92,11 +91,9 @@ func UpdateSpriteImage(offset uint) {
 		return
 	}
 
-	animCounter := s.AnimationFrame >> 2
-
 	// ref:
 	index = 0
-	switch animCounter + uint(s.Direction) {
+	switch s.AnimationCounter() + uint(s.Direction) {
 
 	// down
 	case 0, 3:
@@ -177,7 +174,7 @@ func drawSprite(offset uint) {
 // VBlank script executed in VBlank
 func VBlank() {
 	for i, s := range store.SpriteData {
-		if s == nil || s.ID == 0 {
+		if store.IsInvalidSprite(uint(i)) {
 			break
 		}
 		if s.VRAM.Index < 0 {
