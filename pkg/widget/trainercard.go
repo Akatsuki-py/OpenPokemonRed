@@ -2,6 +2,8 @@ package widget
 
 import (
 	"pokered/pkg/event"
+	"pokered/pkg/store"
+	"pokered/pkg/text"
 	"pokered/pkg/util"
 
 	_ "pokered/pkg/data/statik"
@@ -12,7 +14,8 @@ import (
 var trainerCard *ebiten.Image
 
 const (
-	tcPath string = "/trainercard.png"
+	tcPath     string = "/trainercard.png"
+	avatarPath string = "/trainercard_avatar.png"
 )
 
 var leader = [8]string{
@@ -37,7 +40,39 @@ func DrawTrainerCard() {
 		return
 	}
 
+	drawName()
+	drawMoney()
+	drawTime()
+	drawAvatar()
 	drawBadges()
+}
+
+func drawName() {
+	name := store.Player.Name
+	text.PlaceStringAtOnce(trainerCard, name, 7, 2)
+}
+
+func drawMoney() {
+	text.PlaceChar(trainerCard, "¥", 8, 4)
+	money := store.Player.Money
+	text.PlaceUintAtOnce(trainerCard, money, 9, 4)
+}
+
+func drawTime() {
+	minutes := store.Player.Time / 60
+	hours := minutes / 60
+
+	minutes %= 60
+	if hours >= 255 {
+		hours, minutes = 255, 0
+	}
+
+	text.PlacePlayTime(trainerCard, hours, minutes, 10, 6)
+}
+
+func drawAvatar() {
+	avatar := util.OpenImage(avatarPath)
+	util.DrawImagePixel(trainerCard, avatar, 120, 8)
 }
 
 func drawBadges() {
