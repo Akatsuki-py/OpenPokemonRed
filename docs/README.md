@@ -22,7 +22,7 @@ For example, text drawing, sound playback, and combat systems.
 
 ## 🏞 Screenshots
 
-Screenshots as of v0.0.5 (Text engine, Menu engine, Sprites engine)
+Screenshots as of v0.0.5 (Text engine, Menu engine, Sprites engine, Widget engine)
 
 <img src="./screenshots/start_menu.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/trainer_card.png" width="360px" height="360px" />
 
