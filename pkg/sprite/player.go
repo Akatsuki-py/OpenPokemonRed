@@ -25,8 +25,13 @@ func InitPlayer(state uint) {
 			name = "seel"
 		}
 
-		f, _ := FS.Open(fmt.Sprintf("/%s_%d.png", name, i))
+		path := fmt.Sprintf("/%s_%d.png", name, i)
+		f, err := FS.Open(path)
+		if err != nil {
+			util.NotFoundFileError(path)
+		}
 		defer f.Close()
+
 		img, _ := png.Decode(f)
 		imgs[i], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
 	}
@@ -63,8 +68,13 @@ func ChangePlayerSprite(state uint) {
 			name = "seel"
 		}
 
-		f, _ := FS.Open(fmt.Sprintf("/%s_%d.png", name, i))
+		path := fmt.Sprintf("/%s_%d.png", name, i)
+		f, err := FS.Open(path)
+		if err != nil {
+			util.NotFoundFileError(path)
+		}
 		defer f.Close()
+
 		img, _ := png.Decode(f)
 		imgs[i], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
 	}

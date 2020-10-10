@@ -14,3 +14,8 @@ func NotRegisteredError(place string, id interface{}) {
 		fmt.Fprintf(os.Stderr, "DataError: ID[%d] is not registered in %s\n", id, place)
 	}
 }
+
+// NotFoundFileError display error if file specified with path is not found
+func NotFoundFileError(path string) {
+	fmt.Fprintf(os.Stderr, "PathError: file is not found. %s\n", path)
+}

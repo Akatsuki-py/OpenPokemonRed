@@ -1,7 +1,5 @@
 package store
 
-import "fmt"
-
 type EventID uint
 
 const (
@@ -2571,12 +2569,7 @@ var eventMap = map[EventID]bool{}
 
 // CheckEvent get event flag
 func CheckEvent(id EventID) bool {
-	flag, ok := eventMap[id]
-	if !ok {
-		fmt.Println("this event ID is not registered")
-		return false
-	}
-	return flag
+	return eventMap[id]
 }
 
 // UpdateEvent update event flag

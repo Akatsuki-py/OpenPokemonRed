@@ -31,11 +31,14 @@ func AddSprite(name string, x, y util.Coord, movementBytes [2]byte) {
 	FS, _ := fs.New()
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
-		f, err := FS.Open(fmt.Sprintf("/%s_%d.png", name, i))
+		path := fmt.Sprintf("/%s_%d.png", name, i)
+		f, err := FS.Open(path)
 		if err != nil {
+			// NOTE: NotFoundFileError isn't needed
 			break
 		}
 		defer f.Close()
+
 		img, _ := png.Decode(f)
 		imgs[i], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
 	}

@@ -298,11 +298,14 @@ func newFontmap() map[string]*ebiten.Image {
 	FS, _ := fs.New()
 	fontmap := map[string]*ebiten.Image{}
 	for char, charCode := range charmap {
-		f, err := FS.Open(fmt.Sprintf("/%d.png", charCode))
+		path := fmt.Sprintf("/%d.png", charCode)
+		f, err := FS.Open(path)
 		if err != nil {
+			// NOTE: NotFoundFileError isn't needed
 			continue
 		}
 		defer f.Close()
+
 		img, _ := png.Decode(f)
 		fontmap[char], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
 	}

@@ -26,6 +26,8 @@ type Music struct {
 
 // MusicMap MusicID -> Music
 var MusicMap = newMusicMap()
+
+// CurMusic music data played now
 var CurMusic *audio.Player
 
 func newMusicMap() map[int]Music {
@@ -57,9 +59,11 @@ func parseTime(t string) float64 {
 func newMusic(fs http.FileSystem, path string, intro string) Music {
 	f, err := fs.Open(path)
 	if err != nil {
+		util.NotFoundFileError(path)
 		return Music{}
 	}
 	defer f.Close()
+
 	stream, err := vorbis.Decode(audioContext, f)
 	if err != nil {
 		return Music{}

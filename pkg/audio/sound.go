@@ -43,7 +43,12 @@ func newSoundMap() map[uint]*WAV {
 
 func newWav(fs http.FileSystem, path string) *WAV {
 	w := &WAV{}
-	f, _ := fs.Open(path)
+	f, err := fs.Open(path)
+	if err != nil {
+		util.NotFoundFileError(path)
+		return w
+	}
+
 	defer f.Close()
 	w.stream, _ = wav.Decode(audioContext, f)
 	w.player, _ = audio.NewPlayer(audioContext, w.stream)
