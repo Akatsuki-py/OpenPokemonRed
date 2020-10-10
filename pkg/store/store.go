@@ -21,7 +21,12 @@ func DecFrameCounter() {
 	}
 }
 
-var PlayerName, RivalName = "NINTEN", "SONY"
+var Player = struct {
+	Name  string
+	Money uint
+	Time  uint
+}{"NINTEN", 0, 0}
+var RivalName = "SONY"
 
 // TileMap c3a0
 var TileMap, _ = ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)

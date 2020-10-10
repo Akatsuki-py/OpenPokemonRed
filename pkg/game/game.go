@@ -29,6 +29,11 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	exec()
 	vBlank()
 	g.frame++
+
+	if g.frame%60 == 0 {
+		second()
+	}
+
 	return nil
 }
 
@@ -78,3 +83,5 @@ func vBlank() {
 	menu.VBlank()
 	text.VBlank()
 }
+
+func second() {}
