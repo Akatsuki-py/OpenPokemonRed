@@ -1,9 +1,9 @@
-package store
+package event
 
-type EventID uint
+import "pokered/pkg/store"
 
 const (
-	EVENT_FOLLOWED_OAK_INTO_LAB EventID = iota
+	EVENT_FOLLOWED_OAK_INTO_LAB uint = iota
 	EVENT_001
 	EVENT_002
 	EVENT_HALL_OF_FAME_DEX_RATING
@@ -2565,14 +2565,31 @@ const (
 	EVENT_9FF
 )
 
-var eventMap = map[EventID]bool{}
-
 // CheckEvent get event flag
-func CheckEvent(id EventID) bool {
-	return eventMap[id]
+func CheckEvent(id uint) bool {
+	return store.EventMap[id]
 }
 
 // UpdateEvent update event flag
-func UpdateEvent(id EventID, flag bool) {
-	eventMap[id] = flag
+func UpdateEvent(id uint, flag bool) {
+	store.EventMap[id] = flag
+}
+
+func Badges() [8]bool {
+	events := [8]uint{
+		EVENT_BEAT_BROCK,
+		EVENT_BEAT_MISTY,
+		EVENT_BEAT_LT_SURGE,
+		EVENT_BEAT_ERIKA,
+		EVENT_BEAT_KOGA,
+		EVENT_BEAT_SABRINA,
+		EVENT_BEAT_BLAINE,
+		EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI,
+	}
+
+	badges := [8]bool{}
+	for i, e := range events {
+		badges[i] = CheckEvent(e)
+	}
+	return badges
 }

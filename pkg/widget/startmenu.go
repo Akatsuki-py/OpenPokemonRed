@@ -2,8 +2,8 @@ package widget
 
 import (
 	"pokered/pkg/audio"
+	"pokered/pkg/event"
 	"pokered/pkg/menu"
-	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
 
@@ -20,7 +20,7 @@ func DrawStartMenu() {
 		"OPTION",
 		"EXIT",
 	}
-	if store.CheckEvent(store.EVENT_GOT_POKEDEX) {
+	if event.CheckEvent(event.EVENT_GOT_POKEDEX) {
 		height = 15
 		elm = []string{
 			util.Pokedex,

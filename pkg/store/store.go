@@ -71,3 +71,6 @@ var D730 byte
 // BagItems items in bag
 // [A@1, B@2, ...]
 var BagItems = []string{}
+
+// EventMap event ID -> flag
+var EventMap = map[uint]bool{}
