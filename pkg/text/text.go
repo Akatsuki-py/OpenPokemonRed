@@ -180,9 +180,7 @@ func manualTextScroll() bool {
 // WaitForTextScrollButtonPress wait for AB button press
 func WaitForTextScrollButtonPress() bool {
 	handleDownArrowBlinkTiming()
-	joypad.JoypadLowSensitivity()
-	pressed := joypad.Joy5.A || joypad.Joy5.B
-	return pressed
+	return joypad.ABButtonPress()
 }
 
 func handleDownArrowBlinkTiming() {

@@ -1,10 +1,10 @@
 package script
 
 import (
-	"fmt"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
+	"pokered/pkg/util"
 )
 
 const (
@@ -13,6 +13,7 @@ const (
 	WidgetStartMenu
 	WidgetStartMenu2
 	WidgetBag
+	WidgetTrainerCard
 )
 
 // ScriptID current script ID
@@ -31,13 +32,15 @@ func newScriptMap() map[uint]func() {
 	result[WidgetStartMenu] = widgetStartMenu
 	result[WidgetStartMenu2] = widgetStartMenu2
 	result[WidgetBag] = widgetBag
+	result[WidgetTrainerCard] = widgetTrainerCard
 	return result
 }
 
+// Current return current script
 func Current() func() {
 	s, ok := scriptMap[scriptID]
 	if !ok {
-		fmt.Println("this scriptID is not registered")
+		util.NotRegisteredError("scriptMap", scriptID)
 		return halt
 	}
 	return s

@@ -174,3 +174,10 @@ func JoypadLowSensitivity() {
 	store.FrameCounter = 1
 	return
 }
+
+// ABButtonPress return if AB button is pressed
+func ABButtonPress() bool {
+	JoypadLowSensitivity()
+	pressed := Joy5.A || Joy5.B
+	return pressed
+}

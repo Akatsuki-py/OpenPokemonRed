@@ -1,10 +1,9 @@
 package script
 
 import (
-	"pokered/pkg/data/txt"
+	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/store"
-	"pokered/pkg/text"
 	"pokered/pkg/widget"
 )
 
@@ -26,8 +25,8 @@ func widgetStartMenu2() {
 			SetScriptID(WidgetBag)
 			menu.NewListMenuID(menu.ItemListMenu, store.BagItems)
 		case "RED":
-			SetScriptID(ExecText)
-			text.PrintText(text.Image, txt.AgathaBeforeBattleText)
+			SetScriptID(WidgetTrainerCard)
+			widget.InitTrainerCard()
 		}
 	case pressed.B:
 		m.Close()
@@ -46,6 +45,14 @@ func widgetBag() {
 		}
 	case pressed.B:
 		menu.CurListMenu.Close()
+		SetScriptID(WidgetStartMenu2)
+	}
+}
+
+func widgetTrainerCard() {
+	widget.DrawStartMenu()
+	if joypad.ABButtonPress() {
+		widget.ExitTrainerCard()
 		SetScriptID(WidgetStartMenu2)
 	}
 }
