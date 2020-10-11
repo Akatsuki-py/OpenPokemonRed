@@ -22,6 +22,18 @@ const (
 	maxCursorY int = 5
 )
 
+const (
+	maxName     int = 10
+	maxNickname int = 6
+)
+
+const (
+	uppercaseKeyboard = "/uppercase.png"
+	lowercaseKeyboard = "/lowercase.png"
+	underscoreUp      = "/name_underscore0.png"
+	underscore        = "/name_underscore1.png"
+)
+
 var cursorMask = newCursorMask()
 
 // name screen id
@@ -45,6 +57,7 @@ func newCursorMask() *ebiten.Image {
 // DrawNameScreen initialize naming screen gfx data
 func DrawNameScreen(id uint) {
 	name.id = id
+	name.input = "NINTEN"
 	name.screen = util.NewImage()
 	util.WhiteScreen(name.screen)
 	name.isLowercase = false
@@ -63,6 +76,7 @@ func DrawNameScreen(id uint) {
 // UpdateNameScreen update naming screen gfx data
 func UpdateNameScreen() {
 	drawKeyboard()
+	printName()
 	placeCursor()
 }
 
@@ -80,9 +94,9 @@ func placeCursor() {
 }
 
 func drawKeyboard() {
-	keyboard := util.OpenImage("/uppercase.png")
+	keyboard := util.OpenImage(uppercaseKeyboard)
 	if name.isLowercase {
-		keyboard = util.OpenImage("/lowercase.png")
+		keyboard = util.OpenImage(lowercaseKeyboard)
 	}
 	util.DrawImage(name.screen, keyboard, 0, 4)
 }
@@ -131,4 +145,12 @@ func SetNameCursor(deltaX, deltaY int) {
 // ToggleCase toggle UPPER/lower case
 func ToggleCase() {
 	name.isLowercase = !name.isLowercase
+}
+
+func printName() {
+	text.PlaceStringAtOnce(name.screen, name.input, 10, 2)
+}
+
+func printUnderscores() {
+
 }
