@@ -10,7 +10,7 @@ func VBlank() {
 	if trainerCard != nil {
 		util.DrawImage(store.TileMap, trainerCard, 0, 0)
 	}
-	if namingScreen != nil {
-		util.DrawImage(store.TileMap, namingScreen, 0, 0)
+	if name.screen != nil {
+		util.DrawImage(store.TileMap, name.screen, 0, 0)
 	}
 }

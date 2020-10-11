@@ -31,7 +31,7 @@ func widgetStartMenu2() {
 		case "SAVE":
 			m.Close()
 			SetID(WidgetNamingScreen)
-			widget.DrawNamingScreen(widget.RIVAL_NAME)
+			widget.DrawNameScreen(widget.RivalName)
 		}
 	case pressed.B:
 		m.Close()
@@ -62,7 +62,7 @@ func widgetTrainerCard() {
 }
 
 func widgetNamingScreen() {
-	widget.UpdateNamingScreen()
+	widget.UpdateNameScreen()
 
 	joypad.JoypadLowSensitivity()
 	switch {
