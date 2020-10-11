@@ -31,7 +31,7 @@ func widgetStartMenu2() {
 		case "SAVE":
 			m.Close()
 			SetID(WidgetNamingScreen)
-			widget.DrawNamingScreen(widget.PLAYER_NAME)
+			widget.DrawNamingScreen(widget.RIVAL_NAME)
 		}
 	case pressed.B:
 		m.Close()
