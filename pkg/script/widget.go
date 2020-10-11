@@ -76,5 +76,9 @@ func widgetNamingScreen() {
 		widget.SetNameCursor(1, 0)
 	case joypad.Joy5.Select:
 		widget.ToggleCase()
+	case joypad.Joy5.A:
+		widget.NextChar()
+	case joypad.Joy5.B:
+		widget.EraseChar()
 	}
 }

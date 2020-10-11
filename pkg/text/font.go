@@ -250,6 +250,8 @@ var charmap = map[string]CharCode{
 	"'v": 0xBF,
 
 	"'": 0xE0,
+	"袋": 0xE1,
+	"怪": 0xE2,
 
 	"-":  0xE3,
 	"'r": 0xE4,
