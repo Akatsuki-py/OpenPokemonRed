@@ -14,6 +14,7 @@ const (
 	WidgetStartMenu2
 	WidgetBag
 	WidgetTrainerCard
+	WidgetNamingScreen
 )
 
 var scriptID = Halt
@@ -35,6 +36,7 @@ func newScriptMap() map[uint]func() {
 	result[WidgetStartMenu2] = widgetStartMenu2
 	result[WidgetBag] = widgetBag
 	result[WidgetTrainerCard] = widgetTrainerCard
+	result[WidgetNamingScreen] = widgetNamingScreen
 	return result
 }
 

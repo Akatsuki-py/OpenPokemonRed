@@ -25,7 +25,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	if g.frame == 0 {
 		setup()
 	}
-	util.BlackScreen()
+	util.BlackScreen(store.TileMap)
 	// debug(g, 10)
 	exec()
 	vBlank()

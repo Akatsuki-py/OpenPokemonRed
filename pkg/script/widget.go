@@ -28,6 +28,10 @@ func widgetStartMenu2() {
 			m.Close()
 			SetID(WidgetTrainerCard)
 			widget.DrawTrainerCard()
+		case "SAVE":
+			m.Close()
+			SetID(WidgetNamingScreen)
+			widget.DrawNamingScreen(widget.PLAYER_NAME)
 		}
 	case pressed.B:
 		m.Close()
@@ -55,4 +59,8 @@ func widgetTrainerCard() {
 		widget.CloseTrainerCard()
 		SetID(WidgetStartMenu)
 	}
+}
+
+func widgetNamingScreen() {
+	widget.UpdateNamingScreen()
 }
