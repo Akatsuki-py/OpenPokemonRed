@@ -9,7 +9,12 @@ import (
 
 var namingScreen *ebiten.Image
 var isLowercase bool
-var NamingCursor = [2]uint{}
+var nameCursor = [2]int{}
+
+const (
+	maxNameCursorX int = 8
+	maxNameCursorY int = 5
+)
 
 var cursorMask = newCursorMask()
 
@@ -49,6 +54,7 @@ func DrawNamingScreen(id uint) {
 
 // UpdateNamingScreen update naming screen gfx data
 func UpdateNamingScreen() {
+	drawKeyboard()
 	placeCursor()
 }
 
@@ -59,7 +65,7 @@ func CloseNamingScreen() {
 
 func placeCursor() {
 	util.DrawImage(namingScreen, cursorMask, 0, 4)
-	x, y := 1, 1
+	x, y := nameCursor[0], nameCursor[1]
 	text.PlaceChar(namingScreen, "▶︎", 1+2*x, 5+2*y)
 }
 
@@ -69,4 +75,50 @@ func drawKeyboard() {
 		keyboard = util.OpenImage("/lowercase.png")
 	}
 	util.DrawImage(namingScreen, keyboard, 0, 4)
+}
+
+// SetNameCursor update name cursor position
+func SetNameCursor(deltaX, deltaY int) {
+	switch deltaY {
+	case 1:
+		nameCursor[1]++
+		if nameCursor[1] == maxNameCursorY {
+			nameCursor[0] = 0
+		}
+		if nameCursor[1] > maxNameCursorY {
+			nameCursor[0], nameCursor[1] = 0, 0
+		}
+		return
+
+	case -1:
+		nameCursor[1]--
+		if nameCursor[1] < 0 {
+			nameCursor[0], nameCursor[1] = 0, maxNameCursorY
+		}
+		return
+	}
+
+	if nameCursor[1] == maxNameCursorY {
+		// if cursor is on UPPER/lower
+		nameCursor[0] = 0
+		return
+	}
+
+	switch deltaX {
+	case 1:
+		nameCursor[0]++
+		if nameCursor[0] > maxNameCursorX {
+			nameCursor[0] = 0
+		}
+	case -1:
+		nameCursor[0]--
+		if nameCursor[0] < 0 {
+			nameCursor[0] = maxNameCursorX
+		}
+	}
+}
+
+// ToggleCase toggle UPPER/lower case
+func ToggleCase() {
+	isLowercase = !isLowercase
 }

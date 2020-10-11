@@ -63,4 +63,18 @@ func widgetTrainerCard() {
 
 func widgetNamingScreen() {
 	widget.UpdateNamingScreen()
+
+	joypad.JoypadLowSensitivity()
+	switch {
+	case joypad.Joy5.Up:
+		widget.SetNameCursor(0, -1)
+	case joypad.Joy5.Down:
+		widget.SetNameCursor(0, 1)
+	case joypad.Joy5.Left:
+		widget.SetNameCursor(-1, 0)
+	case joypad.Joy5.Right:
+		widget.SetNameCursor(1, 0)
+	case joypad.Joy5.Select:
+		widget.ToggleCase()
+	}
 }
