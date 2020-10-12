@@ -10,7 +10,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
-// Movment status
+// Movement status
 const (
 	Uninitialized byte = iota
 	OK
