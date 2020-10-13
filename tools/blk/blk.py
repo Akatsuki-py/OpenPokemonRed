@@ -4,7 +4,7 @@ import subprocess
 package = "package blk\n\n"
 
 def output_blk(name: str, blk: bytes) -> str:
-    var_start = "var {} = [...]byte{{\n".format(name.capitalize())
+    var_start = "var {} = [...]byte{{\n".format(name)
     var_content = ""
     for i, b in enumerate(blk):
         var_content += str(b) + ", "

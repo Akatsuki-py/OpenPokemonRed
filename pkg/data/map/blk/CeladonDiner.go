@@ -1,6 +1,6 @@
 package blk
 
-var Celadondiner = [...]byte{
+var CeladonDiner = [...]byte{
 	44, 42, 46, 50, 48, 29, 32, 33, 20, 11, 45, 32, 33, 20, 11, 49, 40,
 	41, 21, 17,
 }

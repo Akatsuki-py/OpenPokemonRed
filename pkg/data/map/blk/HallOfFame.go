@@ -1,6 +1,6 @@
 package blk
 
-var Halloffame = [...]byte{
+var HallOfFame = [...]byte{
 	20, 20, 101, 20, 20, 24, 24, 55, 24, 24, 24, 24, 24, 24, 24, 24, 24,
 	108, 24, 24,
 }

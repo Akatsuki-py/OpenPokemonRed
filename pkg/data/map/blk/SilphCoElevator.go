@@ -1,5 +1,5 @@
 package blk
 
-var Silphcoelevator = [...]byte{
+var SilphCoElevator = [...]byte{
 	42, 43, 40, 41,
 }

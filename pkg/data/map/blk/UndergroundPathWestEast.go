@@ -1,6 +1,6 @@
 package blk
 
-var Undergroundpathwesteast = [...]byte{
+var UndergroundPathWestEast = [...]byte{
 	13, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 12, 13, 4, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5,

@@ -1,5 +1,5 @@
 package blk
 
-var Celadonmartelevator = [...]byte{
+var CeladonMartElevator = [...]byte{
 	42, 43, 40, 41,
 }
