@@ -1,6 +1,6 @@
 package wild
 
-type pokemon struct {
+type Pokemon struct {
 	ID    uint
 	Level uint
 }
@@ -8,6 +8,6 @@ type pokemon struct {
 // Wild map wild pokemon data
 type Wild struct {
 	Rate  byte
-	Grass [10]pokemon
-	Water [10]pokemon
+	Grass [10]Pokemon
+	Water [10]Pokemon
 }

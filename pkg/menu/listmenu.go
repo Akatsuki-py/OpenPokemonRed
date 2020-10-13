@@ -1,7 +1,9 @@
 package menu
 
 import (
-	"pokered/pkg/data/constant"
+	"pokered/pkg/data/item"
+	"pokered/pkg/data/move"
+	"pokered/pkg/data/pokemon"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
@@ -169,22 +171,22 @@ func (l *ListMenu) PrintEntries() {
 		switch l.ID {
 		case PCPokemonListMenu:
 			id, _ := ParseListMenuElm(e)
-			name := constant.PokemonNameMap[id]
+			name := pokemon.Name(id)
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		case MovesListMenu:
 			id, _ := ParseListMenuElm(e)
-			name := constant.MoveNameMap[id]
+			name := move.Name(id)
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		case PricedItemListMenu:
 			id, _ := ParseListMenuElm(e)
-			name := constant.ItemNameMap[id]
+			name := item.Name(id)
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
-			price := constant.ItemPriceMap[id]
+			price := item.Price(id)
 			text.PlaceChar(l.image, "¥", nameAtX+8, nameAtY+1)
 			text.PlaceUintAtOnce(l.image, price, nameAtX+9, nameAtY+1)
 		case ItemListMenu:
 			id, _ := ParseListMenuElm(e)
-			name := constant.ItemNameMap[id]
+			name := item.Name(id)
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		}
 

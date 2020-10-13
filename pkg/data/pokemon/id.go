@@ -1,4 +1,4 @@
-package constant
+package pokemon
 
 const (
 	RHYDON uint = iota + 1
@@ -192,6 +192,3 @@ const (
 	WEEPINBELL
 	VICTREEBEL
 )
-
-// PokemonNameMap PokemonID -> Name
-var PokemonNameMap = map[uint]string{}

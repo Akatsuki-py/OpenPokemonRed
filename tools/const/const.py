@@ -1,4 +1,4 @@
-f = open('pokemon_id.txt', 'r')
+f = open('move.txt', 'r')
 
 output = ""
 constlist = f.readlines()
