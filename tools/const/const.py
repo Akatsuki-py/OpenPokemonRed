@@ -1,4 +1,4 @@
-f = open('event.txt', 'r')
+f = open('pokemon_id.txt', 'r')
 
 output = ""
 constlist = f.readlines()
