@@ -12,6 +12,7 @@ path = "../../PokemonRedAsset"
 dirs = os.listdir(path)
 dirs.remove(".git")
 dirs.remove("public")
+dirs.remove("blocksets")
 dirs.remove(".DS_Store")
 dirs.remove("tools")
 
