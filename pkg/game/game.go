@@ -2,6 +2,8 @@ package game
 
 import (
 	"pokered/pkg/audio"
+	"pokered/pkg/data/tileset"
+	"pokered/pkg/data/worldmap"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/sprite"
@@ -9,6 +11,7 @@ import (
 	"pokered/pkg/text"
 	"pokered/pkg/util"
 	"pokered/pkg/widget"
+	"pokered/pkg/world"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -50,6 +53,8 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func setup() {
+	tileset.InitTilesets()
+	world.LoadWorldData(worldmap.AGATHAS_ROOM)
 	sprite.InitPlayer(sprite.Normal)
 	sprite.AddSprite("sailor", 2, 2, [2]byte{0xff, 0xff})
 	player = store.SpriteData[0]
@@ -80,6 +85,7 @@ func vBlank() {
 	joypad.ReadJoypad()
 	store.DecFrameCounter()
 	audio.FadeOutAudio()
+	world.VBlank()
 	sprite.VBlank()
 	menu.VBlank()
 	widget.VBlank()

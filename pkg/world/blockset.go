@@ -9,10 +9,15 @@ import (
 )
 
 // Blockset cur map blockset
-var Blockset = []*ebiten.Image{}
+type Blockset struct {
+	TilesetID uint
+	Data      []*ebiten.Image
+}
 
-// LoadBlockset load block set
-func LoadBlockset(tilesetID uint) {
+var curBlockset Blockset
+
+// loadBlockset load block set
+func loadBlockset(tilesetID uint) {
 	bs := blockset.Get(tilesetID)
 	length := len(bs) / 16
 	result := make([]*ebiten.Image, length)
@@ -26,5 +31,8 @@ func LoadBlockset(tilesetID uint) {
 		}
 		result[i] = block
 	}
-	Blockset = result
+	curBlockset = Blockset{
+		TilesetID: tilesetID,
+		Data:      result,
+	}
 }
