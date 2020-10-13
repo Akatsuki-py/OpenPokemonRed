@@ -8,6 +8,6 @@ type pokemon struct {
 // Wild map wild pokemon data
 type Wild struct {
 	Rate  byte
-	Grass [10]Pokemon
-	Water [10]Pokemon
+	Grass [10]pokemon
+	Water [10]pokemon
 }
