@@ -10,12 +10,8 @@ os.mkdir("public")
 path = "../../PokemonRedAsset"
 
 dirs = os.listdir(path)
-dirs.remove(".git")
-dirs.remove("public")
-dirs.remove("blk")
-dirs.remove("blocksets")
-dirs.remove(".DS_Store")
-dirs.remove("tools")
+for p in [".git", "public", "blk", "blocksets", ".DS_Store", "tools", "tilecoll"]:
+    dirs.remove(p)
 
 for d in dirs:
     files = os.listdir(os.path.join(path, d))

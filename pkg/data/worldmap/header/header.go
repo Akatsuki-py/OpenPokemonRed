@@ -13,7 +13,7 @@ type Header struct {
 	Width uint
 
 	// Block data
-	Blk []byte
+	blk []byte
 }
 
 // Get Map Header
@@ -21,6 +21,16 @@ func Get(id uint) *Header {
 	switch id {
 	case worldmap.AGATHAS_ROOM:
 		return AgathasRoom
+	case worldmap.PALLET_TOWN:
+		return PalletTown
 	}
 	return nil
+}
+
+// Blk get block data
+func (h *Header) Blk(index int) byte {
+	if int(index) >= len(h.blk) {
+		return 0
+	}
+	return h.blk[index]
 }

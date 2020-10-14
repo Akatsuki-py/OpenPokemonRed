@@ -11,6 +11,7 @@ import (
 // Blockset cur map blockset
 type Blockset struct {
 	TilesetID uint
+	Bytes     []byte
 	Data      []*ebiten.Image
 }
 
@@ -33,6 +34,7 @@ func loadBlockset(tilesetID uint) {
 	}
 	curBlockset = Blockset{
 		TilesetID: tilesetID,
+		Bytes:     bs,
 		Data:      result,
 	}
 }

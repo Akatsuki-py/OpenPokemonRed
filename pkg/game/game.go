@@ -54,7 +54,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func setup() {
 	tileset.InitTilesets()
-	world.LoadWorldData(worldmap.AGATHAS_ROOM)
+	world.LoadWorldData(worldmap.PALLET_TOWN)
 	sprite.InitPlayer(sprite.Normal)
 	sprite.AddSprite("sailor", 2, 2, [2]byte{0xff, 0xff})
 	player = store.SpriteData[0]

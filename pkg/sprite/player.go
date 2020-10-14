@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"image/png"
 	"pokered/pkg/audio"
+	"pokered/pkg/data/tilecoll"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
+	"pokered/pkg/world"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -129,6 +131,7 @@ func CollisionCheckForPlayer() bool {
 	if store.IsInvalidSprite(0) {
 		return false
 	}
+
 	for offset, s := range store.SpriteData {
 		if offset == 0 {
 			continue
@@ -160,6 +163,12 @@ func CollisionCheckForPlayer() bool {
 			break
 		}
 	}
+
+	tilesetID, tileID := world.FrontTileID()
+	if !util.Contains(tilecoll.Get(tilesetID), byte(tileID)) {
+		collision = true
+	}
+
 	if collision {
 		audio.PlaySound(audio.SFX_COLLISION)
 	}
