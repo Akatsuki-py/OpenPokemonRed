@@ -22,8 +22,8 @@ For example, text drawing, sound playback, and combat systems.
 
 ## 🏞 Screenshots
 
-Screenshots as of v0.0.5 (Text engine, Menu engine, Sprites engine, some widgets)
+Screenshots as of v0.0.6 (Text engine, Menu engine, Sprites engine, some widgets, part of Map engine)
 
-<img src="./screenshots/start_menu.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/trainer_card.png" width="360px" height="360px" />
+<img src="./screenshots/pallet_town.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/trainer_card.png" width="360px" height="360px" />
 
-<img src="./screenshots/list_menu.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/name_screen.png" width="360px" height="360px" />
+<img src="./screenshots/start_menu.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/name_screen.png" width="360px" height="360px" />
