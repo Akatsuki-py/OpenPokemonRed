@@ -170,13 +170,13 @@ func CollisionCheckForPlayer() bool {
 		}
 	}
 
-	tilesetID, frontTileID := world.FrontTileID(0)
+	tilesetID, frontTileID := world.FrontTileID(p.MapXCoord, p.MapYCoord, p.ScreenXPixel, p.ScreenYPixel, p.Direction)
 	if !util.Contains(tilecoll.Get(tilesetID), byte(frontTileID)) {
 		collision = true
 		return collision
 	}
 
-	_, curTileID := world.CurTileID(0)
+	_, curTileID := world.CurTileID(p.MapXCoord, p.MapYCoord, p.ScreenXPixel, p.ScreenYPixel)
 	if tilecoll.IsCollisionPair(tilesetID, byte(curTileID), byte(frontTileID), false) {
 		collision = true
 		return collision

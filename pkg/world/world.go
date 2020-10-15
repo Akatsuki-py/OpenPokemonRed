@@ -42,22 +42,18 @@ func LoadWorldData(id int) {
 }
 
 // CurTileID get tile ID on which player stands
-func CurTileID(offset uint) (uint, uint) {
-	s := store.SpriteData[offset]
-	px, py := s.MapXCoord, s.MapYCoord
-
-	pixelX, pixelY := s.ScreenXPixel, s.ScreenYPixel+4
-	blockX, blockY := (store.SCX+pixelX)/32, (store.SCY+pixelY)/32
+func CurTileID(x, y, pixelX, pixelY int) (uint, uint) {
+	blockX, blockY := (store.SCX+pixelX)/32, (store.SCY+pixelY+4)/32
 	blockID := curWorld.Header.Blk(blockY*int(curWorld.Header.Width) + blockX)
 
 	switch {
-	case px%2 == 0 && py%2 == 0:
+	case x%2 == 0 && y%2 == 0:
 		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+0])
-	case px%2 == 1 && py%2 == 0:
+	case x%2 == 1 && y%2 == 0:
 		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+2])
-	case px%2 == 0 && py%2 == 1:
+	case x%2 == 0 && y%2 == 1:
 		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+8])
-	case px%2 == 1 && py%2 == 1:
+	case x%2 == 1 && y%2 == 1:
 		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+10])
 	}
 
@@ -65,11 +61,10 @@ func CurTileID(offset uint) (uint, uint) {
 }
 
 // FrontTileID get tile ID in front of player
-func FrontTileID(offset uint) (uint, uint) {
-	s := store.SpriteData[offset]
+func FrontTileID(x, y, pixelX, pixelY int, direction util.Direction) (uint, uint) {
 	deltaX, deltaY := 0, 0
-	px, py := s.MapXCoord, s.MapYCoord
-	switch s.Direction {
+	px, py := x, y
+	switch direction {
 	case util.Up:
 		py--
 		deltaY = -16
@@ -84,8 +79,7 @@ func FrontTileID(offset uint) (uint, uint) {
 		deltaX = 16
 	}
 
-	pixelX, pixelY := s.ScreenXPixel, s.ScreenYPixel+4
-	blockX, blockY := (store.SCX+pixelX+deltaX)/32, (store.SCY+pixelY+deltaY)/32
+	blockX, blockY := (store.SCX+pixelX+deltaX)/32, (store.SCY+pixelY+4+deltaY)/32
 	blockID := curWorld.Header.Blk(blockY*int(curWorld.Header.Width) + blockX)
 
 	switch {
