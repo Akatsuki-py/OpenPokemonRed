@@ -3,7 +3,6 @@ package game
 import (
 	"image"
 	"net/http"
-	"pokered/pkg/data/sprdata"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/sprite"
@@ -18,7 +17,6 @@ func initialize() {
 	initTilesets(store.FS)
 	world.LoadWorldData(worldmap.PALLET_TOWN)
 	sprite.InitPlayer(sprite.Normal)
-	sprite.AddSprite(sprdata.SPRITE_SAILOR, 2, 2, [2]byte{0xff, 0xff})
 }
 
 func initTilesets(fs http.FileSystem) {

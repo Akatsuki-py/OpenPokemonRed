@@ -17,7 +17,7 @@ type World struct {
 	Object *object.Object
 }
 
-var curWorld *World
+var CurWorld *World
 
 // LoadWorldData load world data
 func LoadWorldData(id int) {
@@ -33,7 +33,7 @@ func LoadWorldData(id int) {
 	}
 
 	o := object.Get(id)
-	curWorld = &World{
+	CurWorld = &World{
 		MapID:  id,
 		Image:  img,
 		Header: h,
@@ -44,7 +44,7 @@ func LoadWorldData(id int) {
 // CurTileID get tile ID on which player stands
 func CurTileID(x, y, pixelX, pixelY int) (uint, uint) {
 	blockX, blockY := (store.SCX+pixelX)/32, (store.SCY+pixelY+4)/32
-	blockID := curWorld.Header.Blk(blockY*int(curWorld.Header.Width) + blockX)
+	blockID := CurWorld.Header.Blk(blockY*int(CurWorld.Header.Width) + blockX)
 
 	switch {
 	case x%2 == 0 && y%2 == 0:
@@ -80,7 +80,7 @@ func FrontTileID(x, y, pixelX, pixelY int, direction util.Direction) (uint, uint
 	}
 
 	blockX, blockY := (store.SCX+pixelX+deltaX)/32, (store.SCY+pixelY+4+deltaY)/32
-	blockID := curWorld.Header.Blk(blockY*int(curWorld.Header.Width) + blockX)
+	blockID := CurWorld.Header.Blk(blockY*int(CurWorld.Header.Width) + blockX)
 
 	switch {
 	case px%2 == 0 && py%2 == 0:
@@ -98,9 +98,9 @@ func FrontTileID(x, y, pixelX, pixelY int, direction util.Direction) (uint, uint
 
 // VBlank script executed in VBlank
 func VBlank() {
-	if curWorld == nil {
+	if CurWorld == nil {
 		return
 	}
 
-	util.DrawImagePixel(store.TileMap, curWorld.Image, -store.SCX, -store.SCY)
+	util.DrawImagePixel(store.TileMap, CurWorld.Image, -store.SCX, -store.SCY)
 }

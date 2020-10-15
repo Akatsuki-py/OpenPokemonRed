@@ -8,11 +8,12 @@ import (
 // Object Map object data
 type Object struct {
 	// Border block
-	Border  byte
-	Warps   []Warp
-	Signs   []Sign
-	Sprites []Sprite
-	WarpTos []WarpTo
+	Initialized bool
+	Border      byte
+	Warps       []Warp
+	Signs       []Sign
+	Sprites     []Sprite
+	WarpTos     []WarpTo
 }
 
 // Warp this coord can warp to dest

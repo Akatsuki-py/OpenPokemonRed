@@ -7,6 +7,7 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
+	"pokered/pkg/world"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -26,8 +27,15 @@ const (
 	Seel
 )
 
+func initializeMapSprite() {
+	sprites := world.CurWorld.Object.Sprites
+	for _, s := range sprites {
+		addSprite(s.ID, s.XCoord, s.YCoord, s.MovementBytes)
+	}
+}
+
 // AddSprite add sprite into SpriteData
-func AddSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte) {
+func addSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte) {
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
 		name := id.String()
@@ -176,12 +184,16 @@ func drawSprite(offset uint) {
 
 // VBlank script executed in VBlank
 func VBlank() {
+	if !world.CurWorld.Object.Initialized {
+		initializeMapSprite()
+		world.CurWorld.Object.Initialized = true
+	}
 	for i, s := range store.SpriteData {
 		if store.IsInvalidSprite(uint(i)) {
 			break
 		}
 		if s.VRAM.Index < 0 {
-			return
+			continue
 		}
 		drawSprite(uint(i))
 	}
