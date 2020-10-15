@@ -1,14 +1,10 @@
 package tileset
 
 import (
-	"image"
-	"pokered/pkg/store"
-	"pokered/pkg/util"
-
 	"github.com/hajimehoshi/ebiten"
 )
 
-var tilesetsString = [...]string{
+var TilesetNames = [...]string{
 	"cavern",
 	"cemetery",
 	"club",
@@ -32,34 +28,11 @@ var tilesetsString = [...]string{
 
 type Tileset []*ebiten.Image
 
-var tilesets map[uint]Tileset
-
-func InitTilesets() {
-	result := map[uint]Tileset{}
-	for id, tilesetString := range tilesetsString {
-		path := "/" + tilesetString + ".png"
-		img := util.OpenImage(store.FS, path)
-
-		width, height := img.Size()
-		width /= 8
-		height /= 8
-		for h := 0; h < height; h++ {
-			for w := 0; w < width; w++ {
-				min, max := image.Point{w * 8, h * 8}, image.Point{(w + 1) * 8, (h + 1) * 8}
-				tile, err := ebiten.NewImageFromImage(img.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
-				if err != nil {
-					panic(err)
-				}
-				result[uint(id)] = append(result[uint(id)], tile)
-			}
-		}
-	}
-	tilesets = result
-}
+var Tilesets map[uint]Tileset
 
 // Tile get tile data
 func Tile(tilesetID, tileID uint) *ebiten.Image {
-	ts, ok := tilesets[tilesetID]
+	ts, ok := Tilesets[tilesetID]
 	if !ok {
 		return nil
 	}

@@ -2,9 +2,6 @@ package game
 
 import (
 	"pokered/pkg/audio"
-	"pokered/pkg/data/sprdata"
-	"pokered/pkg/data/tileset"
-	"pokered/pkg/data/worldmap"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/sprite"
@@ -17,8 +14,6 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
-var player = store.SpriteData[0]
-
 // Game implements ebiten.Game interface.
 type Game struct {
 	frame uint
@@ -27,7 +22,7 @@ type Game struct {
 // Update proceeds the game state.
 func (g *Game) Update(screen *ebiten.Image) error {
 	if g.frame == 0 {
-		setup()
+		initialize()
 	}
 	util.BlackScreen(store.TileMap)
 	// debug(g, 10)
@@ -52,15 +47,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
 	return 160, 144
 }
-
-func setup() {
-	tileset.InitTilesets()
-	world.LoadWorldData(worldmap.PALLET_TOWN)
-	sprite.InitPlayer(sprite.Normal)
-	sprite.AddSprite(sprdata.SPRITE_SAILOR, 2, 2, [2]byte{0xff, 0xff})
-	player = store.SpriteData[0]
-}
-
 func debug(g *Game, frame int) {
 	if frame >= 0 && int(g.frame) != frame {
 		return

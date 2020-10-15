@@ -19,7 +19,7 @@ func execOverworld() {
 		sprite.UpdateSprites()
 		sprite.AdvancePlayerSprite()
 	} else {
-		player.DeltaX, player.DeltaY = 0, 0
+		p.DeltaX, p.DeltaY = 0, 0
 		joypad.Joypad()
 		directionPressed := false
 		switch {
@@ -28,17 +28,17 @@ func execOverworld() {
 			script.SetID(script.WidgetStartMenu)
 			return
 		case joypad.JoyHeld.Down:
-			player.DeltaY = 1
-			player.Direction = util.Down
+			p.DeltaY = 1
+			p.Direction = util.Down
 		case joypad.JoyHeld.Up:
-			player.DeltaY = -1
-			player.Direction = util.Up
+			p.DeltaY = -1
+			p.Direction = util.Up
 		case joypad.JoyHeld.Right:
-			player.DeltaX = 1
-			player.Direction = util.Right
+			p.DeltaX = 1
+			p.Direction = util.Right
 		case joypad.JoyHeld.Left:
-			player.DeltaX = -1
-			player.Direction = util.Left
+			p.DeltaX = -1
+			p.Direction = util.Left
 		}
 
 		h := joypad.JoyHeld
@@ -47,7 +47,7 @@ func execOverworld() {
 			p.WalkCounter = 16
 			sprite.UpdateSprites()
 			if sprite.CollisionCheckForPlayer() {
-				player.DeltaX, player.DeltaY = 0, 0
+				p.DeltaX, p.DeltaY = 0, 0
 			}
 			sprite.AdvancePlayerSprite()
 		} else {
