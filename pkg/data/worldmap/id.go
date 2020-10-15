@@ -1,7 +1,8 @@
 package worldmap
 
+// Map ID
 const (
-	PALLET_TOWN uint = iota
+	PALLET_TOWN int = iota
 	VIRIDIAN_CITY
 	PEWTER_CITY
 	CERULEAN_CITY
@@ -250,6 +251,8 @@ const (
 	BRUNOS_ROOM
 	AGATHAS_ROOM
 )
+
+const LAST_MAP = -1
 
 var worldString = [...]string{
 	"PalletTown",

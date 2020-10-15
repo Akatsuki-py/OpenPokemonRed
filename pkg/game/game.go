@@ -2,6 +2,7 @@ package game
 
 import (
 	"pokered/pkg/audio"
+	"pokered/pkg/data/sprdata"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/joypad"
@@ -56,7 +57,7 @@ func setup() {
 	tileset.InitTilesets()
 	world.LoadWorldData(worldmap.PALLET_TOWN)
 	sprite.InitPlayer(sprite.Normal)
-	sprite.AddSprite("sailor", 2, 2, [2]byte{0xff, 0xff})
+	sprite.AddSprite(sprdata.SPRITE_SAILOR, 2, 2, [2]byte{0xff, 0xff})
 	player = store.SpriteData[0]
 }
 

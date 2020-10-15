@@ -127,6 +127,12 @@ func AdvancePlayerSprite() {
 // CollisionCheckForPlayer check if collision occurs in player moving ahead
 func CollisionCheckForPlayer() bool {
 	collision := false
+	defer func() {
+		if collision {
+			audio.PlaySound(audio.SFX_COLLISION)
+		}
+	}()
+
 	p := store.SpriteData[0]
 	if store.IsInvalidSprite(0) {
 		return false
@@ -160,17 +166,20 @@ func CollisionCheckForPlayer() bool {
 		}
 
 		if collision {
-			break
+			return collision
 		}
 	}
 
-	tilesetID, tileID := world.FrontTileID()
-	if !util.Contains(tilecoll.Get(tilesetID), byte(tileID)) {
+	tilesetID, frontTileID := world.FrontTileID(0)
+	if !util.Contains(tilecoll.Get(tilesetID), byte(frontTileID)) {
 		collision = true
+		return collision
 	}
 
-	if collision {
-		audio.PlaySound(audio.SFX_COLLISION)
+	_, curTileID := world.CurTileID(0)
+	if tilecoll.IsCollisionPair(tilesetID, byte(curTileID), byte(frontTileID), false) {
+		collision = true
+		return collision
 	}
 	return collision
 }

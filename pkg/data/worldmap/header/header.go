@@ -17,7 +17,7 @@ type Header struct {
 }
 
 // Get Map Header
-func Get(id uint) *Header {
+func Get(id int) *Header {
 	switch id {
 	case worldmap.AGATHAS_ROOM:
 		return AgathasRoom

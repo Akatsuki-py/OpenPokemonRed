@@ -3,6 +3,7 @@ package sprite
 import (
 	"fmt"
 	"image/png"
+	"pokered/pkg/data/sprdata"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
@@ -26,9 +27,10 @@ const (
 )
 
 // AddSprite add sprite into SpriteData
-func AddSprite(name string, x, y util.Coord, movementBytes [2]byte) {
+func AddSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte) {
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
+		name := id.String()
 		path := fmt.Sprintf("/%s_%d.png", name, i)
 		f, err := store.FS.Open(path)
 		if err != nil {

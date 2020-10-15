@@ -10,7 +10,7 @@ import (
 
 // World data
 type World struct {
-	MapID  uint
+	MapID  int
 	Image  *ebiten.Image
 	Header *header.Header
 }
@@ -18,7 +18,7 @@ type World struct {
 var curWorld *World
 
 // LoadWorldData load world data
-func LoadWorldData(id uint) {
+func LoadWorldData(id int) {
 	h := header.Get(id)
 	img, _ := ebiten.NewImage(int(h.Width*32), int(h.Height*32), ebiten.FilterDefault)
 	loadBlockset(h.Tileset)
@@ -37,12 +37,35 @@ func LoadWorldData(id uint) {
 	}
 }
 
+// CurTileID get tile ID on which player stands
+func CurTileID(offset uint) (uint, uint) {
+	s := store.SpriteData[offset]
+	px, py := s.MapXCoord, s.MapYCoord
+
+	pixelX, pixelY := s.ScreenXPixel, s.ScreenYPixel+4
+	blockX, blockY := (store.SCX+pixelX)/32, (store.SCY+pixelY)/32
+	blockID := curWorld.Header.Blk(blockY*int(curWorld.Header.Width) + blockX)
+
+	switch {
+	case px%2 == 0 && py%2 == 0:
+		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+0])
+	case px%2 == 1 && py%2 == 0:
+		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+2])
+	case px%2 == 0 && py%2 == 1:
+		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+8])
+	case px%2 == 1 && py%2 == 1:
+		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+10])
+	}
+
+	return curBlockset.TilesetID, 0
+}
+
 // FrontTileID get tile ID in front of player
-func FrontTileID() (uint, uint) {
-	p := store.SpriteData[0]
+func FrontTileID(offset uint) (uint, uint) {
+	s := store.SpriteData[offset]
 	deltaX, deltaY := 0, 0
-	px, py := p.MapXCoord, p.MapYCoord
-	switch p.Direction {
+	px, py := s.MapXCoord, s.MapYCoord
+	switch s.Direction {
 	case util.Up:
 		py--
 		deltaY = -16
@@ -57,7 +80,8 @@ func FrontTileID() (uint, uint) {
 		deltaX = 16
 	}
 
-	blockX, blockY := (store.SCX+64+deltaX)/32, (store.SCY+64+deltaY)/32
+	pixelX, pixelY := s.ScreenXPixel, s.ScreenYPixel+4
+	blockX, blockY := (store.SCX+pixelX+deltaX)/32, (store.SCY+pixelY+deltaY)/32
 	blockID := curWorld.Header.Blk(blockY*int(curWorld.Header.Width) + blockX)
 
 	switch {
