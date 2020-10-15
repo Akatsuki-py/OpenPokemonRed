@@ -2,6 +2,7 @@ package world
 
 import (
 	"pokered/pkg/data/worldmap/header"
+	"pokered/pkg/data/worldmap/object"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 
@@ -13,6 +14,7 @@ type World struct {
 	MapID  int
 	Image  *ebiten.Image
 	Header *header.Header
+	Object *object.Object
 }
 
 var curWorld *World
@@ -22,7 +24,6 @@ func LoadWorldData(id int) {
 	h := header.Get(id)
 	img, _ := ebiten.NewImage(int(h.Width*32), int(h.Height*32), ebiten.FilterDefault)
 	loadBlockset(h.Tileset)
-
 	for y := 0; y < int(h.Height); y++ {
 		for x := 0; x < int(h.Width); x++ {
 			blockID := h.Blk(y*int(h.Width) + x)
@@ -30,10 +31,13 @@ func LoadWorldData(id int) {
 			util.DrawImageBlock(img, block, x, y)
 		}
 	}
+
+	o := object.Get(id)
 	curWorld = &World{
 		MapID:  id,
 		Image:  img,
 		Header: h,
+		Object: o,
 	}
 }
 

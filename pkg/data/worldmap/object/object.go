@@ -1,6 +1,9 @@
 package object
 
-import "pokered/pkg/data/sprdata"
+import (
+	"pokered/pkg/data/sprdata"
+	"pokered/pkg/data/worldmap"
+)
 
 // Object Map object data
 type Object struct {
@@ -36,4 +39,13 @@ type Sprite struct {
 type WarpTo struct {
 	XCoord, YCoord int
 	Width          uint
+}
+
+// Get Map Object
+func Get(id int) *Object {
+	switch id {
+	case worldmap.PALLET_TOWN:
+		return PalletTown
+	}
+	return nil
 }
