@@ -1,6 +1,7 @@
 package widget
 
 import (
+	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
 	"strings"
@@ -96,9 +97,9 @@ func placeCursor() {
 }
 
 func drawKeyboard() {
-	keyboard := util.OpenImage(uppercaseKeyboard)
+	keyboard := util.OpenImage(store.FS, uppercaseKeyboard)
 	if name.isLowercase {
-		keyboard = util.OpenImage(lowercaseKeyboard)
+		keyboard = util.OpenImage(store.FS, lowercaseKeyboard)
 	}
 	util.DrawImage(name.screen, keyboard, 0, 4)
 }
@@ -155,7 +156,7 @@ func printName() {
 }
 
 func printUnderscores() {
-	underscore, underscoreUp := util.OpenImage(underscorePath), util.OpenImage(underscoreUpPath)
+	underscore, underscoreUp := util.OpenImage(store.FS, underscorePath), util.OpenImage(store.FS, underscoreUpPath)
 
 	max := maxName
 	if name.id == Nickname {

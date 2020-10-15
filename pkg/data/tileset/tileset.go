@@ -2,6 +2,7 @@ package tileset
 
 import (
 	"image"
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
@@ -37,7 +38,7 @@ func InitTilesets() {
 	result := map[uint]Tileset{}
 	for id, tilesetString := range tilesetsString {
 		path := "/" + tilesetString + ".png"
-		img := util.OpenImage(path)
+		img := util.OpenImage(store.FS, path)
 
 		width, height := img.Size()
 		width /= 8

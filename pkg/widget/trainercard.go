@@ -35,7 +35,7 @@ const pngSuffix = ".png"
 
 // DrawTrainerCard initialize trainer card gfx data
 func DrawTrainerCard() {
-	trainerCard = util.OpenImage(tcPath)
+	trainerCard = util.OpenImage(store.FS, tcPath)
 	if trainerCard == nil {
 		return
 	}
@@ -71,7 +71,7 @@ func drawTime() {
 }
 
 func drawAvatar() {
-	avatar := util.OpenImage(avatarPath)
+	avatar := util.OpenImage(store.FS, avatarPath)
 	util.DrawImagePixel(trainerCard, avatar, 120, 8)
 }
 
@@ -91,7 +91,7 @@ func drawBadges() {
 			path += faceSuffix + pngSuffix
 		}
 
-		badge := util.OpenImage(path)
+		badge := util.OpenImage(store.FS, path)
 		util.DrawImagePixel(trainerCard, badge, x, y)
 	}
 }

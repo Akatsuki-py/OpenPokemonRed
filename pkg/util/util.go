@@ -4,7 +4,7 @@ import (
 	"image/color"
 	"image/png"
 	"math/rand"
-	"pokered/pkg/store"
+	"net/http"
 	"reflect"
 	"runtime"
 	"strings"
@@ -67,9 +67,6 @@ func ClearScreenArea(target *ebiten.Image, x, y Tile, h, w uint) {
 }
 
 func DrawImage(target, src *ebiten.Image, x, y Tile) {
-	if target == nil {
-		target = store.TileMap
-	}
 	if src == nil {
 		return
 	}
@@ -79,9 +76,6 @@ func DrawImage(target, src *ebiten.Image, x, y Tile) {
 }
 
 func DrawImagePixel(target, src *ebiten.Image, x, y int) {
-	if target == nil {
-		target = store.TileMap
-	}
 	if src == nil {
 		return
 	}
@@ -91,9 +85,6 @@ func DrawImagePixel(target, src *ebiten.Image, x, y int) {
 }
 
 func DrawImageBlock(target, src *ebiten.Image, x, y int) {
-	if target == nil {
-		target = store.TileMap
-	}
 	if src == nil {
 		return
 	}
@@ -113,8 +104,8 @@ func Random() byte {
 	return byte(rand.Intn(256))
 }
 
-func OpenImage(path string) *ebiten.Image {
-	f, err := store.FS.Open(path)
+func OpenImage(fs http.FileSystem, path string) *ebiten.Image {
+	f, err := fs.Open(path)
 	if err != nil {
 		NotFoundFileError(path)
 		return nil
