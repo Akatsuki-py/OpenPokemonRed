@@ -24,6 +24,7 @@ func LoadWorldData(id int) {
 	h := header.Get(id)
 	img, _ := ebiten.NewImage(int(h.Width*32), int(h.Height*32), ebiten.FilterDefault)
 	loadBlockset(h.Tileset)
+
 	for y := 0; y < int(h.Height); y++ {
 		for x := 0; x < int(h.Width); x++ {
 			blockID := h.Blk(y*int(h.Width) + x)

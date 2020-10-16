@@ -27,7 +27,10 @@ const (
 	Seel
 )
 
-func initializeMapSprite() {
+func InitMapSprites() {
+	for i := 1; i < 16; i++ {
+		store.SpriteData[i] = nil
+	}
 	sprites := world.CurWorld.Object.Sprites
 	for _, s := range sprites {
 		addSprite(s.ID, s.XCoord, s.YCoord, s.MovementBytes)
@@ -185,7 +188,7 @@ func drawSprite(offset uint) {
 // VBlank script executed in VBlank
 func VBlank() {
 	if !world.CurWorld.Object.Initialized {
-		initializeMapSprite()
+		InitMapSprites()
 		world.CurWorld.Object.Initialized = true
 	}
 	for i, s := range store.SpriteData {

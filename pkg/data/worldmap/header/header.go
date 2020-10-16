@@ -14,6 +14,21 @@ type Header struct {
 
 	// Block data
 	blk []byte
+
+	// Map Text data
+	Text []string
+
+	Connection struct {
+		North connection
+		South connection
+		West  connection
+		East  connection
+	}
+}
+
+type connection struct {
+	OK        bool
+	DestMapID int
 }
 
 // Get Map Header

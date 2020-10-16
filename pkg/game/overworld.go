@@ -7,6 +7,7 @@ import (
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
+	"pokered/pkg/world"
 )
 
 func execOverworld() {
@@ -53,6 +54,35 @@ func execOverworld() {
 		} else {
 			sprite.UpdateSprites()
 			p.RightHand = false
+			return
+		}
+	}
+	moveAhead()
+}
+
+func moveAhead() {
+	checkWarpsNoCollision()
+}
+
+// check if the player has stepped onto a warp after having not collided
+// ref: CheckWarpsNoCollision
+func checkWarpsNoCollision() {
+	curWorld := world.CurWorld
+	if len(curWorld.Object.Warps) == 0 {
+		checkMapConnections()
+		return
+	}
+
+	p := store.SpriteData[0]
+	if p == nil {
+		return
+	}
+	for _, w := range curWorld.Object.Warps {
+		if p.MapXCoord == w.XCoord && p.MapYCoord == w.YCoord {
+
 		}
 	}
 }
+
+// ref: CheckMapConnections
+func checkMapConnections() {}
