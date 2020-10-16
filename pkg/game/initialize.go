@@ -16,7 +16,7 @@ import (
 func initialize() {
 	initTilesets(store.FS)
 	world.LoadWorldData(worldmap.PALLET_TOWN)
-	sprite.InitPlayer(sprite.Normal)
+	sprite.InitPlayer(sprite.Normal, 3, 4)
 }
 
 func initTilesets(fs http.FileSystem) {

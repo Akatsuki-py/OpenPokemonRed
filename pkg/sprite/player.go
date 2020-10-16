@@ -13,7 +13,7 @@ import (
 )
 
 // InitPlayer initialize player sprite
-func InitPlayer(state uint) {
+func InitPlayer(state uint, x, y int) {
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
 		name := "red"
@@ -36,10 +36,10 @@ func InitPlayer(state uint) {
 	}
 
 	s := &store.Sprite{
-		ScreenXPixel: 16 * util.PlayerX,
-		ScreenYPixel: 16*util.PlayerY - 4,
-		MapXCoord:    util.PlayerX,
-		MapYCoord:    util.PlayerY,
+		ScreenXPixel: 16 * 4,
+		ScreenYPixel: 16*4 - 4,
+		MapXCoord:    x,
+		MapYCoord:    y,
 		VRAM: store.SpriteImage{
 			Index:  1,
 			Images: imgs,
