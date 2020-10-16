@@ -19,21 +19,32 @@ type World struct {
 
 var CurWorld *World
 
+// map exterior range(block)
+const exterior int = 2
+
 // LoadWorldData load world data
 func LoadWorldData(id int) {
-	h := header.Get(id)
-	img, _ := ebiten.NewImage(int(h.Width*32), int(h.Height*32), ebiten.FilterDefault)
+	h, o := header.Get(id), object.Get(id)
+	img, _ := ebiten.NewImage(int(h.Width*32)+2*exterior*32, int(h.Height*32)+2*exterior*32, ebiten.FilterDefault)
 	loadBlockset(h.Tileset)
 
-	for y := 0; y < int(h.Height); y++ {
-		for x := 0; x < int(h.Width); x++ {
-			blockID := h.Blk(y*int(h.Width) + x)
-			block := curBlockset.Data[blockID]
-			util.DrawImageBlock(img, block, x, y)
+	for y := 0; y < int(h.Height)+2*exterior; y++ {
+		for x := 0; x < int(h.Width)+2*exterior; x++ {
+			switch {
+			case y < int(exterior) || y > int(h.Height)+exterior:
+				block := curBlockset.Data[o.Border]
+				util.DrawImageBlock(img, block, x, y)
+			case x < int(exterior) || x > int(h.Width)+exterior:
+				block := curBlockset.Data[o.Border]
+				util.DrawImageBlock(img, block, x, y)
+			default:
+				blockID := h.Blk((y-exterior)*int(h.Width) + (x - exterior))
+				block := curBlockset.Data[blockID]
+				util.DrawImageBlock(img, block, x, y)
+			}
 		}
 	}
 
-	o := object.Get(id)
 	CurWorld = &World{
 		MapID:  id,
 		Image:  img,
@@ -103,5 +114,5 @@ func VBlank() {
 		return
 	}
 
-	util.DrawImagePixel(store.TileMap, CurWorld.Image, -store.SCX, -store.SCY)
+	util.DrawImagePixel(store.TileMap, CurWorld.Image, -32*exterior-store.SCX, -32*exterior-store.SCY)
 }
