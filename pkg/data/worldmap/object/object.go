@@ -53,6 +53,8 @@ func Get(id int) *Object {
 		return RedsHouse2F
 	case worldmap.ROUTE_1:
 		return Route1
+	case worldmap.ROUTE_21:
+		return Route21
 	}
 	return nil
 }

@@ -3,6 +3,7 @@ package header
 import (
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/txt"
+	"pokered/pkg/data/worldmap"
 	"pokered/pkg/data/worldmap/blk"
 )
 
@@ -26,5 +27,12 @@ var Route1 = &Header{
 		txt.Route1Text1,
 		txt.Route1Text2,
 		txt.Route1Text3,
+	},
+	Connections: Connections{
+		South: Connection{
+			OK:        true,
+			DestMapID: worldmap.PALLET_TOWN,
+			Coords:    []uint{10, 11},
+		},
 	},
 }

@@ -2,6 +2,7 @@ package header
 
 import (
 	"pokered/pkg/data/tileset"
+	"pokered/pkg/data/worldmap"
 	"pokered/pkg/data/worldmap/blk"
 )
 
@@ -21,4 +22,16 @@ var PalletTown = &Header{
 	Height:  9,
 	Width:   10,
 	blk:     blk.PalletTown[:],
+	Connections: Connections{
+		North: Connection{
+			OK:        true,
+			DestMapID: worldmap.ROUTE_1,
+			Coords:    []uint{10, 11},
+		},
+		South: Connection{
+			OK:        true,
+			DestMapID: worldmap.ROUTE_21,
+			Coords:    []uint{4, 5, 6, 7},
+		},
+	},
 }

@@ -31,12 +31,44 @@ func LoadWorldData(id int) {
 	for y := 0; y < int(h.Height)+2*exterior; y++ {
 		for x := 0; x < int(h.Width)+2*exterior; x++ {
 			switch {
-			case y < int(exterior) || y > int(h.Height)+exterior:
+			case y < int(exterior):
+				northCon := h.Connections.North
+				if northCon.OK {
+					northMapH, northMapO := header.Get(northCon.DestMapID), object.Get(northCon.DestMapID)
+					if x < int(exterior) || x > int(h.Width)+1 {
+						block := curBlockset.Data[northMapO.Border]
+						util.DrawImageBlock(img, block, x, y)
+						continue
+					}
+					blockID := northMapH.Blk(int((northMapH.Height-uint(y))*northMapH.Width) + (x - exterior))
+					block := curBlockset.Data[blockID]
+					util.DrawImageBlock(img, block, x, y)
+				} else {
+					block := curBlockset.Data[o.Border]
+					util.DrawImageBlock(img, block, x, y)
+				}
+
+			case y > int(h.Height)+1:
+				southCon := h.Connections.South
+				if southCon.OK {
+					southMapH := header.Get(southCon.DestMapID)
+					if x < int(exterior) || x > int(h.Width)+1 {
+						block := curBlockset.Data[o.Border]
+						util.DrawImageBlock(img, block, x, y)
+						continue
+					}
+					blockID := southMapH.Blk(int((uint(y)-h.Height-2)*southMapH.Width) + (x - exterior))
+					block := curBlockset.Data[blockID]
+					util.DrawImageBlock(img, block, x, y)
+				} else {
+					block := curBlockset.Data[o.Border]
+					util.DrawImageBlock(img, block, x, y)
+				}
+
+			case x < int(exterior) || x > int(h.Width)+1:
 				block := curBlockset.Data[o.Border]
 				util.DrawImageBlock(img, block, x, y)
-			case x < int(exterior) || x > int(h.Width)+exterior:
-				block := curBlockset.Data[o.Border]
-				util.DrawImageBlock(img, block, x, y)
+
 			default:
 				blockID := h.Blk((y-exterior)*int(h.Width) + (x - exterior))
 				block := curBlockset.Data[blockID]
