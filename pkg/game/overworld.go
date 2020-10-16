@@ -2,6 +2,7 @@ package game
 
 import (
 	"pokered/pkg/audio"
+	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/joypad"
 	"pokered/pkg/script"
 	"pokered/pkg/sprite"
@@ -82,7 +83,41 @@ func checkWarpsNoCollision() {
 
 		}
 	}
+
+	checkMapConnections()
 }
 
 // ref: CheckMapConnections
-func checkMapConnections() {}
+func checkMapConnections() {
+	curWorld := world.CurWorld
+	p := store.SpriteData[0]
+	if p == nil {
+		return
+	}
+
+	if p.Direction == util.Up && p.MapYCoord == -1 {
+		for i, XCoord := range curWorld.Header.Connections.North.Coords {
+			if p.MapXCoord == int(XCoord) {
+				destMapID := curWorld.Header.Connections.North.DestMapID
+				DestMapHeader := header.Get(destMapID)
+				world.LoadWorldData(destMapID)
+				p.MapXCoord = int(DestMapHeader.Connections.South.Coords[i])
+				p.MapYCoord = int(DestMapHeader.Height*2 - 1)
+				return
+			}
+		}
+	}
+
+	if p.Direction == util.Down && p.MapYCoord == int(curWorld.Header.Height*2) {
+		for i, XCoord := range curWorld.Header.Connections.South.Coords {
+			if p.MapXCoord == int(XCoord) {
+				destMapID := curWorld.Header.Connections.South.DestMapID
+				DestMapHeader := header.Get(destMapID)
+				world.LoadWorldData(destMapID)
+				p.MapXCoord = int(DestMapHeader.Connections.North.Coords[i])
+				p.MapYCoord = 0
+				return
+			}
+		}
+	}
+}

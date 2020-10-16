@@ -69,10 +69,12 @@ func exec() {
 }
 
 func vBlank() {
+	p := store.SpriteData[0]
+
 	joypad.ReadJoypad()
 	store.DecFrameCounter()
 	audio.FadeOutAudio()
-	world.VBlank()
+	world.VBlank(p.MapXCoord, p.MapYCoord, p.DeltaX, p.DeltaY, p.WalkCounter, p.Direction)
 	sprite.VBlank()
 	menu.VBlank()
 	widget.VBlank()

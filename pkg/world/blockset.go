@@ -19,6 +19,10 @@ var curBlockset Blockset
 
 // loadBlockset load block set
 func loadBlockset(tilesetID uint) {
+	if curBlockset.TilesetID == tilesetID {
+		return
+	}
+
 	bs := blockset.Get(tilesetID)
 	length := len(bs) / 16
 	result := make([]*ebiten.Image, length)

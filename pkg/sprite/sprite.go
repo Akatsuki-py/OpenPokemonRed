@@ -54,10 +54,11 @@ func addSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte) {
 		imgs[i], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
 	}
 
+	p := store.SpriteData[0]
 	n := NumSprites()
 	s := &store.Sprite{
-		ScreenXPixel:  16 * x,
-		ScreenYPixel:  16*y - 4,
+		ScreenXPixel:  16 * (x - p.MapXCoord + 4),
+		ScreenYPixel:  16*(y+4-p.MapYCoord) - 4,
 		MapXCoord:     x,
 		MapYCoord:     y,
 		MovementBytes: movementBytes,
