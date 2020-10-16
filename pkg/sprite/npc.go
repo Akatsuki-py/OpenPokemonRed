@@ -294,6 +294,12 @@ func collisionCheckForNPC(offset uint) bool {
 
 	collision := false
 	npc := store.SpriteData[offset]
+
+	// if movement byte 1 is STAY(0xff)
+	if npc.MovementBytes[0] == util.Stay {
+		return true
+	}
+
 	for o, s := range store.SpriteData {
 		if o == int(offset) {
 			continue

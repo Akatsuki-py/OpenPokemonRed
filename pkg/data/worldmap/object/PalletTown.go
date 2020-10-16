@@ -6,6 +6,8 @@ import (
 	"pokered/pkg/util"
 )
 
+const palletTownWidth uint = 10
+
 var PalletTown = &Object{
 	Border: 0x0b,
 
@@ -29,8 +31,8 @@ var PalletTown = &Object{
 	},
 
 	WarpTos: []WarpTo{
-		{5, 5, 10},
-		{13, 5, 10},
-		{12, 11, 10},
+		{5, 5, palletTownWidth},
+		{13, 5, palletTownWidth},
+		{12, 11, palletTownWidth},
 	},
 }
