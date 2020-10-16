@@ -333,7 +333,7 @@ func collisionCheckForNPC(offset uint) bool {
 	}
 
 	tilesetID, tileID := world.FrontTileID(npc.MapXCoord, npc.MapYCoord, npc.ScreenXPixel, npc.ScreenYPixel, npc.Direction)
-	if !util.Contains(tilecoll.Get(tilesetID), byte(tileID)) {
+	if tileID >= 0 && !util.Contains(tilecoll.Get(tilesetID), byte(uint(tileID))) {
 		collision = true
 	}
 

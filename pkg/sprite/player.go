@@ -171,7 +171,7 @@ func CollisionCheckForPlayer() bool {
 	}
 
 	tilesetID, frontTileID := world.FrontTileID(p.MapXCoord, p.MapYCoord, p.ScreenXPixel, p.ScreenYPixel, p.Direction)
-	if !util.Contains(tilecoll.Get(tilesetID), byte(frontTileID)) {
+	if frontTileID > 0 && !util.Contains(tilecoll.Get(tilesetID), byte(uint(frontTileID))) {
 		collision = true
 		return collision
 	}

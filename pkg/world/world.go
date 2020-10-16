@@ -88,7 +88,7 @@ func LoadWorldData(id int) {
 
 // CurTileID get tile ID on which player stands
 func CurTileID(x, y, pixelX, pixelY int) (uint, uint) {
-	blockX, blockY := (store.SCX+pixelX)/32, (store.SCY+pixelY+4)/32
+	blockX, blockY := ((x-4)*16+pixelX)/32, ((y-4)*16+pixelY+4)/32
 	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
 	if blockOffset < 0 {
 		return curBlockset.TilesetID, 0
@@ -110,7 +110,7 @@ func CurTileID(x, y, pixelX, pixelY int) (uint, uint) {
 }
 
 // FrontTileID get tile ID in front of player
-func FrontTileID(x, y, pixelX, pixelY int, direction util.Direction) (uint, uint) {
+func FrontTileID(x, y, pixelX, pixelY int, direction util.Direction) (uint, int) {
 	deltaX, deltaY := 0, 0
 	px, py := x, y
 	switch direction {
@@ -130,20 +130,20 @@ func FrontTileID(x, y, pixelX, pixelY int, direction util.Direction) (uint, uint
 
 	blockX, blockY := ((x-4)*16+pixelX+deltaX)/32, ((y-4)*16+pixelY+4+deltaY)/32
 	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
-	if blockOffset < 0 {
-		return curBlockset.TilesetID, 0
+	if blockOffset < 0 || blockOffset > CurWorld.Header.BlkLen() {
+		return curBlockset.TilesetID, -1
 	}
 	blockID := CurWorld.Header.Blk(blockOffset)
 
 	switch {
 	case px%2 == 0 && py%2 == 0:
-		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+0])
+		return curBlockset.TilesetID, int(curBlockset.Bytes[uint(blockID)*16+0])
 	case px%2 == 1 && py%2 == 0:
-		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+2])
+		return curBlockset.TilesetID, int(curBlockset.Bytes[uint(blockID)*16+2])
 	case px%2 == 0 && py%2 == 1:
-		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+8])
+		return curBlockset.TilesetID, int(curBlockset.Bytes[uint(blockID)*16+8])
 	case px%2 == 1 && py%2 == 1:
-		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+10])
+		return curBlockset.TilesetID, int(curBlockset.Bytes[uint(blockID)*16+10])
 	}
 
 	return curBlockset.TilesetID, 0

@@ -56,3 +56,8 @@ func (h *Header) Blk(index int) byte {
 	}
 	return h.blk[index]
 }
+
+// BlkLen get block data length
+func (h *Header) BlkLen() int {
+	return len(h.blk)
+}
