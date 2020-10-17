@@ -91,7 +91,7 @@ func updateNPCSprite(offset uint) {
 			// TODO: ChangeFacingDirection
 		case util.Stay:
 			s.MovementBytes[0] = util.Stay
-			util.ResBit(store.D730, 0)
+			util.ResBit(&store.D730, 0)
 			// TODO: [wSimulatedJoypadStatesIndex] = 0
 			return
 		case util.Walk:

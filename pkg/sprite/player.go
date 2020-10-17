@@ -114,9 +114,6 @@ func AdvancePlayerSprite() {
 		p.MapYCoord += p.DeltaY
 	}
 
-	store.SCX += p.DeltaX
-	store.SCY += p.DeltaY
-
 	for i, s := range store.SpriteData {
 		if i == 0 {
 			continue
@@ -140,6 +137,10 @@ func CollisionCheckForPlayer() bool {
 
 	p := store.SpriteData[0]
 	if store.IsInvalidSprite(0) {
+		return false
+	}
+
+	if util.ReadBit(store.D736, 6) {
 		return false
 	}
 
@@ -176,7 +177,7 @@ func CollisionCheckForPlayer() bool {
 	}
 
 	if HandleLedges() {
-		return true
+		return false
 	}
 
 	tilesetID, frontTileID := world.FrontTileID(p.MapXCoord, p.MapYCoord, p.Direction)
@@ -208,12 +209,12 @@ func HandleLedges() bool {
 		return false
 	}
 
-	_, curTileID := world.CurTileID(4, 4)
-	_, frontTileID := world.FrontTileID(4, 4, p.Direction)
+	_, curTileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
+	_, frontTileID := world.FrontTileID(p.MapXCoord, p.MapYCoord, p.Direction)
 
 	for _, l := range ledge.LedgeTiles {
 		if p.Direction == l.Direction && curTileID == l.CurTileID && frontTileID == l.LedgeTileID {
-			util.SetBit(store.D736, 6)
+			util.SetBit(&store.D736, 6)
 			p.Simulated = []uint{p.Direction, p.Direction}
 			audio.PlaySound(audio.SFX_LEDGE)
 			return true
@@ -233,8 +234,8 @@ func HandleMidJump() {
 		return
 	}
 
-	if ledgeJumpCounter < 16 {
-		p.ScreenYPixel = jumpingYScreenPixel[ledgeJumpCounter]
+	if ledgeJumpCounter < 32 {
+		p.ScreenYPixel = jumpingYScreenPixel[ledgeJumpCounter/2]
 		ledgeJumpCounter++
 		return
 	}
@@ -245,5 +246,5 @@ func HandleMidJump() {
 
 	joypad.JoyHeld, joypad.JoyPressed, joypad.JoyReleased, joypad.JoyIgnore = joypad.Input{}, joypad.Input{}, joypad.Input{}, joypad.Input{}
 	ledgeJumpCounter = 0
-	util.ResBit(store.D736, 6)
+	util.ResBit(&store.D736, 6)
 }

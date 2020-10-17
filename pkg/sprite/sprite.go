@@ -175,7 +175,7 @@ func DisableSprite(offset uint) {
 // set wNPCMovementDirections
 func MoveSpriteForcely(offset uint, movement []byte) {
 	copy(NPCMovementDirections, movement)
-	util.SetBit(store.D730, 0)
+	util.SetBit(&store.D730, 0)
 	joypad.JoyIgnore = joypad.ByteToInput(0xff)
 }
 

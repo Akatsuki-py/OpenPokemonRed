@@ -44,11 +44,11 @@ func XOR(a, b bool) bool {
 func ReadBit(data byte, bit uint) bool {
 	return data>>bit%2 == 1
 }
-func SetBit(data byte, bit uint) byte {
-	return data | (1 << bit)
+func SetBit(data *byte, bit uint) {
+	*data = *data | (1 << bit)
 }
-func ResBit(data byte, bit uint) byte {
-	return data & ^(1 << bit)
+func ResBit(data *byte, bit uint) {
+	*data = *data & ^(1 << bit)
 }
 
 func BlackScreen(target *ebiten.Image) {
