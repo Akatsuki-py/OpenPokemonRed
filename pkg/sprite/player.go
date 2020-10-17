@@ -5,6 +5,8 @@ import (
 	"image/png"
 	"pokered/pkg/audio"
 	"pokered/pkg/data/tilecoll"
+	"pokered/pkg/data/tileset"
+	"pokered/pkg/data/worldmap/ledge"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 	"pokered/pkg/world"
@@ -182,4 +184,32 @@ func CollisionCheckForPlayer() bool {
 		return collision
 	}
 	return collision
+}
+
+// HandleLedges 段差飛び降りできるかチェックして、飛び降りれるなら飛び降りる処理(キー入力の強制や飛び降りモーションアニメの再生)を行う
+func HandleLedges() bool {
+	if util.ReadBit(store.D736, 6) {
+		return false
+	}
+
+	if world.CurBlockset.TilesetID != tileset.Overworld {
+		return false
+	}
+
+	p := store.SpriteData[0]
+	if p == nil {
+		return false
+	}
+
+	_, curTileID := world.CurTileID(p.MapXCoord, p.MapYCoord, p.ScreenXPixel, p.ScreenYPixel)
+	_, frontTileID := world.FrontTileID(p.MapXCoord, p.MapYCoord, p.ScreenXPixel, p.ScreenYPixel, p.Direction)
+
+	for _, l := range ledge.LedgeTiles {
+		if p.Direction == l.Direction && curTileID == l.CurTileID && frontTileID == l.LedgeTileID {
+			util.SetBit(store.D736, 6)
+			return true
+		}
+	}
+
+	return false
 }

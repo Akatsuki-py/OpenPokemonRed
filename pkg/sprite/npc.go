@@ -28,7 +28,7 @@ func UpdateNPCSprite(offset uint) {
 		return
 	}
 
-	if s.Scripted {
+	if len(s.Simulated) > 0 {
 		DoScriptedNPCMovement(offset)
 		return
 	}

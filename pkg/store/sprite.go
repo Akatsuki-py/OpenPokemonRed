@@ -23,7 +23,7 @@ type Sprite struct {
 	MapXCoord, MapYCoord       int  // Coord C2x4, C2x5
 	Delay                      uint // C2x8
 	VRAM                       SpriteImage
-	Scripted                   bool
+	Simulated                  []byte
 	MovementBytes              [2]byte // movement byte 1,2
 	DeltaX, DeltaY             int
 	RightHand                  bool // used to walk animation

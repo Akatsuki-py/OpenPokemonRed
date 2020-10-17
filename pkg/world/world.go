@@ -37,15 +37,15 @@ func LoadWorldData(id int) {
 				if northCon.OK {
 					northMapH, northMapO := header.Get(northCon.DestMapID), object.Get(northCon.DestMapID)
 					if x < int(exterior) || x > int(h.Width)+exterior-1 {
-						block := curBlockset.Data[northMapO.Border]
+						block := CurBlockset.Data[northMapO.Border]
 						util.DrawImageBlock(img, block, x, y)
 						continue
 					}
 					blockID := northMapH.Blk(int((northMapH.Height-uint(exterior-y))*northMapH.Width) + (x - exterior))
-					block := curBlockset.Data[blockID]
+					block := CurBlockset.Data[blockID]
 					util.DrawImageBlock(img, block, x, y)
 				} else {
-					block := curBlockset.Data[o.Border]
+					block := CurBlockset.Data[o.Border]
 					util.DrawImageBlock(img, block, x, y)
 				}
 
@@ -54,25 +54,25 @@ func LoadWorldData(id int) {
 				if southCon.OK {
 					southMapH := header.Get(southCon.DestMapID)
 					if x < int(exterior) || x > int(h.Width)+1 {
-						block := curBlockset.Data[o.Border]
+						block := CurBlockset.Data[o.Border]
 						util.DrawImageBlock(img, block, x, y)
 						continue
 					}
 					blockID := southMapH.Blk(int((uint(y)-h.Height-uint(exterior))*southMapH.Width) + (x - exterior))
-					block := curBlockset.Data[blockID]
+					block := CurBlockset.Data[blockID]
 					util.DrawImageBlock(img, block, x, y)
 				} else {
-					block := curBlockset.Data[o.Border]
+					block := CurBlockset.Data[o.Border]
 					util.DrawImageBlock(img, block, x, y)
 				}
 
 			case x < int(exterior) || x > int(h.Width)+2:
-				block := curBlockset.Data[o.Border]
+				block := CurBlockset.Data[o.Border]
 				util.DrawImageBlock(img, block, x, y)
 
 			default:
 				blockID := h.Blk((y-exterior)*int(h.Width) + (x - exterior))
-				block := curBlockset.Data[blockID]
+				block := CurBlockset.Data[blockID]
 				util.DrawImageBlock(img, block, x, y)
 			}
 		}
@@ -87,26 +87,26 @@ func LoadWorldData(id int) {
 }
 
 // CurTileID get tile ID on which player stands
-func CurTileID(x, y, pixelX, pixelY int) (uint, uint) {
+func CurTileID(x, y, pixelX, pixelY int) (uint, int) {
 	blockX, blockY := ((x-4)*16+pixelX)/32, ((y-4)*16+pixelY+4)/32
 	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
 	if blockOffset < 0 {
-		return curBlockset.TilesetID, 0
+		return CurBlockset.TilesetID, -1
 	}
 	blockID := CurWorld.Header.Blk(blockOffset)
 
 	switch {
 	case x%2 == 0 && y%2 == 0:
-		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+0])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+0])
 	case x%2 == 1 && y%2 == 0:
-		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+2])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+2])
 	case x%2 == 0 && y%2 == 1:
-		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+8])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+8])
 	case x%2 == 1 && y%2 == 1:
-		return curBlockset.TilesetID, uint(curBlockset.Bytes[uint(blockID)*16+10])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+10])
 	}
 
-	return curBlockset.TilesetID, 0
+	return CurBlockset.TilesetID, 0
 }
 
 // FrontTileID get tile ID in front of player
@@ -131,22 +131,22 @@ func FrontTileID(x, y, pixelX, pixelY int, direction util.Direction) (uint, int)
 	blockX, blockY := ((x-4)*16+pixelX+deltaX)/32, ((y-4)*16+pixelY+4+deltaY)/32
 	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
 	if blockOffset < 0 || blockOffset > CurWorld.Header.BlkLen() {
-		return curBlockset.TilesetID, -1
+		return CurBlockset.TilesetID, -1
 	}
 	blockID := CurWorld.Header.Blk(blockOffset)
 
 	switch {
 	case px%2 == 0 && py%2 == 0:
-		return curBlockset.TilesetID, int(curBlockset.Bytes[uint(blockID)*16+0])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+0])
 	case px%2 == 1 && py%2 == 0:
-		return curBlockset.TilesetID, int(curBlockset.Bytes[uint(blockID)*16+2])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+2])
 	case px%2 == 0 && py%2 == 1:
-		return curBlockset.TilesetID, int(curBlockset.Bytes[uint(blockID)*16+8])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+8])
 	case px%2 == 1 && py%2 == 1:
-		return curBlockset.TilesetID, int(curBlockset.Bytes[uint(blockID)*16+10])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+10])
 	}
 
-	return curBlockset.TilesetID, 0
+	return CurBlockset.TilesetID, 0
 }
 
 // VBlank script executed in VBlank

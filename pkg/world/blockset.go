@@ -15,11 +15,12 @@ type Blockset struct {
 	Data      []*ebiten.Image
 }
 
-var curBlockset Blockset
+// CurBlockset current block & tileset data
+var CurBlockset Blockset
 
 // loadBlockset load block set
 func loadBlockset(tilesetID uint) {
-	if curBlockset.TilesetID == tilesetID {
+	if CurBlockset.TilesetID == tilesetID {
 		return
 	}
 
@@ -36,7 +37,7 @@ func loadBlockset(tilesetID uint) {
 		}
 		result[i] = block
 	}
-	curBlockset = Blockset{
+	CurBlockset = Blockset{
 		TilesetID: tilesetID,
 		Bytes:     bs,
 		Data:      result,

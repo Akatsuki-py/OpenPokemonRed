@@ -74,6 +74,14 @@ var D72D byte
 // bit 7: キー入力がゲーム内で勝手に入れられているか(simulated joypad)
 var D730 byte
 
+// D736 :
+// bit 0: check if the player is standing on a door and make him walk down a step if so
+// bit 1: 1ならプレイヤーは今、ドアから下に向かって歩いている状態である
+// bit 2: (0なら)プレイヤーが warpマスの上に立っている
+// bit 6: 段差をジャンプしているモーション中 / 釣りのモーション中に立つフラグ
+// bit 7: player sprite spinning due to spin tiles (Rocket hideout / Viridian Gym)
+var D736 byte
+
 // BagItems items in bag
 // [A@1, B@2, ...]
 var BagItems = []string{}
