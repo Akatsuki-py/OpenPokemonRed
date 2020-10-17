@@ -88,8 +88,8 @@ func LoadWorldData(id int) {
 
 // CurTileID get tile ID on which player stands
 func CurTileID(x, y int) (uint, int) {
-	blockX, blockY := (x*16)/32, (y*16+4)/32
-	coordX, coordY := (x*16)%32, (y*16+4)%32-4
+	blockX, blockY := (x*16)/32, (y*16+8)/32
+	coordX, coordY := (x*16)%32, (y*16+8)%32-8
 	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
 	if blockOffset < 0 {
 		return CurBlockset.TilesetID, -1
@@ -124,8 +124,8 @@ func FrontTileID(x, y int, direction util.Direction) (uint, int) {
 		deltaX = 16
 	}
 
-	blockX, blockY := (x*16+deltaX)/32, (y*16+4+deltaY)/32
-	coordX, coordY := (x*16+deltaX)%32, (y*16+4+deltaY)%32-4
+	blockX, blockY := (x*16+deltaX)/32, (y*16+8+deltaY)/32
+	coordX, coordY := (x*16+deltaX)%32, (y*16+8+deltaY)%32-8
 	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
 	if blockOffset < 0 || blockOffset > CurWorld.Header.BlkLen() {
 		return CurBlockset.TilesetID, -1

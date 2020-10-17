@@ -175,15 +175,16 @@ func CollisionCheckForPlayer() bool {
 		}
 	}
 
+	if HandleLedges() {
+		return true
+	}
+
 	tilesetID, frontTileID := world.FrontTileID(p.MapXCoord, p.MapYCoord, p.Direction)
 	if frontTileID > 0 && !util.Contains(tilecoll.Get(tilesetID), byte(uint(frontTileID))) {
 		collision = true
 		return collision
 	}
 
-	if HandleLedges() {
-		return true
-	}
 	_, curTileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
 	if tilecoll.IsCollisionPair(tilesetID, byte(curTileID), byte(frontTileID), false) {
 		collision = true
@@ -207,8 +208,8 @@ func HandleLedges() bool {
 		return false
 	}
 
-	_, curTileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
-	_, frontTileID := world.FrontTileID(8, 9, p.Direction)
+	_, curTileID := world.CurTileID(4, 4)
+	_, frontTileID := world.FrontTileID(4, 4, p.Direction)
 
 	for _, l := range ledge.LedgeTiles {
 		if p.Direction == l.Direction && curTileID == l.CurTileID && frontTileID == l.LedgeTileID {
