@@ -1,6 +1,7 @@
 package world
 
 import (
+	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/data/worldmap/object"
 	"pokered/pkg/store"
@@ -97,6 +98,19 @@ func GetTileID(x, y util.Tile) (uint, int) {
 	blockID := int(CurWorld.Header.Blk(blockOffset))
 	index := coordY/2 + coordX/8
 	return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][index])
+}
+
+func WriteTileID(tileID byte, x, y util.Tile) {
+	blockX, blockY := (x*8)/32, (y*8)/32
+	coordX, coordY := (x*8)%32, (y*8)%32
+	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
+	if blockOffset < 0 {
+		return
+	}
+	blockID := int(CurWorld.Header.Blk(blockOffset))
+	index := coordY/2 + coordX/8
+	CurBlockset.Bytes[blockID][index] = tileID
+	util.DrawImage(CurWorld.Image, tileset.Tile(CurBlockset.TilesetID, uint(tileID)), x, y)
 }
 
 // CurTileID get tile ID on which player stands
