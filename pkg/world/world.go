@@ -86,6 +86,19 @@ func LoadWorldData(id int) {
 	}
 }
 
+// GetTileID get tile ID on which player stands
+func GetTileID(x, y util.Tile) (uint, int) {
+	blockX, blockY := (x*8)/32, (y*8)/32
+	coordX, coordY := (x*8)%32, (y*8)%32
+	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
+	if blockOffset < 0 {
+		return CurBlockset.TilesetID, -1
+	}
+	blockID := int(CurWorld.Header.Blk(blockOffset))
+	index := coordY/2 + coordX/8
+	return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][index])
+}
+
 // CurTileID get tile ID on which player stands
 func CurTileID(x, y int) (uint, int) {
 	blockX, blockY := (x*16)/32, (y*16+8)/32
@@ -98,13 +111,13 @@ func CurTileID(x, y int) (uint, int) {
 
 	switch {
 	case coordX == 0 && coordY == 0:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+4])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][4])
 	case coordX == 16 && coordY == 0:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+6])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][6])
 	case coordX == 0 && coordY == 16:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+12])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][12])
 	case coordX == 16 && coordY == 16:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+14])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][14])
 	}
 
 	return CurBlockset.TilesetID, 0
@@ -134,13 +147,13 @@ func FrontTileID(x, y int, direction util.Direction) (uint, int) {
 
 	switch {
 	case coordX == 0 && coordY == 0:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+4])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][4])
 	case coordX == 16 && coordY == 0:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+6])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][6])
 	case coordX == 0 && coordY == 16:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+12])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][12])
 	case coordX == 16 && coordY == 16:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+14])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][14])
 	}
 
 	return CurBlockset.TilesetID, 0
