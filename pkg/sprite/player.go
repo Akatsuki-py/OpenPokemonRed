@@ -7,12 +7,15 @@ import (
 	"pokered/pkg/data/tilecoll"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap/ledge"
+	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 	"pokered/pkg/world"
 
 	"github.com/hajimehoshi/ebiten"
 )
+
+var ledgeJumpCounter byte
 
 // InitPlayer initialize player sprite
 func InitPlayer(state uint, x, y int) {
@@ -178,6 +181,9 @@ func CollisionCheckForPlayer() bool {
 		return collision
 	}
 
+	if HandleLedges() {
+		return true
+	}
 	_, curTileID := world.CurTileID(p.MapXCoord, p.MapYCoord, p.ScreenXPixel, p.ScreenYPixel)
 	if tilecoll.IsCollisionPair(tilesetID, byte(curTileID), byte(frontTileID), false) {
 		collision = true
@@ -207,9 +213,36 @@ func HandleLedges() bool {
 	for _, l := range ledge.LedgeTiles {
 		if p.Direction == l.Direction && curTileID == l.CurTileID && frontTileID == l.LedgeTileID {
 			util.SetBit(store.D736, 6)
+			p.Simulated = []uint{p.Direction, p.Direction}
+			audio.PlaySound(audio.SFX_LEDGE)
 			return true
 		}
 	}
 
 	return false
+}
+
+func HandleMidJump() {
+	var jumpingYScreenPixel = [...]int{
+		0x38, 0x36, 0x34, 0x32, 0x31, 0x30, 0x30, 0x30, 0x31, 0x32, 0x33, 0x34, 0x36, 0x38, 0x3C, 0x3C,
+	}
+
+	p := store.SpriteData[0]
+	if p == nil {
+		return
+	}
+
+	if ledgeJumpCounter < 16 {
+		p.ScreenYPixel = jumpingYScreenPixel[ledgeJumpCounter]
+		ledgeJumpCounter++
+		return
+	}
+
+	// finished jump
+	UpdateSprites()
+	store.DelayFrames = 3
+
+	joypad.JoyHeld, joypad.JoyPressed, joypad.JoyReleased, joypad.JoyIgnore = joypad.Input{}, joypad.Input{}, joypad.Input{}, joypad.Input{}
+	ledgeJumpCounter = 0
+	util.ResBit(store.D736, 6)
 }

@@ -139,11 +139,11 @@ func FrontTileID(x, y, pixelX, pixelY int, direction util.Direction) (uint, int)
 	case px%2 == 0 && py%2 == 0:
 		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+0])
 	case px%2 == 1 && py%2 == 0:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+2])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+3])
 	case px%2 == 0 && py%2 == 1:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+8])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+12])
 	case px%2 == 1 && py%2 == 1:
-		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+10])
+		return CurBlockset.TilesetID, int(CurBlockset.Bytes[uint(blockID)*16+15])
 	}
 
 	return CurBlockset.TilesetID, 0

@@ -17,12 +17,16 @@ func execOverworld() {
 		return
 	}
 
+	if util.ReadBit(store.D736, 6) {
+		sprite.HandleMidJump()
+	}
+
 	if p.WalkCounter > 0 {
 		sprite.UpdateSprites()
 		sprite.AdvancePlayerSprite()
 	} else {
-		p.DeltaX, p.DeltaY = 0, 0
-		joypad.Joypad()
+		joypadOverworld()
+
 		directionPressed := false
 		switch {
 		case joypad.JoyHeld.Start:
@@ -59,6 +63,33 @@ func execOverworld() {
 		}
 	}
 	moveAhead()
+}
+
+// simulatedJoypad
+func joypadOverworld() {
+	p := store.SpriteData[0]
+	p.DeltaX, p.DeltaY = 0, 0
+	joypad.Joypad()
+
+	if len(p.Simulated) == 0 {
+		return
+	}
+
+	switch p.Simulated[0] {
+	case util.Down:
+		joypad.JoyHeld = joypad.Input{Down: true}
+	case util.Up:
+		joypad.JoyHeld = joypad.Input{Up: true}
+	case util.Right:
+		joypad.JoyHeld = joypad.Input{Right: true}
+	case util.Left:
+		joypad.JoyHeld = joypad.Input{Left: true}
+	}
+	if len(p.Simulated) > 1 {
+		p.Simulated = p.Simulated[1:]
+		return
+	}
+	p.Simulated = []uint{}
 }
 
 func moveAhead() {
