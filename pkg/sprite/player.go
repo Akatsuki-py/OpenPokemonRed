@@ -215,7 +215,7 @@ func HandleLedges() bool {
 	for _, l := range ledge.LedgeTiles {
 		if p.Direction == l.Direction && curTileID == l.CurTileID && frontTileID == l.LedgeTileID {
 			util.SetBit(&store.D736, 6)
-			p.Simulated = []uint{p.Direction, p.Direction}
+			p.Simulated = []uint{p.Direction}
 			audio.PlaySound(audio.SFX_LEDGE)
 			return true
 		}
