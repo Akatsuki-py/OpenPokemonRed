@@ -22,3 +22,6 @@ const (
 	Ship
 	Underground
 )
+
+const Mart = Pokecenter
+const Museum = Gate

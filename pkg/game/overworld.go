@@ -111,7 +111,11 @@ func checkWarpsNoCollision() {
 	}
 	for _, w := range curWorld.Object.Warps {
 		if p.MapXCoord == w.XCoord && p.MapYCoord == w.YCoord {
-
+			util.SetBit(&store.D736, 2)
+			if sprite.IsPlayerStandingOnDoorOrWarp() {
+				warpFound()
+				return
+			}
 		}
 	}
 
@@ -152,3 +156,5 @@ func checkMapConnections() {
 		}
 	}
 }
+
+func warpFound() {}

@@ -1,0 +1,24 @@
+package warp
+
+import "pokered/pkg/data/tileset"
+
+// WarpTileIDs tilesetID -> warp tiles
+var WarpTileIDs = map[uint][]byte{
+	tileset.Overworld:   {0x1b, 0x58},
+	tileset.RedsHouse:   {0x1a, 0x1c},
+	tileset.Mart:        {0x5e},
+	tileset.Forest:      {0x5a, 0x5c, 0x3a},
+	tileset.Gym:         {0x4a},
+	tileset.House:       {0x54, 0x5c, 0x32},
+	tileset.Ship:        {0x37, 0x39, 0x1e, 0x4a},
+	tileset.Interior:    {0x15, 0x55, 0x04},
+	tileset.Cavern:      {0x18, 0x1a, 0x22},
+	tileset.Lobby:       {0x1a, 0x1c, 0x38},
+	tileset.Mansion:     {0x1a, 0x1c, 0x53},
+	tileset.Lab:         {0x34},
+	tileset.Facility:    {0x43, 0x58, 0x20, 0x1b, 0x13},
+	tileset.Cemetery:    {0x1b, 0x13},
+	tileset.Underground: {0x13},
+	tileset.Plateau:     {0x1b, 0x3b},
+	tileset.ShipPort:    {},
+}

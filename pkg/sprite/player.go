@@ -7,6 +7,7 @@ import (
 	"pokered/pkg/data/tilecoll"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap/ledge"
+	"pokered/pkg/data/worldmap/warp"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
@@ -247,4 +248,61 @@ func HandleMidJump() {
 	joypad.JoyHeld, joypad.JoyPressed, joypad.JoyReleased, joypad.JoyIgnore = joypad.Input{}, joypad.Input{}, joypad.Input{}, joypad.Input{}
 	ledgeJumpCounter = 0
 	util.ResBit(&store.D736, 6)
+}
+
+// IsPlayerStandingOnDoorOrWarp プレイヤーが、ドアタイルかwarpタイルの上に立っているかを調べる
+// ref: IsPlayerStandingOnDoorTileOrWarpTile
+func IsPlayerStandingOnDoorOrWarp() bool {
+	if isPlayerStandingOnDoor() || isPlayerStandingOnWarp() {
+		util.ResBit(&store.D736, 2)
+		return true
+	}
+
+	return false
+}
+
+// isPlayerStandingOnDoor check player is standing on door tile
+func isPlayerStandingOnDoor() bool {
+	p := store.SpriteData[0]
+	if store.IsInvalidSprite(0) {
+		return false
+	}
+
+	tilesetID, tileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
+
+	doors, ok := warp.DoorTileIDs[tilesetID]
+	if !ok {
+		return false
+	}
+
+	for _, d := range doors {
+		if d == byte(tileID) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// isPlayerStandingOnWarp check player is standing on warp tile
+func isPlayerStandingOnWarp() bool {
+	p := store.SpriteData[0]
+	if store.IsInvalidSprite(0) {
+		return false
+	}
+
+	tilesetID, tileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
+
+	doors, ok := warp.WarpTileIDs[tilesetID]
+	if !ok {
+		return false
+	}
+
+	for _, d := range doors {
+		if d == byte(tileID) {
+			return true
+		}
+	}
+
+	return false
 }
