@@ -100,7 +100,7 @@ func UpdateSpriteImage(offset uint) {
 	if s == nil {
 		return
 	}
-	length := len(s.VRAM.Images)
+	length := s.VRAM.Length()
 	if length == 1 {
 		s.VRAM.Index = 0
 		return
