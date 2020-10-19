@@ -3,6 +3,7 @@ package object
 import (
 	"pokered/pkg/data/sprdata"
 	"pokered/pkg/data/worldmap"
+	"pokered/pkg/util"
 )
 
 // Object Map object data
@@ -56,5 +57,6 @@ func Get(id int) *Object {
 	case worldmap.ROUTE_21:
 		return Route21
 	}
+	util.NotRegisteredError("object.Get", id)
 	return nil
 }

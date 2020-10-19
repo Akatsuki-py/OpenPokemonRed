@@ -20,6 +20,9 @@ type World struct {
 // CurWorld current map data
 var CurWorld *World
 
+// LastWorld last map data
+var LastWorld *World
+
 // map exterior range(block)
 const exterior int = 3
 
@@ -28,6 +31,7 @@ func LoadWorldData(id int) {
 	curAnimTiles = []animTile{}
 
 	h, o := header.Get(id), object.Get(id)
+
 	o.Initialized = false
 	img, _ := ebiten.NewImage(int(h.Width*32)+2*exterior*32, int(h.Height*32)+2*exterior*32, ebiten.FilterDefault)
 	loadBlockset(h.Tileset)
@@ -100,5 +104,4 @@ func DrawImageBlock(target *ebiten.Image, blockID byte, x, y int) {
 	checkAnimTiles(uint(blockID), x, y)
 	block := CurBlockset.Data[blockID]
 	util.DrawImageBlock(target, block, x, y)
-
 }

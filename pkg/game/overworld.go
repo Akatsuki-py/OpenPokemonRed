@@ -2,6 +2,8 @@ package game
 
 import (
 	"pokered/pkg/audio"
+	"pokered/pkg/data/tileset"
+	"pokered/pkg/data/worldmap"
 	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/joypad"
 	"pokered/pkg/script"
@@ -109,11 +111,11 @@ func checkWarpsNoCollision() {
 	if p == nil {
 		return
 	}
-	for _, w := range curWorld.Object.Warps {
+	for i, w := range curWorld.Object.Warps {
 		if p.MapXCoord == w.XCoord && p.MapYCoord == w.YCoord {
 			util.SetBit(&store.D736, 2)
 			if sprite.IsPlayerStandingOnDoorOrWarp() {
-				warpFound()
+				warpFound(i)
 				return
 			}
 		}
@@ -135,7 +137,7 @@ func checkMapConnections() {
 			if p.MapXCoord == int(XCoord) {
 				destMapID := curWorld.Header.Connections.North.DestMapID
 				DestMapHeader := header.Get(destMapID)
-				world.LoadWorldData(destMapID)
+				loadWorldData(destMapID, -1, -1)
 				p.MapXCoord = int(DestMapHeader.Connections.South.Coords[i])
 				p.MapYCoord = int(DestMapHeader.Height*2 - 1)
 				return
@@ -148,7 +150,7 @@ func checkMapConnections() {
 			if p.MapXCoord == int(XCoord) {
 				destMapID := curWorld.Header.Connections.South.DestMapID
 				DestMapHeader := header.Get(destMapID)
-				world.LoadWorldData(destMapID)
+				loadWorldData(destMapID, -1, -1)
 				p.MapXCoord = int(DestMapHeader.Connections.North.Coords[i])
 				p.MapYCoord = 0
 				return
@@ -157,4 +159,43 @@ func checkMapConnections() {
 	}
 }
 
-func warpFound() {}
+func warpFound(index int) {
+	if checkIfInOutsideMap() {
+		world.LastWorld = world.CurWorld
+		w := world.CurWorld.Object.Warps[index]
+		destMapID := w.DestMap
+		if destMapID != worldmap.ROCK_TUNNEL_1F {
+		}
+		playMapChangeSound()
+		loadWorldData(destMapID, w.XCoord, w.YCoord)
+		return
+	}
+
+	// indoorMaps
+}
+
+// If the player is in an outside map (a town or route), set the z flag
+func checkIfInOutsideMap() bool {
+	tilesetID := world.CurBlockset.TilesetID
+	return tilesetID == tileset.Overworld || tilesetID == tileset.Plateau
+}
+
+// function to play a sound when changing maps
+func playMapChangeSound() {
+	_, tileID := world.GetTileID(8, 8)
+	soundID := audio.SFX_GO_OUTSIDE
+	if tileID == 0x0b {
+		soundID = audio.SFX_GO_INSIDE
+	}
+	audio.PlaySound(soundID)
+}
+
+func loadWorldData(mapID int, xCoord, yCoord int) {
+	world.LoadWorldData(mapID)
+
+	// ref: LoadDestinationWarpPosition
+	if xCoord >= 0 && yCoord >= 0 {
+		p := store.SpriteData[0]
+		p.MapXCoord, p.MapYCoord = xCoord, yCoord
+	}
+}

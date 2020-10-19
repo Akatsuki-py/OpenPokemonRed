@@ -36,5 +36,10 @@ func Tile(tilesetID, tileID uint) *ebiten.Image {
 	if !ok {
 		return nil
 	}
+
+	if tileID >= uint(len(ts)) {
+		empty, _ := ebiten.NewImage(8, 8, ebiten.FilterDefault)
+		return empty
+	}
 	return ts[tileID]
 }

@@ -1,6 +1,9 @@
 package header
 
-import "pokered/pkg/data/worldmap"
+import (
+	"pokered/pkg/data/worldmap"
+	"pokered/pkg/util"
+)
 
 // Header Map header
 type Header struct {
@@ -41,10 +44,16 @@ func Get(id int) *Header {
 		return AgathasRoom
 	case worldmap.PALLET_TOWN:
 		return PalletTown
+	case worldmap.REDS_HOUSE_1F:
+		return RedsHouse1F
+	case worldmap.REDS_HOUSE_2F:
+		return RedsHouse2F
 	case worldmap.ROUTE_1:
 		return Route1
 	case worldmap.ROUTE_21:
 		return Route21
+	default:
+		util.NotRegisteredError("header.Get", id)
 	}
 	return nil
 }

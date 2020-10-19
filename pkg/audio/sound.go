@@ -20,6 +20,8 @@ const (
 	SFX_PRESS_AB
 	SFX_COLLISION
 	SFX_LEDGE
+	SFX_GO_INSIDE
+	SFX_GO_OUTSIDE
 )
 
 // WAV wav file
@@ -38,6 +40,8 @@ func newSoundMap() map[uint]*WAV {
 	soundMap[SFX_PRESS_AB] = newWav(store.FS, "/press_ab.wav")
 	soundMap[SFX_COLLISION] = newWav(store.FS, "/collision.wav")
 	soundMap[SFX_LEDGE] = newWav(store.FS, "/ledge.wav")
+	soundMap[SFX_GO_INSIDE] = newWav(store.FS, "/go_inside.wav")
+	soundMap[SFX_GO_OUTSIDE] = newWav(store.FS, "/go_outside.wav")
 
 	return soundMap
 }
