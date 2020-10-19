@@ -254,6 +254,9 @@ func HandleMidJump() {
 // ref: IsPlayerStandingOnDoorTileOrWarpTile
 func IsPlayerStandingOnDoorOrWarp() bool {
 	if isPlayerStandingOnDoor() || isPlayerStandingOnWarp() {
+		if store.DoorFlag.Step {
+			return false
+		}
 		util.ResBit(&store.D736, 2)
 		return true
 	}
@@ -277,6 +280,9 @@ func isPlayerStandingOnDoor() bool {
 
 	for _, d := range doors {
 		if d == byte(tileID) {
+			if store.DoorFlag.Check {
+				store.DoorFlag.Step = true
+			}
 			return true
 		}
 	}
@@ -305,29 +311,6 @@ func isPlayerStandingOnWarp() bool {
 	}
 
 	return false
-}
-
-func StepOutFromDoor() {
-	p := store.SpriteData[0]
-	if store.IsInvalidSprite(0) {
-		return
-	}
-
-	util.ResBit(&store.D730, 1)
-
-	if isPlayerStandingOnDoor() {
-		joypad.JoyIgnore = joypad.ByteToInput(0xfc)
-		util.SetBit(&store.D736, 1)
-
-		p.Simulated = []uint{util.Down}
-		StartSimulatingJoypadStates()
-		return
-	}
-
-	// notStandingOnDoor
-	p.Simulated = []uint{}
-	util.ResBit(&store.D736, 0)
-	util.ResBit(&store.D736, 1)
 }
 
 func StartSimulatingJoypadStates() {
@@ -371,9 +354,6 @@ func IsControlledByGame() bool {
 	}
 
 	if len(p.Simulated) > 0 {
-		return true
-	}
-	if util.ReadBit(store.D736, 1) {
 		return true
 	}
 	for i := uint(0); i < 7; i++ {

@@ -82,6 +82,10 @@ var D730 byte
 // bit 7: player sprite spinning due to spin tiles (Rocket hideout / Viridian Gym)
 var D736 byte
 
+var DoorFlag = struct {
+	Check, Step bool
+}{}
+
 // BagItems items in bag
 // [A@1, B@2, ...]
 var BagItems = []string{}

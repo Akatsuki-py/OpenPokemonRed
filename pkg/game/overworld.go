@@ -26,6 +26,10 @@ func execOverworld() {
 	if p.WalkCounter > 0 {
 		sprite.UpdateSprites()
 		sprite.AdvancePlayerSprite()
+
+		if p.WalkCounter == 0 {
+			store.DoorFlag.Check, store.DoorFlag.Step = false, false
+		}
 	} else {
 		joypadOverworld()
 
@@ -76,6 +80,11 @@ func joypadOverworld() {
 
 	joypad.Joypad()
 
+	if store.DoorFlag.Step {
+		joypad.JoyHeld = joypad.Input{Down: true}
+		return
+	}
+
 	if len(p.Simulated) == 0 {
 		return
 	}
@@ -104,10 +113,6 @@ func runMapScript() {
 
 // ref: RunNPCMovementScript
 func runNPCMovementScript() {
-	if util.ReadBit(store.D736, 0) {
-		util.ResBit(&store.D736, 0)
-		sprite.StepOutFromDoor()
-	}
 }
 
 func moveAhead() {
@@ -224,7 +229,7 @@ func warpFound(warpID int) {
 		destMapID = world.LastWorld.MapID
 	}
 	playMapChangeSound()
-	util.SetBit(&store.D736, 0)
+	store.DoorFlag.Check = true
 	loadWorldData(destMapID, warpID)
 }
 
@@ -246,10 +251,10 @@ func playMapChangeSound() {
 
 func loadWorldData(mapID, warpID int) {
 	world.LoadWorldData(mapID)
-	warpTo := world.CurWorld.Object.WarpTos[warpID]
 
 	// ref: LoadDestinationWarpPosition
 	if warpID >= 0 {
+		warpTo := world.CurWorld.Object.WarpTos[warpID]
 		p := store.SpriteData[0]
 		p.MapXCoord, p.MapYCoord = warpTo.XCoord, warpTo.YCoord
 	}
