@@ -321,6 +321,7 @@ func StepOutFromDoor() {
 
 		p.Simulated = []uint{util.Down}
 		StartSimulatingJoypadStates()
+		return
 	}
 
 	// notStandingOnDoor
