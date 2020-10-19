@@ -137,7 +137,7 @@ func checkMapConnections() {
 			if p.MapXCoord == int(XCoord) {
 				destMapID := curWorld.Header.Connections.North.DestMapID
 				DestMapHeader := header.Get(destMapID)
-				loadWorldData(destMapID, -1, -1)
+				loadWorldData(destMapID, -1)
 				p.MapXCoord = int(DestMapHeader.Connections.South.Coords[i])
 				p.MapYCoord = int(DestMapHeader.Height*2 - 1)
 				return
@@ -150,7 +150,7 @@ func checkMapConnections() {
 			if p.MapXCoord == int(XCoord) {
 				destMapID := curWorld.Header.Connections.South.DestMapID
 				DestMapHeader := header.Get(destMapID)
-				loadWorldData(destMapID, -1, -1)
+				loadWorldData(destMapID, -1)
 				p.MapXCoord = int(DestMapHeader.Connections.North.Coords[i])
 				p.MapYCoord = 0
 				return
@@ -159,15 +159,15 @@ func checkMapConnections() {
 	}
 }
 
-func warpFound(index int) {
+func warpFound(warpID int) {
 	if checkIfInOutsideMap() {
 		world.LastWorld = world.CurWorld
-		w := world.CurWorld.Object.Warps[index]
+		w := world.CurWorld.Object.Warps[warpID]
 		destMapID := w.DestMap
 		if destMapID != worldmap.ROCK_TUNNEL_1F {
 		}
 		playMapChangeSound()
-		loadWorldData(destMapID, w.XCoord, w.YCoord)
+		loadWorldData(destMapID, warpID)
 		return
 	}
 
@@ -190,12 +190,13 @@ func playMapChangeSound() {
 	audio.PlaySound(soundID)
 }
 
-func loadWorldData(mapID int, xCoord, yCoord int) {
+func loadWorldData(mapID, warpID int) {
 	world.LoadWorldData(mapID)
+	warpTo := world.CurWorld.Object.WarpTos[warpID]
 
 	// ref: LoadDestinationWarpPosition
-	if xCoord >= 0 && yCoord >= 0 {
+	if warpID >= 0 {
 		p := store.SpriteData[0]
-		p.MapXCoord, p.MapYCoord = xCoord, yCoord
+		p.MapXCoord, p.MapYCoord = warpTo.XCoord, warpTo.YCoord
 	}
 }
