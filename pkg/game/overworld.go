@@ -135,7 +135,7 @@ func checkWarpsNoCollision() {
 	for i, w := range curWorld.Object.Warps {
 		if p.MapXCoord == w.XCoord && p.MapYCoord == w.YCoord {
 			util.SetBit(&store.D736, 2)
-			if sprite.IsPlayerStandingOnDoorOrWarp() {
+			if sprite.IsStandingOnDoorOrWarp(0) {
 				warpFound(i)
 				return
 			}
@@ -212,31 +212,23 @@ func checkMapConnections() {
 }
 
 func warpFound(warpID int) {
-	if checkIfInOutsideMap() {
+	destMapID := 0
+	if world.CheckIfInOutsideMap() {
 		world.LastWorld = world.CurWorld
 		w := world.CurWorld.Object.Warps[warpID]
-		destMapID := w.DestMap
+		destMapID = w.DestMap
 		if destMapID != worldmap.ROCK_TUNNEL_1F {
 		}
-		playMapChangeSound()
-		loadWorldData(destMapID, warpID)
-		return
-	}
-
-	// indoorMaps
-	destMapID := world.CurWorld.Object.Warps[warpID].DestMap
-	if destMapID == worldmap.LAST_MAP {
-		destMapID = world.LastWorld.MapID
+	} else {
+		// indoorMaps
+		destMapID = world.CurWorld.Object.Warps[warpID].DestMap
+		if destMapID == worldmap.LAST_MAP {
+			destMapID = world.LastWorld.MapID
+		}
+		store.DoorFlag.Check = true
 	}
 	playMapChangeSound()
-	store.DoorFlag.Check = true
 	loadWorldData(destMapID, warpID)
-}
-
-// If the player is in an outside map (a town or route), set the z flag
-func checkIfInOutsideMap() bool {
-	tilesetID := world.CurBlockset.TilesetID
-	return tilesetID == tileset.Overworld || tilesetID == tileset.Plateau
 }
 
 // function to play a sound when changing maps

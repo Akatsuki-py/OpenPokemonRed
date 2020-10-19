@@ -1,6 +1,7 @@
 package world
 
 import (
+	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/data/worldmap/object"
 	"pokered/pkg/store"
@@ -104,4 +105,10 @@ func DrawImageBlock(target *ebiten.Image, blockID byte, x, y int) {
 	checkAnimTiles(uint(blockID), x, y)
 	block := CurBlockset.Data[blockID]
 	util.DrawImageBlock(target, block, x, y)
+}
+
+// CheckIfInOutsideMap If the player is in an outside map (a town or route), set the z flag
+func CheckIfInOutsideMap() bool {
+	tilesetID := CurBlockset.TilesetID
+	return tilesetID == tileset.Overworld || tilesetID == tileset.Plateau
 }

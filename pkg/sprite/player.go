@@ -6,8 +6,6 @@ import (
 	"pokered/pkg/audio"
 	"pokered/pkg/data/tilecoll"
 	"pokered/pkg/data/tileset"
-	"pokered/pkg/data/worldmap/ledge"
-	"pokered/pkg/data/worldmap/warp"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
@@ -201,28 +199,16 @@ func HandleLedges() bool {
 		return false
 	}
 
-	if world.CurBlockset.TilesetID != tileset.Overworld {
+	if !world.IsCurTileset(tileset.Overworld) {
 		return false
 	}
 
-	p := store.SpriteData[0]
-	if p == nil {
-		return false
+	result := isJumpingLedge(0)
+	if result {
+		util.SetBit(&store.D736, 6)
+		audio.PlaySound(audio.SFX_LEDGE)
 	}
-
-	_, curTileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
-	_, frontTileID := world.FrontTileID(p.MapXCoord, p.MapYCoord, p.Direction)
-
-	for _, l := range ledge.LedgeTiles {
-		if p.Direction == l.Direction && curTileID == l.CurTileID && frontTileID == l.LedgeTileID {
-			util.SetBit(&store.D736, 6)
-			p.Simulated = []uint{p.Direction}
-			audio.PlaySound(audio.SFX_LEDGE)
-			return true
-		}
-	}
-
-	return false
+	return result
 }
 
 func HandleMidJump() {
@@ -250,114 +236,15 @@ func HandleMidJump() {
 	util.ResBit(&store.D736, 6)
 }
 
-// IsPlayerStandingOnDoorOrWarp プレイヤーが、ドアタイルかwarpタイルの上に立っているかを調べる
-// ref: IsPlayerStandingOnDoorTileOrWarpTile
-func IsPlayerStandingOnDoorOrWarp() bool {
-	if isPlayerStandingOnDoor() || isPlayerStandingOnWarp() {
-		if store.DoorFlag.Step {
-			return false
-		}
-		util.ResBit(&store.D736, 2)
-		return true
-	}
-
-	return false
-}
-
-// isPlayerStandingOnDoor check player is standing on door tile
-func isPlayerStandingOnDoor() bool {
-	p := store.SpriteData[0]
-	if store.IsInvalidSprite(0) {
-		return false
-	}
-
-	tilesetID, tileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
-
-	doors, ok := warp.DoorTileIDs[tilesetID]
-	if !ok {
-		return false
-	}
-
-	for _, d := range doors {
-		if d == byte(tileID) {
-			if store.DoorFlag.Check {
-				store.DoorFlag.Step = true
-			}
-			return true
-		}
-	}
-
-	return false
-}
-
-// isPlayerStandingOnWarp check player is standing on warp tile
-func isPlayerStandingOnWarp() bool {
-	p := store.SpriteData[0]
-	if store.IsInvalidSprite(0) {
-		return false
-	}
-
-	tilesetID, tileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
-
-	doors, ok := warp.WarpTileIDs[tilesetID]
-	if !ok {
-		return false
-	}
-
-	for _, d := range doors {
-		if d == byte(tileID) {
-			return true
-		}
-	}
-
-	return false
-}
-
-func StartSimulatingJoypadStates() {
-	p := store.SpriteData[0]
-	if store.IsInvalidSprite(0) {
-		return
-	}
-
-	p.MovementBytes[0] = 0
-}
-
 // IsPlayerFacingEdgeOfMap check player faces edge of the current map
 func IsPlayerFacingEdgeOfMap() bool {
 	p := store.SpriteData[0]
 	if store.IsInvalidSprite(0) {
 		return false
 	}
-
-	switch p.Direction {
-	case util.Up:
-		return p.MapYCoord == 0
-	case util.Down:
-		return p.MapYCoord == int(world.CurWorld.Header.Height*2-1)
-	case util.Left:
-		return p.MapXCoord == 0
-	case util.Right:
-		return p.MapXCoord == int(world.CurWorld.Header.Width*2-1)
-	}
-
-	return false
+	return world.FaceEdgeOfMap(p.MapXCoord, p.MapYCoord, p.Direction)
 }
 
 func IsWarpTileInFrontOfPlayer() bool {
-	return false
-}
-
-func IsControlledByGame() bool {
-	p := store.SpriteData[0]
-	if store.IsInvalidSprite(0) {
-		return false
-	}
-
-	if len(p.Simulated) > 0 {
-		return true
-	}
-	for i := uint(0); i < 7; i++ {
-		util.SetBit(&store.D730, i)
-	}
 	return false
 }

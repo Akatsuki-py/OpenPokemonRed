@@ -142,7 +142,7 @@ func updateMovingTiles() {
 		}
 
 		// don't execute flower animation when player is in cavern
-		if CurBlockset.TilesetID == tileset.Cavern {
+		if IsCurTileset(tileset.Cavern) {
 			animCounter1 = 0
 		}
 
