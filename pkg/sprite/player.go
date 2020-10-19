@@ -306,3 +306,77 @@ func isPlayerStandingOnWarp() bool {
 
 	return false
 }
+
+func StepOutFromDoor() {
+	p := store.SpriteData[0]
+	if store.IsInvalidSprite(0) {
+		return
+	}
+
+	util.ResBit(&store.D730, 1)
+
+	if isPlayerStandingOnDoor() {
+		joypad.JoyIgnore = joypad.ByteToInput(0xfc)
+		util.SetBit(&store.D736, 1)
+
+		p.Simulated = []uint{util.Down}
+		StartSimulatingJoypadStates()
+	}
+
+	// notStandingOnDoor
+	p.Simulated = []uint{}
+	util.ResBit(&store.D736, 0)
+	util.ResBit(&store.D736, 1)
+}
+
+func StartSimulatingJoypadStates() {
+	p := store.SpriteData[0]
+	if store.IsInvalidSprite(0) {
+		return
+	}
+
+	p.MovementBytes[0] = 0
+}
+
+// IsPlayerFacingEdgeOfMap check player faces edge of the current map
+func IsPlayerFacingEdgeOfMap() bool {
+	p := store.SpriteData[0]
+	if store.IsInvalidSprite(0) {
+		return false
+	}
+
+	switch p.Direction {
+	case util.Up:
+		return p.MapYCoord == 0
+	case util.Down:
+		return p.MapYCoord == int(world.CurWorld.Header.Height*2-1)
+	case util.Left:
+		return p.MapXCoord == 0
+	case util.Right:
+		return p.MapXCoord == int(world.CurWorld.Header.Width*2-1)
+	}
+
+	return false
+}
+
+func IsWarpTileInFrontOfPlayer() bool {
+	return false
+}
+
+func IsControlledByGame() bool {
+	p := store.SpriteData[0]
+	if store.IsInvalidSprite(0) {
+		return false
+	}
+
+	if len(p.Simulated) > 0 {
+		return true
+	}
+	if util.ReadBit(store.D736, 1) {
+		return true
+	}
+	for i := uint(0); i < 7; i++ {
+		util.SetBit(&store.D730, i)
+	}
+	return false
+}

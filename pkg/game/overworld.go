@@ -71,6 +71,9 @@ func execOverworld() {
 func joypadOverworld() {
 	p := store.SpriteData[0]
 	p.DeltaX, p.DeltaY = 0, 0
+
+	runMapScript()
+
 	joypad.Joypad()
 
 	if len(p.Simulated) == 0 {
@@ -92,6 +95,19 @@ func joypadOverworld() {
 		return
 	}
 	p.Simulated = []uint{}
+}
+
+// ref: RunMapScript
+func runMapScript() {
+	runNPCMovementScript()
+}
+
+// ref: RunNPCMovementScript
+func runNPCMovementScript() {
+	if util.ReadBit(store.D736, 0) {
+		util.ResBit(&store.D736, 0)
+		sprite.StepOutFromDoor()
+	}
 }
 
 func moveAhead() {
@@ -118,10 +134,41 @@ func checkWarpsNoCollision() {
 				warpFound(i)
 				return
 			}
+
+			if !extraWarpCheck() {
+				return
+			}
+
+			// if the extra check passed
+			joypad.Joypad()
+			if joypad.JoyHeld.Down || joypad.JoyHeld.Up || joypad.JoyHeld.Left || joypad.JoyHeld.Right {
+				warpFound(i)
+			}
+
 		}
 	}
 
 	checkMapConnections()
+}
+
+// ref: ExtraWarpCheck
+func extraWarpCheck() bool {
+	result := false
+	curMap, curTileset := world.CurWorld.MapID, world.CurWorld.Header.Tileset
+
+	switch curMap {
+	case worldmap.ROCKET_HIDEOUT_B1F, worldmap.ROCKET_HIDEOUT_B2F, worldmap.ROCKET_HIDEOUT_B4F, worldmap.ROCK_TUNNEL_1F:
+		result = sprite.IsWarpTileInFrontOfPlayer()
+
+	default:
+		switch curTileset {
+		case tileset.Overworld, tileset.Ship, tileset.ShipPort, tileset.Plateau:
+			result = sprite.IsWarpTileInFrontOfPlayer()
+		default:
+			result = sprite.IsPlayerFacingEdgeOfMap()
+		}
+	}
+	return result
 }
 
 // ref: CheckMapConnections
@@ -172,6 +219,13 @@ func warpFound(warpID int) {
 	}
 
 	// indoorMaps
+	destMapID := world.CurWorld.Object.Warps[warpID].DestMap
+	if destMapID == worldmap.LAST_MAP {
+		destMapID = world.LastWorld.MapID
+	}
+	playMapChangeSound()
+	util.SetBit(&store.D736, 0)
+	loadWorldData(destMapID, warpID)
 }
 
 // If the player is in an outside map (a town or route), set the z flag
