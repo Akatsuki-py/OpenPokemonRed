@@ -6,12 +6,6 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
-func newShapeImage(from *ebiten.Image) *ebiten.Image {
-	bounds := from.Bounds()
-	img, _ := ebiten.NewImage(bounds.Dx(), bounds.Dy(), ebiten.FilterDefault)
-	return img
-}
-
 // Filter get palette filtered img
 func Filter(img *ebiten.Image, p int) *ebiten.Image {
 	switch p {
@@ -51,7 +45,7 @@ func filter2(target *ebiten.Image) *ebiten.Image {
 	result, _ := ebiten.NewImageFromImage(target, ebiten.FilterDefault)
 
 	sheet, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
-	sheet.Fill(color.NRGBA{0, 40, 0, 0xdf})
+	sheet.Fill(color.NRGBA{0, 80, 0, 0xf7})
 	result.DrawImage(sheet, nil)
 
 	return result
@@ -65,7 +59,7 @@ func filter3(target *ebiten.Image) *ebiten.Image {
 	result, _ := ebiten.NewImageFromImage(target, ebiten.FilterDefault)
 
 	sheet, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
-	sheet.Fill(color.NRGBA{0, 40, 0, 0xcf})
+	sheet.Fill(color.NRGBA{0, 80, 0, 0xdf})
 	result.DrawImage(sheet, nil)
 
 	return result
@@ -79,7 +73,7 @@ func filter4(target *ebiten.Image) *ebiten.Image {
 	result, _ := ebiten.NewImageFromImage(target, ebiten.FilterDefault)
 
 	sheet, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
-	sheet.Fill(color.NRGBA{0, 40, 0, 0xbf})
+	sheet.Fill(color.NRGBA{0, 80, 0, 0xcf})
 	result.DrawImage(sheet, nil)
 
 	return result
@@ -90,9 +84,9 @@ func filter5(target *ebiten.Image) *ebiten.Image {
 		return target
 	}
 
-	result := newShapeImage(target)
+	result, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
 
-	sheet := newShapeImage(target)
+	sheet, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
 	sheet.Fill(color.NRGBA{95, 125, 100, 0xff})
 	result.DrawImage(sheet, nil)
 

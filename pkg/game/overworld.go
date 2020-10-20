@@ -6,6 +6,7 @@ import (
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/joypad"
+	pal "pokered/pkg/palette"
 	"pokered/pkg/script"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
@@ -18,6 +19,8 @@ func execOverworld() {
 	if p == nil {
 		return
 	}
+
+	pal.LoadGBPal()
 
 	if util.ReadBit(store.D736, 6) {
 		sprite.HandleMidJump()
@@ -228,7 +231,10 @@ func warpFound(warpID int) {
 		store.DoorFlag.Check = true
 	}
 	playMapChangeSound()
-	loadWorldData(destMapID, warpID)
+	pal.GBFadeOutToBlack()
+
+	world.WarpTo = [2]int{destMapID, warpID}
+	script.PushID(script.LoadMapData)
 }
 
 // function to play a sound when changing maps

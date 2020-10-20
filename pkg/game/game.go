@@ -4,6 +4,7 @@ import (
 	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
+	pal "pokered/pkg/palette"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
@@ -39,7 +40,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 // Draw draws the game screen.
 func (g *Game) Draw(screen *ebiten.Image) {
-	screen.DrawImage(store.TileMap, nil)
+	screen.DrawImage(pal.Filter(store.TileMap, store.Palette), nil)
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.

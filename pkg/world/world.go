@@ -24,6 +24,9 @@ var CurWorld *World
 // LastWorld last map data
 var LastWorld *World
 
+// WarpTo used in loadMapData
+var WarpTo [2]int = [2]int{-1, -1}
+
 // map exterior range(block)
 const exterior int = 3
 
