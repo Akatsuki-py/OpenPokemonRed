@@ -39,7 +39,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 // Draw draws the game screen.
 func (g *Game) Draw(screen *ebiten.Image) {
-	screen.DrawImage(store.TileMap, nil)
+	screen.DrawImage(store.FilteredTileMap(), nil)
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.

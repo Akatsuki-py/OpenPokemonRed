@@ -3,7 +3,6 @@ package store
 import (
 	_ "pokered/pkg/data/statik"
 
-	"github.com/hajimehoshi/ebiten"
 	"github.com/rakyll/statik/fs"
 )
 
@@ -33,9 +32,6 @@ var Player = struct {
 	Time  uint
 }{"NINTEN", 0, 0}
 var RivalName = "SONY"
-
-// TileMap c3a0
-var TileMap, _ = ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
 
 // TMName wcf4b
 var TMName = ""
