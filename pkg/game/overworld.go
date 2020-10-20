@@ -29,10 +29,6 @@ func execOverworld() {
 	if p.WalkCounter > 0 {
 		sprite.UpdateSprites()
 		sprite.AdvancePlayerSprite()
-
-		if p.WalkCounter == 0 {
-			store.DoorFlag.Check, store.DoorFlag.Step = false, false
-		}
 	} else {
 		joypadOverworld()
 
@@ -83,7 +79,7 @@ func joypadOverworld() {
 
 	joypad.Joypad()
 
-	if store.DoorFlag.Step {
+	if p.Direction == util.Down && sprite.IsStandingOnDoor(0) {
 		joypad.JoyHeld = joypad.Input{Down: true}
 		return
 	}
@@ -228,7 +224,6 @@ func warpFound(warpID int) {
 		if destMapID == worldmap.LAST_MAP {
 			destMapID = world.LastWorld.MapID
 		}
-		store.DoorFlag.Check = true
 	}
 	playMapChangeSound()
 	pal.GBFadeOutToBlack()

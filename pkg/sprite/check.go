@@ -10,10 +10,18 @@ import (
 // IsStandingOnDoorOrWarp プレイヤーが、ドアタイルかwarpタイルの上に立っているかを調べる
 // ref: IsPlayerStandingOnDoorTileOrWarpTile
 func IsStandingOnDoorOrWarp(offset int) bool {
-	if isStandingOnDoor(offset) || isStandingOnWarp(offset) {
-		if store.DoorFlag.Step {
-			return false
+	if IsStandingOnDoor(offset) {
+		if offset == 0 {
+			p := store.SpriteData[offset]
+			if p.Direction == util.Down {
+				return false
+			}
 		}
+
+		util.ResBit(&store.D736, 2)
+		return true
+	}
+	if isStandingOnWarp(offset) {
 		util.ResBit(&store.D736, 2)
 		return true
 	}
@@ -21,8 +29,8 @@ func IsStandingOnDoorOrWarp(offset int) bool {
 	return false
 }
 
-// isPlayerStandingOnDoor check player is standing on door tile
-func isStandingOnDoor(offset int) bool {
+// IsStandingOnDoor check player is standing on door tile
+func IsStandingOnDoor(offset int) bool {
 	p := store.SpriteData[offset]
 	if store.IsInvalidSprite(0) {
 		return false

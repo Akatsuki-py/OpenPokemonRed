@@ -2,7 +2,6 @@ package world
 
 import (
 	"pokered/pkg/data/worldmap/warp"
-	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
 
@@ -16,9 +15,6 @@ func StandOnDoor(xCoord, yCoord int) bool {
 
 	for _, d := range doors {
 		if d == byte(tileID) {
-			if store.DoorFlag.Check {
-				store.DoorFlag.Step = true
-			}
 			return true
 		}
 	}
