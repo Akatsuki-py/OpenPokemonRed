@@ -1,4 +1,4 @@
-package pal
+package palette
 
 import (
 	"pokered/pkg/script"

@@ -14,6 +14,8 @@ import (
 	"pokered/pkg/world"
 )
 
+var ctr = 0
+
 func execOverworld() {
 	p := store.SpriteData[0]
 	if p == nil {
@@ -146,6 +148,7 @@ func checkWarpsNoCollision() {
 			// if the extra check passed
 			joypad.Joypad()
 			if joypad.JoyHeld.Down || joypad.JoyHeld.Up || joypad.JoyHeld.Left || joypad.JoyHeld.Right {
+				p.WalkCounter, p.AnimationFrame = 0, 0
 				warpFound(i)
 			}
 

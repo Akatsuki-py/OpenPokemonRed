@@ -107,6 +107,9 @@ func AdvancePlayerSprite() {
 		return
 	}
 	p.WalkCounter--
+	if p.WalkCounter < 0 {
+		p.WalkCounter = 0
+	}
 	if p.WalkCounter == 0 {
 		p.RightHand = !p.RightHand
 		p.MapXCoord += p.DeltaX
