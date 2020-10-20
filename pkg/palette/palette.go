@@ -1,0 +1,5 @@
+package pal
+
+func GBFadeOutToBlack() {
+
+}
