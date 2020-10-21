@@ -20,10 +20,15 @@ The ROM version is not Japanese but English.
 **This project is in the middle of development and is currently creating the underlying system part.**  
 For example, text drawing, sound playback, and combat systems.
 
+## 📽 Demo
+
+<img src="./screenshots/demo.gif" width="360px" height="360px" />
+
+
 ## 🏞 Screenshots
 
 Screenshots as of v0.0.7 (Text engine, Menu engine, Sprites engine, some Widgets, part of Map engine)
 
 <img src="./screenshots/overworld_0.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/trainer_card.png" width="360px" height="360px" />
 
-<img src="./screenshots/demo.gif" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/reds_house.png" width="360px" height="360px" />
+<img src="./screenshots/overworld_1.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/reds_house.png" width="360px" height="360px" />
