@@ -176,6 +176,10 @@ func extraWarpCheck() bool {
 		switch curTileset {
 		case tileset.Overworld, tileset.Ship, tileset.ShipPort, tileset.Plateau:
 			result = sprite.IsWarpTileInFrontOfPlayer()
+		case tileset.RedsHouse:
+			result = sprite.IsPlayerFacingEdgeOfMap()
+			_, curTileID := sprite.PlayerCurTileID()
+			result = result && (curTileID == 0x14)
 		default:
 			result = sprite.IsPlayerFacingEdgeOfMap()
 		}

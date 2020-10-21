@@ -253,3 +253,8 @@ func IsPlayerFacingEdgeOfMap() bool {
 func IsWarpTileInFrontOfPlayer() bool {
 	return false
 }
+
+func PlayerCurTileID() (uint, int) {
+	p := store.SpriteData[0]
+	return world.CurTileID(p.MapXCoord, p.MapYCoord)
+}
