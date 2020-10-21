@@ -14,8 +14,6 @@ import (
 	"pokered/pkg/world"
 )
 
-var ctr = 0
-
 func execOverworld() {
 	p := store.SpriteData[0]
 	if p == nil {
@@ -31,6 +29,12 @@ func execOverworld() {
 	if p.WalkCounter > 0 {
 		sprite.UpdateSprites()
 		sprite.AdvancePlayerSprite()
+
+		if p.WalkCounter == 0 {
+			if (p.DeltaX + p.DeltaY) != 0 {
+				store.Enable.NormalWarp = true
+			}
+		}
 	} else {
 		joypadOverworld()
 
@@ -133,11 +137,12 @@ func checkWarpsNoCollision() {
 	if p == nil {
 		return
 	}
-	for i, w := range curWorld.Object.Warps {
+	for _, w := range curWorld.Object.Warps {
 		if p.MapXCoord == w.XCoord && p.MapYCoord == w.YCoord {
 			util.SetBit(&store.D736, 2)
-			if sprite.IsStandingOnDoorOrWarp(0) {
-				warpFound(i)
+			if store.Enable.NormalWarp && sprite.IsStandingOnDoorOrWarp(0) {
+				store.Enable.NormalWarp = false
+				warpFound(w.DestMap, w.DestWarpID)
 				return
 			}
 
@@ -149,7 +154,7 @@ func checkWarpsNoCollision() {
 			joypad.Joypad()
 			if joypad.JoyHeld.Down || joypad.JoyHeld.Up || joypad.JoyHeld.Left || joypad.JoyHeld.Right {
 				p.WalkCounter, p.AnimationFrame = 0, 0
-				warpFound(i)
+				warpFound(w.DestMap, w.DestWarpID)
 			}
 
 		}
@@ -213,25 +218,21 @@ func checkMapConnections() {
 	}
 }
 
-func warpFound(warpID int) {
-	destMapID := 0
+func warpFound(mapID, warpID int) {
 	if world.CheckIfInOutsideMap() {
 		world.LastWorld = world.CurWorld
-		w := world.CurWorld.Object.Warps[warpID]
-		destMapID = w.DestMap
-		if destMapID != worldmap.ROCK_TUNNEL_1F {
+		if mapID != worldmap.ROCK_TUNNEL_1F {
 		}
 	} else {
 		// indoorMaps
-		destMapID = world.CurWorld.Object.Warps[warpID].DestMap
-		if destMapID == worldmap.LAST_MAP {
-			destMapID = world.LastWorld.MapID
+		if mapID == worldmap.LAST_MAP {
+			mapID = world.LastWorld.MapID
 		}
 	}
 	playMapChangeSound()
 	pal.GBFadeOutToBlack()
 
-	world.WarpTo = [2]int{destMapID, warpID}
+	world.WarpTo = [2]int{mapID, warpID}
 	script.PushID(script.LoadMapData)
 }
 

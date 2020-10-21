@@ -1,8 +1,14 @@
 package world
 
 import (
+	"math"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/util"
+)
+
+const (
+	Passable   int = -1
+	NoPassable int = -2
 )
 
 // GetTileID get tile ID on which player stands
@@ -38,7 +44,7 @@ func CurTileID(x, y int) (uint, int) {
 	coordX, coordY := (x*16)%32, (y*16+8)%32-8
 	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
 	if blockOffset < 0 {
-		return CurBlockset.TilesetID, -1
+		return CurBlockset.TilesetID, Passable
 	}
 	blockID := CurWorld.Header.Blk(blockOffset)
 
@@ -53,7 +59,7 @@ func CurTileID(x, y int) (uint, int) {
 		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][14])
 	}
 
-	return CurBlockset.TilesetID, 0
+	return CurBlockset.TilesetID, NoPassable
 }
 
 // FrontTileID get tile ID in front of player
@@ -70,11 +76,27 @@ func FrontTileID(x, y int, direction util.Direction) (uint, int) {
 		deltaX = 16
 	}
 
-	blockX, blockY := (x*16+deltaX)/32, (y*16+8+deltaY)/32
-	coordX, coordY := (x*16+deltaX)%32, (y*16+8+deltaY)%32-8
+	pixelX, pixelY := x*16+deltaX, y*16+8+deltaY
+	blockX, blockY := pixelX/32, pixelY/32
+
+	connections := CurWorld.Header.Connections
+	if pixelX < 0 && !connections.West.OK {
+		return CurBlockset.TilesetID, NoPassable
+	}
+	if blockX >= int(CurWorld.Header.Width) && !connections.East.OK {
+		return CurBlockset.TilesetID, NoPassable
+	}
+	if pixelY < 0 && !connections.North.OK {
+		return CurBlockset.TilesetID, NoPassable
+	}
+	if blockY >= int(CurWorld.Header.Height) && !connections.South.OK {
+		return CurBlockset.TilesetID, NoPassable
+	}
+
+	coordX, coordY := int(math.Abs(float64((x*16+deltaX)%32))), int(math.Abs(float64((y*16+8+deltaY)%32-8)))
 	blockOffset := blockY*int(CurWorld.Header.Width) + blockX
 	if blockOffset < 0 || blockOffset > CurWorld.Header.BlkLen() {
-		return CurBlockset.TilesetID, -1
+		return CurBlockset.TilesetID, Passable
 	}
 	blockID := CurWorld.Header.Blk(blockOffset)
 
@@ -89,5 +111,5 @@ func FrontTileID(x, y int, direction util.Direction) (uint, int) {
 		return CurBlockset.TilesetID, int(CurBlockset.Bytes[blockID][14])
 	}
 
-	return CurBlockset.TilesetID, 0
+	return CurBlockset.TilesetID, Passable
 }

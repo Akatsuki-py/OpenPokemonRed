@@ -21,7 +21,7 @@ type Object struct {
 type Warp struct {
 	// warp coord
 	XCoord, YCoord int
-	DestWarpID     uint
+	DestWarpID     int
 	DestMap        int
 }
 

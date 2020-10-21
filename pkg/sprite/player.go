@@ -183,9 +183,11 @@ func CollisionCheckForPlayer() bool {
 	}
 
 	tilesetID, frontTileID := world.FrontTileID(p.MapXCoord, p.MapYCoord, p.Direction)
-	if frontTileID >= 0 && !util.Contains(tilecoll.Get(tilesetID), byte(frontTileID)) {
-		collision = true
-		return collision
+	if frontTileID == world.NoPassable || !util.Contains(tilecoll.Get(tilesetID), byte(frontTileID)) {
+		if frontTileID != world.Passable {
+			collision = true
+			return collision
+		}
 	}
 
 	_, curTileID := world.CurTileID(p.MapXCoord, p.MapYCoord)
