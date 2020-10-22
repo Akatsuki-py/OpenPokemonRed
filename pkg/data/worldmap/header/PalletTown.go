@@ -2,6 +2,7 @@ package header
 
 import (
 	"pokered/pkg/data/tileset"
+	"pokered/pkg/data/txt"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/data/worldmap/blk"
 )
@@ -22,6 +23,16 @@ var PalletTown = &Header{
 	Height:  9,
 	Width:   10,
 	blk:     blk.PalletTown[:],
+	Text: []string{
+		txt.OakAppearsText,
+		txt.OakWalksUpText,
+		txt.PalletTownText2,
+		txt.PalletTownText3,
+		txt.PalletTownText4,
+		txt.PalletTownText5,
+		txt.PalletTownText6,
+		txt.PalletTownText7,
+	},
 	Connections: Connections{
 		North: Connection{
 			OK:        true,

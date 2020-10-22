@@ -4,6 +4,7 @@ import (
 	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
+	"pokered/pkg/overworld"
 	pal "pokered/pkg/palette"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
@@ -63,7 +64,7 @@ func exec() {
 	}
 	switch m := mode(); m {
 	case Overworld:
-		execOverworld()
+		overworld.ExecOverworld()
 	case Script:
 		execScript()
 	}

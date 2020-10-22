@@ -120,13 +120,19 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 		}
 	case "'":
 		switch string(runes[1]) {
-		case "d", "l", "s", "t", "v":
+		case "d", "l", "s", "t", "v", "m", "r":
 			c += string(runes[1])
 			if IsCorrectChar(c) {
 				x, y := Caret()
 				placeCharNext(target, c, x, y)
 			}
 			str = string(runes[2:])
+		default:
+			if IsCorrectChar(c) {
+				x, y := Caret()
+				placeCharNext(target, c, x, y)
+			}
+			str = string(runes[1:])
 		}
 	default:
 		if IsCorrectChar(c) {
@@ -230,4 +236,20 @@ func placeDex()  {}
 
 func VBlank() {
 	util.DrawImage(store.TileMap, Image, 0, 0)
+}
+
+func DisplayTextID(target *ebiten.Image, texts []string, textID int) {
+	if target == nil {
+		return
+	}
+
+	numOfSprites := store.NumSprites()
+	if textID <= numOfSprites {
+		textID = store.SpriteData[textID].TextID
+	}
+
+	if textID > len(texts)-1 {
+		return
+	}
+	PrintText(target, texts[textID])
 }

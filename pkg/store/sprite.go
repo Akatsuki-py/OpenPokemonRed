@@ -36,6 +36,7 @@ type Sprite struct {
 	MovementBytes              [2]byte // movement byte 1,2
 	DeltaX, DeltaY             int
 	RightHand                  bool // used to walk animation
+	TextID                     int
 }
 
 // AnimationCounter getter for animation counter
@@ -50,4 +51,13 @@ func (s *Sprite) intraAnimationCounter() uint {
 func IsInvalidSprite(offset uint) bool {
 	s := SpriteData[offset]
 	return s == nil
+}
+
+// NumSprites a number of sprites at current map
+func NumSprites() int {
+	i := 0
+	for SpriteData[i] != nil {
+		i++
+	}
+	return i
 }

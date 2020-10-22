@@ -34,7 +34,7 @@ type Sprite struct {
 	ID             sprdata.SpriteID
 	XCoord, YCoord int
 	MovementBytes  [2]byte
-	TextID         uint
+	TextID         int
 }
 
 // WarpTo other map can warp to this WarpTo
