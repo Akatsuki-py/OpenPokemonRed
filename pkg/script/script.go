@@ -95,6 +95,10 @@ func Current() func() {
 func halt() {}
 
 func execText() {
+	if len([]rune(text.CurText)) == 0 {
+		SetID(Halt)
+	}
+
 	if text.InScroll {
 		text.ScrollTextUpOneLine(text.Image)
 		return

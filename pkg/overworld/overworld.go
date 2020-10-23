@@ -40,11 +40,11 @@ func ExecOverworld() {
 
 		directionPressed := false
 		switch {
-		case joypad.JoyHeld.Start:
+		case joypad.JoyPressed.Start:
 			audio.PlaySound(audio.SFX_START_MENU)
 			script.SetID(script.WidgetStartMenu)
 			return
-		case joypad.JoyHeld.A:
+		case joypad.JoyPressed.A:
 			if spriteOffset := sprite.GetFrontSpriteOrSign(0); spriteOffset > 0 {
 				displayDialogue(spriteOffset)
 				return

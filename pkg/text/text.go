@@ -111,7 +111,10 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 				resetBlink()
 			}
 		case "d":
-			str = string(runes[2:])
+			if pressed := placeDone(); pressed {
+				Image = util.NewImage()
+				str = ""
+			}
 		case "▼":
 			placePrompt(target)
 			str = string(runes[2:])
@@ -193,6 +196,11 @@ func manualTextScroll() bool {
 	return pressed
 }
 
+func placeDone() bool {
+	pressed := WaitForTextScrollButtonPress()
+	return pressed
+}
+
 // WaitForTextScrollButtonPress wait for AB button press
 func WaitForTextScrollButtonPress() bool {
 	handleDownArrowBlinkTiming()
@@ -235,6 +243,9 @@ func placePage() {}
 func placeDex()  {}
 
 func VBlank() {
+	if Image == nil {
+		return
+	}
 	util.DrawImage(store.TileMap, Image, 0, 0)
 }
 
@@ -242,6 +253,8 @@ func DisplayTextID(target *ebiten.Image, texts []string, textID int) {
 	if target == nil {
 		return
 	}
+
+	store.FrameCounter = 30
 
 	numOfSprites := store.NumSprites()
 	if textID <= numOfSprites {
