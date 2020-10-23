@@ -80,7 +80,7 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 		rParen := strings.Index(str, "}")
 		if lParen == 1 || rParen > 1 {
 			key := string(runes[lParen+1 : rParen])
-			str = string(runes[rParen:])
+			str = string(runes[rParen+1:])
 			if value, ok := txt.RAM[key]; ok {
 				str = value() + str
 			} else if value, ok := txt.Asm[key]; ok {
@@ -257,7 +257,7 @@ func DisplayTextID(target *ebiten.Image, texts []string, textID int) {
 	store.FrameCounter = 30
 
 	numOfSprites := store.NumSprites()
-	if textID <= numOfSprites {
+	if textID < numOfSprites {
 		textID = store.SpriteData[textID].TextID
 	}
 

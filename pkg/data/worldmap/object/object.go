@@ -27,7 +27,7 @@ type Warp struct {
 
 type Sign struct {
 	XCoord, YCoord int
-	TextID         uint
+	TextID         int
 }
 
 type Sprite struct {

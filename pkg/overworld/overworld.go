@@ -45,8 +45,8 @@ func ExecOverworld() {
 			script.SetID(script.WidgetStartMenu)
 			return
 		case joypad.JoyPressed.A:
-			if spriteOffset := sprite.GetFrontSpriteOrSign(0); spriteOffset > 0 {
-				displayDialogue(spriteOffset)
+			if offset := sprite.GetFrontSpriteOrSign(0); offset > 0 {
+				displayDialogue(offset)
 				return
 			}
 		case joypad.JoyHeld.Down:

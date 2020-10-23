@@ -214,6 +214,13 @@ func GetFrontSpriteOrSign(offset int) int {
 		xCoord++
 	}
 
+	signs := world.CurWorld.Object.Signs
+	for _, sign := range signs {
+		if xCoord == sign.XCoord && yCoord == sign.YCoord {
+			return sign.TextID
+		}
+	}
+
 	for i, npc := range store.SpriteData {
 		if i == offset {
 			continue
