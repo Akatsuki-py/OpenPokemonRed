@@ -2,6 +2,7 @@ package overworld
 
 import (
 	"pokered/pkg/audio"
+	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/joypad"
 	"pokered/pkg/palette"
 	"pokered/pkg/script"
@@ -141,6 +142,7 @@ func playMapChangeSound() {
 
 func loadWorldData(mapID, warpID int) {
 	world.LoadWorldData(mapID)
+	PlayDefaultMusicFadeOutCurrent(mapID)
 
 	// ref: LoadDestinationWarpPosition
 	if warpID >= 0 {
@@ -154,4 +156,38 @@ func displayDialogue(offset int) {
 	texts, textID := world.CurWorld.Header.Text, offset
 	text.DisplayTextID(text.Image, texts, textID)
 	script.SetID(script.ExecText)
+}
+
+// PlayDefaultMusic 主人公の状態に応じた BGM を流す
+// ref: PlayDefaultMusic
+func PlayDefaultMusic(mapID int) {
+	musicID := song.MapMusics[mapID]
+	switch store.Player.State {
+	case store.BikeState:
+	case store.SurfState:
+	}
+
+	if musicID == audio.LastMusicID {
+		return
+	}
+
+	audio.PlayMusic(musicID)
+	audio.LastMusicID = 0
+}
+
+// PlayDefaultMusicFadeOutCurrent Fade out the current music and then play the default music.
+// ref: PlayDefaultMusicFadeOutCurrent
+func PlayDefaultMusicFadeOutCurrent(mapID int) {
+	musicID := song.MapMusics[mapID]
+	switch store.Player.State {
+	case store.BikeState:
+	case store.SurfState:
+	}
+
+	if musicID == audio.LastMusicID {
+		return
+	}
+
+	audio.StopMusic(8)
+	audio.NewMusicID = musicID
 }

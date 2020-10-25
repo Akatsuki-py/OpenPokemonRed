@@ -25,6 +25,9 @@ var FadeOut = struct {
 // NewMusicID Music ID played on current music fadeout is completed
 var NewMusicID int
 
+// LastMusicID Music ID played latest
+var LastMusicID int
+
 // FadeOutAudio fadeout process called in every vBlank
 func FadeOutAudio() {
 	preVolume := Volume
@@ -54,10 +57,8 @@ func FadeOutAudio() {
 		// fadeOutComplete
 		if Volume == 0 {
 			// start next music
-			FadeOut.Control = 0
-			if CurMusic != nil {
-				CurMusic.Close()
-			}
+			FadeOut.Control, FadeOut.Counter = 0, 0
+			stopMusic()
 			PlayMusic(NewMusicID)
 			return
 		}

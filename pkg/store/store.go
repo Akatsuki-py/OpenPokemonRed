@@ -9,8 +9,6 @@ import (
 // FS statik filesystem
 var FS, _ = fs.New()
 
-var SCX, SCY int
-
 // DelayFrames VBlank以外を拒否
 var DelayFrames uint
 
@@ -26,11 +24,6 @@ func DecFrameCounter() {
 	}
 }
 
-var Player = struct {
-	Name  string
-	Money uint
-	Time  uint
-}{"NINTEN", 0, 0}
 var RivalName = "SONY"
 
 // TMName wcf4b

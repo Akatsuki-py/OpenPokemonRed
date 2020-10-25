@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap"
+	"pokered/pkg/overworld"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
@@ -16,6 +17,7 @@ import (
 func initialize() {
 	initTilesets(store.FS)
 	world.LoadWorldData(worldmap.PALLET_TOWN)
+	overworld.PlayDefaultMusic(worldmap.PALLET_TOWN)
 	sprite.InitPlayer(sprite.Normal, 3, 4)
 }
 
