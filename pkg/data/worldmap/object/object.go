@@ -56,6 +56,8 @@ func Get(id int) *Object {
 		return Route1
 	case worldmap.ROUTE_21:
 		return Route21
+	case worldmap.OAKS_LAB:
+		return OaksLab
 	}
 	util.NotRegisteredError("object.Get", id)
 	return nil

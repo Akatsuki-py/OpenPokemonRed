@@ -1,9 +1,11 @@
 package world
 
 import (
+	"pokered/pkg/audio"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/data/worldmap/object"
+	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 
@@ -87,6 +89,28 @@ func LoadWorldData(id int) {
 		Header: h,
 		Object: o,
 	}
+	PlayDefaultMusicFadeOutCurrent(id)
+}
+
+// PlayDefaultMusicFadeOutCurrent Fade out the current music and then play the default music.
+// ref: PlayDefaultMusicFadeOutCurrent
+func PlayDefaultMusicFadeOutCurrent(mapID int) {
+	musicID := song.MapMusics[mapID]
+	if musicID == 0 {
+		return
+	}
+	switch store.Player.State {
+	case store.BikeState:
+	case store.SurfState:
+	}
+
+	audio.NewMusicID = musicID
+	if musicID == audio.LastMusicID {
+		return
+	}
+
+	audio.StopMusic(10)
+	audio.NewMusicID = musicID
 }
 
 // VBlank script executed in VBlank

@@ -142,7 +142,6 @@ func playMapChangeSound() {
 
 func loadWorldData(mapID, warpID int) {
 	world.LoadWorldData(mapID)
-	PlayDefaultMusicFadeOutCurrent(mapID)
 
 	// ref: LoadDestinationWarpPosition
 	if warpID >= 0 {
@@ -173,22 +172,4 @@ func PlayDefaultMusic(mapID int) {
 
 	audio.PlayMusic(musicID)
 	audio.LastMusicID = 0
-}
-
-// PlayDefaultMusicFadeOutCurrent Fade out the current music and then play the default music.
-// ref: PlayDefaultMusicFadeOutCurrent
-func PlayDefaultMusicFadeOutCurrent(mapID int) {
-	musicID := song.MapMusics[mapID]
-	switch store.Player.State {
-	case store.BikeState:
-	case store.SurfState:
-	}
-
-	audio.NewMusicID = musicID
-	if musicID == audio.LastMusicID {
-		return
-	}
-
-	audio.StopMusic(10)
-	audio.NewMusicID = musicID
 }

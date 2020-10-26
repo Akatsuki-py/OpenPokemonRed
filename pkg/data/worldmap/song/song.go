@@ -29,4 +29,5 @@ var MapMusics = map[int]int{
 	worldmap.ROUTE_8:         audio.MUSIC_ROUTES3,
 	worldmap.ROUTE_9:         audio.MUSIC_ROUTES3,
 	worldmap.ROUTE_10:        audio.MUSIC_ROUTES3,
+	worldmap.OAKS_LAB:        audio.MUSIC_OAKS_LAB,
 }

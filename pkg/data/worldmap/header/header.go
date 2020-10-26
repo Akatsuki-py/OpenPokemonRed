@@ -52,6 +52,8 @@ func Get(id int) *Header {
 		return Route1
 	case worldmap.ROUTE_21:
 		return Route21
+	case worldmap.OAKS_LAB:
+		return OaksLab
 	default:
 		util.NotRegisteredError("header.Get", id)
 	}

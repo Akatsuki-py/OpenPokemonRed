@@ -43,11 +43,18 @@ func addSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte, text
 	for i := 0; i < 10; i++ {
 		name := id.String()
 		path := fmt.Sprintf("/%s_%d.png", name, i)
+
 		f, err := store.FS.Open(path)
 		if err != nil {
-			// NOTE: NotFoundFileError isn't needed
-			break
+			if i > 0 {
+				break
+			}
+			f, err = store.FS.Open(fmt.Sprintf("/%s.png", name))
+			if err != nil {
+				break
+			}
 		}
+
 		defer f.Close()
 
 		img, _ := png.Decode(f)
