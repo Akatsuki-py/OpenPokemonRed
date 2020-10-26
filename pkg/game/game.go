@@ -1,17 +1,11 @@
 package game
 
 import (
-	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
-	"pokered/pkg/menu"
 	"pokered/pkg/overworld"
 	pal "pokered/pkg/palette"
-	"pokered/pkg/sprite"
 	"pokered/pkg/store"
-	"pokered/pkg/text"
 	"pokered/pkg/util"
-	"pokered/pkg/widget"
-	"pokered/pkg/world"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -71,16 +65,16 @@ func exec() {
 }
 
 func vBlank() {
-	p := store.SpriteData[0]
+	// p := store.SpriteData[0]
 
 	joypad.ReadJoypad()
 	store.DecFrameCounter()
-	audio.FadeOutAudio()
-	world.VBlank(p.MapXCoord, p.MapYCoord, p.DeltaX, p.DeltaY, p.WalkCounter, p.Direction)
-	sprite.VBlank()
-	menu.VBlank()
-	widget.VBlank()
-	text.VBlank()
+	// audio.FadeOutAudio()
+	// world.VBlank(p.MapXCoord, p.MapYCoord, p.DeltaX, p.DeltaY, p.WalkCounter, p.Direction)
+	// sprite.VBlank()
+	// menu.VBlank()
+	// widget.VBlank()
+	// text.VBlank()
 }
 
 func second() {}

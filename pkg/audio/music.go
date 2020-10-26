@@ -75,6 +75,7 @@ var CurMusic *audio.Player
 
 func newMusicMap() map[int]*Music {
 	musicMap := map[int]*Music{}
+	musicMap[MUSIC_TITLE_SCREEN] = newMusic(store.FS, "/1-01 Title Screen.ogg", "0:16.291") // 0:59.695
 	musicMap[MUSIC_PALLET_TOWN] = newMusic(store.FS, "/1-02 Pallet Town Theme.ogg", "0:08.040")
 	musicMap[MUSIC_MEET_PROF_OAK] = newMusic(store.FS, "/1-03 Professor Oak.ogg", "0:13.560")
 	musicMap[MUSIC_OAKS_LAB] = newMusic(store.FS, "/1-04 Professor Oak's Laboratory.ogg", "0:04.389")

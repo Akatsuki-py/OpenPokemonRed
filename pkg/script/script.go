@@ -18,6 +18,9 @@ const (
 	WidgetNamingScreen
 	FadeOutToBlack
 	LoadMapData
+	TitleCopyright
+	TitleBlank
+	TitlePokemonRed
 )
 
 var scriptQueue = Queue{
@@ -79,6 +82,9 @@ func newScriptMap() map[uint]func() {
 	result[WidgetNamingScreen] = widgetNamingScreen
 	result[FadeOutToBlack] = fadeOutToBlack
 	result[LoadMapData] = loadMapData
+	result[TitleCopyright] = titleCopyright
+	result[TitleBlank] = titleBlank
+	result[TitlePokemonRed] = titlePokemonRed
 	return result
 }
 

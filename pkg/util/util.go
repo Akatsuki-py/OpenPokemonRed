@@ -57,6 +57,9 @@ func BlackScreen(target *ebiten.Image) {
 func WhiteScreen(target *ebiten.Image) {
 	target.Fill(color.NRGBA{0xf8, 0xf8, 0xf8, 0xff})
 }
+func FillScreen(target *ebiten.Image, r, g, b byte) {
+	target.Fill(color.NRGBA{r, g, b, 0xff})
+}
 
 // ClearScreenArea clear h×w tiles from (x, y)
 func ClearScreenArea(target *ebiten.Image, x, y Tile, h, w uint) {
