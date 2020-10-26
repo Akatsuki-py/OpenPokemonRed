@@ -90,7 +90,6 @@ func checkMapConnections() {
 				destMapID := curWorld.Header.Connections.North.DestMapID
 				DestMapHeader := header.Get(destMapID)
 				loadWorldData(destMapID, -1)
-				PlayDefaultMusicFadeOutCurrent(destMapID)
 				p.MapXCoord = int(DestMapHeader.Connections.South.Coords[i])
 				p.MapYCoord = int(DestMapHeader.Height*2 - 1)
 				return
@@ -104,7 +103,6 @@ func checkMapConnections() {
 				destMapID := curWorld.Header.Connections.South.DestMapID
 				DestMapHeader := header.Get(destMapID)
 				loadWorldData(destMapID, -1)
-				PlayDefaultMusicFadeOutCurrent(destMapID)
 				p.MapXCoord = int(DestMapHeader.Connections.North.Coords[i])
 				p.MapYCoord = 0
 				return

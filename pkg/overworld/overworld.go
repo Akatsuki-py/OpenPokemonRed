@@ -184,10 +184,11 @@ func PlayDefaultMusicFadeOutCurrent(mapID int) {
 	case store.SurfState:
 	}
 
+	audio.NewMusicID = musicID
 	if musicID == audio.LastMusicID {
 		return
 	}
 
-	audio.StopMusic(8)
+	audio.StopMusic(10)
 	audio.NewMusicID = musicID
 }

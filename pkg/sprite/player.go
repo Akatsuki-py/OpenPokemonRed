@@ -238,6 +238,7 @@ func HandleMidJump() {
 
 	joypad.JoyHeld, joypad.JoyPressed, joypad.JoyReleased, joypad.JoyIgnore = joypad.Input{}, joypad.Input{}, joypad.Input{}, joypad.Input{}
 	ledgeJumpCounter = 0
+	p.AnimationFrame = 0
 	util.ResBit(&store.D736, 6)
 }
 
