@@ -91,7 +91,10 @@ func PlaySound(soundID uint) {
 		sound.player.Seek(0)
 	} else {
 		sound.player.Seek(0)
-		sound.player.Play()
+		err := sound.player.Play()
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 

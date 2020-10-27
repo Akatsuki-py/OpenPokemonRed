@@ -20,6 +20,7 @@ const (
 	LoadMapData
 	TitleCopyright
 	TitleBlank
+	TitleIntroScene
 	TitlePokemonRed
 )
 
@@ -84,6 +85,7 @@ func newScriptMap() map[uint]func() {
 	result[LoadMapData] = loadMapData
 	result[TitleCopyright] = titleCopyright
 	result[TitleBlank] = titleBlank
+	result[TitleIntroScene] = titleIntroScene
 	result[TitlePokemonRed] = titlePokemonRed
 	return result
 }

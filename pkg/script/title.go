@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"pokered/pkg/audio"
 	"pokered/pkg/data/pokemon"
+	"pokered/pkg/joypad"
+	"pokered/pkg/palette"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
@@ -23,7 +25,9 @@ var (
 	blankImage   *ebiten.Image
 	star         = util.OpenImage(store.FS, "/star.png")
 
-	title Title
+	introCounter int
+	introImage   *ebiten.Image
+	title        Title
 )
 
 var titleMons = []uint{
@@ -86,19 +90,54 @@ func titleBlank() {
 	case blankCounter == 64:
 		audio.PlaySound(audio.SFX_SHOOTING_STAR)
 		text.PlaceStringAtOnce(blankImage, "credit", 7, 9)
-	case blankCounter >= 65:
+	case blankCounter >= 65 && blankCounter < 65+180:
+		// shooting star
 		ctr := blankCounter - 65
 		x, y := 152-4*ctr, -16+4*ctr
 		if x >= 0 || y <= 144 {
 			util.DrawImagePixel(store.TileMap, star, x, y)
 		}
+
+		if checkForUserInterruption() {
+			blankCounter = 0
+			SetID(TitleIntroScene)
+		}
+	case blankCounter >= 65+180:
+		blankCounter = 0
+		SetID(TitleIntroScene)
 	}
 
 	blankCounter++
 }
 
+func titleIntroScene() {
+	audio.PlayMusic(audio.MUSIC_INTRO_TITLE)
+
+	if introImage == nil {
+		introImage = util.NewImage()
+		util.BlackScreen(blankImage)
+		util.ClearScreenArea(blankImage, 0, 4, 10, 20)
+	}
+	util.DrawImage(store.TileMap, blankImage, 0, 0)
+
+	if checkForUserInterruption() {
+		introCounter = 0
+		SetID(TitlePokemonRed)
+		audio.StopMusicImmediately()
+	}
+
+	if introCounter == 705 {
+		introCounter = 0
+		SetID(TitlePokemonRed)
+		audio.StopMusicImmediately()
+	}
+
+	introCounter++
+}
+
 func titlePokemonRed() {
 	audio.PlayMusic(audio.MUSIC_TITLE_SCREEN)
+	palette.LoadGBPal()
 
 	if title.img == nil {
 		title.img = util.NewImage()
@@ -130,4 +169,18 @@ func titlePokemonRed() {
 	util.DrawImagePixel(store.TileMap, title.redWithBall, 82, 80)
 
 	title.counter++
+}
+
+func checkForUserInterruption() bool {
+	joypad.JoypadLowSensitivity()
+
+	if joypad.JoyHeld.Up && joypad.JoyHeld.B && joypad.JoyHeld.Select {
+		return true
+	}
+
+	if joypad.Joy5.Start || joypad.Joy5.A {
+		return true
+	}
+
+	return false
 }

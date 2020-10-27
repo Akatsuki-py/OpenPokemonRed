@@ -123,8 +123,13 @@ func warpFound(mapID, warpID int) {
 		}
 	}
 	playMapChangeSound()
-	palette.GBFadeOutToBlack()
+	GBFadeOutToBlack()
 
 	world.WarpTo = [2]int{mapID, warpID}
 	script.PushID(script.LoadMapData)
+}
+
+func GBFadeOutToBlack() {
+	script.SetID(script.FadeOutToBlack)
+	palette.GBFadeOutToBlack()
 }

@@ -59,6 +59,7 @@ const (
 	MUSIC_MEET_EVIL_TRAINER
 	MUSIC_MEET_FEMALE_TRAINER
 	MUSIC_MEET_MALE_TRAINER
+	MUSIC_INTRO_TITLE
 )
 
 type Music struct {
@@ -75,7 +76,8 @@ var CurMusic *audio.Player
 
 func newMusicMap() map[int]*Music {
 	musicMap := map[int]*Music{}
-	musicMap[MUSIC_TITLE_SCREEN] = newMusic(store.FS, "/1-01 Title Screen.ogg", "0:16.291") // 0:59.695
+	musicMap[MUSIC_INTRO_TITLE] = newMusic(store.FS, "/1-00 Intro.ogg", "0:00.000")         // 11.771
+	musicMap[MUSIC_TITLE_SCREEN] = newMusic(store.FS, "/1-01 Title Screen.ogg", "0:04.520") // 0:59.695
 	musicMap[MUSIC_PALLET_TOWN] = newMusic(store.FS, "/1-02 Pallet Town Theme.ogg", "0:08.040")
 	musicMap[MUSIC_MEET_PROF_OAK] = newMusic(store.FS, "/1-03 Professor Oak.ogg", "0:13.560")
 	musicMap[MUSIC_OAKS_LAB] = newMusic(store.FS, "/1-04 Professor Oak's Laboratory.ogg", "0:04.389")
@@ -150,9 +152,10 @@ func StopMusic(fadeout uint) {
 
 // StopMusicImmediately stop BGM
 func StopMusicImmediately() {
-	FadeOut.Control = 0
-	NewMusicID = stopSound
-	stopMusic()
+	if CurMusic != nil {
+		CurMusic.Pause()
+		CurMusic.Seek(0)
+	}
 }
 
 func stopMusic() {
