@@ -122,12 +122,14 @@ func newMusic(fs http.FileSystem, path string, intro string) *Music {
 
 // PlayMusic play BGM
 func PlayMusic(id int) {
+	if CurMusic != nil && CurMusic.IsPlaying() {
+		stopMusic()
+	}
+
 	if id == stopSound {
-		if CurMusic != nil && CurMusic.IsPlaying() {
-			stopMusic()
-		}
 		return
 	}
+
 	m, ok := MusicMap[id]
 	if !ok {
 		util.NotRegisteredError("MusicMap", id)

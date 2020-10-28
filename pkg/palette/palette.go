@@ -11,3 +11,7 @@ func LoadGBPal() {
 func GBFadeOutToBlack() {
 	store.FadeCounter = 4
 }
+
+func GBFadeOutToWhite() {
+	store.FadeCounter = 3
+}

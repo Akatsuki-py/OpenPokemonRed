@@ -142,7 +142,9 @@ func titleBlank() {
 }
 
 func titleIntroScene() {
-	audio.PlayMusic(audio.MUSIC_INTRO_TITLE)
+	if introCounter == 0 {
+		audio.PlayMusic(audio.MUSIC_INTRO_TITLE)
+	}
 
 	util.WhiteScreen(store.TileMap)
 
@@ -153,9 +155,7 @@ func titleIntroScene() {
 		gengarX = 13*8 - counter*2
 
 		if checkForUserInterruption() {
-			introCounter = 0
-			SetID(TitlePokemonRed)
-			audio.StopMusicImmediately()
+			fadeOutToTitle()
 		}
 
 	case introCounter < 80+25:
@@ -190,9 +190,7 @@ func titleIntroScene() {
 
 	case introCounter < 130+10:
 		if checkForUserInterruption() {
-			introCounter = 0
-			SetID(TitlePokemonRed)
-			audio.StopMusicImmediately()
+			fadeOutToTitle()
 		}
 
 	case introCounter < 140+25:
@@ -227,9 +225,7 @@ func titleIntroScene() {
 
 	case introCounter < 190+30:
 		if checkForUserInterruption() {
-			introCounter = 0
-			SetID(TitlePokemonRed)
-			audio.StopMusicImmediately()
+			fadeOutToTitle()
 		}
 
 	case introCounter < 220+8:
@@ -246,9 +242,7 @@ func titleIntroScene() {
 
 	case introCounter < 228+30:
 		if checkForUserInterruption() {
-			introCounter = 0
-			SetID(TitlePokemonRed)
-			audio.StopMusicImmediately()
+			fadeOutToTitle()
 		}
 
 	case introCounter < 258+16:
@@ -280,9 +274,7 @@ func titleIntroScene() {
 
 	case introCounter < 299+30:
 		if checkForUserInterruption() {
-			introCounter = 0
-			SetID(TitlePokemonRed)
-			audio.StopMusicImmediately()
+			fadeOutToTitle()
 		}
 
 	case introCounter < 329+8:
@@ -297,9 +289,7 @@ func titleIntroScene() {
 
 	case introCounter < 337+60:
 		if checkForUserInterruption() {
-			introCounter = 0
-			SetID(TitlePokemonRed)
-			audio.StopMusicImmediately()
+			fadeOutToTitle()
 		}
 
 	case introCounter < 397+25:
@@ -335,9 +325,7 @@ func titleIntroScene() {
 
 	case introCounter < 449+20:
 		if checkForUserInterruption() {
-			introCounter = 0
-			SetID(TitlePokemonRed)
-			audio.StopMusicImmediately()
+			fadeOutToTitle()
 		}
 
 	case introCounter < 469+20:
@@ -356,9 +344,7 @@ func titleIntroScene() {
 
 	case introCounter < 489+30:
 		if checkForUserInterruption() {
-			introCounter = 0
-			SetID(TitlePokemonRed)
-			audio.StopMusicImmediately()
+			fadeOutToTitle()
 		}
 
 	case introCounter < 519+20:
@@ -385,16 +371,23 @@ func titleIntroScene() {
 	util.BlackScreenArea(store.TileMap, 0, 14, 4, 20)
 
 	if introCounter == 705 {
-		introCounter = 0
-		SetID(TitlePokemonRed)
-		audio.StopMusicImmediately()
+		fadeOutToTitle()
 	}
 
 	introCounter++
 }
 
+func fadeOutToTitle() {
+	introCounter = 0
+	palette.GBFadeOutToWhite()
+	SetID(FadeOutToWhite)
+	PushID(TitlePokemonRed)
+}
+
 func titlePokemonRed() {
-	audio.PlayMusic(audio.MUSIC_TITLE_SCREEN)
+	if title.counter == 0 {
+		audio.PlayMusic(audio.MUSIC_TITLE_SCREEN)
+	}
 	palette.LoadGBPal()
 
 	if title.img == nil {

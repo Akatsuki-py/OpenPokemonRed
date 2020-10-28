@@ -19,6 +19,12 @@ func Filter(img *ebiten.Image, p int) *ebiten.Image {
 		return filter4(img)
 	case 5:
 		return filter5(img)
+	case 6:
+		return filter6(img)
+	case 7:
+		return filter7(img)
+	case 8:
+		return filter8(img)
 	}
 	return filter5(img)
 }
@@ -94,6 +100,48 @@ func filter5(target *ebiten.Image) *ebiten.Image {
 	op0 := &ebiten.DrawImageOptions{}
 	op0.ColorM.Scale(0.65, 0.85, 0.65, 0.95)
 	result.DrawImage(src0, op0)
+
+	return result
+}
+
+func filter6(target *ebiten.Image) *ebiten.Image {
+	if target == nil {
+		return target
+	}
+
+	result, _ := ebiten.NewImageFromImage(target, ebiten.FilterDefault)
+
+	sheet, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
+	sheet.Fill(color.NRGBA{0xb0, 0xf8, 0xb0, 0xcf})
+	result.DrawImage(sheet, nil)
+
+	return result
+}
+
+func filter7(target *ebiten.Image) *ebiten.Image {
+	if target == nil {
+		return target
+	}
+
+	result, _ := ebiten.NewImageFromImage(target, ebiten.FilterDefault)
+
+	sheet, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
+	sheet.Fill(color.NRGBA{0xb0, 0xf8, 0xb0, 0xef})
+	result.DrawImage(sheet, nil)
+
+	return result
+}
+
+func filter8(target *ebiten.Image) *ebiten.Image {
+	if target == nil {
+		return target
+	}
+
+	result, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
+
+	sheet, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
+	sheet.Fill(color.NRGBA{0xb8, 0xf8, 0xb8, 0xff})
+	result.DrawImage(sheet, nil)
 
 	return result
 }

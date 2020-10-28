@@ -17,6 +17,7 @@ const (
 	WidgetTrainerCard
 	WidgetNamingScreen
 	FadeOutToBlack
+	FadeOutToWhite
 	LoadMapData
 	TitleCopyright
 	TitleBlank
@@ -82,6 +83,7 @@ func newScriptMap() map[uint]func() {
 	result[WidgetTrainerCard] = widgetTrainerCard
 	result[WidgetNamingScreen] = widgetNamingScreen
 	result[FadeOutToBlack] = fadeOutToBlack
+	result[FadeOutToWhite] = fadeOutToWhite
 	result[LoadMapData] = loadMapData
 	result[TitleCopyright] = titleCopyright
 	result[TitleBlank] = titleBlank
@@ -146,6 +148,27 @@ func fadeOutToBlack() {
 	}
 
 	store.Palette--
+	store.DelayFrames = 8
+
+	if store.FadeCounter <= 0 {
+		PopID()
+	}
+}
+
+func fadeOutToWhite() {
+	if store.FadeCounter <= 0 {
+		SetID(Halt)
+		return
+	}
+
+	store.FadeCounter--
+
+	if store.Palette > 9 {
+		store.Palette = 9
+		return
+	}
+
+	store.Palette++
 	store.DelayFrames = 8
 
 	if store.FadeCounter <= 0 {
