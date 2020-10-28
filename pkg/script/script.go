@@ -22,6 +22,7 @@ const (
 	TitleCopyright
 	TitleBlank
 	TitleIntroScene
+	TitleWhiteOut
 	TitlePokemonRed
 )
 
@@ -88,6 +89,7 @@ func newScriptMap() map[uint]func() {
 	result[TitleCopyright] = titleCopyright
 	result[TitleBlank] = titleBlank
 	result[TitleIntroScene] = titleIntroScene
+	result[TitleWhiteOut] = titleWhiteOut
 	result[TitlePokemonRed] = titlePokemonRed
 	return result
 }
@@ -163,8 +165,8 @@ func fadeOutToWhite() {
 
 	store.FadeCounter--
 
-	if store.Palette > 9 {
-		store.Palette = 9
+	if store.Palette > 8 {
+		store.Palette = 8
 		return
 	}
 

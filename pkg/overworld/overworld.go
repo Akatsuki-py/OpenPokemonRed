@@ -16,6 +16,10 @@ import (
 // ExecOverworld exec overworld loop
 // ref: OverworldLoop
 func ExecOverworld() {
+	if store.FadeCounter == 0 {
+		util.BlackScreen(store.TileMap)
+	}
+
 	p := store.SpriteData[0]
 	if p == nil {
 		return

@@ -2,6 +2,7 @@ package palette
 
 import (
 	"image/color"
+	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -138,10 +139,7 @@ func filter8(target *ebiten.Image) *ebiten.Image {
 	}
 
 	result, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
-
-	sheet, _ := ebiten.NewImage(8*20, 8*18, ebiten.FilterDefault)
-	sheet.Fill(color.NRGBA{0xb8, 0xf8, 0xb8, 0xff})
-	result.DrawImage(sheet, nil)
+	util.WhiteScreen(result)
 
 	return result
 }

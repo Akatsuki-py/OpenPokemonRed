@@ -30,7 +30,13 @@ var (
 	nidorino             = util.OpenImage(store.FS, "/intro_nidorino_0.png")
 	nidorinoX, nidorinoY = 0, 72
 	gengarX, gengarY     = 13 * 8, 7 * 8
-	title                Title
+
+	whiteOutCounter int
+
+	title = Title{
+		logo:       util.OpenImage(store.FS, "/title_logo.png"),
+		redVersion: util.OpenImage(store.FS, "/red_version.png"),
+	}
 )
 
 var titleMons = []uint{
@@ -156,6 +162,7 @@ func titleIntroScene() {
 
 		if checkForUserInterruption() {
 			fadeOutToTitle()
+			return
 		}
 
 	case introCounter < 80+25:
@@ -191,6 +198,7 @@ func titleIntroScene() {
 	case introCounter < 130+10:
 		if checkForUserInterruption() {
 			fadeOutToTitle()
+			return
 		}
 
 	case introCounter < 140+25:
@@ -226,6 +234,7 @@ func titleIntroScene() {
 	case introCounter < 190+30:
 		if checkForUserInterruption() {
 			fadeOutToTitle()
+			return
 		}
 
 	case introCounter < 220+8:
@@ -243,6 +252,7 @@ func titleIntroScene() {
 	case introCounter < 228+30:
 		if checkForUserInterruption() {
 			fadeOutToTitle()
+			return
 		}
 
 	case introCounter < 258+16:
@@ -275,6 +285,7 @@ func titleIntroScene() {
 	case introCounter < 299+30:
 		if checkForUserInterruption() {
 			fadeOutToTitle()
+			return
 		}
 
 	case introCounter < 329+8:
@@ -290,6 +301,7 @@ func titleIntroScene() {
 	case introCounter < 337+60:
 		if checkForUserInterruption() {
 			fadeOutToTitle()
+			return
 		}
 
 	case introCounter < 397+25:
@@ -326,6 +338,7 @@ func titleIntroScene() {
 	case introCounter < 449+20:
 		if checkForUserInterruption() {
 			fadeOutToTitle()
+			return
 		}
 
 	case introCounter < 469+20:
@@ -345,6 +358,7 @@ func titleIntroScene() {
 	case introCounter < 489+30:
 		if checkForUserInterruption() {
 			fadeOutToTitle()
+			return
 		}
 
 	case introCounter < 519+20:
@@ -370,8 +384,9 @@ func titleIntroScene() {
 	util.BlackScreenArea(store.TileMap, 0, 0, 4, 20)
 	util.BlackScreenArea(store.TileMap, 0, 14, 4, 20)
 
-	if introCounter == 705 {
+	if introCounter == 539 {
 		fadeOutToTitle()
+		return
 	}
 
 	introCounter++
@@ -381,11 +396,20 @@ func fadeOutToTitle() {
 	introCounter = 0
 	palette.GBFadeOutToWhite()
 	SetID(FadeOutToWhite)
-	PushID(TitlePokemonRed)
+	PushID(TitleWhiteOut)
+}
+
+func titleWhiteOut() {
+	palette.LoadGBPal()
+	util.WhiteScreen(store.TileMap)
+	if whiteOutCounter == 20 {
+		SetID(TitlePokemonRed)
+	}
+	whiteOutCounter++
 }
 
 func titlePokemonRed() {
-	if title.counter == 0 {
+	if title.counter == 88 {
 		audio.PlayMusic(audio.MUSIC_TITLE_SCREEN)
 	}
 	palette.LoadGBPal()
@@ -393,16 +417,12 @@ func titlePokemonRed() {
 	if title.img == nil {
 		title.img = util.NewImage()
 		util.WhiteScreen(title.img)
-
-		title.logo = util.OpenImage(store.FS, "/title_logo.png")
-		util.DrawImage(title.img, title.logo, 2, 1)
-
-		title.redVersion = util.OpenImage(store.FS, "/red_version.png")
-		util.DrawImage(title.img, title.redVersion, 7, 8)
-
 		text.PlaceStringAtOnce(title.img, "Github: pokemium", 2, 17)
 	}
 	util.DrawImage(store.TileMap, title.img, 0, 0)
+
+	bounceLogo()
+	slideVersion()
 
 	if title.mon == nil {
 		title.monID = pokemon.CHARMANDER
@@ -420,6 +440,53 @@ func titlePokemonRed() {
 	util.DrawImagePixel(store.TileMap, title.redWithBall, 82, 80)
 
 	title.counter++
+}
+
+func bounceLogo() {
+	logoY := 8
+	switch {
+	case title.counter < 16:
+		counter := title.counter
+		logoY = 8 - 64 + 4*counter
+	case title.counter < 16+4:
+		counter := title.counter - 16
+		logoY = 8 + 3*counter
+	case title.counter < 20+4:
+		if title.counter == 20 {
+			audio.PlaySound(audio.SFX_INTRO_CRASH)
+		}
+		counter := title.counter - 20
+		logoY = 20 - 3*counter
+	case title.counter < 24+2:
+		counter := title.counter - 24
+		logoY = 8 + 2*counter
+	case title.counter < 26+2:
+		counter := title.counter - 26
+		logoY = 12 - 2*counter
+	case title.counter < 28+2:
+		counter := title.counter - 28
+		logoY = 8 + counter
+	case title.counter < 30+2:
+		counter := title.counter - 30
+		logoY = 10 - counter
+	}
+	util.DrawImagePixel(store.TileMap, title.logo, 2*8, logoY)
+}
+
+func slideVersion() {
+	versionX := 56
+	switch {
+	case title.counter < 32+36:
+		return
+	case title.counter < 68+20:
+		if title.counter == 68 {
+			audio.PlaySound(audio.SFX_INTRO_WHOOSH)
+		}
+		counter := title.counter - 68
+		versionX = 136 - counter*4
+	}
+
+	util.DrawImagePixel(store.TileMap, title.redVersion, versionX, 8*8)
 }
 
 func checkForUserInterruption() bool {

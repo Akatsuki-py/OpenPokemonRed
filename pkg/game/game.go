@@ -5,7 +5,6 @@ import (
 	"pokered/pkg/overworld"
 	pal "pokered/pkg/palette"
 	"pokered/pkg/store"
-	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -19,9 +18,6 @@ type Game struct {
 func (g *Game) Update(screen *ebiten.Image) error {
 	if g.frame == 0 {
 		initialize()
-	}
-	if store.FadeCounter == 0 {
-		util.BlackScreen(store.TileMap)
 	}
 	// debug(g, 10)
 	exec()

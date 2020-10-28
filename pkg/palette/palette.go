@@ -13,5 +13,5 @@ func GBFadeOutToBlack() {
 }
 
 func GBFadeOutToWhite() {
-	store.FadeCounter = 3
+	store.FadeCounter = 4
 }
