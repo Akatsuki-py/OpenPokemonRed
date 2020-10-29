@@ -1,13 +1,20 @@
 package script
 
 import (
+	"image"
+	"net/http"
 	"pokered/pkg/audio"
 	"pokered/pkg/data/pokemon"
+	"pokered/pkg/data/tileset"
+	"pokered/pkg/data/worldmap"
 	"pokered/pkg/joypad"
+	"pokered/pkg/overworld"
 	"pokered/pkg/palette"
+	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
+	"pokered/pkg/world"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -431,6 +438,14 @@ func titlePokemonRed() {
 	util.DrawImagePixel(store.TileMap, title.redWithBall, 82, 80)
 
 	title.counter++
+
+	if title.counter > 88 && checkForUserInterruption() {
+		initTilesets(store.FS)
+		world.LoadWorldData(worldmap.PALLET_TOWN)
+		overworld.PlayDefaultMusic(worldmap.PALLET_TOWN)
+		sprite.InitPlayer(sprite.Normal, 3, 4)
+		store.SetScriptID(store.Overworld)
+	}
 }
 
 func bounceLogo() {
@@ -478,6 +493,29 @@ func slideVersion() {
 	}
 
 	util.DrawImagePixel(store.TileMap, title.redVersion, versionX, 8*8)
+}
+
+func initTilesets(fs http.FileSystem) {
+	result := map[uint]tileset.Tileset{}
+	for id, name := range tileset.TilesetNames {
+		path := "/" + name + ".png"
+		img := util.OpenImage(fs, path)
+
+		width, height := img.Size()
+		width /= 8
+		height /= 8
+		for h := 0; h < height; h++ {
+			for w := 0; w < width; w++ {
+				min, max := image.Point{w * 8, h * 8}, image.Point{(w + 1) * 8, (h + 1) * 8}
+				tile, err := ebiten.NewImageFromImage(img.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
+				if err != nil {
+					panic(err)
+				}
+				result[uint(id)] = append(result[uint(id)], tile)
+			}
+		}
+	}
+	tileset.Tilesets = result
 }
 
 func checkForUserInterruption() bool {
