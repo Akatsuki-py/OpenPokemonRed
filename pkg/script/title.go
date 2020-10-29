@@ -8,7 +8,6 @@ import (
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/joypad"
-	"pokered/pkg/overworld"
 	"pokered/pkg/palette"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
@@ -412,7 +411,6 @@ func titlePokemonRed() {
 func initializeOverworld() {
 	initTilesets(store.FS)
 	world.LoadWorldData(worldmap.PALLET_TOWN)
-	overworld.PlayDefaultMusic(worldmap.PALLET_TOWN)
 	sprite.InitPlayer(sprite.Normal, 3, 4)
 	store.SetScriptID(store.Overworld)
 }
