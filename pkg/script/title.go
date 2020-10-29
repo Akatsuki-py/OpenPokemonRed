@@ -242,18 +242,7 @@ func titleIntroScene() {
 		}
 
 	case introCounter < 469+20:
-		start := 469
-
-		if introCounter == start {
-			nidorino = util.OpenImage(store.FS, "/intro_nidorino_1.png")
-		}
-
-		if (introCounter-start)%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation6[counter][1], introNidorinoAnimation6[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoCrouch(469)
 
 	case introCounter < 489+30:
 		if checkForUserInterruption() {
@@ -317,6 +306,19 @@ func nidorinoBackstep(start int) {
 	if (introCounter-start)%5 == 0 {
 		counter := (introCounter - start) / 5
 		animX, animY := introNidorinoAnimation3[counter][1], introNidorinoAnimation3[counter][0]
+		nidorinoX += animX
+		nidorinoY += animY
+	}
+}
+
+func nidorinoCrouch(start int) {
+	if introCounter == start {
+		nidorino = util.OpenImage(store.FS, "/intro_nidorino_1.png")
+	}
+
+	if (introCounter-start)%5 == 0 {
+		counter := (introCounter - start) / 5
+		animX, animY := introNidorinoAnimation6[counter][1], introNidorinoAnimation6[counter][0]
 		nidorinoX += animX
 		nidorinoY += animY
 	}

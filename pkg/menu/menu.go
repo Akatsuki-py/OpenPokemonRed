@@ -84,3 +84,9 @@ func handleMenuInput(current, maxItem uint, wrap bool) uint {
 	}
 	return current
 }
+
+// func InMenu() bool {
+// 	inSelect := CurSelectMenus.Len() > 0
+// 	inListMenu := CurListMenu.z > 0
+// 	return inSelect || inListMenu
+// }

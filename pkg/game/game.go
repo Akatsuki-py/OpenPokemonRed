@@ -72,7 +72,7 @@ func vBlank() {
 	store.DecFrameCounter()
 	audio.FadeOutAudio()
 
-	if isOverworld() && store.SpriteData[0] != nil {
+	if isOverworld() || store.SpriteData[0] != nil {
 		p := store.SpriteData[0]
 		world.VBlank(p.MapXCoord, p.MapYCoord, p.DeltaX, p.DeltaY, p.WalkCounter, p.Direction)
 		sprite.VBlank()
