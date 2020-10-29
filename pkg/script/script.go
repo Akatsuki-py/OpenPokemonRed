@@ -8,98 +8,34 @@ import (
 	"pokered/pkg/world"
 )
 
-const (
-	Halt uint = iota
-	Overworld
-	ExecText
-	WidgetStartMenu
-	WidgetStartMenu2
-	WidgetBag
-	WidgetTrainerCard
-	WidgetNamingScreen
-	FadeOutToBlack
-	FadeOutToWhite
-	LoadMapData
-	TitleCopyright
-	TitleBlank
-	TitleIntroScene
-	TitleWhiteOut
-	TitlePokemonRed
-)
-
-var scriptQueue = Queue{
-	Buffer: [10]uint{Overworld},
-	Length: 0,
-}
-
-// ID current script ID
-func ID() uint {
-	if scriptQueue.Length == 0 {
-		return Overworld
-	}
-	return scriptQueue.Buffer[0]
-}
-
-// SetID change script ID
-func SetID(id uint) {
-	scriptQueue = Queue{
-		Buffer: [10]uint{id},
-		Length: 1,
-	}
-}
-
-// PushID change script ID
-func PushID(id uint) {
-	if scriptQueue.Length == 10 {
-		return
-	}
-	scriptQueue.Buffer[scriptQueue.Length] = id
-	scriptQueue.Length++
-}
-
-func PopID() {
-	if scriptQueue.Length == 0 {
-		return
-	}
-	newBuffer := [10]uint{}
-	for i := 0; i < scriptQueue.Length; i++ {
-		if i == 9 {
-			break
-		}
-		newBuffer[i] = scriptQueue.Buffer[i+1]
-	}
-	scriptQueue.Buffer = newBuffer
-	scriptQueue.Length--
-}
-
 // ScriptMap script ID -> script
 var scriptMap = newScriptMap()
 
 func newScriptMap() map[uint]func() {
 	result := map[uint]func(){}
-	result[Overworld] = halt
-	result[ExecText] = execText
-	result[WidgetStartMenu] = widgetStartMenu
-	result[WidgetStartMenu2] = widgetStartMenu2
-	result[WidgetBag] = widgetBag
-	result[WidgetTrainerCard] = widgetTrainerCard
-	result[WidgetNamingScreen] = widgetNamingScreen
-	result[FadeOutToBlack] = fadeOutToBlack
-	result[FadeOutToWhite] = fadeOutToWhite
-	result[LoadMapData] = loadMapData
-	result[TitleCopyright] = titleCopyright
-	result[TitleBlank] = titleBlank
-	result[TitleIntroScene] = titleIntroScene
-	result[TitleWhiteOut] = titleWhiteOut
-	result[TitlePokemonRed] = titlePokemonRed
+	result[store.Overworld] = halt
+	result[store.ExecText] = execText
+	result[store.WidgetStartMenu] = widgetStartMenu
+	result[store.WidgetStartMenu2] = widgetStartMenu2
+	result[store.WidgetBag] = widgetBag
+	result[store.WidgetTrainerCard] = widgetTrainerCard
+	result[store.WidgetNamingScreen] = widgetNamingScreen
+	result[store.FadeOutToBlack] = fadeOutToBlack
+	result[store.FadeOutToWhite] = fadeOutToWhite
+	result[store.LoadMapData] = loadMapData
+	result[store.TitleCopyright] = titleCopyright
+	result[store.TitleBlank] = titleBlank
+	result[store.TitleIntroScene] = titleIntroScene
+	result[store.TitleWhiteOut] = titleWhiteOut
+	result[store.TitlePokemonRed] = titlePokemonRed
 	return result
 }
 
 // Current return current script
 func Current() func() {
-	s, ok := scriptMap[ID()]
+	s, ok := scriptMap[store.ScriptID()]
 	if !ok {
-		util.NotRegisteredError("scriptMap", ID())
+		util.NotRegisteredError("scriptMap", store.ScriptID())
 		return halt
 	}
 	return s
@@ -109,7 +45,7 @@ func halt() {}
 
 func execText() {
 	if len([]rune(text.CurText)) == 0 {
-		SetID(Overworld)
+		store.SetScriptID(store.Overworld)
 	}
 
 	if text.InScroll {
@@ -133,13 +69,13 @@ func execText() {
 
 	text.CurText = text.PlaceStringOneByOne(text.Image, text.CurText)
 	if len([]rune(text.CurText)) == 0 {
-		SetID(Overworld)
+		store.SetScriptID(store.Overworld)
 	}
 }
 
 func fadeOutToBlack() {
 	if store.FadeCounter <= 0 {
-		SetID(Overworld)
+		store.SetScriptID(store.Overworld)
 		return
 	}
 
@@ -154,13 +90,13 @@ func fadeOutToBlack() {
 	store.DelayFrames = 8
 
 	if store.FadeCounter <= 0 {
-		PopID()
+		store.PopScriptID()
 	}
 }
 
 func fadeOutToWhite() {
 	if store.FadeCounter <= 0 {
-		SetID(Overworld)
+		store.SetScriptID(store.Overworld)
 		return
 	}
 
@@ -175,7 +111,7 @@ func fadeOutToWhite() {
 	store.DelayFrames = 8
 
 	if store.FadeCounter <= 0 {
-		PopID()
+		store.PopScriptID()
 	}
 }
 
@@ -194,5 +130,5 @@ func loadMapData() {
 	p := store.SpriteData[0]
 	p.MapXCoord, p.MapYCoord = warpTo.XCoord, warpTo.YCoord
 
-	SetID(Overworld)
+	store.SetScriptID(store.Overworld)
 }

@@ -5,7 +5,6 @@ import (
 	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/joypad"
 	"pokered/pkg/palette"
-	"pokered/pkg/script"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
@@ -47,7 +46,7 @@ func ExecOverworld() {
 		switch {
 		case joypad.JoyPressed.Start:
 			audio.PlaySound(audio.SFX_START_MENU)
-			script.SetID(script.WidgetStartMenu)
+			store.SetScriptID(store.WidgetStartMenu)
 			return
 		case joypad.JoyPressed.A:
 			if offset := sprite.GetFrontSpriteOrSign(0); offset > 0 {
@@ -158,7 +157,7 @@ func loadWorldData(mapID, warpID int) {
 func displayDialogue(offset int) {
 	texts, textID := world.CurWorld.Header.Text, offset
 	text.DisplayTextID(text.Image, texts, textID)
-	script.SetID(script.ExecText)
+	store.SetScriptID(store.ExecText)
 }
 
 // PlayDefaultMusic 主人公の状態に応じた BGM を流す

@@ -2,6 +2,7 @@ package game
 
 import (
 	"pokered/pkg/script"
+	"pokered/pkg/store"
 )
 
 const (
@@ -17,7 +18,7 @@ func mode() uint {
 }
 
 func isOverworld() bool {
-	return script.ID() == script.Overworld
+	return store.ScriptID() == store.Overworld
 }
 
 func execScript() {

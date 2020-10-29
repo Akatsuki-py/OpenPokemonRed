@@ -9,9 +9,11 @@ func LoadGBPal() {
 }
 
 func GBFadeOutToBlack() {
+	store.SetScriptID(store.FadeOutToBlack)
 	store.FadeCounter = 4
 }
 
 func GBFadeOutToWhite() {
+	store.SetScriptID(store.FadeOutToWhite)
 	store.FadeCounter = 4
 }

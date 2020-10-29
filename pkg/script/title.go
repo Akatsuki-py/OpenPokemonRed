@@ -113,7 +113,7 @@ func titleCopyright() {
 
 	if copyrightCounter == 180 {
 		copyrightCounter = 0
-		SetID(TitleBlank)
+		store.SetScriptID(store.TitleBlank)
 	}
 	copyrightCounter++
 }
@@ -140,11 +140,11 @@ func titleBlank() {
 
 		if checkForUserInterruption() {
 			blankCounter = 0
-			SetID(TitleIntroScene)
+			store.SetScriptID(store.TitleIntroScene)
 		}
 	case blankCounter >= 65+180:
 		blankCounter = 0
-		SetID(TitleIntroScene)
+		store.SetScriptID(store.TitleIntroScene)
 	}
 
 	blankCounter++
@@ -398,15 +398,14 @@ func titleIntroScene() {
 func fadeOutToTitle() {
 	introCounter = 0
 	palette.GBFadeOutToWhite()
-	SetID(FadeOutToWhite)
-	PushID(TitleWhiteOut)
+	store.PushScriptID(store.TitleWhiteOut)
 }
 
 func titleWhiteOut() {
 	palette.LoadGBPal()
 	util.WhiteScreen(store.TileMap)
 	if whiteOutCounter == 20 {
-		SetID(TitlePokemonRed)
+		store.SetScriptID(store.TitlePokemonRed)
 	}
 	whiteOutCounter++
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func widgetStartMenu() {
-	SetID(WidgetStartMenu2)
+	store.SetScriptID(store.WidgetStartMenu2)
 	widget.DrawStartMenu()
 }
 
@@ -20,18 +20,18 @@ func widgetStartMenu2() {
 		switch m.Item() {
 		case "EXIT":
 			m.Close()
-			SetID(Overworld)
+			store.SetScriptID(store.Overworld)
 		case "ITEM":
-			SetID(WidgetBag)
+			store.SetScriptID(store.WidgetBag)
 			menu.NewListMenuID(menu.ItemListMenu, store.BagItems)
 		case "RED":
 			m.Close()
-			SetID(WidgetTrainerCard)
+			store.SetScriptID(store.WidgetTrainerCard)
 			widget.DrawTrainerCard()
 		}
 	case pressed.B:
 		m.Close()
-		SetID(Overworld)
+		store.SetScriptID(store.Overworld)
 	}
 }
 
@@ -42,18 +42,18 @@ func widgetBag() {
 		switch menu.CurListMenu.Item() {
 		case menu.Cancel:
 			menu.CurListMenu.Close()
-			SetID(WidgetStartMenu2)
+			store.SetScriptID(store.WidgetStartMenu2)
 		}
 	case pressed.B:
 		menu.CurListMenu.Close()
-		SetID(WidgetStartMenu2)
+		store.SetScriptID(store.WidgetStartMenu2)
 	}
 }
 
 func widgetTrainerCard() {
 	if joypad.ABButtonPress() {
 		widget.CloseTrainerCard()
-		SetID(WidgetStartMenu)
+		store.SetScriptID(store.WidgetStartMenu)
 	}
 }
 

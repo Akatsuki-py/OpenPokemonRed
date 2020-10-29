@@ -4,14 +4,14 @@ import (
 	"image"
 	"net/http"
 	"pokered/pkg/data/tileset"
-	"pokered/pkg/script"
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
 
 func initialize() {
-	script.SetID(script.TitleCopyright)
+	store.SetScriptID(store.TitleCopyright)
 	// initTilesets(store.FS)
 	// world.LoadWorldData(worldmap.PALLET_TOWN)
 	// overworld.PlayDefaultMusic(worldmap.PALLET_TOWN)

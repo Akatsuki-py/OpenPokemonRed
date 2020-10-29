@@ -6,7 +6,6 @@ import (
 	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/joypad"
 	"pokered/pkg/palette"
-	"pokered/pkg/script"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
@@ -123,13 +122,8 @@ func warpFound(mapID, warpID int) {
 		}
 	}
 	playMapChangeSound()
-	GBFadeOutToBlack()
+	palette.GBFadeOutToBlack()
 
 	world.WarpTo = [2]int{mapID, warpID}
-	script.PushID(script.LoadMapData)
-}
-
-func GBFadeOutToBlack() {
-	script.SetID(script.FadeOutToBlack)
-	palette.GBFadeOutToBlack()
+	store.PushScriptID(store.LoadMapData)
 }
