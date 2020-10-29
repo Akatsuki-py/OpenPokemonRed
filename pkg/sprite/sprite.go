@@ -187,6 +187,10 @@ func drawSprite(offset uint) {
 
 // VBlank script executed in VBlank
 func VBlank() {
+	if world.CurWorld == nil {
+		return
+	}
+
 	if !world.CurWorld.Object.Initialized {
 		InitMapSprites()
 		world.CurWorld.Object.Initialized = true

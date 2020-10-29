@@ -176,34 +176,10 @@ func titleIntroScene() {
 		}
 
 	case introCounter < 80+25:
-		// nidorino hip
-		start := 80
-
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_HIP)
-		}
-
-		if introCounter%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation1[counter][1], introNidorinoAnimation1[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoHip(80)
 
 	case introCounter < 105+25:
-		// nidorino hop
-		start := 105
-
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_HOP)
-		}
-
-		if introCounter%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation2[counter][1], introNidorinoAnimation2[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoHop(105)
 
 	case introCounter < 130+10:
 		if checkForUserInterruption() {
@@ -212,34 +188,10 @@ func titleIntroScene() {
 		}
 
 	case introCounter < 140+25:
-		// nidorino hip
-		start := 140
-
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_HIP)
-		}
-
-		if introCounter%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation1[counter][1], introNidorinoAnimation1[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoHip(140)
 
 	case introCounter < 165+25:
-		// nidorino hop
-		start := 165
-
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_HOP)
-		}
-
-		if introCounter%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation2[counter][1], introNidorinoAnimation2[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoHop(165)
 
 	case introCounter < 190+30:
 		if checkForUserInterruption() {
@@ -248,16 +200,7 @@ func titleIntroScene() {
 		}
 
 	case introCounter < 220+8:
-		// gengar raise hand
-
-		start := 220
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_RAISE)
-			gengar = util.OpenImage(store.FS, "/intro_gengar_1.png")
-		}
-
-		counter := (introCounter - start) / 2
-		gengarX = 24 - counter*2
+		gengarRaiseHand(220)
 
 	case introCounter < 228+30:
 		if checkForUserInterruption() {
@@ -266,31 +209,10 @@ func titleIntroScene() {
 		}
 
 	case introCounter < 258+16:
-		// gengar slash
-		start := 258
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_CRASH)
-			gengar = util.OpenImage(store.FS, "/intro_gengar_2.png")
-		}
-
-		counter := (introCounter - start) / 2
-		gengarX = 16 + counter*2
+		gengarSlash(258)
 
 	case introCounter < 274+25:
-		// nidorino back step
-		start := 274
-
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_HIP)
-			nidorino = util.OpenImage(store.FS, "/intro_nidorino_1.png")
-		}
-
-		if (introCounter-start)%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation3[counter][1], introNidorinoAnimation3[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoBackstep(274)
 
 	case introCounter < 299+30:
 		if checkForUserInterruption() {
@@ -299,14 +221,7 @@ func titleIntroScene() {
 		}
 
 	case introCounter < 329+8:
-		start := 329
-
-		if introCounter == start+8-1 {
-			gengar = util.OpenImage(store.FS, "/intro_gengar_0.png")
-		}
-
-		counter := (introCounter - start) / 2
-		gengarX = 32 - counter*2
+		gengarLowerHand(329)
 
 	case introCounter < 337+60:
 		if checkForUserInterruption() {
@@ -315,35 +230,10 @@ func titleIntroScene() {
 		}
 
 	case introCounter < 397+25:
-		// nidorino hip
-		start := 397
-
-		if introCounter == start {
-			nidorino = util.OpenImage(store.FS, "/intro_nidorino_0.png")
-			audio.PlaySound(audio.SFX_INTRO_HIP)
-		}
-
-		if (introCounter-start)%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation1[counter][1], introNidorinoAnimation1[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoHip(397)
 
 	case introCounter < 422+25:
-		// nidorino hop
-		start := 422
-
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_HOP)
-		}
-
-		if (introCounter-start)%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation2[counter][1], introNidorinoAnimation2[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoHop(422)
 
 	case introCounter < 449+20:
 		if checkForUserInterruption() {
@@ -372,19 +262,7 @@ func titleIntroScene() {
 		}
 
 	case introCounter < 519+20:
-		start := 519
-
-		if introCounter == start {
-			audio.PlaySound(audio.SFX_INTRO_LUNGE)
-			nidorino = util.OpenImage(store.FS, "/intro_nidorino_2.png")
-		}
-
-		if (introCounter-start)%5 == 0 {
-			counter := (introCounter - start) / 5
-			animX, animY := introNidorinoAnimation7[counter][1], introNidorinoAnimation7[counter][0]
-			nidorinoX += animX
-			nidorinoY += animY
-		}
+		nidorinoLunge(519)
 	}
 
 	util.DrawImagePixel(store.TileMap, nidorino, nidorinoX, nidorinoY)
@@ -400,6 +278,91 @@ func titleIntroScene() {
 	}
 
 	introCounter++
+}
+
+func nidorinoHip(start int) {
+
+	if introCounter == start {
+		nidorino = util.OpenImage(store.FS, "/intro_nidorino_0.png")
+		audio.PlaySound(audio.SFX_INTRO_HIP)
+	}
+
+	if (introCounter-start)%5 == 0 {
+		counter := (introCounter - start) / 5
+		animX, animY := introNidorinoAnimation1[counter][1], introNidorinoAnimation1[counter][0]
+		nidorinoX += animX
+		nidorinoY += animY
+	}
+}
+
+func nidorinoHop(start int) {
+	if introCounter == start {
+		audio.PlaySound(audio.SFX_INTRO_HOP)
+	}
+
+	if (introCounter-start)%5 == 0 {
+		counter := (introCounter - start) / 5
+		animX, animY := introNidorinoAnimation2[counter][1], introNidorinoAnimation2[counter][0]
+		nidorinoX += animX
+		nidorinoY += animY
+	}
+}
+
+func nidorinoBackstep(start int) {
+	if introCounter == start {
+		audio.PlaySound(audio.SFX_INTRO_HIP)
+		nidorino = util.OpenImage(store.FS, "/intro_nidorino_1.png")
+	}
+
+	if (introCounter-start)%5 == 0 {
+		counter := (introCounter - start) / 5
+		animX, animY := introNidorinoAnimation3[counter][1], introNidorinoAnimation3[counter][0]
+		nidorinoX += animX
+		nidorinoY += animY
+	}
+}
+
+func nidorinoLunge(start int) {
+	if introCounter == start {
+		audio.PlaySound(audio.SFX_INTRO_LUNGE)
+		nidorino = util.OpenImage(store.FS, "/intro_nidorino_2.png")
+	}
+
+	if (introCounter-start)%5 == 0 {
+		counter := (introCounter - start) / 5
+		animX, animY := introNidorinoAnimation7[counter][1], introNidorinoAnimation7[counter][0]
+		nidorinoX += animX
+		nidorinoY += animY
+	}
+}
+
+func gengarRaiseHand(start int) {
+	if introCounter == start {
+		audio.PlaySound(audio.SFX_INTRO_RAISE)
+		gengar = util.OpenImage(store.FS, "/intro_gengar_1.png")
+	}
+
+	counter := (introCounter - start) / 2
+	gengarX = 24 - counter*2
+}
+
+func gengarSlash(start int) {
+	if introCounter == start {
+		audio.PlaySound(audio.SFX_INTRO_CRASH)
+		gengar = util.OpenImage(store.FS, "/intro_gengar_2.png")
+	}
+
+	counter := (introCounter - start) / 2
+	gengarX = 16 + counter*2
+}
+
+func gengarLowerHand(start int) {
+	if introCounter == start+8-1 {
+		gengar = util.OpenImage(store.FS, "/intro_gengar_0.png")
+	}
+
+	counter := (introCounter - start) / 2
+	gengarX = 32 - counter*2
 }
 
 func fadeOutToTitle() {
@@ -440,12 +403,16 @@ func titlePokemonRed() {
 	title.counter++
 
 	if title.counter > 88 && checkForUserInterruption() {
-		initTilesets(store.FS)
-		world.LoadWorldData(worldmap.PALLET_TOWN)
-		overworld.PlayDefaultMusic(worldmap.PALLET_TOWN)
-		sprite.InitPlayer(sprite.Normal, 3, 4)
-		store.SetScriptID(store.Overworld)
+		initializeOverworld()
 	}
+}
+
+func initializeOverworld() {
+	initTilesets(store.FS)
+	world.LoadWorldData(worldmap.PALLET_TOWN)
+	overworld.PlayDefaultMusic(worldmap.PALLET_TOWN)
+	sprite.InitPlayer(sprite.Normal, 3, 4)
+	store.SetScriptID(store.Overworld)
 }
 
 func bounceLogo() {
