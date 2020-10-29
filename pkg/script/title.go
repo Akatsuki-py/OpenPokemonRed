@@ -1,7 +1,6 @@
 package script
 
 import (
-	"fmt"
 	"pokered/pkg/audio"
 	"pokered/pkg/data/pokemon"
 	"pokered/pkg/joypad"
@@ -34,8 +33,12 @@ var (
 	whiteOutCounter int
 
 	title = Title{
-		logo:       util.OpenImage(store.FS, "/title_logo.png"),
-		redVersion: util.OpenImage(store.FS, "/red_version.png"),
+		logo:        util.OpenImage(store.FS, "/title_logo.png"),
+		redVersion:  util.OpenImage(store.FS, "/red_version.png"),
+		red:         util.OpenImage(store.FS, "/title_red_1.png"),
+		redWithBall: util.OpenImage(store.FS, "/title_red_0.png"),
+		redBall:     util.OpenImage(store.FS, "/title_red_ball.png"),
+		mon:         util.OpenImage(store.FS, "/charmander_1.png"),
 	}
 )
 
@@ -412,6 +415,7 @@ func titlePokemonRed() {
 	if title.counter == 88 {
 		audio.PlayMusic(audio.MUSIC_TITLE_SCREEN)
 	}
+
 	palette.LoadGBPal()
 
 	if title.img == nil {
@@ -424,19 +428,7 @@ func titlePokemonRed() {
 	bounceLogo()
 	slideVersion()
 
-	if title.mon == nil {
-		title.monID = pokemon.CHARMANDER
-		name := pokemon.Name(title.monID)
-		path := fmt.Sprintf("/%s_1.png", name)
-		title.mon = util.OpenImage(store.FS, path)
-	}
 	util.DrawImage(store.TileMap, title.mon, 5, 10)
-
-	if title.red == nil {
-		title.red = util.OpenImage(store.FS, "/title_red_1.png")
-		title.redWithBall = util.OpenImage(store.FS, "/title_red_0.png")
-		title.redBall = util.OpenImage(store.FS, "/title_red_ball.png")
-	}
 	util.DrawImagePixel(store.TileMap, title.redWithBall, 82, 80)
 
 	title.counter++

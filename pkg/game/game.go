@@ -1,6 +1,7 @@
 package game
 
 import (
+	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/overworld"
 	pal "pokered/pkg/palette"
@@ -19,7 +20,6 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	if g.frame == 0 {
 		initialize()
 	}
-	// debug(g, 10)
 	exec()
 	vBlank()
 	g.frame++
@@ -67,7 +67,7 @@ func vBlank() {
 
 	joypad.ReadJoypad()
 	store.DecFrameCounter()
-	// audio.FadeOutAudio()
+	audio.FadeOutAudio()
 	// world.VBlank(p.MapXCoord, p.MapYCoord, p.DeltaX, p.DeltaY, p.WalkCounter, p.Direction)
 	// sprite.VBlank()
 	// menu.VBlank()

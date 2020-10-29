@@ -20,7 +20,7 @@ func widgetStartMenu2() {
 		switch m.Item() {
 		case "EXIT":
 			m.Close()
-			SetID(Halt)
+			SetID(Overworld)
 		case "ITEM":
 			SetID(WidgetBag)
 			menu.NewListMenuID(menu.ItemListMenu, store.BagItems)
@@ -31,7 +31,7 @@ func widgetStartMenu2() {
 		}
 	case pressed.B:
 		m.Close()
-		SetID(Halt)
+		SetID(Overworld)
 	}
 }
 

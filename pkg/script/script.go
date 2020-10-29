@@ -10,6 +10,7 @@ import (
 
 const (
 	Halt uint = iota
+	Overworld
 	ExecText
 	WidgetStartMenu
 	WidgetStartMenu2
@@ -27,14 +28,14 @@ const (
 )
 
 var scriptQueue = Queue{
-	Buffer: [10]uint{Halt},
+	Buffer: [10]uint{Overworld},
 	Length: 0,
 }
 
 // ID current script ID
 func ID() uint {
 	if scriptQueue.Length == 0 {
-		return Halt
+		return Overworld
 	}
 	return scriptQueue.Buffer[0]
 }
@@ -76,7 +77,7 @@ var scriptMap = newScriptMap()
 
 func newScriptMap() map[uint]func() {
 	result := map[uint]func(){}
-	result[Halt] = halt
+	result[Overworld] = halt
 	result[ExecText] = execText
 	result[WidgetStartMenu] = widgetStartMenu
 	result[WidgetStartMenu2] = widgetStartMenu2
@@ -108,7 +109,7 @@ func halt() {}
 
 func execText() {
 	if len([]rune(text.CurText)) == 0 {
-		SetID(Halt)
+		SetID(Overworld)
 	}
 
 	if text.InScroll {
@@ -132,13 +133,13 @@ func execText() {
 
 	text.CurText = text.PlaceStringOneByOne(text.Image, text.CurText)
 	if len([]rune(text.CurText)) == 0 {
-		SetID(Halt)
+		SetID(Overworld)
 	}
 }
 
 func fadeOutToBlack() {
 	if store.FadeCounter <= 0 {
-		SetID(Halt)
+		SetID(Overworld)
 		return
 	}
 
@@ -159,7 +160,7 @@ func fadeOutToBlack() {
 
 func fadeOutToWhite() {
 	if store.FadeCounter <= 0 {
-		SetID(Halt)
+		SetID(Overworld)
 		return
 	}
 
@@ -193,5 +194,5 @@ func loadMapData() {
 	p := store.SpriteData[0]
 	p.MapXCoord, p.MapYCoord = warpTo.XCoord, warpTo.YCoord
 
-	SetID(Halt)
+	SetID(Overworld)
 }
