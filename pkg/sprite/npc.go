@@ -9,10 +9,6 @@ import (
 
 // movement byte 2
 const (
-	forceDown      byte = 0xd0
-	forceUp        byte = 0xd1
-	forceLeft      byte = 0xd2
-	forceRight     byte = 0xd3
 	forceUpDown    byte = 0x01
 	forceLeftRight byte = 0x02
 )
@@ -102,13 +98,13 @@ func updateNPCSprite(offset uint) {
 	// determine NPC direction
 	var direction util.Direction
 	switch s.MovementBytes[1] {
-	case forceDown:
+	case byte(util.Down):
 		direction = util.Down
-	case forceUp:
+	case byte(util.Up):
 		direction = util.Up
-	case forceLeft:
+	case byte(util.Left):
 		direction = util.Left
-	case forceRight:
+	case byte(util.Right):
 		direction = util.Right
 	default:
 		switch {
