@@ -6,6 +6,7 @@ import (
 	"pokered/pkg/data/sprdata"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
+	"pokered/pkg/text"
 	"pokered/pkg/util"
 	"pokered/pkg/world"
 
@@ -95,31 +96,27 @@ func UpdateSprites() {
 // UpdateSpriteImage update sprite image index
 func UpdateSpriteImage(offset uint) {
 	s := store.SpriteData[offset]
-	index := -1
 	if s == nil {
 		return
 	}
+
 	length := s.VRAM.Length()
 	if length == 1 {
 		s.VRAM.Index = 0
 		return
 	}
+	if length == 4 {
+		updateSpriteImage4(offset)
+		return
+	}
 
-	// ref:
-	index = 0
+	index := 0
 	switch s.AnimationCounter() + uint(s.Direction) {
-
 	// down
 	case 0, 3:
 		index = 1
-		if length == 4 {
-			index = 0
-		}
 	case 1, 2:
 		index = 0
-		if length == 4 {
-			index = 0
-		}
 		if s.RightHand {
 			index = 2
 		}
@@ -127,39 +124,68 @@ func UpdateSpriteImage(offset uint) {
 	// up
 	case 4, 7:
 		index = 4
-		if length == 4 {
-			index = 1
-		}
 	case 5, 6:
 		index = 3
-		if length == 4 {
-			index = 1
-		}
 		if s.RightHand {
 			index = 5
 		}
 
 	case 8, 11:
 		index = 6
-		if length == 4 {
-			index = 2
-		}
 	case 9, 10:
 		index = 7
-		if length == 4 {
-			index = 2
-		}
 
 	case 12, 15:
 		index = 8
-		if length == 4 {
-			index = 3
-		}
 	case 13, 14:
 		index = 9
-		if length == 4 {
-			index = 3
+	}
+
+	fontLoaded := text.FontLoaded()
+	if fontLoaded {
+		switch s.AnimationCounter() + uint(s.Direction) {
+		case 0, 1, 2, 3:
+			index = 1
+		case 4, 5, 6, 7:
+			index = 4
+		case 8, 9, 10, 11:
+			index = 6
+		case 12, 13, 14, 15:
+			index = 8
 		}
+	}
+
+	s.VRAM.Index = index
+}
+
+func updateSpriteImage4(offset uint) {
+	s := store.SpriteData[offset]
+	index := 0
+	switch s.AnimationCounter() + uint(s.Direction) {
+
+	// down
+	case 0, 3:
+		index = 0
+	case 1, 2:
+		index = 0
+		if s.RightHand {
+			index = 2
+		}
+
+	// up
+	case 4, 7:
+		index = 1
+	case 5, 6:
+		index = 1
+		if s.RightHand {
+			index = 5
+		}
+
+	case 8, 9, 10, 11:
+		index = 2
+
+	case 12, 13, 14, 15:
+		index = 3
 	}
 	s.VRAM.Index = index
 }

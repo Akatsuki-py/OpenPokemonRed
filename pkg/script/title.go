@@ -404,11 +404,11 @@ func titlePokemonRed() {
 	title.counter++
 
 	if title.counter > 88 && checkForUserInterruption() {
-		initializeOverworld()
+		InitializeOverworld()
 	}
 }
 
-func initializeOverworld() {
+func InitializeOverworld() {
 	initTilesets(store.FS)
 	world.LoadWorldData(worldmap.PALLET_TOWN)
 	sprite.InitPlayer(sprite.Normal, 3, 4)

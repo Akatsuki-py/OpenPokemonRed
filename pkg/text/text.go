@@ -13,7 +13,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
-var Image = util.NewImage()
+var TextBoxImage *ebiten.Image
 
 // CurText text which should be displayed
 var CurText = ""
@@ -52,7 +52,7 @@ func PlaceString(str string, x, y util.Tile) {
 // PlaceStringAtOnce print string at once
 func PlaceStringAtOnce(target *ebiten.Image, str string, x, y util.Tile) {
 	if target == nil {
-		target = Image
+		TextBoxImage = util.NewImage()
 	}
 	Seek(x, y)
 	for str != "" {
@@ -68,6 +68,10 @@ func PlaceUintAtOnce(target *ebiten.Image, num uint, x, y util.Tile) {
 
 // PlaceStringOneByOne place CurText into screen one by one
 func PlaceStringOneByOne(target *ebiten.Image, str string) string {
+	if target == nil {
+		TextBoxImage = util.NewImage()
+	}
+
 	if len([]rune(str)) == 0 {
 		return str
 	}
@@ -112,7 +116,7 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 			}
 		case "d":
 			if pressed := placeDone(); pressed {
-				Image = util.NewImage()
+				TextBoxImage = nil
 				str = ""
 			}
 		case "▼":
@@ -243,15 +247,22 @@ func placePage() {}
 func placeDex()  {}
 
 func VBlank() {
-	if Image == nil {
+	if TextBoxImage == nil {
 		return
 	}
-	util.DrawImage(store.TileMap, Image, 0, 0)
+	util.DrawImage(store.TileMap, TextBoxImage, 0, 0)
+}
+
+// FontLoaded dialog box is rendered
+// ref: wFontLoaded
+func FontLoaded() bool {
+	return TextBoxImage != nil
 }
 
 func DisplayTextID(target *ebiten.Image, texts []string, textID int) {
 	if target == nil {
-		return
+		TextBoxImage = util.NewImage()
+		target = TextBoxImage
 	}
 
 	store.FrameCounter = 30

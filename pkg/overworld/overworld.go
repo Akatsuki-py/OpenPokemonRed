@@ -152,7 +152,7 @@ func loadWorldData(mapID, warpID int) {
 
 func displayDialogue(offset int) {
 	texts, textID := world.CurWorld.Header.Text, offset
-	text.DisplayTextID(text.Image, texts, textID)
+	text.DisplayTextID(text.TextBoxImage, texts, textID)
 	store.SetScriptID(store.ExecText)
 }
 

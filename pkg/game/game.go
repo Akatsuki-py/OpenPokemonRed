@@ -23,7 +23,8 @@ type Game struct {
 // Update proceeds the game state.
 func (g *Game) Update(screen *ebiten.Image) error {
 	if g.frame == 0 {
-		initialize()
+		// initialize()
+		initializeWorld()
 	}
 	exec()
 	vBlank()

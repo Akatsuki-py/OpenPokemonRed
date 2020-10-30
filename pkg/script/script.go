@@ -49,7 +49,7 @@ func execText() {
 	}
 
 	if text.InScroll {
-		text.ScrollTextUpOneLine(text.Image)
+		text.ScrollTextUpOneLine(text.TextBoxImage)
 		return
 	}
 
@@ -67,7 +67,7 @@ func execText() {
 		return
 	}
 
-	text.CurText = text.PlaceStringOneByOne(text.Image, text.CurText)
+	text.CurText = text.PlaceStringOneByOne(text.TextBoxImage, text.CurText)
 	if len([]rune(text.CurText)) == 0 {
 		store.SetScriptID(store.Overworld)
 	}
