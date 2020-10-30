@@ -28,6 +28,8 @@ func newScriptMap() map[uint]func() {
 	result[store.TitleIntroScene] = titleIntroScene
 	result[store.TitleWhiteOut] = titleWhiteOut
 	result[store.TitlePokemonRed] = titlePokemonRed
+	result[store.TitleMenu] = titleMenu
+	result[store.TitleMenu2] = titleMenu2
 	return result
 }
 

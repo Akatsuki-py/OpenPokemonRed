@@ -17,6 +17,8 @@ const (
 	TitleIntroScene
 	TitleWhiteOut
 	TitlePokemonRed
+	TitleMenu
+	TitleMenu2
 )
 
 type ScriptQueue struct {

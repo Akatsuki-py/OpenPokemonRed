@@ -8,6 +8,7 @@ import (
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/joypad"
+	"pokered/pkg/menu"
 	"pokered/pkg/palette"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
@@ -404,7 +405,8 @@ func titlePokemonRed() {
 	title.counter++
 
 	if title.counter > 88 && checkForUserInterruption() {
-		InitializeOverworld()
+		title.counter = 0
+		store.SetScriptID(store.TitleMenu)
 	}
 }
 
@@ -497,4 +499,35 @@ func checkForUserInterruption() bool {
 	}
 
 	return false
+}
+
+func titleMenu() {
+	store.SetScriptID(store.TitleMenu2)
+	util.WhiteScreen(store.TileMap)
+	height := 3 * 2
+	elm := []string{
+		"CONTINUE",
+		"NEW GAME",
+		"OPTION",
+	}
+	menu.NewSelectMenu(elm, 0, 0, 13, height, true, false)
+}
+
+func titleMenu2() {
+	m := menu.CurSelectMenu()
+	pressed := menu.HandleSelectMenuInput()
+
+	switch {
+	case pressed.A:
+		switch m.Item() {
+		case "CONTINUE":
+		case "NEW GAME":
+			m.Close()
+			InitializeOverworld()
+		case "OPTION":
+		}
+	case pressed.B:
+		m.Close()
+		store.SetScriptID(store.TitlePokemonRed)
+	}
 }
