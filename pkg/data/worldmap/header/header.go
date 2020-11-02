@@ -54,6 +54,8 @@ func Get(id int) *Header {
 		return Route21
 	case worldmap.OAKS_LAB:
 		return OaksLab
+	case worldmap.BLUES_HOUSE:
+		return BluesHouse
 	default:
 		util.NotRegisteredError("header.Get", id)
 	}

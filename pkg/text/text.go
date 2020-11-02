@@ -262,6 +262,7 @@ func FontLoaded() bool {
 func DisplayTextID(target *ebiten.Image, texts []string, textID int) {
 	if target == nil {
 		TextBoxImage = util.NewImage()
+		target = TextBoxImage
 	}
 
 	store.FrameCounter = 30
