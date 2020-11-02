@@ -1,4 +1,4 @@
-package pokemon
+package pkmn
 
 import "pokered/pkg/data/move"
 

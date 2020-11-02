@@ -1,4 +1,4 @@
-package pokemon
+package pkmn
 
 const (
 	RHYDON uint = iota + 1

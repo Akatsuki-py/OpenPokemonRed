@@ -1,4 +1,4 @@
-package pokemon
+package pkmn
 
 type stat struct {
 	HP      uint

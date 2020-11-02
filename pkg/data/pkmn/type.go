@@ -1,4 +1,4 @@
-package pokemon
+package pkmn
 
 // Pokemon type
 const (

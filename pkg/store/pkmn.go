@@ -1,28 +1,43 @@
 package store
 
-// PartyMon data of mon in party
-type PartyMon struct{}
-
-// PartyMons party mon data in game
-var PartyMons = [6]PartyMon{}
+// Move data stored in pokemon move slot
+type Move struct {
+	ID uint
+	PP uint
+}
 
 // BoxMon data of mon in box
 type BoxMon struct {
-	Species    byte
-	HP         int
-	BoxLevel   int
-	Status     byte
-	Type       [2]byte
-	CatchRate  byte
-	Moves      [4]byte // TODO: replace Move struct
-	OTID       byte
-	Exp        int
-	HPExp      int
-	AttackExp  int
-	DefenseExp int
-	Speed      int
-	SpecialExp int
-	DVs        int
+	PokemonID uint
+	HP        uint
+	BoxLevel  uint
+	Status    byte
+	Type      [2]uint
+	CatchRate byte
+	Moves     [4]Move
+	OTID      uint
+	Exp       int
+	EVs       EVStat
+	DVs       DVStat
+}
+
+// EVStat Effort Value Japanees:努力値
+type EVStat struct {
+	HP      uint
+	Attack  uint
+	Defense uint
+	Speed   uint
+	SpAtk   uint
+	SpDef   uint // unused in gen1
+}
+
+// DVStat Determinant values Japanese:個体値
+type DVStat struct {
+	Attack  uint
+	Defense uint
+	Speed   uint
+	SpAtk   uint
+	SpDef   uint // unused in gen1
 }
 
 // BoxMons box mon data in game
@@ -34,3 +49,19 @@ type DayCareMon struct{}
 // DayCareMons daycare mon data in game
 // NOTE: Considering PokemonGSC, multiple mons can be taken.
 var DayCareMons = []DayCareMon{}
+
+// PartyMon data of mon in party
+type PartyMon struct {
+	Initialized bool
+	BoxMon
+	Level   uint
+	MaxHP   uint
+	Attack  uint
+	Defense uint
+	Speed   uint
+	SpAtk   uint
+	SpDef   uint
+}
+
+// PartyMons party mon data in game
+var PartyMons = [6]PartyMon{}
