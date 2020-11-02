@@ -1,4 +1,4 @@
-package pkmn
+package pkmnd
 
 type stat struct {
 	HP      uint

@@ -1,4 +1,4 @@
-package pkmn
+package pkmnd
 
 // nameMap PokemonID -> Name
 var nameMap = map[uint]string{

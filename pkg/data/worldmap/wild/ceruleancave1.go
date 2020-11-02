@@ -1,18 +1,18 @@
 package wild
 
-import "pokered/pkg/data/pkmn"
+import "pokered/pkg/data/pkmnd"
 
 var grass = [10]Pokemon{
-	{pkmn.GOLBAT, 46},
-	{pkmn.HYPNO, 46},
-	{pkmn.MAGNETON, 46},
-	{pkmn.DODRIO, 49},
-	{pkmn.VENOMOTH, 49},
-	{pkmn.ARBOK, 52},
-	{pkmn.KADABRA, 49},
-	{pkmn.PARASECT, 52},
-	{pkmn.RAICHU, 53},
-	{pkmn.DITTO, 53},
+	{pkmnd.GOLBAT, 46},
+	{pkmnd.HYPNO, 46},
+	{pkmnd.MAGNETON, 46},
+	{pkmnd.DODRIO, 49},
+	{pkmnd.VENOMOTH, 49},
+	{pkmnd.ARBOK, 52},
+	{pkmnd.KADABRA, 49},
+	{pkmnd.PARASECT, 52},
+	{pkmnd.RAICHU, 53},
+	{pkmnd.DITTO, 53},
 }
 
 var water = [10]Pokemon{}

@@ -1,4 +1,4 @@
-package pkmn
+package pkmnd
 
 import "pokered/pkg/data/move"
 

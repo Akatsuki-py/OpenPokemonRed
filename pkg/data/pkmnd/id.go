@@ -1,4 +1,4 @@
-package pkmn
+package pkmnd
 
 const (
 	RHYDON uint = iota + 1

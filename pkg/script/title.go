@@ -4,7 +4,7 @@ import (
 	"image"
 	"net/http"
 	"pokered/pkg/audio"
-	"pokered/pkg/data/pkmn"
+	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/joypad"
@@ -50,21 +50,21 @@ var (
 )
 
 var titleMons = []uint{
-	pkmn.CHARMANDER,
-	pkmn.BULBASAUR,
-	pkmn.WEEDLE,
-	pkmn.NIDORAN_M,
-	pkmn.SCYTHER,
-	pkmn.PIKACHU,
-	pkmn.CLEFAIRY,
-	pkmn.RHYDON,
-	pkmn.ABRA,
-	pkmn.GASTLY,
-	pkmn.DITTO,
-	pkmn.PIDGEOTTO,
-	pkmn.ONIX,
-	pkmn.PONYTA,
-	pkmn.MAGIKARP,
+	pkmnd.CHARMANDER,
+	pkmnd.BULBASAUR,
+	pkmnd.WEEDLE,
+	pkmnd.NIDORAN_M,
+	pkmnd.SCYTHER,
+	pkmnd.PIKACHU,
+	pkmnd.CLEFAIRY,
+	pkmnd.RHYDON,
+	pkmnd.ABRA,
+	pkmnd.GASTLY,
+	pkmnd.DITTO,
+	pkmnd.PIDGEOTTO,
+	pkmnd.ONIX,
+	pkmnd.PONYTA,
+	pkmnd.MAGIKARP,
 }
 
 type Title struct {
