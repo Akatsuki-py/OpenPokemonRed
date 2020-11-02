@@ -4,7 +4,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/Akatsuki-py/OpenPokemonRed)](https://github.com/Akatsuki-py/OpenPokemonRed/stargazers)
 [![GitHub license](https://img.shields.io/github/license/Akatsuki-py/OpenPokemonRed)](https://github.com/Akatsuki-py/OpenPokemonRed/blob/master/LICENSE)
 
-<img src="package.jpg" width="240px" />
+<img src="header.png" />
 
 
 ## 🔰 Description
