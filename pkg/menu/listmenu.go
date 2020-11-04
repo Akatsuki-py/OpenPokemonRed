@@ -102,11 +102,12 @@ func DisplayListMenuIDLoop() joypad.Input {
 	CurListMenu.PrintEntries()
 	previous := CurListMenu.current
 	pressed := HandleListMenuInput(target)
-	PlaceCursor(target, &CurListMenu)
+	EraseAllCursors(target, ListMenuTopX, ListMenuTopY, 4, 2)
+	PlaceMenuCursor(target, ListMenuTopX, ListMenuTopY, int(CurListMenu.current), 2)
 
 	switch {
 	case pressed.A:
-		PlaceUnfilledArrowCursor(target, &CurListMenu)
+		PlaceUnfilledArrowCursor(target, ListMenuTopX, ListMenuTopY, int(CurListMenu.current), 2)
 	case pressed.Down:
 		if CurListMenu.offset+3 < uint(len(CurListMenu.Elm)+1) {
 			if previous == 2 {
@@ -126,7 +127,8 @@ func DisplayListMenuIDLoop() joypad.Input {
 // HandleListMenuInput メニューでのキー入力に対処するハンドラ
 func HandleListMenuInput(target *ebiten.Image) joypad.Input {
 	l := &CurListMenu
-	PlaceCursor(target, l)
+	EraseAllCursors(target, ListMenuTopX, ListMenuTopY, 4, 2)
+	PlaceMenuCursor(target, ListMenuTopX, ListMenuTopY, int(l.current), 2)
 	store.DelayFrames = 3
 	// TODO: AnimatePartyMon
 

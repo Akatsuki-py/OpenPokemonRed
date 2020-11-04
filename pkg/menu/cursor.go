@@ -15,39 +15,24 @@ type Cursor struct {
 // CursorLocation current cursor tile location in tileMap
 var CursorLocation = Cursor{}
 
-// PlaceCursor set "▶︎" into current menu
+// EraseAllCursors erase old cursor
 // ref: PlaceMenuCursor
-func PlaceCursor(target *ebiten.Image, m interface{}) {
-	// erase old cursor
-	switch m := m.(type) {
-	case *SelectMenu:
-		for i := 0; i < len(m.Elm); i++ {
-			text.PlaceChar(target, " ", m.topX, m.topY+2*i)
-		}
-	case *ListMenu:
-		for i := 0; i < 4; i++ {
-			text.PlaceChar(target, " ", ListMenuTopX, ListMenuTopY+2*i)
-		}
+func EraseAllCursors(target *ebiten.Image, topX, topY util.Tile, length int, space util.Tile) {
+	for i := 0; i < length; i++ {
+		text.PlaceChar(target, " ", topX, topY+space*i)
 	}
+}
 
-	// place current cursor
-	switch m := m.(type) {
-	case *SelectMenu:
-		text.PlaceChar(target, "▶︎", m.topX, m.topY+util.Tile(2*m.current))
-	case *ListMenu:
-		text.PlaceChar(target, "▶︎", ListMenuTopX, ListMenuTopY+util.Tile(2*m.current))
-	}
+// PlaceMenuCursor set "▶︎" into current menu
+// ref: PlaceMenuCursor
+func PlaceMenuCursor(target *ebiten.Image, topX, topY util.Tile, current int, space util.Tile) {
+	text.PlaceChar(target, "▶︎", topX, topY+space*current)
 }
 
 // PlaceUnfilledArrowCursor replace current cursor with "▷"
 // ref: PlaceUnfilledArrowMenuCursor
-func PlaceUnfilledArrowCursor(target *ebiten.Image, m interface{}) {
-	switch m := m.(type) {
-	case *SelectMenu:
-		text.PlaceChar(target, "▷", m.topX, m.topY+util.Tile(2*m.current))
-	case *ListMenu:
-		text.PlaceChar(target, "▷", ListMenuTopX, ListMenuTopY+util.Tile(2*m.current))
-	}
+func PlaceUnfilledArrowCursor(target *ebiten.Image, topX, topY util.Tile, current int, space util.Tile) {
+	text.PlaceChar(target, "▷", topX, topY+space*current)
 }
 
 // EraseCursor erase cursor

@@ -79,7 +79,8 @@ func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bo
 // HandleSelectMenuInput メニューでのキー入力に対処するハンドラ
 func HandleSelectMenuInput() joypad.Input {
 	s := CurSelectMenu()
-	PlaceCursor(s.image, s)
+	EraseAllCursors(s.image, s.topX, s.topY, len(s.Elm), 2)
+	PlaceMenuCursor(s.image, s.topX, s.topY, int(s.current), 2)
 	store.DelayFrames = 3
 
 	joypad.JoypadLowSensitivity()
