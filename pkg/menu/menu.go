@@ -61,7 +61,7 @@ func VBlank() {
 	CurSelectMenus = newCurSelectMenus
 }
 
-func handleMenuInput(current, maxItem uint, wrap bool) uint {
+func HandleMenuInput(current, maxItem uint, wrap bool) uint {
 	switch {
 	case joypad.Joy5.Up:
 		if current > 0 {

@@ -141,7 +141,7 @@ func HandleListMenuInput(target *ebiten.Image) joypad.Input {
 	} else {
 		maxItem++
 	}
-	l.current = handleMenuInput(l.current, maxItem, l.wrap)
+	l.current = HandleMenuInput(l.current, maxItem, l.wrap)
 	return joypad.Joy5
 }
 

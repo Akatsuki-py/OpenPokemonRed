@@ -81,7 +81,6 @@ func HandleSelectMenuInput() joypad.Input {
 	s := CurSelectMenu()
 	PlaceCursor(s.image, s)
 	store.DelayFrames = 3
-	// TODO: AnimatePartyMon
 
 	joypad.JoypadLowSensitivity()
 	if !joypad.Joy5.Any() {
@@ -89,6 +88,6 @@ func HandleSelectMenuInput() joypad.Input {
 	}
 
 	maxItem := uint(len(s.Elm) - 1)
-	s.current = handleMenuInput(s.current, maxItem, s.wrap)
+	s.current = HandleMenuInput(s.current, maxItem, s.wrap)
 	return joypad.Joy5
 }

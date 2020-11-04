@@ -53,3 +53,14 @@ func DrawHPBar(target *ebiten.Image, px int, x, y util.Tile) {
 		util.DrawPixel(target, hpDotX, hpDotY+1, r, g, b)
 	}
 }
+
+// PrintLevel print mon level with :L
+func PrintLevel(target *ebiten.Image, level uint, x, y util.Tile) {
+	if level >= 100 {
+		text.PlaceUintAtOnce(target, level, x, y)
+		return
+	}
+
+	text.PlaceChar(target, ":L", x, y)
+	text.PlaceUintAtOnce(target, level, x+1, y)
+}

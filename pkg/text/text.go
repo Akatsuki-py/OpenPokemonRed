@@ -141,6 +141,22 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 			}
 			str = string(runes[1:])
 		}
+	case ":":
+		switch string(runes[1]) {
+		case "L":
+			c += string(runes[1])
+			if IsCorrectChar(c) {
+				x, y := Caret()
+				placeCharNext(target, c, x, y)
+			}
+			str = string(runes[2:])
+		default:
+			if IsCorrectChar(c) {
+				x, y := Caret()
+				placeCharNext(target, c, x, y)
+			}
+			str = string(runes[1:])
+		}
 	default:
 		if IsCorrectChar(c) {
 			x, y := Caret()

@@ -1,6 +1,8 @@
 package widget
 
 import (
+	"pokered/pkg/joypad"
+	"pokered/pkg/menu"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 
@@ -11,6 +13,7 @@ var partyMenu *ebiten.Image
 
 // 0: no swap 1: first selected offset for swap(starting from 1)
 var partyMenuSwapID uint
+var partyMenuCurrent uint
 
 // DrawPartyMenu draw party menu
 // this func is always used when party menu is needed.
@@ -41,6 +44,12 @@ func drawPartyPokemon(offset int) {
 	printStatusCondition(offset, hp, status)
 
 	// hp
+	DrawHP(partyMenu, hp, mon.MaxHP, 4, y+1, true)
+
+	// ABLE or NOT ABLE
+
+	// level
+	PrintLevel(partyMenu, mon.Level, 13, y)
 }
 
 func drawPartyCursor()      {}
@@ -56,4 +65,14 @@ func printStatusCondition(offset int, hp uint, status store.NonVolatileStatus) {
 	if status != store.OK {
 		text.PlaceStringAtOnce(partyMenu, status.String(), x, y)
 	}
+}
+
+// HandlePartyMenuInput handle input on party menu
+// ref: HandlePartyMenuInput
+func HandlePartyMenuInput() {
+	store.DelayFrames = 3
+	// TODO: AnimatePartyMon
+
+	joypad.JoypadLowSensitivity()
+	partyMenuCurrent = menu.HandleMenuInput(partyMenuCurrent, uint(store.PartyMonLen()), true)
 }
