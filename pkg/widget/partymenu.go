@@ -69,10 +69,18 @@ func printStatusCondition(offset int, hp uint, status store.NonVolatileStatus) {
 
 // HandlePartyMenuInput handle input on party menu
 // ref: HandlePartyMenuInput
-func HandlePartyMenuInput() {
+func HandlePartyMenuInput() joypad.Input {
+	length := store.PartyMonLen()
+	menu.EraseAllCursors(partyMenu, 0, 1, length, 2)
+	menu.PlaceMenuCursor(partyMenu, 0, 1, int(partyMenuCurrent), 2)
 	store.DelayFrames = 3
 	// TODO: AnimatePartyMon
 
 	joypad.JoypadLowSensitivity()
+	if !joypad.Joy5.Any() {
+		return joypad.Input{} // TODO: blink
+	}
+
 	partyMenuCurrent = menu.HandleMenuInput(partyMenuCurrent, uint(store.PartyMonLen()), true)
+	return joypad.Joy5
 }
