@@ -4,6 +4,7 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/store"
+	"pokered/pkg/util"
 	"pokered/pkg/widget"
 )
 
@@ -28,6 +29,12 @@ func widgetStartMenu2() {
 			m.Close()
 			store.SetScriptID(store.WidgetTrainerCard)
 			widget.DrawTrainerCard()
+		case util.Pokemon:
+			if store.PartyMonLen() > 0 {
+				m.Close()
+				store.SetScriptID(store.WidgetPartyMenu)
+				widget.DrawPartyMenu()
+			}
 		}
 	case pressed.B:
 		m.Close()
@@ -76,5 +83,14 @@ func widgetNamingScreen() {
 		widget.NextChar()
 	case joypad.Joy5.B:
 		widget.EraseChar()
+	}
+}
+
+func widgetPartyMenu() {
+	pressed := widget.HandlePartyMenuInput()
+	switch {
+	case pressed.B:
+		widget.ClosePartyMenu()
+		store.SetScriptID(store.Overworld)
 	}
 }

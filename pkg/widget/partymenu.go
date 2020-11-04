@@ -5,6 +5,7 @@ import (
 	"pokered/pkg/menu"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
+	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten"
 )
@@ -20,6 +21,7 @@ var partyMenuCurrent uint
 // e.g. Pokemon, item target, ...
 // ref: RedrawPartyMenu_
 func DrawPartyMenu() {
+	partyMenu = util.NewImage()
 	length := store.PartyMonLen()
 	for i := 0; i < length; i++ {
 		if i >= 6 {
@@ -83,4 +85,8 @@ func HandlePartyMenuInput() joypad.Input {
 
 	partyMenuCurrent = menu.HandleMenuInput(partyMenuCurrent, uint(store.PartyMonLen()), true)
 	return joypad.Joy5
+}
+
+func ClosePartyMenu() {
+	partyMenu = nil
 }

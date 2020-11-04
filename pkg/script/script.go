@@ -20,6 +20,7 @@ func newScriptMap() map[uint]func() {
 	result[store.WidgetBag] = widgetBag
 	result[store.WidgetTrainerCard] = widgetTrainerCard
 	result[store.WidgetNamingScreen] = widgetNamingScreen
+	result[store.WidgetPartyMenu] = widgetPartyMenu
 	result[store.FadeOutToBlack] = fadeOutToBlack
 	result[store.FadeOutToWhite] = fadeOutToWhite
 	result[store.LoadMapData] = loadMapData

@@ -9,6 +9,7 @@ const (
 	WidgetBag
 	WidgetTrainerCard
 	WidgetNamingScreen
+	WidgetPartyMenu
 	FadeOutToBlack
 	FadeOutToWhite
 	LoadMapData
