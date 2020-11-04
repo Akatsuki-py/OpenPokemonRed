@@ -13,4 +13,7 @@ func VBlank() {
 	if name.screen != nil {
 		util.DrawImage(store.TileMap, name.screen, 0, 0)
 	}
+	if partyMenu != nil {
+		util.DrawImage(store.TileMap, name.screen, 0, 0)
+	}
 }

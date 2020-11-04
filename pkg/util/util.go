@@ -76,6 +76,11 @@ func ClearScreenArea(target *ebiten.Image, x, y Tile, h, w uint) {
 	DrawImage(target, sheet, x, y)
 }
 
+func DrawPixel(target *ebiten.Image, x, y int, r, g, b byte) {
+	clr := color.RGBA{r, g, b, 0xff}
+	target.Set(x, y, clr)
+}
+
 func DrawImage(target, src *ebiten.Image, x, y Tile) {
 	if src == nil {
 		return

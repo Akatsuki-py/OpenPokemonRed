@@ -1,5 +1,34 @@
 package store
 
+// NonVolatileStatus type for non-volatile statuses
+type NonVolatileStatus uint
+
+// non-volatile statuses
+const (
+	OK  NonVolatileStatus = 0
+	Psn NonVolatileStatus = 3
+	Brn NonVolatileStatus = 4
+	Frz NonVolatileStatus = 5
+	Par NonVolatileStatus = 6
+	Slp NonVolatileStatus = 7
+)
+
+func (n *NonVolatileStatus) String() string {
+	switch *n {
+	case Psn:
+		return "PSN"
+	case Brn:
+		return "BRN"
+	case Frz:
+		return "FRZ"
+	case Par:
+		return "PAR"
+	case Slp:
+		return "SLP"
+	}
+	return ""
+}
+
 // Move data stored in pokemon move slot
 type Move struct {
 	ID uint
@@ -11,7 +40,7 @@ type BoxMon struct {
 	PokemonID uint
 	HP        uint
 	BoxLevel  uint
-	Status    byte
+	Status    NonVolatileStatus
 	Type      [2]uint
 	CatchRate byte
 	Moves     [4]Move
@@ -61,7 +90,19 @@ type PartyMon struct {
 	Speed   uint
 	SpAtk   uint
 	SpDef   uint
+	OTName  string
+	Nick    string
 }
 
 // PartyMons party mon data in game
 var PartyMons = [6]PartyMon{}
+
+// PartyMonLen return a number of party pokemons
+func PartyMonLen() int {
+	for i, mon := range PartyMons {
+		if !mon.Initialized {
+			return i
+		}
+	}
+	return 6
+}
