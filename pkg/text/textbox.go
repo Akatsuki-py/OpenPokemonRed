@@ -4,7 +4,7 @@ import (
 	"pokered/pkg/data/txt"
 	"pokered/pkg/util"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 type TextBoxID uint

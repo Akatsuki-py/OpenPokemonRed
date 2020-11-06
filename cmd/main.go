@@ -6,7 +6,7 @@ import (
 	"os"
 	"pokered/pkg/game"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 var version string
@@ -37,7 +37,6 @@ func Run() int {
 
 	g := &game.Game{}
 	ebiten.SetWindowTitle(title)
-	ebiten.SetRunnableInBackground(true)
 	ebiten.SetWindowSize(160*2, 144*2)
 	if err := ebiten.RunGame(g); err != nil {
 		return exitCodeError

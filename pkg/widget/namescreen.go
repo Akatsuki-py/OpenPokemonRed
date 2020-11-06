@@ -6,7 +6,7 @@ import (
 	"pokered/pkg/util"
 	"strings"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 type NameScreen struct {
@@ -46,7 +46,7 @@ const (
 )
 
 func newCursorMask() *ebiten.Image {
-	img, _ := ebiten.NewImage(20*8, 12*8, ebiten.FilterDefault)
+	img := ebiten.NewImage(20*8, 12*8)
 	for h := 0; h < 5; h++ {
 		for w := 0; w < 9; w++ {
 			text.PlaceChar(img, " ", 1+2*w, 1+2*h)

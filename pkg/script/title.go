@@ -16,7 +16,7 @@ import (
 	"pokered/pkg/util"
 	"pokered/pkg/world"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 const (
@@ -476,10 +476,7 @@ func initTilesets(fs http.FileSystem) {
 		for h := 0; h < height; h++ {
 			for w := 0; w < width; w++ {
 				min, max := image.Point{w * 8, h * 8}, image.Point{(w + 1) * 8, (h + 1) * 8}
-				tile, err := ebiten.NewImageFromImage(img.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
-				if err != nil {
-					panic(err)
-				}
+				tile := ebiten.NewImageFromImage(img.SubImage(image.Rectangle{min, max}))
 				result[uint(id)] = append(result[uint(id)], tile)
 			}
 		}

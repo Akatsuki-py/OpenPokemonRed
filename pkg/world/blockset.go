@@ -5,7 +5,7 @@ import (
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/util"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 // Blockset cur map blockset
@@ -31,7 +31,7 @@ func loadBlockset(tilesetID uint) {
 
 	for i := 0; i < length; i++ {
 		b := [16]byte{}
-		block, _ := ebiten.NewImage(8*4, 8*4, ebiten.FilterDefault)
+		block := ebiten.NewImage(8*4, 8*4)
 
 		for j := 0; j < 16; j++ {
 			tileID := bs[i*16+j]

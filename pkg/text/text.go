@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 var TextBoxImage *ebiten.Image
@@ -246,7 +246,7 @@ func ScrollTextUpOneLine(target *ebiten.Image) {
 	min := image.Point{minX, minY}
 	maxX, maxY := util.TileToPixel(19, 17)
 	max := image.Point{maxX, maxY}
-	texts, _ := ebiten.NewImageFromImage(target.SubImage(image.Rectangle{min, max}), ebiten.FilterDefault)
+	texts := ebiten.NewImageFromImage(target.SubImage(image.Rectangle{min, max}))
 	util.DrawImage(target, texts, 1, 13)
 	for w := 1; w < 19; w++ {
 		PlaceChar(target, " ", w, 16)

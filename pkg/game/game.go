@@ -12,7 +12,7 @@ import (
 	"pokered/pkg/widget"
 	"pokered/pkg/world"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 // Game implements ebiten.Game interface.
@@ -21,7 +21,7 @@ type Game struct {
 }
 
 // Update proceeds the game state.
-func (g *Game) Update(screen *ebiten.Image) error {
+func (g *Game) Update() error {
 	if g.frame == 0 {
 		// initialize()
 		initializeWorld()

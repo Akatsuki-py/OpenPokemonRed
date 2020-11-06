@@ -5,7 +5,7 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 // ref: hMovingBGTilesCounter1, wMovingBGTilesCounter2

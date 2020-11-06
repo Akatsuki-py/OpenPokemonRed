@@ -7,7 +7,7 @@ import (
 	"pokered/pkg/text"
 	"pokered/pkg/util"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 var partyMenu *ebiten.Image

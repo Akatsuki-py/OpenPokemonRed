@@ -3,7 +3,7 @@ package text
 import (
 	"pokered/pkg/util"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 // PlacePlayTime place play time

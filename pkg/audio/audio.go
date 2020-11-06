@@ -4,7 +4,7 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 
-	"github.com/hajimehoshi/ebiten/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio"
 )
 
 const (
@@ -14,7 +14,7 @@ const (
 
 const reloadFadeOut = 10
 
-var audioContext, _ = audio.NewContext(sampleRate)
+var audioContext = audio.NewContext(sampleRate)
 
 // FadeOut control fadeout switch and counter
 var FadeOut = struct {

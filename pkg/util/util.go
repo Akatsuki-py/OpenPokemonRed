@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 func Contains(list interface{}, target interface{}) bool {
@@ -63,7 +63,7 @@ func FillScreen(target *ebiten.Image, r, g, b byte) {
 
 func BlackScreenArea(target *ebiten.Image, x, y Tile, h, w int) {
 	width, height := TileToPixel(Tile(w), Tile(h))
-	sheet, _ := ebiten.NewImage(width, height, ebiten.FilterDefault)
+	sheet := ebiten.NewImage(width, height)
 	sheet.Fill(color.NRGBA{0x00, 0x00, 0x00, 0xff})
 	DrawImage(target, sheet, x, y)
 }
@@ -71,7 +71,7 @@ func BlackScreenArea(target *ebiten.Image, x, y Tile, h, w int) {
 // ClearScreenArea clear h×w tiles from (x, y)
 func ClearScreenArea(target *ebiten.Image, x, y Tile, h, w uint) {
 	width, height := TileToPixel(Tile(w), Tile(h))
-	sheet, _ := ebiten.NewImage(width, height, ebiten.FilterDefault)
+	sheet := ebiten.NewImage(width, height)
 	sheet.Fill(color.NRGBA{0xf8, 0xf8, 0xf8, 0xff})
 	DrawImage(target, sheet, x, y)
 }
@@ -109,7 +109,7 @@ func DrawImageBlock(target, src *ebiten.Image, x, y int) {
 }
 
 func NewImage() *ebiten.Image {
-	img, _ := ebiten.NewImage(160, 144, ebiten.FilterDefault)
+	img := ebiten.NewImage(160, 144)
 	return img
 }
 
@@ -128,6 +128,6 @@ func OpenImage(fs http.FileSystem, path string) *ebiten.Image {
 	defer f.Close()
 
 	img, _ := png.Decode(f)
-	result, _ := ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+	result := ebiten.NewImageFromImage(img)
 	return result
 }

@@ -8,7 +8,7 @@ import (
 
 	_ "pokered/pkg/data/statik"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 var trainerCard *ebiten.Image

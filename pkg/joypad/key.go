@@ -1,6 +1,6 @@
 package joypad
 
-import "github.com/hajimehoshi/ebiten"
+import ebiten "github.com/hajimehoshi/ebiten/v2"
 
 func a() bool {
 	return ebiten.IsKeyPressed(ebiten.KeyS)

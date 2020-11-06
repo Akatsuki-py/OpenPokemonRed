@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 // SpriteData wSpriteStateData1, wSpriteStateData2

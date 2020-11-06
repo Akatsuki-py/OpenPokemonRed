@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"image/png"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 
 	_ "pokered/pkg/data/statik"
 	"pokered/pkg/store"
@@ -309,7 +309,7 @@ func newFontmap() map[string]*ebiten.Image {
 		defer f.Close()
 
 		img, _ := png.Decode(f)
-		fontmap[char], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+		fontmap[char] = ebiten.NewImageFromImage(img)
 	}
 	return fontmap
 }

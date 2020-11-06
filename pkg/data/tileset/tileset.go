@@ -1,7 +1,7 @@
 package tileset
 
 import (
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 var TilesetNames = [...]string{
@@ -38,7 +38,7 @@ func Tile(tilesetID, tileID uint) *ebiten.Image {
 	}
 
 	if tileID >= uint(len(ts)) {
-		empty, _ := ebiten.NewImage(8, 8, ebiten.FilterDefault)
+		empty := ebiten.NewImage(8, 8)
 		return empty
 	}
 	return ts[tileID]

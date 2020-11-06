@@ -11,7 +11,7 @@ import (
 	"pokered/pkg/util"
 	"pokered/pkg/world"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 var ledgeJumpCounter byte
@@ -36,7 +36,7 @@ func InitPlayer(state uint, x, y int) {
 		defer f.Close()
 
 		img, _ := png.Decode(f)
-		imgs[i], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+		imgs[i] = ebiten.NewImageFromImage(img)
 	}
 
 	s := &store.Sprite{
@@ -77,7 +77,7 @@ func ChangePlayerSprite(state uint) {
 		defer f.Close()
 
 		img, _ := png.Decode(f)
-		imgs[i], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+		imgs[i] = ebiten.NewImageFromImage(img)
 	}
 	p.VRAM.Images = imgs
 }

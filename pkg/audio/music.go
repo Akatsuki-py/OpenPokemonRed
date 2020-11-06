@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/hajimehoshi/ebiten/audio"
-	"github.com/hajimehoshi/ebiten/audio/vorbis"
+	"github.com/hajimehoshi/ebiten/v2/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio/vorbis"
 
 	_ "pokered/pkg/data/statik"
 	"pokered/pkg/store"

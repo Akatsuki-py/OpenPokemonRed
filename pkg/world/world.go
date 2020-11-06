@@ -9,7 +9,7 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 // World data
@@ -39,7 +39,7 @@ func LoadWorldData(id int) {
 	h, o := header.Get(id), object.Get(id)
 
 	o.Initialized = false
-	img, _ := ebiten.NewImage(int(h.Width*32)+2*exterior*32, int(h.Height*32)+2*exterior*32, ebiten.FilterDefault)
+	img := ebiten.NewImage(int(h.Width*32)+2*exterior*32, int(h.Height*32)+2*exterior*32)
 	loadBlockset(h.Tileset)
 
 	for y := 0; y < int(h.Height)+2*exterior; y++ {

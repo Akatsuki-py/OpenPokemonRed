@@ -4,7 +4,7 @@ import (
 	"pokered/pkg/text"
 	"pokered/pkg/util"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 // Cursor cursor location in tileMap

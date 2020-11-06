@@ -3,8 +3,8 @@ package audio
 import (
 	"net/http"
 
-	"github.com/hajimehoshi/ebiten/audio"
-	"github.com/hajimehoshi/ebiten/audio/wav"
+	"github.com/hajimehoshi/ebiten/v2/audio"
+	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 
 	_ "pokered/pkg/data/statik"
 	"pokered/pkg/store"
@@ -91,13 +91,6 @@ func PlaySound(soundID uint) {
 		sound.player.Seek(0)
 	} else {
 		sound.player.Seek(0)
-		err := sound.player.Play()
-		if err != nil {
-			panic(err)
-		}
+		sound.player.Play()
 	}
-}
-
-func closeSE(se *WAV) {
-	se.stream.Close()
 }

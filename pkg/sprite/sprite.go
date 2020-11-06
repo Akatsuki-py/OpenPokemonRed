@@ -10,7 +10,7 @@ import (
 	"pokered/pkg/util"
 	"pokered/pkg/world"
 
-	"github.com/hajimehoshi/ebiten"
+	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
 // Movement status
@@ -59,7 +59,7 @@ func addSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte, text
 		defer f.Close()
 
 		img, _ := png.Decode(f)
-		imgs[i], _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+		imgs[i] = ebiten.NewImageFromImage(img)
 	}
 
 	p := store.SpriteData[0]
