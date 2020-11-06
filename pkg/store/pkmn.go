@@ -1,5 +1,9 @@
 package store
 
+import (
+	"pokered/pkg/data/pkmnd"
+)
+
 // NonVolatileStatus type for non-volatile statuses
 type NonVolatileStatus uint
 
@@ -95,7 +99,7 @@ type PartyMon struct {
 }
 
 // PartyMons party mon data in game
-var PartyMons = [6]PartyMon{}
+var PartyMons = [6]PartyMon{*defaultPartyMon()}
 
 // PartyMonLen return a number of party pokemons
 func PartyMonLen() int {
@@ -105,4 +109,31 @@ func PartyMonLen() int {
 		}
 	}
 	return 6
+}
+
+func defaultPartyMon() *PartyMon {
+	return &PartyMon{
+		Initialized: true,
+		BoxMon: BoxMon{
+			PokemonID: pkmnd.CHARMANDER,
+			HP:        22,
+			BoxLevel:  6,
+			Status:    OK,
+			Type:      [2]uint{pkmnd.Fire},
+			CatchRate: 255,
+			Moves:     [4]Move{}, // scratch growl
+			OTID:      48024,
+			Exp:       205,
+			EVs:       EVStat{},
+			DVs:       DVStat{},
+		},
+		Level:   6,
+		MaxHP:   22,
+		Attack:  12,
+		Defense: 11,
+		Speed:   13,
+		SpAtk:   11,
+		OTName:  "RED",
+		Nick:    "CHARMANDER",
+	}
 }

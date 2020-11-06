@@ -16,7 +16,7 @@ func DrawHP(target *ebiten.Image, hp, maxHP uint, x, y util.Tile, isRight bool) 
 	DrawHPBar(target, px, x, y)
 
 	if isRight {
-		x += 11
+		x += 9
 	} else {
 		x += 2
 		y++

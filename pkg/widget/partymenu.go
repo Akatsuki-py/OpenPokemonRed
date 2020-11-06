@@ -22,6 +22,7 @@ var partyMenuCurrent uint
 // ref: RedrawPartyMenu_
 func DrawPartyMenu() {
 	partyMenu = util.NewImage()
+	util.WhiteScreen(partyMenu)
 	length := store.PartyMonLen()
 	for i := 0; i < length; i++ {
 		if i >= 6 {
@@ -34,6 +35,9 @@ func DrawPartyMenu() {
 func drawPartyPokemon(offset int) {
 	y := offset * 2
 	mon := store.PartyMons[offset]
+	if !mon.Initialized {
+		return
+	}
 
 	text.PlaceStringAtOnce(partyMenu, mon.Nick, 3, y)
 

@@ -14,6 +14,6 @@ func VBlank() {
 		util.DrawImage(store.TileMap, name.screen, 0, 0)
 	}
 	if partyMenu != nil {
-		util.DrawImage(store.TileMap, name.screen, 0, 0)
+		util.DrawImage(store.TileMap, partyMenu, 0, 0)
 	}
 }
