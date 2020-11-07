@@ -5,6 +5,7 @@ import "pokered/pkg/data/move"
 // PHeader Pokemon Header
 type PHeader struct {
 	ID         uint
+	Name       string
 	DexID      uint
 	BaseStats  stat
 	Type       [2]uint
@@ -27,6 +28,7 @@ type Evo struct {
 
 var AbraHeader = PHeader{
 	DexID:      63,
+	Name:       "abra",
 	BaseStats:  stat{25, 20, 15, 90, 105, 55},
 	Type:       [2]uint{Psychic},
 	CatchRate:  200,
@@ -42,6 +44,7 @@ var AbraHeader = PHeader{
 
 var Bulbasaur = PHeader{
 	DexID:      1,
+	Name:       "bulbasaur",
 	BaseStats:  stat{45, 49, 49, 45, 65, 65},
 	Type:       [2]uint{Grass, Poison},
 	CatchRate:  45,

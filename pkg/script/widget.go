@@ -91,6 +91,6 @@ func widgetPartyMenu() {
 	switch {
 	case pressed.B:
 		widget.ClosePartyMenu()
-		store.SetScriptID(store.Overworld)
+		store.SetScriptID(store.WidgetStartMenu)
 	}
 }
