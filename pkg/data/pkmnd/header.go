@@ -6,7 +6,6 @@ import "pokered/pkg/data/move"
 type PHeader struct {
 	ID         uint
 	Name       string
-	DexID      uint
 	BaseStats  stat
 	Type       [2]uint
 	CatchRate  byte
@@ -26,8 +25,18 @@ type Evo struct {
 	Trade  bool
 }
 
+func Header(id uint) *PHeader {
+	switch id {
+	case 1:
+		return &Bulbasaur
+	case 63:
+		return &AbraHeader
+	}
+	return nil
+}
+
 var AbraHeader = PHeader{
-	DexID:      63,
+	ID:         63,
 	Name:       "abra",
 	BaseStats:  stat{25, 20, 15, 90, 105, 55},
 	Type:       [2]uint{Psychic},
@@ -43,7 +52,7 @@ var AbraHeader = PHeader{
 }
 
 var Bulbasaur = PHeader{
-	DexID:      1,
+	ID:         1,
 	Name:       "bulbasaur",
 	BaseStats:  stat{45, 49, 49, 45, 65, 65},
 	Type:       [2]uint{Grass, Poison},
