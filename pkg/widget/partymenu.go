@@ -10,6 +10,8 @@ import (
 	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
+var animationCounter uint
+
 var partyMenu *ebiten.Image
 
 // 0: no swap 1: first selected offset for swap(starting from 1)

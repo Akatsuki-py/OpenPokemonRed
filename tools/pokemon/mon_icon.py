@@ -18,7 +18,7 @@ names = [
     "snake",
     "quadruped",
     "ball",
-    "omanyte",
+    "helix",
 ]
 
 for i in range(10):

@@ -156,3 +156,34 @@ const (
 	AERODACTYL_FOSSIL
 	GHOST
 )
+
+// MonIconGen1 iota
+const (
+	BallMon uint = iota + 1
+	BirdMon
+	BugMon
+	FairyMon
+	GrassMon
+	HelixMon
+	MonMon
+	QuadrupedMon
+	SnakeMon
+	WaterMon
+)
+
+type stat struct {
+	HP      uint
+	Attack  uint
+	Defense uint
+	Speed   uint
+	SpAtk   uint
+	SpDef   uint // unused in gen1
+}
+
+// Name get name from PokemonID
+func Name(id uint) string {
+	if h := Header(id); h != nil {
+		return h.Name
+	}
+	return "UNKNOWN"
+}
