@@ -1,8 +1,10 @@
 package widget
 
 import (
+	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
+	"pokered/pkg/pkmn"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
@@ -43,6 +45,10 @@ func drawPartyPokemon(offset int) {
 
 	text.PlaceStringAtOnce(partyMenu, mon.Nick, 3, y)
 
+	h := pkmnd.Header(mon.ID)
+	ico := pkmn.IconGen1[h.IconGen1][0]
+	util.DrawImage(partyMenu, ico, 1, y)
+
 	if partyMenuSwapID > 0 {
 		drawWhitePartyCursor()
 	}
@@ -82,17 +88,62 @@ func HandlePartyMenuInput() joypad.Input {
 	menu.EraseAllCursors(partyMenu, 0, 1, length, 2)
 	menu.PlaceMenuCursor(partyMenu, 0, 1, int(partyMenuCurrent), 2)
 	store.DelayFrames = 3
-	// TODO: AnimatePartyMon
+	animationCounter++
 
 	joypad.JoypadLowSensitivity()
 	if !joypad.Joy5.Any() {
 		return joypad.Input{} // TODO: blink
 	}
 
-	partyMenuCurrent = menu.HandleMenuInput(partyMenuCurrent, uint(store.PartyMonLen()), true)
+	partyMenuPrev := partyMenuCurrent
+	partyMenuCurrent = menu.HandleMenuInput(partyMenuCurrent, uint(store.PartyMonLen()-1), true)
+	if partyMenuPrev != partyMenuCurrent {
+		clearPartyMonAnimation()
+	}
 	return joypad.Joy5
 }
 
 func ClosePartyMenu() {
 	partyMenu = nil
+}
+
+func AnimatePartyMon() {
+	offset := partyMenuCurrent
+	y := int(offset * 2)
+
+	mon := store.PartyMons[offset]
+	if !mon.Initialized {
+		return
+	}
+
+	spd := pkmn.PartyMonSpeeds(mon.HP, mon.MaxHP)
+	prevIconIndex := ((animationCounter - 1) / spd) % 2
+	curIconIndex := (animationCounter / spd) % 2
+
+	if curIconIndex != prevIconIndex {
+		h := pkmnd.Header(mon.ID)
+		icon := h.IconGen1
+		drawPartyMonGen1(icon, curIconIndex, y)
+	}
+}
+
+func clearPartyMonAnimation() {
+	animationCounter = 0
+
+	for i, mon := range store.PartyMons {
+		y := i * 2
+		if !mon.Initialized {
+			break
+		}
+
+		h := pkmnd.Header(mon.ID)
+		icon := h.IconGen1
+		drawPartyMonGen1(icon, 0, y)
+	}
+}
+
+func drawPartyMonGen1(icon, index uint, y util.Tile) {
+	util.ClearScreenArea(partyMenu, 1, y, 2, 2)
+	iconImage := pkmn.IconGen1[icon][index]
+	util.DrawImage(partyMenu, iconImage, 1, y)
 }

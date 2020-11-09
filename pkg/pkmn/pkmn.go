@@ -25,12 +25,12 @@ func PartyMonSpeeds(hp, maxHP uint) uint {
 	c := GetHealthBarColor(hp, maxHP)
 	switch c {
 	case Green:
-		return 5
+		return 2 // 5/3
 	case Yellow:
-		return 16
+		return 16 / 3
 	case Red:
-		return 32
+		return 32 / 3
 	default:
-		return 5
+		return 2 // 5/3
 	}
 }

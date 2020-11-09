@@ -41,7 +41,7 @@ type Move struct {
 
 // BoxMon data of mon in box
 type BoxMon struct {
-	PokemonID uint
+	ID        uint
 	HP        uint
 	BoxLevel  uint
 	Status    NonVolatileStatus
@@ -86,7 +86,7 @@ var DayCareMons = []DayCareMon{}
 // PartyMon data of mon in party
 type PartyMon struct {
 	Initialized bool
-	BoxMon
+	*BoxMon
 	Level   uint
 	MaxHP   uint
 	Attack  uint
@@ -99,7 +99,7 @@ type PartyMon struct {
 }
 
 // PartyMons party mon data in game
-var PartyMons = [6]PartyMon{*defaultPartyMon()}
+var PartyMons = [6]PartyMon{*defaultPartyMon(), *defaultPartyMon()}
 
 // PartyMonLen return a number of party pokemons
 func PartyMonLen() int {
@@ -114,8 +114,8 @@ func PartyMonLen() int {
 func defaultPartyMon() *PartyMon {
 	return &PartyMon{
 		Initialized: true,
-		BoxMon: BoxMon{
-			PokemonID: pkmnd.CHARMANDER,
+		BoxMon: &BoxMon{
+			ID:        pkmnd.CHARMANDER,
 			HP:        22,
 			BoxLevel:  6,
 			Status:    OK,

@@ -88,6 +88,8 @@ func widgetNamingScreen() {
 
 func widgetPartyMenu() {
 	pressed := widget.HandlePartyMenuInput()
+	widget.AnimatePartyMon()
+
 	switch {
 	case pressed.B:
 		widget.ClosePartyMenu()
