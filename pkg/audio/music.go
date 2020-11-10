@@ -84,6 +84,7 @@ func newMusicMap() map[int]*Music {
 	musicMap[MUSIC_MEET_RIVAL] = newMusic(store.FS, "/1-05 A Rival Appears.ogg", "0:02.277")
 	musicMap[MUSIC_ROUTES1] = newMusic(store.FS, "/1-06 Road To Viridian City_ Leaving Pallet Town.ogg", "0:00.000")
 	musicMap[MUSIC_WILD_BATTLE] = newMusic(store.FS, "/1-07 Battle! (Wild Pokémon).ogg", "0:15.657")
+	musicMap[MUSIC_ROUTES2] = newMusic(store.FS, "/1-21 To Bill_ Leaving Cerulean City.ogg", "0:00.000")
 	musicMap[MUSIC_FINAL_BATTLE] = newMusic(store.FS, "/1-43 Final Battle! (Rival).ogg", "1:15.120")
 	return musicMap
 }

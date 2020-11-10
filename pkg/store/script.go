@@ -20,6 +20,7 @@ const (
 	TitlePokemonRed
 	TitleMenu
 	TitleMenu2
+	OakSpeech0
 )
 
 type ScriptQueue struct {

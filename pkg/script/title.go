@@ -520,7 +520,8 @@ func titleMenu2() {
 		case "CONTINUE":
 		case "NEW GAME":
 			m.Close()
-			InitializeOverworld()
+			store.SetScriptID(store.OakSpeech0)
+			// InitializeOverworld()
 		case "OPTION":
 		}
 	case pressed.B:
