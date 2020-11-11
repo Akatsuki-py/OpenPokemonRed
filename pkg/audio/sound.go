@@ -32,6 +32,8 @@ const (
 	SFX_SLOTS_REWARD
 	SFX_SLOTS_NEW_SPIN
 	SFX_SHOOTING_STAR
+
+	SFX_CRY_NIDORINO
 )
 
 // WAV wav file
@@ -63,6 +65,8 @@ func newSoundMap() map[uint]*WAV {
 	soundMap[SFX_SLOTS_NEW_SPIN] = newWav(store.FS, "/slots_new_spin.wav")
 	soundMap[SFX_SHOOTING_STAR] = newWav(store.FS, "/shooting_star.wav")
 
+	// cry
+	soundMap[SFX_CRY_NIDORINO] = newWav(store.FS, "/033Cry.wav")
 	return soundMap
 }
 

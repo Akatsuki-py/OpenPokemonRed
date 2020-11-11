@@ -32,6 +32,13 @@ func newScriptMap() map[uint]func() {
 	result[store.TitleMenu] = titleMenu
 	result[store.TitleMenu2] = titleMenu2
 	result[store.OakSpeech0] = oakSpeech0
+	result[store.OakSpeech1] = oakSpeech1
+	result[store.OakSpeech2] = oakSpeech2
+	result[store.OakSpeech3] = oakSpeech3
+	result[store.OakSpeech4] = oakSpeech4
+	result[store.OakSpeech5] = oakSpeech5
+	result[store.OakSpeech6] = oakSpeech6
+	result[store.OakSpeech7] = oakSpeech7
 	return result
 }
 
@@ -45,11 +52,19 @@ func Current() func() {
 	return s
 }
 
+func nextScript() {
+	if store.ScriptLength() > 1 {
+		store.PopScriptID()
+		return
+	}
+	store.SetScriptID(store.Overworld)
+}
+
 func halt() {}
 
 func execText() {
 	if len([]rune(text.CurText)) == 0 {
-		store.SetScriptID(store.Overworld)
+		nextScript()
 	}
 
 	if text.InScroll {
@@ -73,7 +88,7 @@ func execText() {
 
 	text.CurText = text.PlaceStringOneByOne(text.TextBoxImage, text.CurText)
 	if len([]rune(text.CurText)) == 0 {
-		store.SetScriptID(store.Overworld)
+		nextScript()
 	}
 }
 
@@ -100,7 +115,7 @@ func fadeOutToBlack() {
 
 func fadeOutToWhite() {
 	if store.FadeCounter <= 0 {
-		store.SetScriptID(store.Overworld)
+		nextScript()
 		return
 	}
 
@@ -115,7 +130,7 @@ func fadeOutToWhite() {
 	store.DelayFrames = 8
 
 	if store.FadeCounter <= 0 {
-		store.PopScriptID()
+		nextScript()
 	}
 }
 

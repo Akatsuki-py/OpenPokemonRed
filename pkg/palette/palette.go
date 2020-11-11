@@ -13,7 +13,11 @@ func GBFadeOutToBlack() {
 	store.FadeCounter = 4
 }
 
-func GBFadeOutToWhite() {
-	store.SetScriptID(store.FadeOutToWhite)
+func GBFadeOutToWhite(doPush bool) {
+	if doPush {
+		store.PushScriptID(store.FadeOutToWhite)
+	} else {
+		store.SetScriptID(store.FadeOutToWhite)
+	}
 	store.FadeCounter = 4
 }

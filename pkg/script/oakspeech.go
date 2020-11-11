@@ -3,8 +3,13 @@ package script
 import (
 	"fmt"
 	"pokered/pkg/audio"
+	"pokered/pkg/data/txt"
+	"pokered/pkg/menu"
+	"pokered/pkg/palette"
 	"pokered/pkg/store"
+	"pokered/pkg/text"
 	"pokered/pkg/util"
+	"pokered/pkg/widget"
 
 	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
@@ -72,7 +77,15 @@ func openImage(name string, index int) *ebiten.Image {
 
 // ref: OakSpeech
 func oakSpeech0() {
-	defer func() { counter++ }()
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
 	if counter == 0 {
 		audio.PlayMusic(audio.MUSIC_ROUTES2)
 		util.WhiteScreen(store.TileMap)
@@ -92,9 +105,157 @@ func oakSpeech0() {
 		util.DrawImage(store.TileMap, lectureImage.oak[4], centerX, centerY)
 	case counter <= 70:
 		util.DrawImage(store.TileMap, lectureImage.oak[5], centerX, centerY)
+	case counter == 80:
+		reset = true
+		store.SetScriptID(store.ExecText)
+		palette.GBFadeOutToWhite(true)
+		store.PushScriptID(store.OakSpeech1)
+		text.PrintText(text.TextBoxImage, txt.OakSpeechText1)
 	}
 }
 
-func fadeInIntroPic() {
+func oakSpeech1() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
 
+	switch {
+	case counter <= 15:
+		if counter == 0 {
+			util.WhiteScreen(store.TileMap)
+		}
+		x := int((160 - counter*8) / 8)
+		util.DrawImage(store.TileMap, lectureImage.nidorino[0], x, centerY)
+	case counter == 16:
+		reset = true
+		store.SetScriptID(store.ExecText)
+		store.PushScriptID(store.OakSpeech2)
+		text.PrintText(text.TextBoxImage, txt.OakSpeechText2A)
+	}
+}
+
+func oakSpeech2() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter < 33:
+		if counter == 0 {
+			audio.PlaySound(audio.SFX_CRY_NIDORINO)
+		}
+	case counter == 33:
+		reset = true
+		store.SetScriptID(store.ExecText)
+		store.PushScriptID(store.OakSpeech3)
+		text.PrintText(text.TextBoxImage, txt.OakSpeechText2B)
+	}
+}
+
+func oakSpeech3() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter <= 15:
+		if counter == 0 {
+			util.WhiteScreen(store.TileMap)
+		}
+		x := int((176 - counter*8) / 8)
+		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
+	case counter == 16:
+		reset = true
+		store.SetScriptID(store.ExecText)
+		store.PushScriptID(store.OakSpeech4)
+		text.PrintText(text.TextBoxImage, txt.IntroducePlayerText)
+	}
+}
+
+// ref: ChoosePlayerName
+func oakSpeech4() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter < 18:
+		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
+		x := int(56+(counter/3)*8) / 8
+		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
+	case counter == 18:
+		reset = true
+		store.SetScriptID(store.OakSpeech5)
+
+		// ref: DisplayIntroNameTextBox
+		width, height := 10, 9
+		elm := []string{
+			"NEW NAME",
+			"RED",
+			"ASH",
+			"JACK",
+		}
+		menu.NewSelectMenu(elm, 0, 0, width, height, true, true)
+	}
+}
+
+func oakSpeech5() {
+	m := menu.CurSelectMenu()
+	pressed := menu.HandleSelectMenuInput()
+
+	switch {
+	case pressed.A:
+		switch m.Item() {
+		case "NEW NAME":
+			store.SetScriptID(store.OakSpeech6)
+		default:
+			store.Player.Name = m.Item()
+			store.SetScriptID(store.OakSpeech7)
+		}
+	}
+}
+
+func oakSpeech6() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter < 3:
+		util.WhiteScreen(store.TileMap)
+	case counter == 3:
+		reset = true
+		widget.DrawNameScreen(widget.PlayerName)
+		store.SetScriptID(store.WidgetNamingScreen)
+	}
+}
+
+func oakSpeech7() {
+	store.SetScriptID(store.ExecText)
+	text.PrintText(text.TextBoxImage, txt.YourNameIsText)
 }

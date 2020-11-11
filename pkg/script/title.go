@@ -369,7 +369,7 @@ func gengarLowerHand(start int) {
 
 func fadeOutToTitle() {
 	introCounter = 0
-	palette.GBFadeOutToWhite()
+	palette.GBFadeOutToWhite(false)
 	store.PushScriptID(store.TitleWhiteOut)
 }
 

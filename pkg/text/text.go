@@ -38,6 +38,10 @@ func resetBlink() {
 
 // PrintText print string in text window
 func PrintText(target *ebiten.Image, str string) {
+	if target == nil {
+		TextBoxImage = util.NewImage()
+		target = TextBoxImage
+	}
 	DisplayTextBoxID(target, MESSAGE_BOX)
 	Seek(1, 14)
 	CurText = preprocess(str)
@@ -53,6 +57,7 @@ func PlaceString(str string, x, y util.Tile) {
 func PlaceStringAtOnce(target *ebiten.Image, str string, x, y util.Tile) {
 	if target == nil {
 		TextBoxImage = util.NewImage()
+		target = TextBoxImage
 	}
 	Seek(x, y)
 	for str != "" {
@@ -70,6 +75,7 @@ func PlaceUintAtOnce(target *ebiten.Image, num uint, x, y util.Tile) {
 func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 	if target == nil {
 		TextBoxImage = util.NewImage()
+		target = TextBoxImage
 	}
 
 	if len([]rune(str)) == 0 {
