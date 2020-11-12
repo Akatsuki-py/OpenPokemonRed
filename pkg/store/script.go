@@ -8,7 +8,7 @@ const (
 	WidgetStartMenu2
 	WidgetBag
 	WidgetTrainerCard
-	WidgetNamingScreen
+	WidgetPlayerNamingScreen
 	WidgetPartyMenu
 	FadeOutToBlack
 	FadeOutToWhite

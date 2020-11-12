@@ -64,7 +64,15 @@ func widgetTrainerCard() {
 	}
 }
 
-func widgetNamingScreen() {
+func widgetPlayerNamingScreen() {
+	name, ok := handleNamingScreen()
+	if ok {
+		store.Player.Name = name
+		store.SetScriptID(store.OakSpeech8)
+	}
+}
+
+func handleNamingScreen() (string, bool) {
 	widget.UpdateNameScreen()
 
 	joypad.JoypadLowSensitivity()
@@ -83,7 +91,11 @@ func widgetNamingScreen() {
 		widget.NextChar()
 	case joypad.Joy5.B:
 		widget.EraseChar()
+	case joypad.Joy5.Start:
+		name := widget.CloseNameScreen()
+		return name, true
 	}
+	return "", false
 }
 
 func widgetPartyMenu() {

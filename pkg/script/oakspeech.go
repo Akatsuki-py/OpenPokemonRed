@@ -129,7 +129,7 @@ func oakSpeech1() {
 		if counter == 0 {
 			util.WhiteScreen(store.TileMap)
 		}
-		x := int((160 - counter*8) / 8)
+		x := int((168 - counter*8) / 8)
 		util.DrawImage(store.TileMap, lectureImage.nidorino[0], x, centerY)
 	case counter == 16:
 		reset = true
@@ -225,6 +225,7 @@ func oakSpeech5() {
 
 	switch {
 	case pressed.A:
+		m.Close()
 		switch m.Item() {
 		case "NEW NAME":
 			store.SetScriptID(store.OakSpeech6)
@@ -246,16 +247,57 @@ func oakSpeech6() {
 	}()
 
 	switch {
-	case counter < 3:
+	case counter < 15:
 		util.WhiteScreen(store.TileMap)
-	case counter == 3:
+	case counter == 15:
 		reset = true
 		widget.DrawNameScreen(widget.PlayerName)
-		store.SetScriptID(store.WidgetNamingScreen)
+		store.SetScriptID(store.WidgetPlayerNamingScreen)
 	}
 }
 
+// after choose NAME
 func oakSpeech7() {
-	store.SetScriptID(store.ExecText)
-	text.PrintText(text.TextBoxImage, txt.YourNameIsText)
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter == 0:
+		util.WhiteScreen(store.TileMap)
+	case counter < 19:
+		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
+		x := int(96-(counter/3)*8) / 8
+		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
+	case counter == 19:
+		reset = true
+		store.SetScriptID(store.ExecText)
+		text.PrintText(text.TextBoxImage, txt.YourNameIsText)
+	}
+}
+
+// after NEW NAME
+func oakSpeech8() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	util.WhiteScreen(store.TileMap)
+	switch {
+	case counter == 18:
+		reset = true
+		util.DrawImage(store.TileMap, lectureImage.red[0], 7, centerY)
+		store.SetScriptID(store.ExecText)
+		text.PrintText(text.TextBoxImage, txt.YourNameIsText)
+	}
 }

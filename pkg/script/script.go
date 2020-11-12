@@ -19,7 +19,7 @@ func newScriptMap() map[uint]func() {
 	result[store.WidgetStartMenu2] = widgetStartMenu2
 	result[store.WidgetBag] = widgetBag
 	result[store.WidgetTrainerCard] = widgetTrainerCard
-	result[store.WidgetNamingScreen] = widgetNamingScreen
+	result[store.WidgetPlayerNamingScreen] = widgetPlayerNamingScreen
 	result[store.WidgetPartyMenu] = widgetPartyMenu
 	result[store.FadeOutToBlack] = fadeOutToBlack
 	result[store.FadeOutToWhite] = fadeOutToWhite
@@ -39,6 +39,7 @@ func newScriptMap() map[uint]func() {
 	result[store.OakSpeech5] = oakSpeech5
 	result[store.OakSpeech6] = oakSpeech6
 	result[store.OakSpeech7] = oakSpeech7
+	result[store.OakSpeech8] = oakSpeech8
 	return result
 }
 
