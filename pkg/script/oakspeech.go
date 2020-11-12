@@ -278,6 +278,7 @@ func oakSpeech7() {
 		reset = true
 		store.SetScriptID(store.ExecText)
 		text.PrintText(text.TextBoxImage, txt.YourNameIsText)
+		store.PushScriptID(store.OakSpeech9)
 	}
 }
 
@@ -299,5 +300,45 @@ func oakSpeech8() {
 		util.DrawImage(store.TileMap, lectureImage.red[0], 7, centerY)
 		store.SetScriptID(store.ExecText)
 		text.PrintText(text.TextBoxImage, txt.YourNameIsText)
+		store.PushScriptID(store.OakSpeech9)
+	}
+}
+
+// introduce rival
+func oakSpeech9() {
+	palette.GBFadeOutToWhite(false)
+	store.PushScriptID(store.OakSpeech10)
+}
+
+func oakSpeech10() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter <= 10:
+		util.WhiteScreen(store.TileMap)
+	case counter <= 20:
+		util.DrawImage(store.TileMap, lectureImage.rival[0], centerX, centerY)
+	case counter <= 30:
+		util.DrawImage(store.TileMap, lectureImage.rival[1], centerX, centerY)
+	case counter <= 40:
+		util.DrawImage(store.TileMap, lectureImage.rival[2], centerX, centerY)
+	case counter <= 50:
+		util.DrawImage(store.TileMap, lectureImage.rival[3], centerX, centerY)
+	case counter <= 60:
+		util.DrawImage(store.TileMap, lectureImage.rival[4], centerX, centerY)
+	case counter <= 70:
+		util.DrawImage(store.TileMap, lectureImage.rival[5], centerX, centerY)
+	case counter == 80:
+		reset = true
+		store.SetScriptID(store.ExecText)
+		palette.GBFadeOutToWhite(true)
+		text.PrintText(text.TextBoxImage, txt.IntroduceRivalText)
 	}
 }

@@ -29,6 +29,8 @@ const (
 	OakSpeech6
 	OakSpeech7
 	OakSpeech8
+	OakSpeech9
+	OakSpeech10
 )
 
 type ScriptQueue struct {

@@ -40,12 +40,15 @@ func newScriptMap() map[uint]func() {
 	result[store.OakSpeech6] = oakSpeech6
 	result[store.OakSpeech7] = oakSpeech7
 	result[store.OakSpeech8] = oakSpeech8
+	result[store.OakSpeech9] = oakSpeech9
+	result[store.OakSpeech10] = oakSpeech10
 	return result
 }
 
 // Current return current script
 func Current() func() {
-	s, ok := scriptMap[store.ScriptID()]
+	sid := store.ScriptID()
+	s, ok := scriptMap[sid]
 	if !ok {
 		util.NotRegisteredError("scriptMap", store.ScriptID())
 		return halt

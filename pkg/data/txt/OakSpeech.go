@@ -40,3 +40,14 @@ var YourNameIsText = `
 Right! So your
 name is ${PLAYER}!
 `
+
+var IntroduceRivalText = `
+This is my grand-
+son. He's been
+your rival since
+you were a baby.
+
+...Erm, what is
+his name again?
+▼
+`
