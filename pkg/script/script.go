@@ -41,24 +41,41 @@ func newScriptMap() map[uint]func() {
 	result[store.OakSpeech7] = oakSpeech7
 	result[store.OakSpeech8] = oakSpeech8
 	result[store.OakSpeech9] = oakSpeech9
-	result[store.OakSpeech10] = oakSpeech10
 	return result
 }
 
 // Current return current script
 func Current() func() {
 	sid := store.ScriptID()
-	s, ok := scriptMap[sid]
-	if !ok {
-		util.NotRegisteredError("scriptMap", store.ScriptID())
-		return halt
+
+	switch s := sid.(type) {
+	case int:
+		sc, ok := scriptMap[uint(s)]
+		if !ok {
+			util.NotRegisteredError("scriptMap", store.ScriptID())
+			return halt
+		}
+		return sc
+	case uint:
+		sc, ok := scriptMap[s]
+		if !ok {
+			util.NotRegisteredError("scriptMap", store.ScriptID())
+			return halt
+		}
+		return sc
+	case func():
+		return func() {
+			s()
+			nextScript()
+		}
+	default:
+		return scriptMap[0]
 	}
-	return s
 }
 
 func nextScript() {
 	if store.ScriptLength() > 1 {
-		store.PopScriptID()
+		store.PopScript()
 		return
 	}
 	store.SetScriptID(store.Overworld)
@@ -113,7 +130,7 @@ func fadeOutToBlack() {
 	store.DelayFrames = 8
 
 	if store.FadeCounter <= 0 {
-		store.PopScriptID()
+		store.PopScript()
 	}
 }
 

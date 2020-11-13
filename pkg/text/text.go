@@ -47,6 +47,15 @@ func PrintText(target *ebiten.Image, str string) {
 	CurText = preprocess(str)
 }
 
+func DoPrintTextScript(target *ebiten.Image, str string, doPush bool) {
+	if doPush {
+		store.PushScriptID(store.ExecText)
+	} else {
+		store.SetScriptID(store.ExecText)
+	}
+	PrintText(target, str)
+}
+
 // PlaceString print string
 func PlaceString(str string, x, y util.Tile) {
 	Seek(x, y)

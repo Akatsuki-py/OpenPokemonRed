@@ -107,10 +107,9 @@ func oakSpeech0() {
 		util.DrawImage(store.TileMap, lectureImage.oak[5], centerX, centerY)
 	case counter == 80:
 		reset = true
-		store.SetScriptID(store.ExecText)
+		text.DoPrintTextScript(text.TextBoxImage, txt.OakSpeechText1, false)
 		palette.GBFadeOutToWhite(true)
 		store.PushScriptID(store.OakSpeech1)
-		text.PrintText(text.TextBoxImage, txt.OakSpeechText1)
 	}
 }
 
@@ -133,9 +132,8 @@ func oakSpeech1() {
 		util.DrawImage(store.TileMap, lectureImage.nidorino[0], x, centerY)
 	case counter == 16:
 		reset = true
-		store.SetScriptID(store.ExecText)
+		text.DoPrintTextScript(text.TextBoxImage, txt.OakSpeechText2A, false)
 		store.PushScriptID(store.OakSpeech2)
-		text.PrintText(text.TextBoxImage, txt.OakSpeechText2A)
 	}
 }
 
@@ -156,9 +154,8 @@ func oakSpeech2() {
 		}
 	case counter == 33:
 		reset = true
-		store.SetScriptID(store.ExecText)
+		text.DoPrintTextScript(text.TextBoxImage, txt.OakSpeechText2B, false)
 		store.PushScriptID(store.OakSpeech3)
-		text.PrintText(text.TextBoxImage, txt.OakSpeechText2B)
 	}
 }
 
@@ -181,9 +178,8 @@ func oakSpeech3() {
 		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
 	case counter == 16:
 		reset = true
-		store.SetScriptID(store.ExecText)
+		text.DoPrintTextScript(text.TextBoxImage, txt.IntroducePlayerText, false)
 		store.PushScriptID(store.OakSpeech4)
-		text.PrintText(text.TextBoxImage, txt.IntroducePlayerText)
 	}
 }
 
@@ -276,8 +272,7 @@ func oakSpeech7() {
 		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
 	case counter == 19:
 		reset = true
-		store.SetScriptID(store.ExecText)
-		text.PrintText(text.TextBoxImage, txt.YourNameIsText)
+		text.DoPrintTextScript(text.TextBoxImage, txt.YourNameIsText, false)
 		store.PushScriptID(store.OakSpeech9)
 	}
 }
@@ -298,19 +293,19 @@ func oakSpeech8() {
 	case counter == 18:
 		reset = true
 		util.DrawImage(store.TileMap, lectureImage.red[0], 7, centerY)
-		store.SetScriptID(store.ExecText)
-		text.PrintText(text.TextBoxImage, txt.YourNameIsText)
+		text.DoPrintTextScript(text.TextBoxImage, txt.YourNameIsText, false)
+
+		store.PushOtScript(fadeoutPlayer)
 		store.PushScriptID(store.OakSpeech9)
 	}
 }
 
-// introduce rival
-func oakSpeech9() {
+func fadeoutPlayer() {
 	palette.GBFadeOutToWhite(false)
-	store.PushScriptID(store.OakSpeech10)
 }
 
-func oakSpeech10() {
+// introduce rival
+func oakSpeech9() {
 	reset := false
 	defer func() {
 		if reset {
@@ -337,8 +332,7 @@ func oakSpeech10() {
 		util.DrawImage(store.TileMap, lectureImage.rival[5], centerX, centerY)
 	case counter == 80:
 		reset = true
-		store.SetScriptID(store.ExecText)
+		text.DoPrintTextScript(text.TextBoxImage, txt.IntroduceRivalText, false)
 		palette.GBFadeOutToWhite(true)
-		text.PrintText(text.TextBoxImage, txt.IntroduceRivalText)
 	}
 }

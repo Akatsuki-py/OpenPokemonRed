@@ -30,21 +30,20 @@ const (
 	OakSpeech7
 	OakSpeech8
 	OakSpeech9
-	OakSpeech10
 )
 
 type ScriptQueue struct {
-	Buffer [10]uint
+	Buffer [10]interface{}
 	Length int
 }
 
 var scriptQueue = ScriptQueue{
-	Buffer: [10]uint{Overworld},
+	Buffer: [10]interface{}{Overworld},
 	Length: 0,
 }
 
 // ScriptID current script ID
-func ScriptID() uint {
+func ScriptID() interface{} {
 	if scriptQueue.Length == 0 {
 		return Overworld
 	}
@@ -59,7 +58,14 @@ func ScriptLength() int {
 // SetScriptID change script ID
 func SetScriptID(id uint) {
 	scriptQueue = ScriptQueue{
-		Buffer: [10]uint{id},
+		Buffer: [10]interface{}{id},
+		Length: 1,
+	}
+}
+
+func SetOtScript(f func()) {
+	scriptQueue = ScriptQueue{
+		Buffer: [10]interface{}{f},
 		Length: 1,
 	}
 }
@@ -73,11 +79,19 @@ func PushScriptID(id uint) {
 	scriptQueue.Length++
 }
 
-func PopScriptID() {
+func PushOtScript(f func()) {
+	if scriptQueue.Length == 10 {
+		return
+	}
+	scriptQueue.Buffer[scriptQueue.Length] = f
+	scriptQueue.Length++
+}
+
+func PopScript() {
 	if scriptQueue.Length == 0 {
 		return
 	}
-	newBuffer := [10]uint{}
+	newBuffer := [10]interface{}{}
 	for i := 0; i < scriptQueue.Length; i++ {
 		if i == 9 {
 			break
