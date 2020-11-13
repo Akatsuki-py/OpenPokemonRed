@@ -20,6 +20,7 @@ func newScriptMap() map[uint]func() {
 	result[store.WidgetBag] = widgetBag
 	result[store.WidgetTrainerCard] = widgetTrainerCard
 	result[store.WidgetPlayerNamingScreen] = widgetPlayerNamingScreen
+	result[store.WidgetRivalNamingScreen] = widgetRivalNamingScreen
 	result[store.WidgetPartyMenu] = widgetPartyMenu
 	result[store.FadeOutToBlack] = fadeOutToBlack
 	result[store.FadeOutToWhite] = fadeOutToWhite
@@ -34,13 +35,20 @@ func newScriptMap() map[uint]func() {
 	result[store.OakSpeech0] = oakSpeech0
 	result[store.OakSpeech1] = oakSpeech1
 	result[store.OakSpeech2] = oakSpeech2
-	result[store.OakSpeech3] = oakSpeech3
-	result[store.OakSpeech4] = oakSpeech4
-	result[store.OakSpeech5] = oakSpeech5
-	result[store.OakSpeech6] = oakSpeech6
-	result[store.OakSpeech7] = oakSpeech7
-	result[store.OakSpeech8] = oakSpeech8
-	result[store.OakSpeech9] = oakSpeech9
+	result[store.IntroducePlayer] = introducePlayer
+	result[store.ChoosePlayerName] = choosePlayerName
+	result[store.ChoosePlayerName2] = choosePlayerName2
+	result[store.CustomPlayerName] = customPlayerName
+	result[store.AfterChoosePlayerName] = afterChoosePlayerName
+	result[store.AfterCustomPlayerName] = afterCustomPlayerName
+	result[store.IntroduceRival] = introduceRival
+	result[store.ChooseRivalName] = chooseRivalName
+	result[store.ChooseRivalName2] = chooseRivalName2
+	result[store.CustomRivalName] = customRivalName
+	result[store.AfterChooseRivalName] = afterChooseRivalName
+	result[store.AfterCustomRivalName] = afterCustomRivalName
+	result[store.LetsGoPlayer] = letsGoPlayer
+	result[store.ShrinkPlayer] = shrinkPlayer
 	return result
 }
 

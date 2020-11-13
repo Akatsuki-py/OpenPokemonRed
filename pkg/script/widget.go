@@ -64,14 +64,6 @@ func widgetTrainerCard() {
 	}
 }
 
-func widgetPlayerNamingScreen() {
-	name, ok := handleNamingScreen()
-	if ok {
-		store.Player.Name = name
-		store.SetScriptID(store.OakSpeech8)
-	}
-}
-
 func handleNamingScreen() (string, bool) {
 	widget.UpdateNameScreen()
 

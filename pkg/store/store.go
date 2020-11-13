@@ -24,8 +24,6 @@ func DecFrameCounter() {
 	}
 }
 
-var RivalName = "SONY"
-
 // TMName wcf4b
 var TMName = ""
 

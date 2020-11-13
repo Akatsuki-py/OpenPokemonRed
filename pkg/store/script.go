@@ -9,6 +9,8 @@ const (
 	WidgetBag
 	WidgetTrainerCard
 	WidgetPlayerNamingScreen
+	WidgetRivalNamingScreen
+	WidgetNickNamingScreen
 	WidgetPartyMenu
 	FadeOutToBlack
 	FadeOutToWhite
@@ -23,13 +25,20 @@ const (
 	OakSpeech0
 	OakSpeech1
 	OakSpeech2
-	OakSpeech3
-	OakSpeech4
-	OakSpeech5
-	OakSpeech6
-	OakSpeech7
-	OakSpeech8
-	OakSpeech9
+	IntroducePlayer
+	ChoosePlayerName
+	ChoosePlayerName2
+	CustomPlayerName
+	AfterChoosePlayerName
+	AfterCustomPlayerName
+	IntroduceRival
+	ChooseRivalName
+	ChooseRivalName2
+	CustomRivalName
+	AfterChooseRivalName
+	AfterCustomRivalName
+	LetsGoPlayer
+	ShrinkPlayer
 )
 
 type ScriptQueue struct {

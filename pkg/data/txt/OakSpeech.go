@@ -51,3 +51,23 @@ you were a baby.
 his name again?
 ▼
 `
+
+var HisNameIsText = `
+That's right! I
+remember now! His
+name is ${RIVAL}!
+▼
+`
+
+var OakSpeechText3 = `
+${PLAYER}!
+
+Your very own
+#MON legend is
+about to unfold!
+
+A world of dreams
+and adventures
+with #MON
+awaits! Let's go!
+`

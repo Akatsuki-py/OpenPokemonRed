@@ -155,11 +155,11 @@ func oakSpeech2() {
 	case counter == 33:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.OakSpeechText2B, false)
-		store.PushScriptID(store.OakSpeech3)
+		store.PushScriptID(store.IntroducePlayer)
 	}
 }
 
-func oakSpeech3() {
+func introducePlayer() {
 	reset := false
 	defer func() {
 		if reset {
@@ -179,12 +179,12 @@ func oakSpeech3() {
 	case counter == 16:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.IntroducePlayerText, false)
-		store.PushScriptID(store.OakSpeech4)
+		store.PushScriptID(store.ChoosePlayerName)
 	}
 }
 
 // ref: ChoosePlayerName
-func oakSpeech4() {
+func choosePlayerName() {
 	reset := false
 	defer func() {
 		if reset {
@@ -201,7 +201,7 @@ func oakSpeech4() {
 		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
 	case counter == 18:
 		reset = true
-		store.SetScriptID(store.OakSpeech5)
+		store.SetScriptID(store.ChoosePlayerName2)
 
 		// ref: DisplayIntroNameTextBox
 		width, height := 10, 9
@@ -215,7 +215,7 @@ func oakSpeech4() {
 	}
 }
 
-func oakSpeech5() {
+func choosePlayerName2() {
 	m := menu.CurSelectMenu()
 	pressed := menu.HandleSelectMenuInput()
 
@@ -224,15 +224,15 @@ func oakSpeech5() {
 		m.Close()
 		switch m.Item() {
 		case "NEW NAME":
-			store.SetScriptID(store.OakSpeech6)
+			store.SetScriptID(store.CustomPlayerName)
 		default:
 			store.Player.Name = m.Item()
-			store.SetScriptID(store.OakSpeech7)
+			store.SetScriptID(store.AfterChoosePlayerName)
 		}
 	}
 }
 
-func oakSpeech6() {
+func customPlayerName() {
 	reset := false
 	defer func() {
 		if reset {
@@ -252,8 +252,16 @@ func oakSpeech6() {
 	}
 }
 
+func widgetPlayerNamingScreen() {
+	name, ok := handleNamingScreen()
+	if ok {
+		store.Player.Name = name
+		store.SetScriptID(store.AfterCustomPlayerName)
+	}
+}
+
 // after choose NAME
-func oakSpeech7() {
+func afterChoosePlayerName() {
 	reset := false
 	defer func() {
 		if reset {
@@ -273,12 +281,11 @@ func oakSpeech7() {
 	case counter == 19:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.YourNameIsText, false)
-		store.PushScriptID(store.OakSpeech9)
+		store.PushScriptID(store.IntroduceRival)
 	}
 }
 
-// after NEW NAME
-func oakSpeech8() {
+func afterCustomPlayerName() {
 	reset := false
 	defer func() {
 		if reset {
@@ -295,17 +302,17 @@ func oakSpeech8() {
 		util.DrawImage(store.TileMap, lectureImage.red[0], 7, centerY)
 		text.DoPrintTextScript(text.TextBoxImage, txt.YourNameIsText, false)
 
-		store.PushOtScript(fadeoutPlayer)
-		store.PushScriptID(store.OakSpeech9)
+		store.PushOtScript(fadeoutScreen)
+		store.PushScriptID(store.IntroduceRival)
 	}
 }
 
-func fadeoutPlayer() {
+func fadeoutScreen() {
 	palette.GBFadeOutToWhite(false)
 }
 
 // introduce rival
-func oakSpeech9() {
+func introduceRival() {
 	reset := false
 	defer func() {
 		if reset {
@@ -333,6 +340,191 @@ func oakSpeech9() {
 	case counter == 80:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.IntroduceRivalText, false)
-		palette.GBFadeOutToWhite(true)
+		store.PushScriptID(store.ChooseRivalName)
+	}
+}
+
+// ref: ChooseRivalName
+func chooseRivalName() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter < 18:
+		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
+		x := int(56+(counter/3)*8) / 8
+		util.DrawImage(store.TileMap, lectureImage.rival[5], x, centerY)
+	case counter == 18:
+		reset = true
+		store.SetScriptID(store.ChooseRivalName2)
+
+		// ref: DisplayIntroNameTextBox
+		width, height := 10, 9
+		elm := []string{
+			"NEW NAME",
+			"BLUE",
+			"GARY",
+			"JOHN",
+		}
+		menu.NewSelectMenu(elm, 0, 0, width, height, true, true)
+	}
+}
+
+func chooseRivalName2() {
+	m := menu.CurSelectMenu()
+	pressed := menu.HandleSelectMenuInput()
+
+	switch {
+	case pressed.A:
+		m.Close()
+		switch m.Item() {
+		case "NEW NAME":
+			store.SetScriptID(store.CustomRivalName)
+		default:
+			store.Rival.Name = m.Item()
+			store.SetScriptID(store.AfterChooseRivalName)
+		}
+	}
+}
+
+func customRivalName() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter < 15:
+		util.WhiteScreen(store.TileMap)
+	case counter == 15:
+		reset = true
+		widget.DrawNameScreen(widget.RivalName)
+		store.SetScriptID(store.WidgetRivalNamingScreen)
+	}
+}
+
+func widgetRivalNamingScreen() {
+	name, ok := handleNamingScreen()
+	if ok {
+		store.Rival.Name = name
+		store.SetScriptID(store.AfterCustomRivalName)
+	}
+}
+
+func afterChooseRivalName() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter == 0:
+		util.WhiteScreen(store.TileMap)
+	case counter < 19:
+		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
+		x := int(96-(counter/3)*8) / 8
+		util.DrawImage(store.TileMap, lectureImage.rival[5], x, centerY)
+	case counter == 19:
+		reset = true
+		text.DoPrintTextScript(text.TextBoxImage, txt.HisNameIsText, false)
+		store.PushScriptID(store.LetsGoPlayer)
+	}
+}
+
+func afterCustomRivalName() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	util.WhiteScreen(store.TileMap)
+	switch {
+	case counter == 18:
+		reset = true
+		util.DrawImage(store.TileMap, lectureImage.rival[5], 7, centerY)
+		text.DoPrintTextScript(text.TextBoxImage, txt.HisNameIsText, false)
+		store.PushScriptID(store.LetsGoPlayer)
+	}
+}
+
+func letsGoPlayer() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter <= 10:
+		util.WhiteScreen(store.TileMap)
+	case counter <= 20:
+		util.DrawImage(store.TileMap, lectureImage.red[2], centerX, centerY)
+	case counter <= 30:
+		util.DrawImage(store.TileMap, lectureImage.red[2], centerX, centerY)
+	case counter <= 40:
+		util.DrawImage(store.TileMap, lectureImage.red[1], centerX, centerY)
+	case counter <= 50:
+		util.DrawImage(store.TileMap, lectureImage.red[1], centerX, centerY)
+	case counter <= 60:
+		util.DrawImage(store.TileMap, lectureImage.red[0], centerX, centerY)
+	case counter <= 70:
+		util.DrawImage(store.TileMap, lectureImage.red[0], centerX, centerY)
+	case counter == 80:
+		reset = true
+		text.DoPrintTextScript(text.TextBoxImage, txt.OakSpeechText3, false)
+		store.PushScriptID(store.ShrinkPlayer)
+	}
+}
+
+func shrinkPlayer() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter == 0:
+		audio.PlaySound(audio.SFX_SHRINK)
+	case counter < 5:
+	case counter < 25:
+		util.DrawImage(store.TileMap, lectureImage.redShrink[0], centerX, centerY)
+	case counter < 45:
+		util.DrawImage(store.TileMap, lectureImage.redShrink[1], centerX, centerY)
+	case counter < 65:
+		util.DrawImage(store.TileMap, lectureImage.redShrink[2], centerX, centerY)
+	case counter < 85:
+		util.DrawImage(store.TileMap, lectureImage.redSprite[0], centerX, centerY)
+	case counter < 105:
+		util.DrawImage(store.TileMap, lectureImage.redSprite[1], centerX, centerY)
+	case counter < 125:
+		util.DrawImage(store.TileMap, lectureImage.redSprite[2], centerX, centerY)
+	case counter == 125:
+		reset = true
+		InitializeOverworld()
 	}
 }
