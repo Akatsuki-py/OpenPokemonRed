@@ -26,8 +26,8 @@ var PalletTown = &Object{
 
 	Sprites: []Sprite{
 		{sprdata.SPRITE_OAK, 8, 5, [2]byte{util.Stay, util.None}, 1},
-		{sprdata.SPRITE_GIRL, 3, 8, [2]byte{util.Walk, 0}, 2},
-		{sprdata.SPRITE_FISHER2, 11, 14, [2]byte{util.Walk, 0}, 3},
+		{sprdata.SPRITE_GIRL, 3, 8, [2]byte{util.Walk, util.None}, 2},
+		{sprdata.SPRITE_FISHER2, 11, 14, [2]byte{util.Walk, util.None}, 3},
 	},
 
 	WarpTos: []WarpTo{
