@@ -523,7 +523,9 @@ func shrinkPlayer() {
 		util.DrawImage(store.TileMap, lectureImage.redSprite[1], centerX, centerY)
 	case counter < 155:
 		util.DrawImage(store.TileMap, lectureImage.redSprite[2], centerX, centerY)
-	case counter == 155:
+	case counter < 205:
+		util.WhiteScreen(store.TileMap)
+	case counter == 205:
 		reset = true
 		InitializeOverworld()
 	}
