@@ -3,6 +3,7 @@ package widget
 import (
 	"pokered/pkg/event"
 	"pokered/pkg/menu"
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
 
@@ -13,7 +14,7 @@ func DrawStartMenu() {
 	elm := []string{
 		util.Pokemon,
 		"ITEM",
-		"RED",
+		store.Player.Name,
 		"SAVE",
 		"OPTION",
 		"EXIT",
@@ -24,7 +25,7 @@ func DrawStartMenu() {
 			util.Pokedex,
 			util.Pokemon,
 			"ITEM",
-			"RED",
+			store.Player.Name,
 			"SAVE",
 			"OPTION",
 			"EXIT",

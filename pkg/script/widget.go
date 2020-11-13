@@ -25,7 +25,7 @@ func widgetStartMenu2() {
 		case "ITEM":
 			store.SetScriptID(store.WidgetBag)
 			menu.NewListMenuID(menu.ItemListMenu, store.BagItems)
-		case "RED":
+		case store.Player.Name:
 			m.Close()
 			store.SetScriptID(store.WidgetTrainerCard)
 			widget.DrawTrainerCard()

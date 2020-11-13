@@ -413,7 +413,9 @@ func titlePokemonRed() {
 func InitializeOverworld() {
 	initTilesets(store.FS)
 	world.LoadWorldData(worldmap.PALLET_TOWN)
-	sprite.InitPlayer(sprite.Normal, 3, 4)
+	world.LastWorld = world.CurWorld
+	world.LoadWorldData(worldmap.REDS_HOUSE_2F)
+	sprite.InitPlayer(sprite.Normal, 3, 6)
 	store.SetScriptID(store.Overworld)
 }
 

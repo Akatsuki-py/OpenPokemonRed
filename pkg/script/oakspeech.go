@@ -128,7 +128,7 @@ func oakSpeech1() {
 		if counter == 0 {
 			util.WhiteScreen(store.TileMap)
 		}
-		x := int((168 - counter*8) / 8)
+		x := int((176 - counter*8) / 8)
 		util.DrawImage(store.TileMap, lectureImage.nidorino[0], x, centerY)
 	case counter == 16:
 		reset = true
@@ -174,7 +174,7 @@ func introducePlayer() {
 		if counter == 0 {
 			util.WhiteScreen(store.TileMap)
 		}
-		x := int((176 - counter*8) / 8)
+		x := int((168 - counter*8) / 8)
 		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
 	case counter == 16:
 		reset = true
@@ -195,11 +195,11 @@ func choosePlayerName() {
 	}()
 
 	switch {
-	case counter < 18:
+	case counter < 21:
 		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
 		x := int(56+(counter/3)*8) / 8
 		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
-	case counter == 18:
+	case counter == 21:
 		reset = true
 		store.SetScriptID(store.ChoosePlayerName2)
 
@@ -274,11 +274,11 @@ func afterChoosePlayerName() {
 	switch {
 	case counter == 0:
 		util.WhiteScreen(store.TileMap)
-	case counter < 19:
+	case counter < 22:
 		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
-		x := int(96-(counter/3)*8) / 8
+		x := int(104-(counter/3)*8) / 8
 		util.DrawImage(store.TileMap, lectureImage.red[0], x, centerY)
-	case counter == 19:
+	case counter == 22:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.YourNameIsText, false)
 		store.PushScriptID(store.IntroduceRival)
@@ -308,7 +308,7 @@ func afterCustomPlayerName() {
 }
 
 func fadeoutScreen() {
-	palette.GBFadeOutToWhite(false)
+	palette.GBFadeOutToWhite(true)
 }
 
 // introduce rival
@@ -356,11 +356,11 @@ func chooseRivalName() {
 	}()
 
 	switch {
-	case counter < 18:
+	case counter < 21:
 		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
 		x := int(56+(counter/3)*8) / 8
 		util.DrawImage(store.TileMap, lectureImage.rival[5], x, centerY)
-	case counter == 18:
+	case counter == 21:
 		reset = true
 		store.SetScriptID(store.ChooseRivalName2)
 
@@ -434,11 +434,11 @@ func afterChooseRivalName() {
 	switch {
 	case counter == 0:
 		util.WhiteScreen(store.TileMap)
-	case counter < 19:
+	case counter < 22:
 		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
-		x := int(96-(counter/3)*8) / 8
+		x := int(104-(counter/3)*8) / 8
 		util.DrawImage(store.TileMap, lectureImage.rival[5], x, centerY)
-	case counter == 19:
+	case counter == 22:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.HisNameIsText, false)
 		store.PushScriptID(store.LetsGoPlayer)
@@ -511,19 +511,19 @@ func shrinkPlayer() {
 	case counter == 0:
 		audio.PlaySound(audio.SFX_SHRINK)
 	case counter < 5:
-	case counter < 25:
+	case counter < 35:
 		util.DrawImage(store.TileMap, lectureImage.redShrink[0], centerX, centerY)
-	case counter < 45:
-		util.DrawImage(store.TileMap, lectureImage.redShrink[1], centerX, centerY)
 	case counter < 65:
+		util.DrawImage(store.TileMap, lectureImage.redShrink[1], centerX, centerY)
+	case counter < 95:
 		util.DrawImage(store.TileMap, lectureImage.redShrink[2], centerX, centerY)
-	case counter < 85:
-		util.DrawImage(store.TileMap, lectureImage.redSprite[0], centerX, centerY)
-	case counter < 105:
-		util.DrawImage(store.TileMap, lectureImage.redSprite[1], centerX, centerY)
 	case counter < 125:
+		util.DrawImage(store.TileMap, lectureImage.redSprite[0], centerX, centerY)
+	case counter < 140:
+		util.DrawImage(store.TileMap, lectureImage.redSprite[1], centerX, centerY)
+	case counter < 155:
 		util.DrawImage(store.TileMap, lectureImage.redSprite[2], centerX, centerY)
-	case counter == 125:
+	case counter == 155:
 		reset = true
 		InitializeOverworld()
 	}
