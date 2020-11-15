@@ -76,7 +76,7 @@ func openImage(name string, index int) *ebiten.Image {
 }
 
 func drawImage(src *ebiten.Image, x, y util.Tile) {
-	drawImage(src, x, y)
+	util.DrawImage(store.TileMap, src, x, y)
 }
 
 // ref: OakSpeech
