@@ -225,7 +225,7 @@ func choosePlayerName() {
 			"ASH",
 			"JACK",
 		}
-		menu.NewSelectMenu(elm, 0, 0, width, height, true, true)
+		menu.NewSelectMenu(elm, 0, 0, width, height, true, true, 0)
 	}
 }
 
@@ -392,7 +392,7 @@ func chooseRivalName() {
 			"GARY",
 			"JOHN",
 		}
-		menu.NewSelectMenu(elm, 0, 0, width, height, true, true)
+		menu.NewSelectMenu(elm, 0, 0, width, height, true, true, 0)
 	}
 }
 

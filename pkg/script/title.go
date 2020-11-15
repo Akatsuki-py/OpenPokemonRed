@@ -515,7 +515,7 @@ func titleMenu() {
 		"NEW GAME",
 		"OPTION",
 	}
-	menu.NewSelectMenu(elm, 0, 0, 13, height, true, false)
+	menu.NewSelectMenu(elm, 0, 0, 13, height, true, false, 0)
 }
 
 func titleMenu2() {

@@ -3,6 +3,7 @@ package script
 import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
+	"pokered/pkg/screen"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 	"pokered/pkg/widget"
@@ -97,13 +98,13 @@ func widgetPartyMenu() {
 	switch {
 	case pressed.A:
 		store.SetScriptID(store.WidgetPartyMenuSelect)
-		width, height := 8, 7
+		width, height := 7, 5
 		elm := []string{
 			"STATS",
 			"SWITCH",
 			menu.Cancel,
 		}
-		menu.NewSelectMenu(elm, 11, 10, width, height, false, false)
+		menu.NewSelectMenu(elm, 11, 11, width, height, false, false, screen.Widget)
 	case pressed.B:
 		widget.ClosePartyMenu()
 		store.SetScriptID(store.WidgetStartMenu)

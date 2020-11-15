@@ -8,10 +8,11 @@ import (
 
 // preset layer's z value
 const (
-	World  = 1
-	Sprite = 2
-	Widget = 100
-	Mask   = 1000
+	World   = 1
+	Sprite  = 2
+	MenuMin = 100
+	Widget  = 1000
+	Mask    = 10000
 )
 
 // Layer struct

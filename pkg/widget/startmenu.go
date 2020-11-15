@@ -31,5 +31,5 @@ func DrawStartMenu() {
 			"EXIT",
 		}
 	}
-	menu.NewSelectMenu(elm, 10, 0, 8, height, true, true)
+	menu.NewSelectMenu(elm, 10, 0, 8, height, true, true, 0)
 }

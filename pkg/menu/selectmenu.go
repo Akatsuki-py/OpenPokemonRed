@@ -56,14 +56,14 @@ func (sm SelectMenus) Swap(i, j int)      { sm[i], sm[j] = sm[j], sm[i] }
 func (sm SelectMenus) Less(i, j int) bool { return sm[i].z < sm[j].z }
 
 // NewSelectMenu create new select menu
-func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bool) {
+func NewSelectMenu(elm []string, x0, y0, width, height util.Tile, space, wrap bool, extraZ uint) {
 	topX, topY := x0+1, y0+1
 	if space {
 		topY++
 	}
 	newSelectMenu := &SelectMenu{
 		Elm:   elm,
-		z:     MaxZIndex() + 1,
+		z:     MaxZIndex() + 1 + extraZ,
 		topX:  topX,
 		topY:  topY,
 		wrap:  wrap,
