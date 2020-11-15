@@ -30,10 +30,10 @@ var LastMusicID int
 
 // FadeOutAudio fadeout process called in every vBlank
 func FadeOutAudio() {
-	preVolume := Volume
+	preVolume := volume
 	defer func() {
-		if CurMusic != nil && CurMusic.IsPlaying() && preVolume != Volume {
-			CurMusic.SetVolume(float64(Volume) / 7)
+		if CurMusic != nil && CurMusic.IsPlaying() && preVolume != volume {
+			CurMusic.SetVolume(float64(volume) / 7)
 		}
 	}()
 
@@ -55,7 +55,7 @@ func FadeOutAudio() {
 		FadeOut.Counter = reloadFadeOut
 
 		// fadeOutComplete
-		if Volume == 0 {
+		if volume == 0 {
 			// start next music
 			FadeOut.Control, FadeOut.Counter = 0, 0
 			stopMusic()

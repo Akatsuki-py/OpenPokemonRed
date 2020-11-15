@@ -95,8 +95,35 @@ func widgetPartyMenu() {
 	widget.AnimatePartyMon()
 
 	switch {
+	case pressed.A:
+		store.SetScriptID(store.WidgetPartyMenuSelect)
+		width, height := 8, 7
+		elm := []string{
+			"STATS",
+			"SWITCH",
+			menu.Cancel,
+		}
+		menu.NewSelectMenu(elm, 11, 10, width, height, false, false)
 	case pressed.B:
 		widget.ClosePartyMenu()
 		store.SetScriptID(store.WidgetStartMenu)
+	}
+}
+
+func widgetPartyMenuSelect() {
+	m := menu.CurSelectMenu()
+	pressed := menu.HandleSelectMenuInput()
+	switch {
+	case pressed.A:
+		switch m.Item() {
+		case "STATS":
+		case "SWITCH":
+		case menu.Cancel:
+			m.Close()
+			store.SetScriptID(store.WidgetPartyMenu)
+		}
+	case pressed.B:
+		m.Close()
+		store.SetScriptID(store.WidgetPartyMenu)
 	}
 }

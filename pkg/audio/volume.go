@@ -1,35 +1,47 @@
 package audio
 
-var Volume uint // internal volue(NR50): [0, 7]
+const (
+	maxVol    = 7
+	widgetVol = 3
+	minVol    = 0
+)
+
+// internal volue(NR50): [0, 7]
+var volume uint
+
+// Volume returns current game volume
+func Volume() uint {
+	return volume
+}
 
 func setVolume(v uint) {
-	if v > 7 {
-		v = 7
+	if v > maxVol {
+		v = maxVol
 	}
-	Volume = v
+	volume = v
 }
 
 func setVolumeMax() {
-	setVolume(7)
+	setVolume(maxVol)
 }
 
 func incrementVolume() {
-	if Volume < 7 {
-		setVolume(Volume + 1)
+	if volume < maxVol {
+		setVolume(volume + 1)
 	}
 }
 
 func decrementVolume() {
-	if Volume > 0 {
-		setVolume(Volume - 1)
+	if volume > minVol {
+		setVolume(volume - 1)
 	}
 }
 
 // pokedex, status,
 func reduceVolume() {
-	setVolume(3)
+	setVolume(widgetVol)
 }
 
 func offVolume() {
-	setVolume(0)
+	setVolume(minVol)
 }

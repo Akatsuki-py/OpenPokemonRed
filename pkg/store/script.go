@@ -12,6 +12,7 @@ const (
 	WidgetRivalNamingScreen
 	WidgetNickNamingScreen
 	WidgetPartyMenu
+	WidgetPartyMenuSelect
 	FadeOutToBlack
 	FadeOutToWhite
 	LoadMapData

@@ -22,6 +22,7 @@ func newScriptMap() map[uint]func() {
 	result[store.WidgetPlayerNamingScreen] = widgetPlayerNamingScreen
 	result[store.WidgetRivalNamingScreen] = widgetRivalNamingScreen
 	result[store.WidgetPartyMenu] = widgetPartyMenu
+	result[store.WidgetPartyMenuSelect] = widgetPartyMenuSelect
 	result[store.FadeOutToBlack] = fadeOutToBlack
 	result[store.FadeOutToWhite] = fadeOutToWhite
 	result[store.LoadMapData] = loadMapData

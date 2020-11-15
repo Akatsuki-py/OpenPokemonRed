@@ -8,21 +8,10 @@ import (
 	"sort"
 )
 
-const (
-	// ChoseMenuItem Aボタンでアイテムを選択した or 2択menuの上
-	ChoseMenuItem uint = iota + 1
-
-	// CancelledMenu Bボタンでキャンセルした or 2択menuの下
-	CancelledMenu
-)
-
 // Cancel menu cancel
 const Cancel = "CANCEL"
 
 var downArrowBlinkCnt = 6 * 10
-
-// MenuExitMethod プレイヤーが menu からどのように抜けたかを記録している
-var MenuExitMethod uint
 
 // MaxZIndex get max z index
 func MaxZIndex() uint {
@@ -38,6 +27,7 @@ func MaxZIndex() uint {
 	return selectZ
 }
 
+// VBlank script executed in VBlank
 func VBlank() {
 	listZ, done := CurListMenu.z, false
 	sort.Sort(CurSelectMenus)
@@ -84,9 +74,3 @@ func HandleMenuInput(current, maxItem uint, wrap bool) uint {
 	}
 	return current
 }
-
-// func InMenu() bool {
-// 	inSelect := CurSelectMenus.Len() > 0
-// 	inListMenu := CurListMenu.z > 0
-// 	return inSelect || inListMenu
-// }
