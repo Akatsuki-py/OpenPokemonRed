@@ -10,6 +10,7 @@ import (
 const (
 	World  = 1
 	Sprite = 2
+	Widget = 100
 	Mask   = 1000
 )
 
