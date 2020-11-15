@@ -6,9 +6,12 @@ import (
 	"pokered/pkg/menu"
 	"pokered/pkg/overworld"
 	pal "pokered/pkg/palette"
+	scr "pokered/pkg/screen"
+	"pokered/pkg/script"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
+	"pokered/pkg/util"
 	"pokered/pkg/widget"
 	"pokered/pkg/world"
 
@@ -39,7 +42,7 @@ func (g *Game) Update() error {
 
 // Draw draws the game screen.
 func (g *Game) Draw(screen *ebiten.Image) {
-	screen.DrawImage(pal.Filter(store.TileMap, store.Palette), nil)
+	screen.DrawImage(pal.Filter(scr.TileMap(), store.Palette), nil)
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.
@@ -73,6 +76,15 @@ func vBlank() {
 	store.DecFrameCounter()
 	audio.FadeOutAudio()
 
+	if script.InTitle() {
+		scr.AddLayerOnTop("title", script.TitleScreen, 0, 0)
+		script.TitleScreen = util.NewImage()
+	}
+
+	if script.InOakSpeech() {
+		scr.AddLayerOnTop("oakspeech", script.OakSpeechScreen, 0, 0)
+	}
+
 	if isOverworld() || store.SpriteData[0] != nil {
 		p := store.SpriteData[0]
 		world.VBlank(p.MapXCoord, p.MapYCoord, p.DeltaX, p.DeltaY, p.WalkCounter, p.Direction)
@@ -81,6 +93,8 @@ func vBlank() {
 	menu.VBlank()
 	widget.VBlank()
 	text.VBlank()
+
+	scr.VBlank()
 }
 
 func second() {}

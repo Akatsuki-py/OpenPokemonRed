@@ -5,6 +5,7 @@ import (
 	"pokered/pkg/audio"
 	"pokered/pkg/data/txt"
 	"pokered/pkg/joypad"
+	"pokered/pkg/screen"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 	"strconv"
@@ -281,7 +282,7 @@ func VBlank() {
 	if TextBoxImage == nil {
 		return
 	}
-	util.DrawImage(store.TileMap, TextBoxImage, 0, 0)
+	screen.AddLayerOnTop("textbox", TextBoxImage, 0, 0)
 }
 
 // FontLoaded dialog box is rendered

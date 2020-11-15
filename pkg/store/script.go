@@ -8,14 +8,14 @@ const (
 	WidgetStartMenu2
 	WidgetBag
 	WidgetTrainerCard
-	WidgetPlayerNamingScreen
-	WidgetRivalNamingScreen
 	WidgetNickNamingScreen
 	WidgetPartyMenu
 	WidgetPartyMenuSelect
 	FadeOutToBlack
 	FadeOutToWhite
 	LoadMapData
+
+	// Title
 	TitleCopyright
 	TitleBlank
 	TitleIntroScene
@@ -23,6 +23,10 @@ const (
 	TitlePokemonRed
 	TitleMenu
 	TitleMenu2
+
+	// OakSpeech
+	WidgetPlayerNamingScreen
+	WidgetRivalNamingScreen
 	OakSpeech0
 	OakSpeech1
 	OakSpeech2
@@ -52,12 +56,30 @@ var scriptQueue = ScriptQueue{
 	Length: 0,
 }
 
-// ScriptID current script ID
-func ScriptID() interface{} {
+// Script current script
+func Script() interface{} {
 	if scriptQueue.Length == 0 {
 		return Overworld
 	}
 	return scriptQueue.Buffer[0]
+}
+
+// ScriptID current script ID
+// if current script is one time, return Overworld
+func ScriptID() uint {
+	if scriptQueue.Length == 0 {
+		return Overworld
+	}
+
+	sid := scriptQueue.Buffer[0]
+	switch s := sid.(type) {
+	case int:
+		return uint(s)
+	case uint:
+		return s
+	default:
+		return Overworld
+	}
 }
 
 // ScriptLength return queue length of script ID

@@ -18,7 +18,7 @@ func mode() uint {
 }
 
 func isOverworld() bool {
-	return store.ScriptID() == store.Overworld
+	return store.Script() == store.Overworld
 }
 
 func execScript() {

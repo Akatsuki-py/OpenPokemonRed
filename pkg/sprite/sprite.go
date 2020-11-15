@@ -5,6 +5,7 @@ import (
 	"image/png"
 	"pokered/pkg/data/sprdata"
 	"pokered/pkg/joypad"
+	"pokered/pkg/screen"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
@@ -205,10 +206,10 @@ func MoveSpriteForcely(offset uint, movement []byte) {
 }
 
 // drawSprite
-func drawSprite(offset uint) {
+func drawSprite(target *ebiten.Image, offset uint) {
 	s := store.SpriteData[offset]
 	UpdateSpriteImage(offset)
-	util.DrawImagePixel(store.TileMap, s.VRAM.Images[s.VRAM.Index], s.ScreenXPixel, s.ScreenYPixel)
+	util.DrawImagePixel(target, s.VRAM.Images[s.VRAM.Index], s.ScreenXPixel, s.ScreenYPixel)
 }
 
 // VBlank script executed in VBlank
@@ -221,6 +222,8 @@ func VBlank() {
 		InitMapSprites()
 		world.CurWorld.Object.Initialized = true
 	}
+
+	l := util.NewImage()
 	for i, s := range store.SpriteData {
 		if store.IsInvalidSprite(uint(i)) {
 			break
@@ -228,8 +231,9 @@ func VBlank() {
 		if s.VRAM.Index < 0 {
 			continue
 		}
-		drawSprite(uint(i))
+		drawSprite(l, uint(i))
 	}
+	screen.AddLayer("sprite", screen.Sprite, l, 0, 0)
 }
 
 // GetFrontSpriteOrSign hoge

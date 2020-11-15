@@ -55,9 +55,9 @@ func newScriptMap() map[uint]func() {
 
 // Current return current script
 func Current() func() {
-	sid := store.ScriptID()
+	scr := store.Script()
 
-	switch s := sid.(type) {
+	switch s := scr.(type) {
 	case int:
 		sc, ok := scriptMap[uint(s)]
 		if !ok {
@@ -180,4 +180,25 @@ func loadMapData() {
 	p.MapXCoord, p.MapYCoord = warpTo.XCoord, warpTo.YCoord
 
 	store.SetScriptID(store.Overworld)
+}
+
+func InOakSpeech() bool {
+	scriptID := store.ScriptID()
+	inOakSpeechScript := scriptID >= store.WidgetPlayerNamingScreen && scriptID <= store.ShrinkPlayer
+	inText := scriptID == store.ExecText
+
+	if inOakSpeechScript {
+		return true
+	}
+
+	if inText {
+		return OakSpeechScreen != nil
+	}
+
+	return false
+}
+
+func InTitle() bool {
+	scriptID := store.ScriptID()
+	return scriptID >= store.TitleCopyright && scriptID <= store.TitleMenu2
 }

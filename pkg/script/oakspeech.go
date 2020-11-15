@@ -6,6 +6,7 @@ import (
 	"pokered/pkg/data/txt"
 	"pokered/pkg/menu"
 	"pokered/pkg/palette"
+	"pokered/pkg/screen"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
@@ -19,6 +20,8 @@ var counter uint
 const (
 	centerX, centerY = 6, 4
 )
+
+var OakSpeechScreen *ebiten.Image
 
 var lectureImage = struct {
 	nidorino  [3]*ebiten.Image
@@ -75,8 +78,11 @@ func openImage(name string, index int) *ebiten.Image {
 	return util.OpenImage(store.FS, path)
 }
 
-func drawImage(src *ebiten.Image, x, y util.Tile) {
-	util.DrawImage(store.TileMap, src, x, y)
+func drawOakSpeechImage(src *ebiten.Image, x, y util.Tile) {
+	if OakSpeechScreen == nil {
+		OakSpeechScreen = util.NewImage()
+	}
+	util.DrawImage(OakSpeechScreen, src, x, y)
 }
 
 // ref: OakSpeech
@@ -92,23 +98,27 @@ func oakSpeech0() {
 
 	if counter == 0 {
 		audio.PlayMusic(audio.MUSIC_ROUTES2)
-		util.WhiteScreen(store.TileMap)
+		screen.FillWhite()
 	}
 	switch {
-	case counter <= 10:
-		return
-	case counter <= 20:
-		drawImage(lectureImage.oak[0], centerX, centerY)
-	case counter <= 30:
-		drawImage(lectureImage.oak[1], centerX, centerY)
-	case counter <= 40:
-		drawImage(lectureImage.oak[2], centerX, centerY)
-	case counter <= 50:
-		drawImage(lectureImage.oak[3], centerX, centerY)
-	case counter <= 60:
-		drawImage(lectureImage.oak[4], centerX, centerY)
-	case counter <= 70:
-		drawImage(lectureImage.oak[5], centerX, centerY)
+	case counter == 10:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.oak[0], centerX, centerY)
+	case counter == 20:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.oak[1], centerX, centerY)
+	case counter == 30:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.oak[2], centerX, centerY)
+	case counter == 40:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.oak[3], centerX, centerY)
+	case counter == 50:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.oak[4], centerX, centerY)
+	case counter == 60:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.oak[5], centerX, centerY)
 	case counter == 80:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.OakSpeechText1, false)
@@ -130,10 +140,10 @@ func oakSpeech1() {
 	switch {
 	case counter <= 15:
 		if counter == 0 {
-			util.WhiteScreen(store.TileMap)
+			OakSpeechScreen = util.NewImage()
 		}
 		x := int((176 - counter*8) / 8)
-		drawImage(lectureImage.nidorino[0], x, centerY)
+		drawOakSpeechImage(lectureImage.nidorino[0], x, centerY)
 	case counter == 16:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.OakSpeechText2A, false)
@@ -176,13 +186,13 @@ func introducePlayer() {
 	switch {
 	case counter <= 15:
 		if counter == 0 {
-			util.WhiteScreen(store.TileMap)
+			OakSpeechScreen = util.NewImage()
 		}
 		x := int((168 - counter*8) / 8)
-		drawImage(lectureImage.red[0], x, centerY)
+		drawOakSpeechImage(lectureImage.red[0], x, centerY)
 	case counter == 16:
 		reset = true
-		text.DoPrintTextScript(text.TextBoxImage, txt.IntroducePlayerText, false)
+		text.DoPrintTextScript(OakSpeechScreen, txt.IntroducePlayerText, false)
 		store.PushScriptID(store.ChoosePlayerName)
 	}
 }
@@ -200,9 +210,9 @@ func choosePlayerName() {
 
 	switch {
 	case counter < 21:
-		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
+		util.ClearScreenArea(OakSpeechScreen, 0, 4, 7, 20)
 		x := int(56+(counter/3)*8) / 8
-		drawImage(lectureImage.red[0], x, centerY)
+		drawOakSpeechImage(lectureImage.red[0], x, centerY)
 	case counter == 21:
 		reset = true
 		store.SetScriptID(store.ChoosePlayerName2)
@@ -247,8 +257,8 @@ func customPlayerName() {
 	}()
 
 	switch {
-	case counter < 15:
-		util.WhiteScreen(store.TileMap)
+	case counter == 0:
+		OakSpeechScreen = util.NewImage()
 	case counter == 15:
 		reset = true
 		widget.DrawNameScreen(widget.PlayerName)
@@ -277,11 +287,11 @@ func afterChoosePlayerName() {
 
 	switch {
 	case counter == 0:
-		util.WhiteScreen(store.TileMap)
+		OakSpeechScreen = util.NewImage()
 	case counter < 22:
-		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
+		util.ClearScreenArea(OakSpeechScreen, 0, 4, 7, 20)
 		x := int(104-(counter/3)*8) / 8
-		drawImage(lectureImage.red[0], x, centerY)
+		drawOakSpeechImage(lectureImage.red[0], x, centerY)
 	case counter == 22:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.YourNameIsText, false)
@@ -299,11 +309,11 @@ func afterCustomPlayerName() {
 		counter++
 	}()
 
-	util.WhiteScreen(store.TileMap)
+	screen.FillWhite()
 	switch {
 	case counter == 18:
 		reset = true
-		drawImage(lectureImage.red[0], 7, centerY)
+		drawOakSpeechImage(lectureImage.red[0], 7, centerY)
 		text.DoPrintTextScript(text.TextBoxImage, txt.YourNameIsText, false)
 
 		store.PushOtScript(fadeoutScreen)
@@ -327,23 +337,29 @@ func introduceRival() {
 	}()
 
 	switch {
-	case counter <= 10:
-		util.WhiteScreen(store.TileMap)
-	case counter <= 20:
-		drawImage(lectureImage.rival[0], centerX, centerY)
-	case counter <= 30:
-		drawImage(lectureImage.rival[1], centerX, centerY)
-	case counter <= 40:
-		drawImage(lectureImage.rival[2], centerX, centerY)
-	case counter <= 50:
-		drawImage(lectureImage.rival[3], centerX, centerY)
-	case counter <= 60:
-		drawImage(lectureImage.rival[4], centerX, centerY)
-	case counter <= 70:
-		drawImage(lectureImage.rival[5], centerX, centerY)
+	case counter == 0:
+		OakSpeechScreen = util.NewImage()
+	case counter == 10:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.rival[0], centerX, centerY)
+	case counter == 20:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.rival[1], centerX, centerY)
+	case counter == 30:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.rival[2], centerX, centerY)
+	case counter == 40:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.rival[3], centerX, centerY)
+	case counter == 50:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.rival[4], centerX, centerY)
+	case counter == 60:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.rival[5], centerX, centerY)
 	case counter == 80:
 		reset = true
-		text.DoPrintTextScript(text.TextBoxImage, txt.IntroduceRivalText, false)
+		text.DoPrintTextScript(OakSpeechScreen, txt.IntroduceRivalText, false)
 		store.PushScriptID(store.ChooseRivalName)
 	}
 }
@@ -361,9 +377,9 @@ func chooseRivalName() {
 
 	switch {
 	case counter < 21:
-		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
+		util.ClearScreenArea(OakSpeechScreen, 0, 4, 7, 20)
 		x := int(56+(counter/3)*8) / 8
-		drawImage(lectureImage.rival[5], x, centerY)
+		drawOakSpeechImage(lectureImage.rival[5], x, centerY)
 	case counter == 21:
 		reset = true
 		store.SetScriptID(store.ChooseRivalName2)
@@ -408,8 +424,8 @@ func customRivalName() {
 	}()
 
 	switch {
-	case counter < 15:
-		util.WhiteScreen(store.TileMap)
+	case counter == 0:
+		OakSpeechScreen = util.NewImage()
 	case counter == 15:
 		reset = true
 		widget.DrawNameScreen(widget.RivalName)
@@ -437,11 +453,11 @@ func afterChooseRivalName() {
 
 	switch {
 	case counter == 0:
-		util.WhiteScreen(store.TileMap)
+		screen.FillWhite()
 	case counter < 22:
-		util.ClearScreenArea(store.TileMap, 0, 4, 7, 20)
+		util.ClearScreenArea(OakSpeechScreen, 0, 4, 7, 20)
 		x := int(104-(counter/3)*8) / 8
-		drawImage(lectureImage.rival[5], x, centerY)
+		drawOakSpeechImage(lectureImage.rival[5], x, centerY)
 	case counter == 22:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.HisNameIsText, false)
@@ -459,11 +475,11 @@ func afterCustomRivalName() {
 		counter++
 	}()
 
-	util.WhiteScreen(store.TileMap)
+	screen.FillWhite()
 	switch {
 	case counter == 18:
 		reset = true
-		drawImage(lectureImage.rival[5], 7, centerY)
+		drawOakSpeechImage(lectureImage.rival[5], 7, centerY)
 		text.DoPrintTextScript(text.TextBoxImage, txt.HisNameIsText, false)
 		store.PushScriptID(store.LetsGoPlayer)
 	}
@@ -480,20 +496,26 @@ func letsGoPlayer() {
 	}()
 
 	switch {
-	case counter <= 10:
-		util.WhiteScreen(store.TileMap)
-	case counter <= 20:
-		drawImage(lectureImage.red[2], centerX, centerY)
-	case counter <= 30:
-		drawImage(lectureImage.red[2], centerX, centerY)
-	case counter <= 40:
-		drawImage(lectureImage.red[1], centerX, centerY)
-	case counter <= 50:
-		drawImage(lectureImage.red[1], centerX, centerY)
-	case counter <= 60:
-		drawImage(lectureImage.red[0], centerX, centerY)
-	case counter <= 70:
-		drawImage(lectureImage.red[0], centerX, centerY)
+	case counter == 0:
+		screen.FillWhite()
+	case counter == 10:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.red[2], centerX, centerY)
+	case counter == 20:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.red[2], centerX, centerY)
+	case counter == 30:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.red[1], centerX, centerY)
+	case counter == 40:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.red[1], centerX, centerY)
+	case counter == 50:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.red[0], centerX, centerY)
+	case counter == 60:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.red[0], centerX, centerY)
 	case counter == 80:
 		reset = true
 		text.DoPrintTextScript(text.TextBoxImage, txt.OakSpeechText3, false)
@@ -514,23 +536,30 @@ func shrinkPlayer() {
 	switch {
 	case counter == 0:
 		audio.PlaySound(audio.SFX_SHRINK)
-	case counter < 5:
-	case counter < 35:
-		drawImage(lectureImage.redShrink[0], centerX, centerY)
-	case counter < 65:
-		drawImage(lectureImage.redShrink[1], centerX, centerY)
-	case counter < 95:
-		drawImage(lectureImage.redShrink[2], centerX, centerY)
-	case counter < 125:
-		drawImage(lectureImage.redSprite[0], centerX, centerY)
-	case counter < 140:
-		drawImage(lectureImage.redSprite[1], centerX, centerY)
-	case counter < 155:
-		drawImage(lectureImage.redSprite[2], centerX, centerY)
-	case counter < 205:
-		util.WhiteScreen(store.TileMap)
+	case counter == 5:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.redShrink[0], centerX, centerY)
+	case counter == 35:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.redShrink[1], centerX, centerY)
+	case counter == 65:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.redShrink[2], centerX, centerY)
+	case counter == 96:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.redSprite[0], centerX, centerY)
+	case counter == 125:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.redSprite[1], centerX, centerY)
+	case counter == 140:
+		OakSpeechScreen = util.NewImage()
+		drawOakSpeechImage(lectureImage.redSprite[2], centerX, centerY)
+	case counter == 155:
+		OakSpeechScreen = util.NewImage()
+		screen.FillWhite()
 	case counter == 205:
 		reset = true
+		OakSpeechScreen = nil
 		InitializeOverworld()
 	}
 }

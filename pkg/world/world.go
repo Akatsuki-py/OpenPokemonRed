@@ -6,6 +6,7 @@ import (
 	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/data/worldmap/object"
 	"pokered/pkg/data/worldmap/song"
+	"pokered/pkg/screen"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 
@@ -125,7 +126,7 @@ func VBlank(XCoord, YCoord, deltaX, deltaY, walkCounter int, direction uint) {
 		x -= deltaX * (16 - walkCounter)
 		y -= deltaY * (16 - walkCounter)
 	}
-	util.DrawImagePixel(store.TileMap, CurWorld.Image, x, y)
+	screen.AddLayer("overworld", screen.World, CurWorld.Image, x, y)
 }
 
 func DrawImageBlock(target *ebiten.Image, blockID byte, x, y int) {

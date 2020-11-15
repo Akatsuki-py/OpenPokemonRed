@@ -1,19 +1,18 @@
 package widget
 
 import (
-	"pokered/pkg/store"
-	"pokered/pkg/util"
+	"pokered/pkg/screen"
 )
 
 // VBlank script executed in VBlank
 func VBlank() {
 	if trainerCard != nil {
-		util.DrawImage(store.TileMap, trainerCard, 0, 0)
+		screen.AddLayerOnTop("widget/trainercard", trainerCard, 0, 0)
 	}
 	if name.screen != nil {
-		util.DrawImage(store.TileMap, name.screen, 0, 0)
+		screen.AddLayerOnTop("widget/name", name.screen, 0, 0)
 	}
 	if partyMenu != nil {
-		util.DrawImage(store.TileMap, partyMenu, 0, 0)
+		screen.AddLayerOnTop("widget/partymenu", partyMenu, 0, 0)
 	}
 }

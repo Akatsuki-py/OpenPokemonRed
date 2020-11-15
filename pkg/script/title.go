@@ -10,6 +10,7 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/palette"
+	"pokered/pkg/screen"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
@@ -22,6 +23,8 @@ import (
 const (
 	blankHeight int = 32 // 0-31 112-143
 )
+
+var TitleScreen *ebiten.Image
 
 var (
 	copyrightCounter int
@@ -108,15 +111,18 @@ var introNidorinoAnimation7 = [...][2]int{
 }
 
 func titleCopyright() {
+	if TitleScreen == nil {
+		TitleScreen = util.NewImage()
+	}
+
 	if copyrightImage == nil {
 		copyrightImage = util.NewImage()
-		util.WhiteScreen(copyrightImage)
 		text.PlaceStringAtOnce(copyrightImage, "Open#monRed", 1, 10)
 		text.PlaceStringAtOnce(copyrightImage, "This is a fan proj.", 1, 13)
 		text.PlaceStringAtOnce(copyrightImage, "Plz support the", 1, 15)
 		text.PlaceStringAtOnce(copyrightImage, "official one.", 1, 16)
 	}
-	util.DrawImage(store.TileMap, copyrightImage, 0, 0)
+	util.DrawImage(TitleScreen, copyrightImage, 0, 0)
 
 	if copyrightCounter == 180 {
 		copyrightCounter = 0
@@ -131,7 +137,7 @@ func titleBlank() {
 		util.BlackScreen(blankImage)
 		util.ClearScreenArea(blankImage, 0, 4, 10, 20)
 	}
-	util.DrawImage(store.TileMap, blankImage, 0, 0)
+	util.DrawImage(TitleScreen, blankImage, 0, 0)
 
 	switch {
 	case blankCounter == 64:
@@ -142,7 +148,7 @@ func titleBlank() {
 		ctr := blankCounter - 65
 		x, y := 152-4*ctr, -16+4*ctr
 		if x >= 0 || y <= 144 {
-			util.DrawImagePixel(store.TileMap, star, x, y)
+			util.DrawImagePixel(TitleScreen, star, x, y)
 		}
 
 		if checkForUserInterruption() {
@@ -162,7 +168,7 @@ func titleIntroScene() {
 		audio.PlayMusic(audio.MUSIC_INTRO_TITLE)
 	}
 
-	util.WhiteScreen(store.TileMap)
+	screen.FillWhite()
 
 	switch {
 	case introCounter < 80:
@@ -254,12 +260,12 @@ func titleIntroScene() {
 		nidorinoLunge(519)
 	}
 
-	util.DrawImagePixel(store.TileMap, nidorino, nidorinoX, nidorinoY)
-	util.DrawImagePixel(store.TileMap, gengar, gengarX, gengarY)
+	util.DrawImagePixel(TitleScreen, nidorino, nidorinoX, nidorinoY)
+	util.DrawImagePixel(TitleScreen, gengar, gengarX, gengarY)
 
 	// upper and lower black belt
-	util.BlackScreenArea(store.TileMap, 0, 0, 4, 20)
-	util.BlackScreenArea(store.TileMap, 0, 14, 4, 20)
+	util.BlackScreenArea(TitleScreen, 0, 0, 4, 20)
+	util.BlackScreenArea(TitleScreen, 0, 14, 4, 20)
 
 	if introCounter == 539 {
 		fadeOutToTitle()
@@ -375,7 +381,7 @@ func fadeOutToTitle() {
 
 func titleWhiteOut() {
 	palette.LoadGBPal()
-	util.WhiteScreen(store.TileMap)
+	screen.FillWhite()
 	if whiteOutCounter == 20 {
 		store.SetScriptID(store.TitlePokemonRed)
 	}
@@ -394,13 +400,13 @@ func titlePokemonRed() {
 		util.WhiteScreen(title.img)
 		text.PlaceStringAtOnce(title.img, "Github: pokemium", 2, 17)
 	}
-	util.DrawImage(store.TileMap, title.img, 0, 0)
+	util.DrawImage(TitleScreen, title.img, 0, 0)
 
 	bounceLogo()
 	slideVersion()
 
-	util.DrawImage(store.TileMap, title.mon, 5, 10)
-	util.DrawImagePixel(store.TileMap, title.redWithBall, 82, 80)
+	util.DrawImage(TitleScreen, title.mon, 5, 10)
+	util.DrawImagePixel(TitleScreen, title.redWithBall, 82, 80)
 
 	title.counter++
 
@@ -447,7 +453,7 @@ func bounceLogo() {
 		counter := title.counter - 30
 		logoY = 10 - counter
 	}
-	util.DrawImagePixel(store.TileMap, title.logo, 2*8, logoY)
+	util.DrawImagePixel(TitleScreen, title.logo, 2*8, logoY)
 }
 
 func slideVersion() {
@@ -463,7 +469,7 @@ func slideVersion() {
 		versionX = 136 - counter*4
 	}
 
-	util.DrawImagePixel(store.TileMap, title.redVersion, versionX, 8*8)
+	util.DrawImagePixel(TitleScreen, title.redVersion, versionX, 8*8)
 }
 
 func initTilesets(fs http.FileSystem) {
@@ -502,7 +508,7 @@ func checkForUserInterruption() bool {
 
 func titleMenu() {
 	store.SetScriptID(store.TitleMenu2)
-	util.WhiteScreen(store.TileMap)
+	screen.FillWhite()
 	height := 3 * 2
 	elm := []string{
 		"CONTINUE",
