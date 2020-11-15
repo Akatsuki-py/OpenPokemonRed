@@ -9,11 +9,3 @@ var FadeCounter int = 0
 
 // TileMap c3a0
 var TileMap = ebiten.NewImage(8*20, 8*18)
-
-type Layer struct {
-	Name  string
-	Z     int
-	Image *ebiten.Image
-}
-
-var Layers = []Layer{}
