@@ -147,3 +147,7 @@ func drawPartyMonGen1(icon, index uint, y util.Tile) {
 	iconImage := pkmn.IconGen1[icon][index]
 	util.DrawImage(partyMenu, iconImage, 1, y)
 }
+
+func PartyMonOffset() uint {
+	return partyMenuCurrent
+}

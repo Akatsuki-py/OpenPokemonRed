@@ -15,8 +15,6 @@ import (
 	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
-var counter uint
-
 const (
 	centerX, centerY = 6, 4
 )

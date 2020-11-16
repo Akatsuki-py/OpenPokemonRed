@@ -5,9 +5,12 @@ import (
 	"pokered/pkg/menu"
 	"pokered/pkg/screen"
 	"pokered/pkg/store"
+	"pokered/pkg/text"
 	"pokered/pkg/util"
 	"pokered/pkg/widget"
 )
+
+var MonOffset int = -1
 
 func widgetStartMenu() {
 	store.SetScriptID(store.WidgetStartMenu2)
@@ -97,6 +100,7 @@ func widgetPartyMenu() {
 
 	switch {
 	case pressed.A:
+		MonOffset = int(widget.PartyMonOffset())
 		store.SetScriptID(store.WidgetPartyMenuSelect)
 		width, height := 7, 5
 		elm := []string{
@@ -118,13 +122,43 @@ func widgetPartyMenuSelect() {
 	case pressed.A:
 		switch m.Item() {
 		case "STATS":
+			m.Close()
+			store.SetScriptID(store.WidgetStats)
 		case "SWITCH":
 		case menu.Cancel:
 			m.Close()
+			MonOffset = -1
 			store.SetScriptID(store.WidgetPartyMenu)
 		}
 	case pressed.B:
 		m.Close()
+		MonOffset = -1
 		store.SetScriptID(store.WidgetPartyMenu)
+	}
+}
+
+// ref: StatusScreen, StatusScreen2
+func widgetStats() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter == 0:
+		widget.InitStatusScreen(MonOffset)
+	case counter == 10:
+		widget.RenderStatusScreen1()
+	case counter == 13:
+		widget.RenderStatusScreen2()
+	case counter > 13:
+		if text.WaitForTextScrollButtonPress() {
+			reset = true
+			store.SetScriptID(store.WidgetPartyMenu)
+		}
 	}
 }

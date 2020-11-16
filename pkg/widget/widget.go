@@ -15,4 +15,7 @@ func VBlank() {
 	if partyMenu != nil {
 		screen.AddLayer("widget/partymenu", screen.Widget, partyMenu, 0, 0)
 	}
+	if statusScreen != nil {
+		screen.AddLayerOnTop("widget/status", statusScreen, 0, 0)
+	}
 }

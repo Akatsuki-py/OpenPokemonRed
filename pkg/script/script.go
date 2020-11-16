@@ -8,6 +8,9 @@ import (
 	"pokered/pkg/world"
 )
 
+// general counter used in various functions
+var counter uint
+
 // ScriptMap script ID -> script
 var scriptMap = newScriptMap()
 
@@ -23,6 +26,7 @@ func newScriptMap() map[uint]func() {
 	result[store.WidgetRivalNamingScreen] = widgetRivalNamingScreen
 	result[store.WidgetPartyMenu] = widgetPartyMenu
 	result[store.WidgetPartyMenuSelect] = widgetPartyMenuSelect
+	result[store.WidgetStats] = widgetStats
 	result[store.FadeOutToBlack] = fadeOutToBlack
 	result[store.FadeOutToWhite] = fadeOutToWhite
 	result[store.LoadMapData] = loadMapData

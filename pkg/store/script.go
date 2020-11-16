@@ -11,6 +11,7 @@ const (
 	WidgetNickNamingScreen
 	WidgetPartyMenu
 	WidgetPartyMenuSelect
+	WidgetStats
 	FadeOutToBlack
 	FadeOutToWhite
 	LoadMapData

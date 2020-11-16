@@ -52,6 +52,8 @@ type BoxMon struct {
 	Exp       int
 	EVs       EVStat
 	DVs       DVStat
+	OTName    string
+	Nick      string
 }
 
 // EVStat Effort Value Japanees:努力値
@@ -94,8 +96,6 @@ type PartyMon struct {
 	Speed   uint
 	SpAtk   uint
 	SpDef   uint
-	OTName  string
-	Nick    string
 }
 
 // PartyMons party mon data in game
@@ -126,6 +126,8 @@ func defaultPartyMon() *PartyMon {
 			Exp:       205,
 			EVs:       EVStat{},
 			DVs:       DVStat{},
+			OTName:    "RED",
+			Nick:      "CHARMANDER",
 		},
 		Level:   6,
 		MaxHP:   22,
@@ -133,7 +135,5 @@ func defaultPartyMon() *PartyMon {
 		Defense: 11,
 		Speed:   13,
 		SpAtk:   11,
-		OTName:  "RED",
-		Nick:    "CHARMANDER",
 	}
 }

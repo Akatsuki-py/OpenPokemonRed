@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"image/color"
 	"image/png"
 	"math/rand"
@@ -129,5 +130,22 @@ func OpenImage(fs http.FileSystem, path string) *ebiten.Image {
 
 	img, _ := png.Decode(f)
 	result := ebiten.NewImageFromImage(img)
+	return result
+}
+
+func ZeroPadding(num interface{}, digit int) string {
+	result, paddingLength := "", digit
+	switch n := num.(type) {
+	case int, uint:
+		result = fmt.Sprintf("%d", n)
+		paddingLength = digit - len(result)
+	case string:
+		result = n
+		paddingLength = digit - len(n)
+	}
+
+	for i := 0; i < paddingLength; i++ {
+		result += "0"
+	}
 	return result
 }

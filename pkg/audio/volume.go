@@ -37,8 +37,8 @@ func decrementVolume() {
 	}
 }
 
-// pokedex, status,
-func reduceVolume() {
+// ReduceVolume pokedex, status,
+func ReduceVolume() {
 	setVolume(widgetVol)
 }
 
