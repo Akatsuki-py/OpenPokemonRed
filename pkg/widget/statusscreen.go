@@ -3,6 +3,7 @@ package widget
 import (
 	"fmt"
 	"pokered/pkg/data/pkmnd"
+	"pokered/pkg/pkmn"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
@@ -30,7 +31,7 @@ func DrawHP(target *ebiten.Image, hp, maxHP uint, x, y util.Tile, isRight bool) 
 	if isRight {
 		x += 9
 	} else {
-		x += 2
+		x++
 		y++
 	}
 
@@ -109,9 +110,23 @@ func RenderStatusScreen1() {
 
 	text.PlaceStringAtOnce(statusScreen, mon.Nick, 9, 1)
 	text.PlaceStringAtOnce(statusScreen, mon.OTName, 12, 16)
-	text.PlaceStringAtOnce(statusScreen, util.ZeroPadding(mon.OTID, 5), 12, 14)
+	text.PlaceStringAtOnce(statusScreen, util.Padding(mon.OTID, 5, "0"), 12, 14)
+
+	base := pkmnd.BaseStatsGen1(mon.ID)
+	atk := pkmn.CalcStat(base.Attack, mon.DVs.Attack, mon.EVs.Attack, mon.BoxLevel)
+	text.PlaceStringAtOnce(statusScreen, util.Padding(atk, 3, " "), 6, 10)
+	def := pkmn.CalcStat(base.Defense, mon.DVs.Defense, mon.EVs.Defense, mon.BoxLevel)
+	text.PlaceStringAtOnce(statusScreen, util.Padding(def, 3, " "), 6, 12)
+	spd := pkmn.CalcStat(base.Speed, mon.DVs.Speed, mon.EVs.Speed, mon.BoxLevel)
+	text.PlaceStringAtOnce(statusScreen, util.Padding(spd, 3, " "), 6, 14)
+	sp := pkmn.CalcStat(base.Special, mon.DVs.SpAtk, mon.EVs.SpAtk, mon.BoxLevel)
+	text.PlaceStringAtOnce(statusScreen, util.Padding(sp, 3, " "), 6, 16)
 }
 
-func RenderStatusScreen2() {
+func RenderPokemonAndCryOnStatusScreen1() {
 
+}
+
+func CloseStatusScreen() {
+	statusScreen = nil
 }

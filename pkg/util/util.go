@@ -133,7 +133,7 @@ func OpenImage(fs http.FileSystem, path string) *ebiten.Image {
 	return result
 }
 
-func ZeroPadding(num interface{}, digit int) string {
+func Padding(num interface{}, digit int, char string) string {
 	result, paddingLength := "", digit
 	switch n := num.(type) {
 	case int, uint:
@@ -145,7 +145,7 @@ func ZeroPadding(num interface{}, digit int) string {
 	}
 
 	for i := 0; i < paddingLength; i++ {
-		result += "0"
+		result = char + result
 	}
 	return result
 }

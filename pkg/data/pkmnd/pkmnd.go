@@ -171,13 +171,21 @@ const (
 	WaterMon
 )
 
-type stat struct {
+type StatsGen1 struct {
+	HP      uint
+	Attack  uint
+	Defense uint
+	Speed   uint
+	Special uint
+}
+
+type Stats struct {
 	HP      uint
 	Attack  uint
 	Defense uint
 	Speed   uint
 	SpAtk   uint
-	SpDef   uint // unused in gen1
+	SpDef   uint
 }
 
 // Name get name from PokemonID

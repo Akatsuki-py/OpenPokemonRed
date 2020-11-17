@@ -154,10 +154,11 @@ func widgetStats() {
 	case counter == 10:
 		widget.RenderStatusScreen1()
 	case counter == 13:
-		widget.RenderStatusScreen2()
+		widget.RenderPokemonAndCryOnStatusScreen1()
 	case counter > 13:
 		if text.WaitForTextScrollButtonPress() {
 			reset = true
+			widget.CloseStatusScreen()
 			store.SetScriptID(store.WidgetPartyMenu)
 		}
 	}
