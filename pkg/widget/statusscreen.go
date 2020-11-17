@@ -2,6 +2,7 @@ package widget
 
 import (
 	"fmt"
+	"pokered/pkg/audio"
 	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/pkmn"
 	"pokered/pkg/store"
@@ -124,7 +125,9 @@ func RenderStatusScreen1() {
 }
 
 func RenderPokemonAndCryOnStatusScreen1() {
-
+	pic := pkmn.Picture(targetMon.ID, true)
+	util.DrawImage(statusScreen, pic, 1, 0)
+	audio.Cry(targetMon.ID)
 }
 
 func CloseStatusScreen() {

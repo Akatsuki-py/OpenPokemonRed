@@ -153,9 +153,9 @@ func widgetStats() {
 		widget.InitStatusScreen(MonOffset)
 	case counter == 10:
 		widget.RenderStatusScreen1()
-	case counter == 13:
+	case counter == 50:
 		widget.RenderPokemonAndCryOnStatusScreen1()
-	case counter > 13:
+	case counter > 50:
 		if text.WaitForTextScrollButtonPress() {
 			reset = true
 			widget.CloseStatusScreen()

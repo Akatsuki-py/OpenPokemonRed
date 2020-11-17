@@ -149,3 +149,15 @@ func Padding(num interface{}, digit int, char string) string {
 	}
 	return result
 }
+
+func FlipTD(op *ebiten.DrawImageOptions, x, y int) {
+	op.GeoM.Translate(-float64(x/2), -float64(y/2))
+	op.GeoM.Scale(1, -1) // Left-right
+	op.GeoM.Translate(float64(x/2), float64(y/2))
+}
+
+func FlipLR(op *ebiten.DrawImageOptions, x, y int) {
+	op.GeoM.Translate(-float64(x/2), -float64(y/2))
+	op.GeoM.Scale(-1, 1) // Left-right
+	op.GeoM.Translate(float64(x/2), float64(y/2))
+}

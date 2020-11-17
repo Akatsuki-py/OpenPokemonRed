@@ -100,3 +100,18 @@ func PlaySound(soundID uint) {
 		sound.player.Play()
 	}
 }
+
+// Cry play pokemon cry
+func Cry(id uint) {
+	path := "/" + util.Padding(id, 3, "0") + "Cry.wav"
+	sound := newWav(store.FS, path)
+	if sound == nil {
+		return
+	}
+	if sound.player.IsPlaying() {
+		sound.player.Seek(0)
+	} else {
+		sound.player.Seek(0)
+		sound.player.Play()
+	}
+}
