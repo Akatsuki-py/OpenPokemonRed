@@ -130,6 +130,15 @@ func RenderPokemonAndCryOnStatusScreen1() {
 	audio.Cry(targetMon.ID)
 }
 
+func RenderStatusScreen2() {
+	mon := targetMon
+	frame := util.OpenImage(store.FS, statusFrame2)
+	util.DrawImage(statusScreen, frame, 0, 0)
+
+	pic := pkmn.Picture(mon.ID, true)
+	util.DrawImage(statusScreen, pic, 1, 0)
+}
+
 func CloseStatusScreen() {
 	statusScreen = nil
 }

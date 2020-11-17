@@ -137,7 +137,7 @@ func widgetPartyMenuSelect() {
 	}
 }
 
-// ref: StatusScreen, StatusScreen2
+// ref: StatusScreen
 func widgetStats() {
 	reset := false
 	defer func() {
@@ -156,6 +156,29 @@ func widgetStats() {
 	case counter == 50:
 		widget.RenderPokemonAndCryOnStatusScreen1()
 	case counter > 50:
+		if text.WaitForTextScrollButtonPress() {
+			reset = true
+			store.SetScriptID(store.WidgetStats2)
+		}
+	}
+}
+
+// ref: StatusScreen2
+func widgetStats2() {
+	reset := false
+	defer func() {
+		if reset {
+			counter = 0
+			return
+		}
+		counter++
+	}()
+
+	switch {
+	case counter == 0:
+	case counter == 10:
+		widget.RenderStatusScreen2()
+	case counter > 10:
 		if text.WaitForTextScrollButtonPress() {
 			reset = true
 			widget.CloseStatusScreen()

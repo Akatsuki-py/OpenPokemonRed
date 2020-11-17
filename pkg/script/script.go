@@ -27,6 +27,7 @@ func newScriptMap() map[uint]func() {
 	result[store.WidgetPartyMenu] = widgetPartyMenu
 	result[store.WidgetPartyMenuSelect] = widgetPartyMenuSelect
 	result[store.WidgetStats] = widgetStats
+	result[store.WidgetStats2] = widgetStats2
 	result[store.FadeOutToBlack] = fadeOutToBlack
 	result[store.FadeOutToWhite] = fadeOutToWhite
 	result[store.LoadMapData] = loadMapData

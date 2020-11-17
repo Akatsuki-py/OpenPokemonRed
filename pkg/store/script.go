@@ -12,6 +12,7 @@ const (
 	WidgetPartyMenu
 	WidgetPartyMenuSelect
 	WidgetStats
+	WidgetStats2
 	FadeOutToBlack
 	FadeOutToWhite
 	LoadMapData
