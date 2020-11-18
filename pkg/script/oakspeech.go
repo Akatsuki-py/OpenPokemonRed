@@ -3,6 +3,7 @@ package script
 import (
 	"fmt"
 	"pokered/pkg/audio"
+	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/data/txt"
 	"pokered/pkg/menu"
 	"pokered/pkg/palette"
@@ -162,7 +163,7 @@ func oakSpeech2() {
 	switch {
 	case counter < 33:
 		if counter == 0 {
-			audio.PlaySound(audio.SFX_CRY_NIDORINO)
+			audio.Cry(pkmnd.NIDORINO)
 		}
 	case counter == 33:
 		reset = true

@@ -2,7 +2,6 @@ package audio
 
 import (
 	"pokered/pkg/store"
-	"pokered/pkg/util"
 
 	"github.com/hajimehoshi/ebiten/v2/audio"
 )
@@ -38,7 +37,7 @@ func FadeOutAudio() {
 	}()
 
 	if FadeOut.Control == 0 {
-		if util.ReadBit(store.D72C, 1) {
+		if store.Flag.D72C.DisturbAudioFadeout {
 			return
 		}
 		setVolumeMax()

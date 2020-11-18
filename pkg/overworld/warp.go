@@ -27,9 +27,9 @@ func checkWarpsNoCollision() {
 	}
 	for _, w := range curWorld.Object.Warps {
 		if p.MapXCoord == w.XCoord && p.MapYCoord == w.YCoord {
-			util.SetBit(&store.D736, 2)
-			if store.Enable.NormalWarp && sprite.IsStandingOnDoorOrWarp(0) {
-				store.Enable.NormalWarp = false
+			store.Flag.D736.OnWarp = true
+			if store.Flag.Enable.NormalWarp && sprite.IsStandingOnDoorOrWarp(0) {
+				store.Flag.Enable.NormalWarp = false
 				warpFound(w.DestMap, w.DestWarpID)
 				return
 			}

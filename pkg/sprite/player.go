@@ -142,7 +142,7 @@ func CollisionCheckForPlayer() bool {
 		return false
 	}
 
-	if util.ReadBit(store.D736, 6) {
+	if store.Flag.D736.InLedgeOrFishingAnim {
 		return false
 	}
 
@@ -200,7 +200,7 @@ func CollisionCheckForPlayer() bool {
 
 // HandleLedges 段差飛び降りできるかチェックして、飛び降りれるなら飛び降りる処理(キー入力の強制や飛び降りモーションアニメの再生)を行う
 func HandleLedges() bool {
-	if util.ReadBit(store.D736, 6) {
+	if store.Flag.D736.InLedgeOrFishingAnim {
 		return false
 	}
 
@@ -210,7 +210,7 @@ func HandleLedges() bool {
 
 	result := isJumpingLedge(0)
 	if result {
-		util.SetBit(&store.D736, 6)
+		store.Flag.D736.InLedgeOrFishingAnim = true
 		audio.PlaySound(audio.SFX_LEDGE)
 	}
 	return result
@@ -239,7 +239,7 @@ func HandleMidJump() {
 	joypad.JoyHeld, joypad.JoyPressed, joypad.JoyReleased, joypad.JoyIgnore = joypad.Input{}, joypad.Input{}, joypad.Input{}, joypad.Input{}
 	ledgeJumpCounter = 0
 	p.AnimationFrame = 0
-	util.ResBit(&store.D736, 6)
+	store.Flag.D736.InLedgeOrFishingAnim = false
 }
 
 // IsPlayerFacingEdgeOfMap check player faces edge of the current map

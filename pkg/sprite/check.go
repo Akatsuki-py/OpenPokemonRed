@@ -18,11 +18,11 @@ func IsStandingOnDoorOrWarp(offset int) bool {
 			}
 		}
 
-		util.ResBit(&store.D736, 2)
+		store.Flag.D736.OnWarp = false
 		return true
 	}
 	if isStandingOnWarp(offset) {
-		util.ResBit(&store.D736, 2)
+		store.Flag.D736.OnWarp = false
 		return true
 	}
 

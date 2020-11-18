@@ -22,7 +22,7 @@ func ExecOverworld() {
 
 	palette.LoadGBPal()
 
-	if util.ReadBit(store.D736, 6) {
+	if store.Flag.D736.InLedgeOrFishingAnim {
 		sprite.HandleMidJump()
 	}
 
@@ -32,7 +32,7 @@ func ExecOverworld() {
 
 		if p.WalkCounter == 0 {
 			if (p.DeltaX + p.DeltaY) != 0 {
-				store.Enable.NormalWarp = true
+				store.Flag.Enable.NormalWarp = true
 			}
 		}
 	} else {
@@ -46,6 +46,7 @@ func ExecOverworld() {
 			return
 		case joypad.JoyPressed.A:
 			if offset := sprite.GetFrontSpriteOrSign(0); offset > 0 {
+				sprite.MakeNPCFacePlayer(uint(offset))
 				displayDialogue(offset)
 				return
 			}

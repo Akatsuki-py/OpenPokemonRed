@@ -6,7 +6,6 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/screen"
 	"pokered/pkg/store"
-	"pokered/pkg/util"
 	"sort"
 )
 
@@ -70,7 +69,7 @@ func HandleMenuInput(current, maxItem uint, wrap bool) uint {
 	}
 
 	if joypad.Joy5.A || joypad.Joy5.B {
-		if !util.ReadBit(store.CD60, 5) {
+		if !store.Flag.CD60.DontPlayMenuSound {
 			audio.PlaySound(audio.SFX_PRESS_AB)
 		}
 	}

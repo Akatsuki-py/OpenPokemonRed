@@ -86,7 +86,7 @@ func (l *ListMenu) Item() string {
 // NewListMenuID initialize list menu
 func NewListMenuID(id ListMenuID, elm []string) {
 	image := util.NewImage()
-	util.SetBit(&store.D730, 6)
+	store.Flag.D730.DelayText = false
 	text.DisplayTextBoxID(image, text.LIST_MENU_BOX)
 	CurListMenu = ListMenu{
 		ID:    id,

@@ -20,7 +20,7 @@ var RedsHouse1F = &Object{
 	},
 
 	Sprites: []Sprite{
-		{sprdata.SPRITE_MOM, 5, 4, [2]byte{util.Stay, byte(util.Left)}, 1},
+		{sprdata.SPRITE_MOM, 5, 4, [2]byte{util.Stay, byte(util.Left)}, 0},
 	},
 
 	WarpTos: []WarpTo{
