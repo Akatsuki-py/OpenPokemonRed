@@ -6,6 +6,9 @@ import (
 	"github.com/rakyll/statik/fs"
 )
 
+var Palette int = 5
+var FadeCounter int = 0
+
 // FS statik filesystem
 var FS, _ = fs.New()
 

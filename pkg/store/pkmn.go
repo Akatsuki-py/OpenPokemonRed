@@ -4,35 +4,6 @@ import (
 	"pokered/pkg/data/pkmnd"
 )
 
-// NonVolatileStatus type for non-volatile statuses
-type NonVolatileStatus uint
-
-// non-volatile statuses
-const (
-	OK  NonVolatileStatus = 0
-	Psn NonVolatileStatus = 3
-	Brn NonVolatileStatus = 4
-	Frz NonVolatileStatus = 5
-	Par NonVolatileStatus = 6
-	Slp NonVolatileStatus = 7
-)
-
-func (n *NonVolatileStatus) String() string {
-	switch *n {
-	case Psn:
-		return "PSN"
-	case Brn:
-		return "BRN"
-	case Frz:
-		return "FRZ"
-	case Par:
-		return "PAR"
-	case Slp:
-		return "SLP"
-	}
-	return ""
-}
-
 // Move data stored in pokemon move slot
 type Move struct {
 	ID uint
@@ -44,7 +15,7 @@ type BoxMon struct {
 	ID        uint
 	HP        uint
 	BoxLevel  uint
-	Status    NonVolatileStatus
+	Status    pkmnd.NonVolatileStatus
 	Type      [2]uint
 	CatchRate byte
 	Moves     [4]Move
@@ -56,7 +27,7 @@ type BoxMon struct {
 	Nick      string
 }
 
-// EVStat Effort Value Japanees:努力値
+// EVStat Effort Value Japanese:努力値
 type EVStat struct {
 	HP      uint
 	Attack  uint
@@ -118,7 +89,7 @@ func defaultPartyMon() *PartyMon {
 			ID:        pkmnd.CHARMANDER,
 			HP:        22,
 			BoxLevel:  6,
-			Status:    OK,
+			Status:    pkmnd.OK,
 			Type:      [2]uint{pkmnd.Fire},
 			CatchRate: 255,
 			Moves:     [4]Move{}, // scratch growl
