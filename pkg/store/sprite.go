@@ -37,6 +37,7 @@ type Sprite struct {
 	DeltaX, DeltaY             int
 	RightHand                  bool // used to walk animation
 	TextID                     int
+	Hidden                     bool
 }
 
 // AnimationCounter getter for animation counter

@@ -153,6 +153,9 @@ func CollisionCheckForPlayer() bool {
 		if store.IsInvalidSprite(uint(offset)) {
 			break
 		}
+		if s.Hidden {
+			continue
+		}
 
 		switch p.Direction {
 		case util.Up:

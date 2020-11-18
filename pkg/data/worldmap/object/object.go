@@ -6,6 +6,11 @@ import (
 	"pokered/pkg/util"
 )
 
+const (
+	Hide int = 0x11
+	Show int = 0x15
+)
+
 // Object Map object data
 type Object struct {
 	// Border block
@@ -15,6 +20,7 @@ type Object struct {
 	Signs       []Sign
 	Sprites     []Sprite
 	WarpTos     []WarpTo
+	HS          map[int]bool // spriteID -> isHidden
 }
 
 // Warp this coord can warp to dest

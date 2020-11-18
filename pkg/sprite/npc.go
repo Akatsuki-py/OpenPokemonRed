@@ -170,7 +170,10 @@ func initializeSpriteStatus(offset uint) {
 
 func checkSpriteAvailability(offset uint) bool {
 	s := store.SpriteData[offset]
-	// TODO: IsObjectHidden
+	if s.Hidden {
+		DisableSprite(offset)
+		return false
+	}
 
 	// disable sprite when it is out of screen
 	if s.MovementBytes[0] >= util.Walk {

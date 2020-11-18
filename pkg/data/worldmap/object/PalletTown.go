@@ -35,4 +35,8 @@ var PalletTown = &Object{
 		{13, 5, palletTownWidth},
 		{12, 11, palletTownWidth},
 	},
+
+	HS: map[int]bool{
+		0x01: true,
+	},
 }

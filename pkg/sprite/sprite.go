@@ -34,13 +34,14 @@ func InitMapSprites() {
 		store.SpriteData[i] = nil
 	}
 	sprites := world.CurWorld.Object.Sprites
-	for _, s := range sprites {
-		addSprite(s.ID, s.XCoord, s.YCoord, s.MovementBytes, s.TextID)
+	for i, s := range sprites {
+		hidden := world.CurWorld.Object.HS[i+1]
+		addSprite(s.ID, s.XCoord, s.YCoord, s.MovementBytes, s.TextID, hidden)
 	}
 }
 
 // AddSprite add sprite into SpriteData
-func addSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte, textID int) {
+func addSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte, textID int, hidden bool) {
 	imgs := make([]*ebiten.Image, 10)
 	for i := 0; i < 10; i++ {
 		name := id.String()
@@ -76,6 +77,7 @@ func addSprite(id sprdata.SpriteID, x, y util.Coord, movementBytes [2]byte, text
 			Images: imgs,
 		},
 		TextID: textID,
+		Hidden: hidden,
 	}
 	store.SpriteData[n] = s
 }
@@ -266,8 +268,13 @@ func GetFrontSpriteOrSign(offset int) int {
 		if i == offset {
 			continue
 		}
+
 		if npc == nil {
 			return -1
+		}
+
+		if npc.Hidden {
+			continue
 		}
 
 		if xCoord == npc.MapXCoord && yCoord == npc.MapYCoord {

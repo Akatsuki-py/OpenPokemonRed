@@ -34,4 +34,9 @@ var OaksLab = &Object{
 		{4, 11, 5},
 		{5, 11, 5},
 	},
+
+	HS: map[int]bool{
+		0x05: true,
+		0x08: true,
+	},
 }

@@ -26,4 +26,8 @@ var BluesHouse = &Object{
 		{2, 7, 4},
 		{3, 7, 4},
 	},
+
+	HS: map[int]bool{
+		0x02: true,
+	},
 }
