@@ -146,8 +146,10 @@ func RenderStatusScreen2() {
 	text.PlaceUintAtOnce(statusScreen, uint(mon.Exp), 16, 4)
 
 	// LEVEL UP
-	text.PlaceStringAtOnce(statusScreen, util.Padding(0, 4, " "), 10, 6) // needed exp
-	PrintLevel(statusScreen, mon.BoxLevel+1, 16, 6)                      // next level
+	gr := pkmnd.Header(mon.ID).GrowthRate
+	neededExp := pkmn.CalcExpToLevelUp(mon.BoxLevel, uint(mon.Exp), gr)
+	text.PlaceStringAtOnce(statusScreen, util.Padding(neededExp, 5, " "), 9, 6) // needed exp
+	PrintLevel(statusScreen, mon.BoxLevel+1, 16, 6)                             // next level
 
 	// MOVE
 	pp := util.OpenImage(store.FS, "/pp.png")

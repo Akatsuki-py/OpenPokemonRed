@@ -27,3 +27,5 @@ const (
 	Walk            byte = 0xfe
 	Stay            byte = 0xff
 )
+
+const MaxLevel = 100

@@ -2,6 +2,16 @@ package pkmnd
 
 import "pokered/pkg/data/move"
 
+// growth rate
+const (
+	Exp600k  = iota + 1 // pred none
+	Exp800k             // pred 4
+	Exp1000k            // pred 0
+	Exp1050k            // pred 3
+	Exp1250k            // pred 5
+	Exp1640k            // pred none
+)
+
 // PHeader Pokemon Header
 type PHeader struct {
 	ID            uint
@@ -54,7 +64,7 @@ var AbraHeader = PHeader{
 	CatchRate:     200,
 	BaseExp:       73,
 	Lv0MoveIDs:    [4]uint{move.TELEPORT},
-	GrowthRate:    3,
+	GrowthRate:    Exp1050k,
 	Learnset:      []uint{},
 	Evos: []Evo{
 		{KADABRA, 16, 0, false},
@@ -72,7 +82,7 @@ var Bulbasaur = PHeader{
 	CatchRate:     45,
 	BaseExp:       64,
 	Lv0MoveIDs:    [4]uint{move.TACKLE, move.GROWL},
-	GrowthRate:    3,
+	GrowthRate:    Exp1050k,
 	Learnset:      []uint{},
 	Evos: []Evo{
 		{IVYSAUR, 16, 0, false},
@@ -98,7 +108,7 @@ var Charmander = PHeader{
 	CatchRate:     45,
 	BaseExp:       65,
 	Lv0MoveIDs:    [4]uint{move.SCRATCH, move.GROWL},
-	GrowthRate:    3,
+	GrowthRate:    Exp1050k,
 	Learnset:      []uint{},
 	Evos: []Evo{
 		{CHARMELEON, 16, 0, false},
