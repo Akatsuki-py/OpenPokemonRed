@@ -17,6 +17,7 @@ var scriptMap = newScriptMap()
 func newScriptMap() map[uint]func() {
 	result := map[uint]func(){}
 	result[store.Overworld] = halt
+	result[store.WhiteScreen] = whiteScreen
 	result[store.ExecText] = execText
 	result[store.WidgetStartMenu] = widgetStartMenu
 	result[store.WidgetStartMenu2] = widgetStartMenu2
@@ -187,6 +188,7 @@ func loadMapData() {
 	store.SetScriptID(store.Overworld)
 }
 
+// InOakSpeech returns if game mode is OakSpeech
 func InOakSpeech() bool {
 	scriptID := store.ScriptID()
 	inOakSpeechScript := scriptID >= store.WidgetPlayerNamingScreen && scriptID <= store.ShrinkPlayer
@@ -203,6 +205,7 @@ func InOakSpeech() bool {
 	return false
 }
 
+// InTitle returns if game mode is title
 func InTitle() bool {
 	scriptID := store.ScriptID()
 	return scriptID >= store.TitleCopyright && scriptID <= store.TitleMenu2

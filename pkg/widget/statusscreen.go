@@ -3,8 +3,10 @@ package widget
 import (
 	"fmt"
 	"pokered/pkg/audio"
+	"pokered/pkg/data/move"
 	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/pkmn"
+	"pokered/pkg/screen"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
@@ -137,8 +139,37 @@ func RenderStatusScreen2() {
 
 	pic := pkmn.Picture(mon.ID, true)
 	util.DrawImage(statusScreen, pic, 1, 0)
+	text.PlaceUintAtOnce(statusScreen, mon.ID, 3, 7)
+	text.PlaceStringAtOnce(statusScreen, mon.Nick, 9, 1)
+
+	// EXP POINTS
+	text.PlaceUintAtOnce(statusScreen, uint(mon.Exp), 16, 4)
+
+	// LEVEL UP
+	text.PlaceStringAtOnce(statusScreen, util.Padding(0, 4, " "), 10, 6) // needed exp
+	PrintLevel(statusScreen, mon.BoxLevel+1, 16, 6)                      // next level
+
+	// MOVE
+	pp := util.OpenImage(store.FS, "/pp.png")
+	for i, m := range mon.Moves {
+		y := 9 + i*2
+		// move name
+		name := move.Name(m.ID)
+		text.PlaceStringAtOnce(statusScreen, name, 2, y)
+
+		// "PP"
+		if m.ID == 0 {
+			text.PlaceStringAtOnce(statusScreen, "--", 11, y+1)
+		} else {
+			util.DrawImage(statusScreen, pp, 11, y+1)
+			text.PlaceUintAtOnce(statusScreen, m.CurPP, 14, y+1)
+			text.PlaceChar(statusScreen, "/", 16, y+1)
+			text.PlaceUintAtOnce(statusScreen, m.CurPP, 17, y+1)
+		}
+	}
 }
 
 func CloseStatusScreen() {
+	screen.FillWhite()
 	statusScreen = nil
 }

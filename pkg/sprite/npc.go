@@ -166,6 +166,9 @@ func tryWalking(offset uint, direction util.Direction, deltaX, deltaY int) bool 
 func initializeSpriteStatus(offset uint) {
 	s := store.SpriteData[offset]
 	s.MovmentStatus = OK
+	if s.Hidden {
+		DisableSprite(offset)
+	}
 }
 
 func checkSpriteAvailability(offset uint) bool {

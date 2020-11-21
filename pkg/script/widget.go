@@ -1,6 +1,7 @@
 package script
 
 import (
+	"pokered/pkg/audio"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/screen"
@@ -123,6 +124,7 @@ func widgetPartyMenuSelect() {
 		switch m.Item() {
 		case "STATS":
 			m.Close()
+			audio.ReduceVolume()
 			store.SetScriptID(store.WidgetStats)
 		case "SWITCH":
 		case menu.Cancel:
@@ -182,7 +184,9 @@ func widgetStats2() {
 		if text.WaitForTextScrollButtonPress() {
 			reset = true
 			widget.CloseStatusScreen()
-			store.SetScriptID(store.WidgetPartyMenu)
+			audio.SetVolumeMax()
+			DoWhiteScreen(30, false)
+			store.PushScriptID(store.WidgetPartyMenu)
 		}
 	}
 }

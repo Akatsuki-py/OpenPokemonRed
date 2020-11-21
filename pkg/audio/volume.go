@@ -21,7 +21,7 @@ func setVolume(v uint) {
 	volume = v
 }
 
-func setVolumeMax() {
+func SetVolumeMax() {
 	setVolume(maxVol)
 }
 

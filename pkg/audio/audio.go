@@ -40,7 +40,7 @@ func FadeOutAudio() {
 		if store.Flag.D72C.DisturbAudioFadeout {
 			return
 		}
-		setVolumeMax()
+		SetVolumeMax()
 	}
 
 	// fade out

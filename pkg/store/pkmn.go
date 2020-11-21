@@ -1,13 +1,15 @@
 package store
 
 import (
+	"pokered/pkg/data/move"
 	"pokered/pkg/data/pkmnd"
 )
 
 // Move data stored in pokemon move slot
 type Move struct {
-	ID uint
-	PP uint
+	ID    uint
+	CurPP uint // CurPP <= MaxPP
+	MaxPP uint // affected by PPUP
 }
 
 // BoxMon data of mon in box
@@ -92,13 +94,16 @@ func defaultPartyMon() *PartyMon {
 			Status:    pkmnd.OK,
 			Type:      [2]uint{pkmnd.Fire},
 			CatchRate: 255,
-			Moves:     [4]Move{}, // scratch growl
-			OTID:      48024,
-			Exp:       205,
-			EVs:       EVStat{},
-			DVs:       DVStat{},
-			OTName:    "RED",
-			Nick:      "CHARMANDER",
+			Moves: [4]Move{
+				{move.SCRATCH, 35, 35},
+				{move.GROWL, 40, 40},
+			}, // scratch growl
+			OTID:   48024,
+			Exp:    205,
+			EVs:    EVStat{},
+			DVs:    DVStat{},
+			OTName: "RED",
+			Nick:   "CHARMANDER",
 		},
 		Level:   6,
 		MaxHP:   22,

@@ -2,6 +2,7 @@ package store
 
 const (
 	Halt uint = iota
+	WhiteScreen
 	Overworld
 	ExecText
 	WidgetStartMenu
