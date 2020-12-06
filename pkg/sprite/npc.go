@@ -33,7 +33,42 @@ func UpdateNPCSprite(offset uint) {
 
 // DoScriptedNPCMovement update NPC sprite in "NPC movement script"
 func DoScriptedNPCMovement(offset uint) {
-	// TODO: implement
+	s := store.SpriteData[offset]
+
+	switch s.MovmentStatus {
+	case Movement:
+		updateSpriteInWalkingAnimation(offset)
+		return
+	}
+
+	direction := s.Simulated[0]
+	if len(s.Simulated) > 1 {
+		s.Simulated = s.Simulated[1:]
+	} else {
+		s.Simulated = []uint{}
+	}
+
+	var deltaX, deltaY int
+	switch direction {
+	case util.Up:
+		deltaX, deltaY = 0, -1
+	case util.Down:
+		deltaX, deltaY = 0, 1
+	case util.Left:
+		deltaX, deltaY = -1, 0
+	case util.Right:
+		deltaX, deltaY = 1, 0
+	}
+
+	s.Direction = direction
+
+	s.WalkCounter = 16
+	s.DeltaX, s.DeltaY = deltaX, deltaY
+
+	s.MapXCoord += deltaX
+	s.MapYCoord += deltaY
+
+	s.MovmentStatus = Movement
 }
 
 // If movement status is OK, try walking.
