@@ -19,8 +19,7 @@ type Header struct {
 	blk []byte
 
 	// Map Text data
-	Text []string
-
+	Text        []string
 	Connections Connections
 }
 

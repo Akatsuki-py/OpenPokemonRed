@@ -6,6 +6,8 @@ import (
 	"github.com/rakyll/statik/fs"
 )
 
+var CurMapScript int = 0
+
 var Palette int = 5
 var FadeCounter int = 0
 

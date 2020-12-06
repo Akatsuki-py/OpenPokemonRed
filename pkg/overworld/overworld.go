@@ -4,6 +4,7 @@ import (
 	"pokered/pkg/audio"
 	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/joypad"
+	"pokered/pkg/overworld/mscript"
 	"pokered/pkg/palette"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
@@ -47,7 +48,7 @@ func ExecOverworld() {
 		case joypad.JoyPressed.A:
 			if offset := sprite.GetFrontSpriteOrSign(0); offset > 0 {
 				sprite.MakeNPCFacePlayer(uint(offset))
-				displayDialogue(offset)
+				DisplayDialogue(offset)
 				return
 			}
 		case joypad.JoyHeld.Down:
@@ -119,8 +120,12 @@ func joypadOverworld() {
 
 // ref: RunMapScript
 func runMapScript() {
+	doBoulderAnimation()
 	runNPCMovementScript()
+	mscript.Run(world.CurWorld.MapID)
 }
+
+func doBoulderAnimation() {}
 
 // ref: RunNPCMovementScript
 func runNPCMovementScript() {
@@ -151,13 +156,13 @@ func loadWorldData(mapID, warpID int) {
 	}
 }
 
-func displayDialogue(offset int) {
+func DisplayDialogue(offset int) {
 	texts, textID := world.CurWorld.Header.Text, offset
 	text.DisplayTextID(text.TextBoxImage, texts, textID)
 	store.SetScriptID(store.ExecText)
 }
 
-// PlayDefaultMusic 主人公の状態に応じた BGM を流す
+// PlayDefaultMusic play BGM accroding to Player's state
 // ref: PlayDefaultMusic
 func PlayDefaultMusic(mapID int) {
 	musicID := song.MapMusics[mapID]

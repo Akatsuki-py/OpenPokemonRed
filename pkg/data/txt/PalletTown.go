@@ -1,7 +1,10 @@
 package txt
 
+var PalletTownText1 = `
+`
+
 var OakAppearsText = `
-OAK: Hey! Wait!
+${OakAppears}OAK: Hey! Wait!
 Don't go out!
 `
 
