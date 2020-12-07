@@ -13,6 +13,8 @@ const (
 	forceLeftRight byte = 0x02
 )
 
+var isNPCWalkFrame = true
+
 // NPCMovementDirections used for scripted NPC
 var NPCMovementDirections []byte
 
@@ -247,6 +249,13 @@ func updateSpriteMovementDelay(offset uint) {
 
 // increment animation counter
 func updateSpriteInWalkingAnimation(offset uint) {
+	defer func() {
+		isNPCWalkFrame = !isNPCWalkFrame
+	}()
+	if !isNPCWalkFrame {
+		return
+	}
+
 	s := store.SpriteData[offset]
 	s.ScreenXPixel += s.DeltaX
 	s.ScreenYPixel += s.DeltaY
