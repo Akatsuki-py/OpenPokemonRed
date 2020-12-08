@@ -6,6 +6,8 @@ import (
 	"github.com/rakyll/statik/fs"
 )
 
+var GameFrame uint = 0
+
 var CurMapScript int = 0
 
 var Palette int = 5

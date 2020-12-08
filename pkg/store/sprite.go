@@ -38,6 +38,7 @@ type Sprite struct {
 	RightHand                  bool // used to walk animation
 	TextID                     int
 	Hidden                     bool
+	DoubleSpd                  bool
 }
 
 // AnimationCounter getter for animation counter

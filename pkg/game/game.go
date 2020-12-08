@@ -20,20 +20,19 @@ import (
 
 // Game implements ebiten.Game interface.
 type Game struct {
-	frame uint
 }
 
 // Update proceeds the game state.
 func (g *Game) Update() error {
-	if g.frame == 0 {
+	if store.GameFrame == 0 {
 		// initialize()
 		initializeWorld()
 	}
 	exec()
 	vBlank()
-	g.frame++
+	store.GameFrame++
 
-	if g.frame%60 == 0 {
+	if store.GameFrame%60 == 0 {
 		second()
 	}
 
@@ -51,7 +50,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 	return 160, 144
 }
 func debug(g *Game, frame int) {
-	if frame >= 0 && int(g.frame) != frame {
+	if frame >= 0 && int(store.GameFrame) != frame {
 		return
 	}
 	{

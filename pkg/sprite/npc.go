@@ -13,8 +13,6 @@ const (
 	forceLeftRight byte = 0x02
 )
 
-var isNPCWalkFrame = true
-
 // NPCMovementDirections used for scripted NPC
 var NPCMovementDirections []byte
 
@@ -64,7 +62,7 @@ func DoScriptedNPCMovement(offset uint) {
 
 	s.Direction = direction
 
-	s.WalkCounter = 16
+	s.WalkCounter = 32
 	s.DeltaX, s.DeltaY = deltaX, deltaY
 
 	s.MapXCoord += deltaX
@@ -190,7 +188,7 @@ func tryWalking(offset uint, direction util.Direction, deltaX, deltaY int) bool 
 		return false
 	}
 
-	s.WalkCounter = 16
+	s.WalkCounter = 32
 	s.DeltaX, s.DeltaY = deltaX, deltaY
 
 	s.MapXCoord += deltaX
@@ -249,18 +247,22 @@ func updateSpriteMovementDelay(offset uint) {
 
 // increment animation counter
 func updateSpriteInWalkingAnimation(offset uint) {
-	defer func() {
-		isNPCWalkFrame = !isNPCWalkFrame
-	}()
-	if !isNPCWalkFrame {
-		return
+	s := store.SpriteData[offset]
+	s.WalkCounter--
+	if s.DoubleSpd {
+		s.WalkCounter--
 	}
 
-	s := store.SpriteData[offset]
-	s.ScreenXPixel += s.DeltaX
-	s.ScreenYPixel += s.DeltaY
+	if s.WalkCounter%2 == 0 {
+		s.ScreenXPixel += s.DeltaX
+		s.ScreenYPixel += s.DeltaY
+	}
 
-	s.WalkCounter--
+	if s.DoubleSpd && s.WalkCounter == 0 {
+		s.ScreenXPixel += s.DeltaX
+		s.ScreenYPixel += s.DeltaY
+	}
+
 	s.AnimationFrame++
 	if s.AnimationCounter() == 4 {
 		s.AnimationFrame = 0

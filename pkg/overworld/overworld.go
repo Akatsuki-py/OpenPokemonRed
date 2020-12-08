@@ -69,11 +69,9 @@ func ExecOverworld() {
 		directionPressed = h.Up || h.Down || h.Right || h.Left
 		if directionPressed {
 			p.WalkCounter = 16
-			sprite.UpdateSprites()
 			if sprite.CollisionCheckForPlayer() {
 				p.DeltaX, p.DeltaY = 0, 0
 			}
-			sprite.AdvancePlayerSprite()
 		} else {
 			sprite.UpdateSprites()
 			p.RightHand = false

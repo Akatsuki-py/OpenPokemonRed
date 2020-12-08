@@ -116,30 +116,11 @@ func UpdateSpriteImage(offset uint) {
 	index := 0
 	switch s.AnimationCounter() + uint(s.Direction) {
 	// down
-	case 0:
+	case 0, 3:
 		index = 1
-	case 1:
-		if offset == 0 {
-			index = 0
-			if s.RightHand {
-				index = 2
-			}
-		} else {
-			index = 0
-		}
-	case 2:
-		if offset == 0 {
-			index = 0
-			if s.RightHand {
-				index = 2
-			}
-		} else {
-			index = 1
-		}
-	case 3:
-		if offset == 0 {
-			index = 1
-		} else {
+	case 1, 2:
+		index = 0
+		if s.RightHand {
 			index = 2
 		}
 
@@ -147,59 +128,27 @@ func UpdateSpriteImage(offset uint) {
 	case 4:
 		index = 4
 	case 5:
-		if offset == 0 {
-			index = 3
-			if s.RightHand {
-				index = 5
-			}
-		} else {
-			index = 3
-		}
-	case 6:
-		if offset == 0 {
-			index = 3
-			if s.RightHand {
-				index = 5
-			}
-		} else {
-			index = 4
-		}
-	case 7:
-		if offset == 0 {
-			index = 4
-		} else {
+		index = 3
+		if s.RightHand {
 			index = 5
 		}
+	case 6:
+		index = 3
+		if s.RightHand {
+			index = 5
+		}
+	case 7:
+		index = 4
 
-	case 8:
+	case 8, 11:
 		index = 6
-	case 9:
+	case 9, 10:
 		index = 7
-	case 10:
-		index = 7
-		if offset != 0 {
-			index = 6
-		}
-	case 11:
-		index = 6
-		if offset != 0 {
-			index = 7
-		}
 
-	case 12:
+	case 12, 15:
 		index = 8
-	case 13:
+	case 13, 14:
 		index = 9
-	case 14:
-		index = 9
-		if offset != 0 {
-			index = 8
-		}
-	case 15:
-		index = 8
-		if offset != 0 {
-			index = 9
-		}
 	}
 
 	fontLoaded := text.FontLoaded()

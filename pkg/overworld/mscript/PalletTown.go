@@ -96,7 +96,30 @@ func palletTownScript3() {
 	}
 	text.DoPrintTextScript(text.TextBoxImage, txt.OakWalksUpText, false)
 	store.CurMapScript = 4
+
 }
-func palletTownScript4() {}
-func palletTownScript5() {}
+func palletTownScript4() {
+	p, oak := store.SpriteData[0], store.SpriteData[1]
+	oak.DoubleSpd = true
+	switch p.MapXCoord {
+	case 10:
+		p.Simulated = []uint{util.Down, util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down}
+		oak.Simulated = []uint{util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down}
+	case 11:
+		p.Simulated = []uint{uint(util.None), util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Left}
+		oak.Simulated = []uint{util.Left, uint(util.None), util.Down, util.Down, util.Down, util.Down, util.Down, util.Left}
+	}
+
+	store.CurMapScript = 5
+}
+func palletTownScript5() {
+	p, oak := store.SpriteData[0], store.SpriteData[1]
+	if len(p.Simulated) > 0 || p.MovmentStatus == sprite.Movement {
+		return
+	}
+	if len(oak.Simulated) > 0 || oak.MovmentStatus == sprite.Movement {
+		return
+	}
+	oak.DoubleSpd = false
+}
 func palletTownScript6() {}

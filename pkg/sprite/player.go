@@ -138,6 +138,9 @@ func CollisionCheckForPlayer() bool {
 	}()
 
 	p := store.SpriteData[0]
+	if len(p.Simulated) > 0 {
+		return false
+	}
 	if store.IsInvalidSprite(0) {
 		return false
 	}
