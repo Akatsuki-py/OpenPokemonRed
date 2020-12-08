@@ -101,13 +101,18 @@ func palletTownScript3() {
 func palletTownScript4() {
 	p, oak := store.SpriteData[0], store.SpriteData[1]
 	oak.DoubleSpd = true
+	simulated := []uint{util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Right, util.Right, util.Right, util.Up}
 	switch p.MapXCoord {
 	case 10:
-		p.Simulated = []uint{util.Down, util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down}
-		oak.Simulated = []uint{util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down}
+		copied := make([]uint, len(simulated))
+		copy(copied, simulated)
+		p.Simulated = append([]uint{util.Down}, copied...)
+		copied = make([]uint, len(simulated))
+		copy(copied, simulated)
+		oak.Simulated = copied
 	case 11:
-		p.Simulated = []uint{uint(util.None), util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Left}
-		oak.Simulated = []uint{util.Left, uint(util.None), util.Down, util.Down, util.Down, util.Down, util.Down, util.Left}
+		p.Simulated = []uint{uint(util.None), util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Down}
+		oak.Simulated = []uint{util.Left, uint(util.None), util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Down}
 	}
 
 	store.CurMapScript = 5

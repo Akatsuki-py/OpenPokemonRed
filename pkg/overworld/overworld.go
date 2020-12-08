@@ -98,6 +98,10 @@ func joypadOverworld() {
 	if len(p.Simulated) == 0 {
 		return
 	}
+	if len(p.Simulated) == 1 && p.Simulated[0] == uint(util.None) {
+		p.Simulated = []uint{}
+		return
+	}
 
 	switch p.Simulated[0] {
 	case util.Down:
@@ -113,7 +117,7 @@ func joypadOverworld() {
 		p.Simulated = p.Simulated[1:]
 		return
 	}
-	p.Simulated = []uint{}
+	p.Simulated = []uint{uint(util.None)}
 }
 
 // ref: RunMapScript

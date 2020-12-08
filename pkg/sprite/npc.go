@@ -69,6 +69,7 @@ func DoScriptedNPCMovement(offset uint) {
 	s.MapYCoord += deltaY
 
 	s.MovmentStatus = Movement
+	updateSpriteInWalkingAnimation(offset)
 }
 
 // If movement status is OK, try walking.
@@ -248,19 +249,15 @@ func updateSpriteMovementDelay(offset uint) {
 // increment animation counter
 func updateSpriteInWalkingAnimation(offset uint) {
 	s := store.SpriteData[offset]
-	s.WalkCounter--
-	if s.DoubleSpd {
-		s.WalkCounter--
-	}
 
 	if s.WalkCounter%2 == 0 {
 		s.ScreenXPixel += s.DeltaX
 		s.ScreenYPixel += s.DeltaY
 	}
 
-	if s.DoubleSpd && s.WalkCounter == 0 {
-		s.ScreenXPixel += s.DeltaX
-		s.ScreenYPixel += s.DeltaY
+	s.WalkCounter--
+	if s.DoubleSpd {
+		s.WalkCounter--
 	}
 
 	s.AnimationFrame++
