@@ -8,6 +8,7 @@ import (
 	"pokered/pkg/joypad"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
+	"pokered/pkg/text"
 	"pokered/pkg/util"
 )
 
@@ -33,6 +34,8 @@ func oaksLabScript() {
 		oaksLabScript3()
 	case 4:
 		oaksLabScript4()
+	case 5:
+		oaksLabScript5()
 	}
 }
 
@@ -97,6 +100,31 @@ func oaksLabScript4() {
 	store.CurMapScript = 5
 }
 
+var delay30FCtrInoaksLabScript5 = 0
+
 func oaksLabScript5() {
-	joypad.JoyIgnore = joypad.ByteToInput(0xfc)
+	switch delay30FCtrInoaksLabScript5 {
+	case 0:
+		joypad.JoyIgnore = joypad.ByteToInput(0xfc)
+
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText17, false)
+		store.DelayFrames = 30
+		delay30FCtrInoaksLabScript5++
+		return
+	case 1:
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText18, false)
+		store.DelayFrames = 30
+		delay30FCtrInoaksLabScript5++
+	case 2:
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText19, false)
+		store.DelayFrames = 30
+		delay30FCtrInoaksLabScript5++
+	case 3:
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText20, false)
+		store.DelayFrames = 30
+		delay30FCtrInoaksLabScript5++
+		event.UpdateEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON, true)
+		joypad.JoyIgnore = joypad.ByteToInput(0x00)
+		store.CurMapScript = 6
+	}
 }

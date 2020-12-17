@@ -57,7 +57,7 @@ Oh, that's right,
 I told you to
 come! Just wait!
 
-Here, <PLAYER>!
+Here, ${PLAYER}!
 
 There are 3
 #MON here!
