@@ -1,11 +1,25 @@
 package mscript
 
 import (
+	"pokered/pkg/audio"
+	"pokered/pkg/data/txt"
+	"pokered/pkg/data/worldmap"
 	"pokered/pkg/event"
+	"pokered/pkg/joypad"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
+
+func init() {
+	txt.RegisterAsmText("OaksLabText1", func() string {
+		if event.CheckEvent(event.EVENT_FOLLOWED_OAK_INTO_LAB_2) {
+			return txt.OaksLabText40
+		} else {
+			return txt.OaksLabGaryText1
+		}
+	})
+}
 
 func oaksLabScript() {
 	switch store.CurMapScript {
@@ -74,5 +88,15 @@ func oaksLabScript4() {
 
 	event.UpdateEvent(event.EVENT_FOLLOWED_OAK_INTO_LAB, true)
 	event.UpdateEvent(event.EVENT_FOLLOWED_OAK_INTO_LAB_2, true)
+
+	blue := store.SpriteData[1]
+	blue.Direction = util.Up
+
+	audio.PlayDefaultMusic(worldmap.OAKS_LAB)
+
 	store.CurMapScript = 5
+}
+
+func oaksLabScript5() {
+	joypad.JoyIgnore = joypad.ByteToInput(0xfc)
 }

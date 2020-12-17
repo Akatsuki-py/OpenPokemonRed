@@ -9,57 +9,9 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/audio/vorbis"
 
 	_ "pokered/pkg/data/statik"
+	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
-)
-
-const (
-	MUSIC_PALLET_TOWN int = iota + 1
-	MUSIC_POKECENTER
-	MUSIC_GYM
-	MUSIC_CITIES1
-	MUSIC_CITIES2
-	MUSIC_CELADON
-	MUSIC_CINNABAR
-	MUSIC_VERMILION
-	MUSIC_LAVENDER
-	MUSIC_SS_ANNE
-	MUSIC_MEET_PROF_OAK
-	MUSIC_MEET_RIVAL
-	MUSIC_MUSEUM_GUY
-	MUSIC_SAFARI_ZONE
-	MUSIC_PKMN_HEALED
-	MUSIC_ROUTES1
-	MUSIC_ROUTES2
-	MUSIC_ROUTES3
-	MUSIC_ROUTES4
-	MUSIC_INDIGO_PLATEAU
-	MUSIC_GYM_LEADER_BATTLE
-	MUSIC_TRAINER_BATTLE
-	MUSIC_WILD_BATTLE
-	MUSIC_FINAL_BATTLE
-	MUSIC_DEFEATED_TRAINER
-	MUSIC_DEFEATED_WILD_MON
-	MUSIC_DEFEATED_GYM_LEADER
-	MUSIC_TITLE_SCREEN
-	MUSIC_CREDITS
-	MUSIC_HALL_OF_FAME
-	MUSIC_OAKS_LAB
-	MUSIC_JIGGLYPUFF_SONG
-	MUSIC_BIKE_RIDING
-	MUSIC_SURFING
-	MUSIC_GAME_CORNER
-	MUSIC_INTRO_BATTLE
-	MUSIC_DUNGEON1
-	MUSIC_DUNGEON2
-	MUSIC_DUNGEON3
-	MUSIC_CINNABAR_MANSION
-	MUSIC_POKEMON_TOWER
-	MUSIC_SILPH_CO
-	MUSIC_MEET_EVIL_TRAINER
-	MUSIC_MEET_FEMALE_TRAINER
-	MUSIC_MEET_MALE_TRAINER
-	MUSIC_INTRO_TITLE
 )
 
 type Music struct {
@@ -76,16 +28,16 @@ var CurMusic *audio.Player
 
 func newMusicMap() map[int]*Music {
 	musicMap := map[int]*Music{}
-	musicMap[MUSIC_INTRO_TITLE] = newMusic(store.FS, "/1-00 Intro.ogg", "0:00.000")         // 11.771
-	musicMap[MUSIC_TITLE_SCREEN] = newMusic(store.FS, "/1-01 Title Screen.ogg", "0:04.520") // 0:59.695
-	musicMap[MUSIC_PALLET_TOWN] = newMusic(store.FS, "/1-02 Pallet Town Theme.ogg", "0:08.040")
-	musicMap[MUSIC_MEET_PROF_OAK] = newMusic(store.FS, "/1-03 Professor Oak.ogg", "0:13.560")
-	musicMap[MUSIC_OAKS_LAB] = newMusic(store.FS, "/1-04 Professor Oak's Laboratory.ogg", "0:04.389")
-	musicMap[MUSIC_MEET_RIVAL] = newMusic(store.FS, "/1-05 A Rival Appears.ogg", "0:02.277")
-	musicMap[MUSIC_ROUTES1] = newMusic(store.FS, "/1-06 Road To Viridian City_ Leaving Pallet Town.ogg", "0:00.000")
-	musicMap[MUSIC_WILD_BATTLE] = newMusic(store.FS, "/1-07 Battle! (Wild Pokémon).ogg", "0:15.657")
-	musicMap[MUSIC_ROUTES2] = newMusic(store.FS, "/1-21 To Bill_ Leaving Cerulean City.ogg", "0:00.000")
-	musicMap[MUSIC_FINAL_BATTLE] = newMusic(store.FS, "/1-43 Final Battle! (Rival).ogg", "1:15.120")
+	musicMap[song.MUSIC_INTRO_TITLE] = newMusic(store.FS, "/1-00 Intro.ogg", "0:00.000")         // 11.771
+	musicMap[song.MUSIC_TITLE_SCREEN] = newMusic(store.FS, "/1-01 Title Screen.ogg", "0:04.520") // 0:59.695
+	musicMap[song.MUSIC_PALLET_TOWN] = newMusic(store.FS, "/1-02 Pallet Town Theme.ogg", "0:08.040")
+	musicMap[song.MUSIC_MEET_PROF_OAK] = newMusic(store.FS, "/1-03 Professor Oak.ogg", "0:13.560")
+	musicMap[song.MUSIC_OAKS_LAB] = newMusic(store.FS, "/1-04 Professor Oak's Laboratory.ogg", "0:04.389")
+	musicMap[song.MUSIC_MEET_RIVAL] = newMusic(store.FS, "/1-05 A Rival Appears.ogg", "0:02.277")
+	musicMap[song.MUSIC_ROUTES1] = newMusic(store.FS, "/1-06 Road To Viridian City_ Leaving Pallet Town.ogg", "0:00.000")
+	musicMap[song.MUSIC_WILD_BATTLE] = newMusic(store.FS, "/1-07 Battle! (Wild Pokémon).ogg", "0:15.657")
+	musicMap[song.MUSIC_ROUTES2] = newMusic(store.FS, "/1-21 To Bill_ Leaving Cerulean City.ogg", "0:00.000")
+	musicMap[song.MUSIC_FINAL_BATTLE] = newMusic(store.FS, "/1-43 Final Battle! (Rival).ogg", "1:15.120")
 	return musicMap
 }
 
@@ -166,4 +118,21 @@ func stopMusic() {
 		CurMusic.Pause()
 		CurMusic.Seek(0)
 	}
+}
+
+// PlayDefaultMusic play BGM accroding to Player's state
+// ref: PlayDefaultMusic
+func PlayDefaultMusic(mapID int) {
+	musicID := song.MapMusics[mapID]
+	switch store.Player.State {
+	case store.BikeState:
+	case store.SurfState:
+	}
+
+	if musicID == LastMusicID {
+		return
+	}
+
+	PlayMusic(musicID)
+	LastMusicID = 0
 }

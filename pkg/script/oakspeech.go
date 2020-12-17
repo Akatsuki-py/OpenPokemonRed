@@ -5,6 +5,7 @@ import (
 	"pokered/pkg/audio"
 	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/data/txt"
+	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/menu"
 	"pokered/pkg/palette"
 	"pokered/pkg/screen"
@@ -96,7 +97,7 @@ func oakSpeech0() {
 	}()
 
 	if counter == 0 {
-		audio.PlayMusic(audio.MUSIC_ROUTES2)
+		audio.PlayMusic(song.MUSIC_ROUTES2)
 		screen.FillWhite()
 	}
 	switch {

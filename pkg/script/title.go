@@ -7,6 +7,7 @@ import (
 	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/data/tileset"
 	"pokered/pkg/data/worldmap"
+	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/joypad"
 	"pokered/pkg/menu"
 	"pokered/pkg/palette"
@@ -165,7 +166,7 @@ func titleBlank() {
 
 func titleIntroScene() {
 	if introCounter == 0 {
-		audio.PlayMusic(audio.MUSIC_INTRO_TITLE)
+		audio.PlayMusic(song.MUSIC_INTRO_TITLE)
 	}
 
 	screen.FillWhite()
@@ -390,7 +391,7 @@ func titleWhiteOut() {
 
 func titlePokemonRed() {
 	if title.counter == 88 {
-		audio.PlayMusic(audio.MUSIC_TITLE_SCREEN)
+		audio.PlayMusic(song.MUSIC_TITLE_SCREEN)
 	}
 
 	palette.LoadGBPal()

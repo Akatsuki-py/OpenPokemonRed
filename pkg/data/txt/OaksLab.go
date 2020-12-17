@@ -1,7 +1,15 @@
 package txt
 
 var OaksLabText1 = `
+${OaksLabText1}
 `
+
+var OaksLabGaryText1 = `
+${RIVAL}: Yo
+${PLAYER}! Gramps
+isn't around!
+`
+
 var OaksLabText2 = `
 `
 var OaksLabText3 = `
@@ -115,4 +123,13 @@ var OaksLabText25 = `
 var OaksLabText26 = `
 `
 var OaksLabText27 = `
+`
+
+var OaksLabText40 = `
+${RIVAL}: Heh, I
+don't need to be
+greedy like you!
+
+Go ahead and
+choose, ${PLAYER}!
 `

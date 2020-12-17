@@ -21,8 +21,8 @@ var OaksLab = &Header{
 	Width:   5,
 	blk:     blk.OaksLab[:],
 	Text: []string{
-		txt.Route1Text1,
-		txt.Route1Text2,
+		txt.OaksLabText1,
+		txt.OaksLabText1,
 		txt.Route1Text3,
 	},
 }

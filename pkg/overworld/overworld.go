@@ -2,7 +2,6 @@ package overworld
 
 import (
 	"pokered/pkg/audio"
-	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/joypad"
 	"pokered/pkg/overworld/mscript"
 	"pokered/pkg/palette"
@@ -164,21 +163,4 @@ func DisplayDialogue(offset int) {
 	texts, textID := world.CurWorld.Header.Text, offset
 	text.DisplayTextID(text.TextBoxImage, texts, textID)
 	store.SetScriptID(store.ExecText)
-}
-
-// PlayDefaultMusic play BGM accroding to Player's state
-// ref: PlayDefaultMusic
-func PlayDefaultMusic(mapID int) {
-	musicID := song.MapMusics[mapID]
-	switch store.Player.State {
-	case store.BikeState:
-	case store.SurfState:
-	}
-
-	if musicID == audio.LastMusicID {
-		return
-	}
-
-	audio.PlayMusic(musicID)
-	audio.LastMusicID = 0
 }

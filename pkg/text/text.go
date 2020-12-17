@@ -48,6 +48,16 @@ func PrintText(target *ebiten.Image, str string) {
 	CurText = preprocess(str)
 }
 
+func AddText(target *ebiten.Image, str string) {
+	if target == nil {
+		TextBoxImage = util.NewImage()
+		target = TextBoxImage
+	}
+	DisplayTextBoxID(target, MESSAGE_BOX)
+	Seek(1, 14)
+	CurText = preprocess(str) + CurText
+}
+
 func DoPrintTextScript(target *ebiten.Image, str string, doPush bool) {
 	if doPush {
 		store.PushScriptID(store.ExecText)
@@ -104,7 +114,10 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 			if value, ok := txt.RAM[key]; ok {
 				str = value() + str
 			} else if value, ok := txt.Asm[key]; ok {
-				value()
+				added := value()
+				if added != "" {
+					str = preprocess(added) + str
+				}
 			}
 			return str
 		}

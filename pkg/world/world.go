@@ -3,6 +3,7 @@ package world
 import (
 	"pokered/pkg/audio"
 	"pokered/pkg/data/tileset"
+	"pokered/pkg/data/worldmap"
 	"pokered/pkg/data/worldmap/header"
 	"pokered/pkg/data/worldmap/object"
 	"pokered/pkg/data/worldmap/song"
@@ -107,8 +108,13 @@ func PlayDefaultMusicFadeOutCurrent(mapID int) {
 	}
 
 	audio.NewMusicID = musicID
-	if musicID == audio.LastMusicID {
+	switch musicID {
+	case audio.LastMusicID:
 		return
+	case song.MUSIC_MEET_PROF_OAK:
+		if mapID == worldmap.OAKS_LAB {
+			return
+		}
 	}
 
 	audio.StopMusic(10)

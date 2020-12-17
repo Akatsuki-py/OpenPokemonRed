@@ -3,6 +3,7 @@ package mscript
 import (
 	"pokered/pkg/audio"
 	"pokered/pkg/data/txt"
+	"pokered/pkg/data/worldmap/song"
 	"pokered/pkg/event"
 	"pokered/pkg/joypad"
 	"pokered/pkg/sprite"
@@ -12,9 +13,10 @@ import (
 )
 
 func init() {
-	txt.RegisterAsmText("OakAppears", func() {
+	txt.RegisterAsmText("OakAppears", func() string {
 		p := store.SpriteData[0]
 		p.Direction = util.Down
+		return ""
 	})
 }
 
@@ -52,7 +54,7 @@ func palletTownScript0() {
 		return
 	}
 
-	audio.PlayMusic(audio.MUSIC_MEET_PROF_OAK)
+	audio.PlayMusic(song.MUSIC_MEET_PROF_OAK)
 
 	event.UpdateEvent(event.EVENT_OAK_APPEARED_IN_PALLET, true)
 	store.CurMapScript = 1
