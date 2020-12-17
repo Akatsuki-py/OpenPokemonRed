@@ -112,6 +112,8 @@ func joypadOverworld() {
 		joypad.JoyHeld = joypad.Input{Right: true}
 	case util.Left:
 		joypad.JoyHeld = joypad.Input{Left: true}
+	case uint(util.None):
+		joypad.JoyHeld = joypad.Input{}
 	}
 	if len(p.Simulated) > 1 {
 		p.Simulated = p.Simulated[1:]

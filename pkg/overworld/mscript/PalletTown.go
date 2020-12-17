@@ -107,8 +107,12 @@ func palletTownScript4() {
 		copy(copied, simulated)
 		oak.Simulated = copied
 	case 11:
-		p.Simulated = []uint{uint(util.None), util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Down}
-		oak.Simulated = []uint{util.Left, uint(util.None), util.Down, util.Down, util.Down, util.Down, util.Down, util.Left, util.Down, util.Down, util.Down, util.Down, util.Down, util.Down}
+		copied := make([]uint, len(simulated))
+		copy(copied, simulated)
+		p.Simulated = append([]uint{uint(util.None), util.Left, util.Down}, copied...)
+		copied = make([]uint, len(simulated))
+		copy(copied, simulated)
+		oak.Simulated = append([]uint{util.Left, uint(util.None)}, copied...)
 	}
 
 	store.CurMapScript = 5

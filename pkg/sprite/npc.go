@@ -58,6 +58,9 @@ func DoScriptedNPCMovement(offset uint) {
 		deltaX, deltaY = -1, 0
 	case util.Right:
 		deltaX, deltaY = 1, 0
+	case uint(util.None):
+		deltaX, deltaY = 0, 0
+		return
 	}
 
 	s.Direction = direction
