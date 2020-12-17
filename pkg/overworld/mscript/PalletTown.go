@@ -9,10 +9,7 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
-	"pokered/pkg/world"
 )
-
-var delayed3F bool
 
 func init() {
 	txt.RegisterAsmText("OakAppears", func() {
@@ -64,8 +61,7 @@ func palletTownScript0() {
 
 func palletTownScript1() {
 	text.DoPrintTextScript(text.TextBoxImage, txt.OakAppearsText, false)
-	world.CurWorld.Object.HS[0x01] = false
-	store.SpriteData[1].Hidden = false
+	showObject(1)
 	store.CurMapScript = 2
 }
 

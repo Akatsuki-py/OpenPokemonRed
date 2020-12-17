@@ -35,6 +35,7 @@ const exterior int = 3
 
 // LoadWorldData load world data
 func LoadWorldData(id int) {
+	store.CurMapScript = 0
 	curAnimTiles = []animTile{}
 
 	h, o := header.Get(id), object.Get(id)
