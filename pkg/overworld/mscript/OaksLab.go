@@ -33,7 +33,8 @@ func oaksLabScript0() {
 
 func oaksLabScript1() {
 	oak := store.SpriteData[8]
-	oak.Simulated = []uint{util.Up, util.Up, util.Up, util.Up}
+	oak.DoubleSpd = false
+	oak.Simulated = []uint{util.Up, util.Up, util.Up}
 	store.CurMapScript = 2
 }
 

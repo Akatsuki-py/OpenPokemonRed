@@ -88,8 +88,10 @@ func palletTownScript2() {
 func palletTownScript3() {
 	oak := store.SpriteData[1]
 	if len(oak.Simulated) > 0 || oak.MovmentStatus == sprite.Movement {
+		joypad.JoyIgnore = joypad.ByteToInput(0xff)
 		return
 	}
+	joypad.JoyIgnore = joypad.ByteToInput(0xfc)
 	text.DoPrintTextScript(text.TextBoxImage, txt.OakWalksUpText, false)
 	store.CurMapScript = 4
 
@@ -125,6 +127,5 @@ func palletTownScript5() {
 	if len(oak.Simulated) > 0 || oak.MovmentStatus == sprite.Movement {
 		return
 	}
-	oak.DoubleSpd = false
 }
 func palletTownScript6() {}

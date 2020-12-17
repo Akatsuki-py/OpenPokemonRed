@@ -44,6 +44,8 @@ func DoScriptedNPCMovement(offset uint) {
 	direction := s.Simulated[0]
 	if len(s.Simulated) > 1 {
 		s.Simulated = s.Simulated[1:]
+	} else if direction != uint(util.None) {
+		s.Simulated = []uint{uint(util.None)}
 	} else {
 		s.Simulated = []uint{}
 	}
@@ -58,8 +60,9 @@ func DoScriptedNPCMovement(offset uint) {
 		deltaX, deltaY = -1, 0
 	case util.Right:
 		deltaX, deltaY = 1, 0
-	case uint(util.None):
+	default:
 		deltaX, deltaY = 0, 0
+		updateSpriteInWalkingAnimation(offset)
 		return
 	}
 
