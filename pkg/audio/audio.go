@@ -13,6 +13,8 @@ const (
 
 const reloadFadeOut = 10
 
+var baseVolume = 0.01
+
 var audioContext = audio.NewContext(sampleRate)
 
 // FadeOut control fadeout switch and counter
@@ -32,7 +34,7 @@ func FadeOutAudio() {
 	preVolume := volume
 	defer func() {
 		if CurMusic != nil && CurMusic.IsPlaying() && preVolume != volume {
-			CurMusic.SetVolume(float64(volume) / 7)
+			CurMusic.SetVolume(float64(volume) * baseVolume / 7)
 		}
 	}()
 

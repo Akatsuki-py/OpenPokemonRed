@@ -96,6 +96,7 @@ func PlayMusic(id int) {
 		m.player, _ = audio.NewPlayer(audioContext, l)
 	}
 	CurMusic = m.player
+	CurMusic.SetVolume(baseVolume)
 	go CurMusic.Play()
 }
 

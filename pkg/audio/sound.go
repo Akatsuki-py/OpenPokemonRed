@@ -89,6 +89,7 @@ func PlaySound(soundID uint) {
 		util.NotRegisteredError("soundMap", soundID)
 		return
 	}
+	sound.player.SetVolume(baseVolume)
 	if sound.player.IsPlaying() {
 		sound.player.Seek(0)
 	} else {
@@ -104,6 +105,7 @@ func Cry(id uint) {
 	if sound == nil {
 		return
 	}
+	sound.player.SetVolume(baseVolume)
 	if sound.player.IsPlaying() {
 		sound.player.Seek(0)
 	} else {
