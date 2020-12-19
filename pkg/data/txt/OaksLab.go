@@ -49,6 +49,11 @@ ${PLAYER} received
 a ${PStarter}!
 `
 
+var OaksLabLastMonText = `
+That's PROF.OAK's
+last #MON!
+`
+
 var OaksLabText13 = `
 `
 var OaksLabText14 = `
@@ -148,6 +153,12 @@ var OaksLabText25 = `
 var OaksLabText26 = `
 `
 var OaksLabText27 = `
+`
+
+var OaksLabText39 = `
+Those are #
+BALLs. They
+contain #MON!
 `
 
 var OaksLabText40 = `

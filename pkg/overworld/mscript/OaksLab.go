@@ -170,16 +170,34 @@ func oaksLabScript7() {
 }
 
 func oaksLabLookAtCharmander() string {
+	if event.CheckEvent(event.EVENT_GOT_STARTER) {
+		return txt.OaksLabLastMonText
+	}
+	if !event.CheckEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON) {
+		return txt.OaksLabText39
+	}
 	store.Player.Starter = pkmnd.CHARMANDER
 	return oaksLabMonChoiceMenu()
 }
 
 func oaksLabLookAtSquirtle() string {
+	if event.CheckEvent(event.EVENT_GOT_STARTER) {
+		return txt.OaksLabLastMonText
+	}
+	if !event.CheckEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON) {
+		return txt.OaksLabText39
+	}
 	store.Player.Starter = pkmnd.SQUIRTLE
 	return oaksLabMonChoiceMenu()
 }
 
 func oaksLabLookAtBulbasaur() string {
+	if event.CheckEvent(event.EVENT_GOT_STARTER) {
+		return txt.OaksLabLastMonText
+	}
+	if !event.CheckEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON) {
+		return txt.OaksLabText39
+	}
 	store.Player.Starter = pkmnd.BULBASAUR
 	return oaksLabMonChoiceMenu()
 }
