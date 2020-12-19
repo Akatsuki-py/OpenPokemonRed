@@ -43,6 +43,8 @@ func Header(id uint) *PHeader {
 		return &Bulbasaur
 	case 4:
 		return &Charmander
+	case 7:
+		return &Squirtle
 	case 63:
 		return &AbraHeader
 	}
@@ -120,5 +122,30 @@ var Charmander = PHeader{
 		{30, move.SLASH},
 		{38, move.FLAMETHROWER},
 		{46, move.FIRE_SPIN},
+	},
+}
+
+var Squirtle = PHeader{
+	ID:            7,
+	Name:          "squirtle",
+	IconGen1:      WaterMon,
+	BaseStatsGen1: StatsGen1{44, 48, 65, 43, 50},
+	BaseStats:     Stats{44, 48, 65, 43, 50, 64},
+	Type:          [2]uint{Water},
+	CatchRate:     45,
+	BaseExp:       66,
+	Lv0MoveIDs:    [4]uint{move.TACKLE, move.TAIL_WHIP},
+	GrowthRate:    Exp1050k,
+	Learnset:      []uint{},
+	Evos: []Evo{
+		{WARTORTLE, 16, 0, false},
+	},
+	LvMoves: [][2]uint{
+		{8, move.BUBBLE},
+		{15, move.WATER_GUN},
+		{22, move.BITE},
+		{28, move.WITHDRAW},
+		{35, move.SKULL_BASH},
+		{42, move.HYDRO_PUMP},
 	},
 }

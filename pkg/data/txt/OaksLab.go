@@ -104,6 +104,16 @@ ${RIVAL}, you can
 have one too!
 `
 
+var OaksLabRivalPickingMonText = `
+${RIVAL}: I'll take
+this one, then!
+`
+
+var OaksLabRivalReceivedMonText = `
+${RIVAL} received
+a ${RStarter}!
+`
+
 var OaksLabText21 = `
 ${RIVAL}: Gramps!
 `

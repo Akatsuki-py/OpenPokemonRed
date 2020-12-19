@@ -44,6 +44,10 @@ func oaksLabScript() {
 		oaksLabScript6()
 	case 7:
 		oaksLabScript7()
+	case 8:
+		oaksLabScript8()
+	case 9:
+		oaksLabScript9()
 	}
 }
 
@@ -183,14 +187,71 @@ func oaksLabLookAtBulbasaur() string {
 func oaksLabMonChoiceMenu() string {
 	switch store.Player.Starter {
 	case pkmnd.CHARMANDER:
-		hideObject(1)
-	case pkmnd.SQUIRTLE:
 		hideObject(2)
-	case pkmnd.BULBASAUR:
+	case pkmnd.SQUIRTLE:
 		hideObject(3)
+	case pkmnd.BULBASAUR:
+		hideObject(4)
 	}
 
 	store.CurMapScript = 8
+	joypad.JoyIgnore = joypad.ByteToInput(0xfc)
 
 	return txt.OaksLabReceivedMonText
+}
+
+func oaksLabScript8() {
+	p := store.SpriteData[0]
+	blue := store.SpriteData[1]
+	switch store.Player.Starter {
+	case pkmnd.CHARMANDER:
+		store.Rival.Starter = pkmnd.SQUIRTLE
+		blue.Simulated = []uint{util.Down, util.Right, util.Right, util.Right}
+		if p.MapYCoord == 4 {
+			blue.Simulated = []uint{util.Down, util.Down, util.Right, util.Right, util.Right, util.Up}
+		}
+	case pkmnd.SQUIRTLE:
+		store.Rival.Starter = pkmnd.BULBASAUR
+		blue.Simulated = []uint{util.Down, util.Right, util.Right, util.Right, util.Right}
+		if p.MapYCoord == 4 {
+			blue.Simulated = []uint{util.Down, util.Down, util.Right, util.Right, util.Right, util.Right, util.Up}
+		}
+	case pkmnd.BULBASAUR:
+		store.Rival.Starter = pkmnd.CHARMANDER
+		blue.Simulated = []uint{util.Down, util.Right, util.Right}
+	}
+
+	store.CurMapScript = 9
+}
+
+var script9Phase int
+
+func oaksLabScript9() {
+	switch script9Phase {
+	case 0:
+		blue := store.SpriteData[1]
+		if len(blue.Simulated) > 0 || blue.MovmentStatus == sprite.Movement {
+			return
+		}
+
+		blue.Direction = util.Up
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabRivalPickingMonText, false)
+		script9Phase++
+	case 1:
+		switch store.Rival.Starter {
+		case pkmnd.CHARMANDER:
+			hideObject(2)
+		case pkmnd.SQUIRTLE:
+			hideObject(3)
+		case pkmnd.BULBASAUR:
+			hideObject(4)
+		}
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabRivalReceivedMonText, false)
+		script9Phase++
+	case 2:
+		event.UpdateEvent(event.EVENT_GOT_STARTER, true)
+		joypad.JoyIgnore = joypad.ByteToInput(0x00)
+		store.CurMapScript = 10
+		script9Phase++
+	}
 }

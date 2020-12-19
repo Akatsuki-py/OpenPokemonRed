@@ -21,6 +21,7 @@ var OaksLab = &Header{
 	Width:   5,
 	blk:     blk.OaksLab[:],
 	Text: []string{
+		"",
 		txt.OaksLabText1,
 		txt.OaksLabText2,
 		txt.OaksLabText3,
