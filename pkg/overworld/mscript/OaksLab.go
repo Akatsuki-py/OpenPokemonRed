@@ -36,6 +36,10 @@ func oaksLabScript() {
 		oaksLabScript4()
 	case 5:
 		oaksLabScript5()
+	case 6:
+		oaksLabScript6()
+	case 7:
+		oaksLabScript7()
 	}
 }
 
@@ -106,25 +110,53 @@ func oaksLabScript5() {
 	switch delay30FCtrInoaksLabScript5 {
 	case 0:
 		joypad.JoyIgnore = joypad.ByteToInput(0xfc)
-
 		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText17, false)
-		store.DelayFrames = 30
 		delay30FCtrInoaksLabScript5++
-		return
 	case 1:
-		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText18, false)
-		store.DelayFrames = 30
+		store.DelayFrames = 20
 		delay30FCtrInoaksLabScript5++
 	case 2:
-		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText19, false)
-		store.DelayFrames = 30
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText18, false)
 		delay30FCtrInoaksLabScript5++
 	case 3:
+		store.DelayFrames = 20
+		delay30FCtrInoaksLabScript5++
+	case 4:
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText19, false)
+		delay30FCtrInoaksLabScript5++
+	case 5:
+		store.DelayFrames = 20
+		delay30FCtrInoaksLabScript5++
+	case 6:
 		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText20, false)
-		store.DelayFrames = 30
 		delay30FCtrInoaksLabScript5++
 		event.UpdateEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON, true)
 		joypad.JoyIgnore = joypad.ByteToInput(0x00)
 		store.CurMapScript = 6
+	case 7:
+		store.DelayFrames = 20
+		delay30FCtrInoaksLabScript5++
 	}
+}
+
+func oaksLabScript6() {
+	p := store.SpriteData[0]
+	if p.MapYCoord != 6 {
+		return
+	}
+
+	p.Direction = util.Up
+	text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabText12, false)
+	p.Simulated = []uint{util.Up}
+	joypad.JoyIgnore = joypad.ByteToInput(0xfc)
+	store.CurMapScript = 7
+}
+
+func oaksLabScript7() {
+	p := store.SpriteData[0]
+	if len(p.Simulated) > 0 || p.MovmentStatus == sprite.Movement {
+		return
+	}
+	joypad.JoyIgnore = joypad.ByteToInput(0x00)
+	store.CurMapScript = 6
 }

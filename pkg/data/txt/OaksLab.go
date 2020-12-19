@@ -32,8 +32,12 @@ var OaksLabText10 = `
 `
 var OaksLabText11 = `
 `
+
 var OaksLabText12 = `
+OAK: Hey! Don't go
+away yet!
 `
+
 var OaksLabText13 = `
 `
 var OaksLabText14 = `
