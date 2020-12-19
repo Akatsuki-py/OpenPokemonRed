@@ -11,10 +11,13 @@ isn't around!
 `
 
 var OaksLabText2 = `
+${OaksLabLookAtCharmander}
 `
 var OaksLabText3 = `
+${OaksLabLookAtSquirtle}
 `
 var OaksLabText4 = `
+${OaksLabLookAtBulbasaur}
 `
 var OaksLabText5 = `
 `
@@ -36,6 +39,14 @@ var OaksLabText11 = `
 var OaksLabText12 = `
 OAK: Hey! Don't go
 away yet!
+`
+
+var OaksLabReceivedMonText = `
+This #MON is
+really energetic!
+
+${PLAYER} received
+a ${PStarter}!
 `
 
 var OaksLabText13 = `

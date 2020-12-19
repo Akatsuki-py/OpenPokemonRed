@@ -2,6 +2,7 @@ package mscript
 
 import (
 	"pokered/pkg/audio"
+	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/data/txt"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/event"
@@ -20,6 +21,9 @@ func init() {
 			return txt.OaksLabGaryText1
 		}
 	})
+	txt.RegisterAsmText("OaksLabLookAtCharmander", oaksLabLookAtCharmander)
+	txt.RegisterAsmText("OaksLabLookAtSquirtle", oaksLabLookAtSquirtle)
+	txt.RegisterAsmText("OaksLabLookAtBulbasaur", oaksLabLookAtBulbasaur)
 }
 
 func oaksLabScript() {
@@ -159,4 +163,34 @@ func oaksLabScript7() {
 	}
 	joypad.JoyIgnore = joypad.ByteToInput(0x00)
 	store.CurMapScript = 6
+}
+
+func oaksLabLookAtCharmander() string {
+	store.Player.Starter = pkmnd.CHARMANDER
+	return oaksLabMonChoiceMenu()
+}
+
+func oaksLabLookAtSquirtle() string {
+	store.Player.Starter = pkmnd.SQUIRTLE
+	return oaksLabMonChoiceMenu()
+}
+
+func oaksLabLookAtBulbasaur() string {
+	store.Player.Starter = pkmnd.BULBASAUR
+	return oaksLabMonChoiceMenu()
+}
+
+func oaksLabMonChoiceMenu() string {
+	switch store.Player.Starter {
+	case pkmnd.CHARMANDER:
+		hideObject(1)
+	case pkmnd.SQUIRTLE:
+		hideObject(2)
+	case pkmnd.BULBASAUR:
+		hideObject(3)
+	}
+
+	store.CurMapScript = 8
+
+	return txt.OaksLabReceivedMonText
 }
