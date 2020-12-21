@@ -7,6 +7,7 @@ import (
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/event"
 	"pokered/pkg/joypad"
+	"pokered/pkg/pkmn"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
@@ -214,6 +215,7 @@ func oaksLabMonChoiceMenu() string {
 
 	store.CurMapScript = 8
 	joypad.JoyIgnore = joypad.ByteToInput(0xfc)
+	pkmn.AddPlayerPartyMon(store.Player.Starter, 5)
 
 	return txt.OaksLabReceivedMonText
 }
@@ -264,6 +266,7 @@ func oaksLabScript9() {
 		case pkmnd.BULBASAUR:
 			hideObject(4)
 		}
+		pkmn.AddRivalPartyMon(store.Rival.Starter, 5)
 		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabRivalReceivedMonText, false)
 		script9Phase++
 	case 2:

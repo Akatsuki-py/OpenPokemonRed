@@ -21,7 +21,7 @@ func AddPlayerPartyMon(id, level uint) bool {
 		SpAtk:   sp,
 		SpDef:   sp,
 	}
-	store.PartyMons[offset] = *NewPartyMon(id, level, dvs)
+	store.PartyMons[offset] = *NewPartyMon(id, level, dvs, 0, store.Player.Name)
 	return true
 }
 
@@ -38,14 +38,14 @@ func AddRivalPartyMon(id, level uint) bool {
 		SpAtk:   8,
 		SpDef:   8,
 	}
-	store.Rival.PartyMons[offset] = *NewPartyMon(id, level, dvs)
+	store.Rival.PartyMons[offset] = *NewPartyMon(id, level, dvs, 0, store.Rival.Name)
 	return true
 }
 
 // NewPartyMon creates new PartyMon data
-func NewPartyMon(id, level uint, dvs store.DVStat) *store.PartyMon {
+func NewPartyMon(id, level uint, dvs store.DVStat, OTID uint, OTName string) *store.PartyMon {
 	header := pkmnd.Header(id)
-	boxMon := NewBoxMon(id, level, dvs)
+	boxMon := NewBoxMon(id, level, dvs, OTID, OTName)
 	return &store.PartyMon{
 		Initialized: true,
 		BoxMon:      boxMon,
@@ -60,7 +60,7 @@ func NewPartyMon(id, level uint, dvs store.DVStat) *store.PartyMon {
 }
 
 // NewBoxMon creates new BoxMon data
-func NewBoxMon(id, level uint, dvs store.DVStat) *store.BoxMon {
+func NewBoxMon(id, level uint, dvs store.DVStat, OTID uint, OTName string) *store.BoxMon {
 	header := pkmnd.Header(id)
 	return &store.BoxMon{
 		ID:        id,
@@ -69,14 +69,39 @@ func NewBoxMon(id, level uint, dvs store.DVStat) *store.BoxMon {
 		Status:    pkmnd.OK,
 		Type:      header.Type,
 		CatchRate: header.CatchRate,
-		Moves:     [4]store.Move{},
-		Exp:       205,
+		Moves:     NewMoves(id, level),
+		OTID:      OTID,
+		Exp:       int(CalcLvExp(level, header.GrowthRate)),
 		DVs:       dvs,
+		OTName:    OTName,
 		Nick:      strings.ToUpper(header.Name),
 	}
 }
 
-// NewMoves is temporary implement
+// NewMoveIDs is temporary implement
+func NewMoveIDs(id, level uint) [4]uint {
+	header := pkmnd.Header(id)
+	result := header.Lv0MoveIDs
+
+	i := 0
+	for _, m := range header.LvMoves {
+		moveID := m[1]
+		result[i] = moveID
+		i = (i + 1) % 4
+	}
+	return result
+}
+
 func NewMoves(id, level uint) [4]store.Move {
-	return [4]store.Move{}
+	moveIDs := NewMoveIDs(id, level)
+	result := [4]store.Move{}
+	for i, id := range moveIDs {
+		pp := pkmnd.MovePP(id)
+		result[i] = store.Move{
+			ID:    id,
+			CurPP: pp,
+			MaxPP: pp,
+		}
+	}
+	return result
 }

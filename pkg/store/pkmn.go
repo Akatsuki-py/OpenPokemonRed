@@ -71,7 +71,7 @@ type PartyMon struct {
 }
 
 // PartyMons party mon data in game
-var PartyMons = [6]PartyMon{*defaultPartyMon(), *defaultPartyMon()}
+var PartyMons = [6]PartyMon{}
 
 // PartyMonLen return a number of party pokemons
 func PartyMonLen() int {

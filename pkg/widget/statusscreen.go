@@ -155,7 +155,7 @@ func RenderStatusScreen2() {
 	for i, m := range mon.Moves {
 		y := 9 + i*2
 		// move name
-		name := pkmnd.Name(m.ID)
+		name := pkmnd.MoveName(m.ID)
 		text.PlaceStringAtOnce(statusScreen, name, 2, y)
 
 		// "PP"
