@@ -85,7 +85,10 @@ func NewMoveIDs(id, level uint) [4]uint {
 
 	i := 0
 	for _, m := range header.LvMoves {
-		moveID := m[1]
+		moveLV, moveID := m[0], m[1]
+		if moveLV > level {
+			break
+		}
 		result[i] = moveID
 		i = (i + 1) % 4
 	}
@@ -96,6 +99,9 @@ func NewMoves(id, level uint) [4]store.Move {
 	moveIDs := NewMoveIDs(id, level)
 	result := [4]store.Move{}
 	for i, id := range moveIDs {
+		if id == 0 {
+			break
+		}
 		pp := pkmnd.MovePP(id)
 		result[i] = store.Move{
 			ID:    id,
