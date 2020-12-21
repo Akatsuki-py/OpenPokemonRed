@@ -113,10 +113,10 @@ func palletTownScript4() {
 	case 11:
 		copied := make([]uint, len(simulated))
 		copy(copied, simulated)
-		p.Simulated = append([]uint{uint(util.None), util.Left, util.Down}, copied...)
+		p.Simulated = append([]uint{util.Stop, util.Left, util.Down}, copied...)
 		copied = make([]uint, len(simulated))
 		copy(copied, simulated)
-		oak.Simulated = append([]uint{util.Left, uint(util.None)}, copied...)
+		oak.Simulated = append([]uint{util.Left, util.Stop}, copied...)
 	}
 
 	store.CurMapScript = 5

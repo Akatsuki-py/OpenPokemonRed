@@ -97,7 +97,7 @@ func joypadOverworld() {
 	if len(p.Simulated) == 0 {
 		return
 	}
-	if len(p.Simulated) == 1 && p.Simulated[0] == uint(util.None) {
+	if len(p.Simulated) == 1 && p.Simulated[0] == util.Stop {
 		p.Simulated = []uint{}
 		return
 	}
@@ -111,14 +111,14 @@ func joypadOverworld() {
 		joypad.JoyHeld = joypad.Input{Right: true}
 	case util.Left:
 		joypad.JoyHeld = joypad.Input{Left: true}
-	case uint(util.None):
+	case util.Stop:
 		joypad.JoyHeld = joypad.Input{}
 	}
 	if len(p.Simulated) > 1 {
 		p.Simulated = p.Simulated[1:]
 		return
 	}
-	p.Simulated = []uint{uint(util.None)}
+	p.Simulated = []uint{util.Stop}
 }
 
 // ref: RunMapScript

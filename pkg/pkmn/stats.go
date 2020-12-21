@@ -10,6 +10,7 @@ package pkmn
 import (
 	"math"
 	"pokered/pkg/data/pkmnd"
+	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
 
@@ -21,6 +22,23 @@ func CalcHP(base, dv, ev, level uint) uint {
 // CalcStat calc Atk,Def,Spd,Sp stat
 func CalcStat(base, dv, ev, level uint) uint {
 	return calcStat(base, dv, ev, level) + 5
+}
+
+func CalcHPDV(dvs store.DVStat) uint {
+	dv := uint(0)
+	if dvs.Attack%2 == 1 {
+		dv += 8
+	}
+	if dvs.Defense%2 == 1 {
+		dv += 4
+	}
+	if dvs.Speed%2 == 1 {
+		dv += 2
+	}
+	if dvs.SpAtk%2 == 1 {
+		dv++
+	}
+	return dv
 }
 
 func calcStat(base, dv, ev, level uint) uint {
