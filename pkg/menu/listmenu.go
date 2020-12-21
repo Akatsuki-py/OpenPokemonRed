@@ -2,7 +2,6 @@ package menu
 
 import (
 	"pokered/pkg/data/item"
-	"pokered/pkg/data/move"
 	"pokered/pkg/data/pkmnd"
 	"pokered/pkg/joypad"
 	"pokered/pkg/store"
@@ -177,7 +176,7 @@ func (l *ListMenu) PrintEntries() {
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		case MovesListMenu:
 			id, _ := ParseListMenuElm(e)
-			name := move.Name(id)
+			name := pkmnd.Name(id)
 			text.PlaceStringAtOnce(l.image, name, nameAtX, nameAtY)
 		case PricedItemListMenu:
 			id, _ := ParseListMenuElm(e)

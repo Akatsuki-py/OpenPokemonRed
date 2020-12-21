@@ -1,7 +1,6 @@
 package store
 
 import (
-	"pokered/pkg/data/move"
 	"pokered/pkg/data/pkmnd"
 )
 
@@ -95,8 +94,8 @@ func defaultPartyMon() *PartyMon {
 			Type:      [2]uint{pkmnd.Fire},
 			CatchRate: 255,
 			Moves: [4]Move{
-				{move.SCRATCH, 35, 35},
-				{move.GROWL, 40, 40},
+				{pkmnd.SCRATCH, 35, 35},
+				{pkmnd.GROWL, 40, 40},
 			}, // scratch growl
 			OTID:   48024,
 			Exp:    205,

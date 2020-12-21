@@ -1,4 +1,9 @@
-package move
+/*
+	Move data
+	ref: https://github.com/smogon/pokemon-showdown/blob/master/data/moves.ts
+*/
+
+package pkmnd
 
 // MoveID -> Name
 var nameMap = map[uint]string{
@@ -169,6 +174,7 @@ var nameMap = map[uint]string{
 	SUBSTITUTE:   "SUBSTITUTE",
 }
 
-func Name(id uint) string {
+// MoveName returns Move name
+func MoveName(id uint) string {
 	return nameMap[id]
 }

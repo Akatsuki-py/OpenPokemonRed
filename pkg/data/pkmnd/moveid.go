@@ -1,4 +1,4 @@
-package move
+package pkmnd
 
 const (
 	POUND uint = iota + 1

@@ -1,7 +1,5 @@
 package pkmnd
 
-import "pokered/pkg/data/move"
-
 // growth rate
 const (
 	Exp600k  = iota + 1 // pred none
@@ -65,7 +63,7 @@ var AbraHeader = PHeader{
 	Type:          [2]uint{Psychic},
 	CatchRate:     200,
 	BaseExp:       73,
-	Lv0MoveIDs:    [4]uint{move.TELEPORT},
+	Lv0MoveIDs:    [4]uint{TELEPORT},
 	GrowthRate:    Exp1050k,
 	Learnset:      []uint{},
 	Evos: []Evo{
@@ -83,20 +81,20 @@ var Bulbasaur = PHeader{
 	Type:          [2]uint{Grass, Poison},
 	CatchRate:     45,
 	BaseExp:       64,
-	Lv0MoveIDs:    [4]uint{move.TACKLE, move.GROWL},
+	Lv0MoveIDs:    [4]uint{TACKLE, GROWL},
 	GrowthRate:    Exp1050k,
 	Learnset:      []uint{},
 	Evos: []Evo{
 		{IVYSAUR, 16, 0, false},
 	},
 	LvMoves: [][2]uint{
-		{7, move.LEECH_SEED},
-		{13, move.VINE_WHIP},
-		{20, move.POISONPOWDER},
-		{27, move.RAZOR_LEAF},
-		{34, move.GROWTH},
-		{41, move.SLEEP_POWDER},
-		{48, move.SOLARBEAM},
+		{7, LEECH_SEED},
+		{13, VINE_WHIP},
+		{20, POISONPOWDER},
+		{27, RAZOR_LEAF},
+		{34, GROWTH},
+		{41, SLEEP_POWDER},
+		{48, SOLARBEAM},
 	},
 }
 
@@ -109,19 +107,19 @@ var Charmander = PHeader{
 	Type:          [2]uint{Fire},
 	CatchRate:     45,
 	BaseExp:       65,
-	Lv0MoveIDs:    [4]uint{move.SCRATCH, move.GROWL},
+	Lv0MoveIDs:    [4]uint{SCRATCH, GROWL},
 	GrowthRate:    Exp1050k,
 	Learnset:      []uint{},
 	Evos: []Evo{
 		{CHARMELEON, 16, 0, false},
 	},
 	LvMoves: [][2]uint{
-		{9, move.EMBER},
-		{15, move.LEER},
-		{22, move.RAGE},
-		{30, move.SLASH},
-		{38, move.FLAMETHROWER},
-		{46, move.FIRE_SPIN},
+		{9, EMBER},
+		{15, LEER},
+		{22, RAGE},
+		{30, SLASH},
+		{38, FLAMETHROWER},
+		{46, FIRE_SPIN},
 	},
 }
 
@@ -134,18 +132,18 @@ var Squirtle = PHeader{
 	Type:          [2]uint{Water},
 	CatchRate:     45,
 	BaseExp:       66,
-	Lv0MoveIDs:    [4]uint{move.TACKLE, move.TAIL_WHIP},
+	Lv0MoveIDs:    [4]uint{TACKLE, TAIL_WHIP},
 	GrowthRate:    Exp1050k,
 	Learnset:      []uint{},
 	Evos: []Evo{
 		{WARTORTLE, 16, 0, false},
 	},
 	LvMoves: [][2]uint{
-		{8, move.BUBBLE},
-		{15, move.WATER_GUN},
-		{22, move.BITE},
-		{28, move.WITHDRAW},
-		{35, move.SKULL_BASH},
-		{42, move.HYDRO_PUMP},
+		{8, BUBBLE},
+		{15, WATER_GUN},
+		{22, BITE},
+		{28, WITHDRAW},
+		{35, SKULL_BASH},
+		{42, HYDRO_PUMP},
 	},
 }
