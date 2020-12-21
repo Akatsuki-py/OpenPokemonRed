@@ -2,11 +2,13 @@ package audio
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/audio/wav"
 
 	_ "pokered/pkg/data/statik"
+	"pokered/pkg/data/txt"
 	"pokered/pkg/store"
 	"pokered/pkg/util"
 )
@@ -34,6 +36,7 @@ const (
 	SFX_SLOTS_NEW_SPIN
 	SFX_SHOOTING_STAR
 	SFX_SHRINK
+	SFX_KEY_ITEM
 )
 
 // WAV wav file
@@ -42,11 +45,10 @@ type WAV struct {
 	player *audio.Player
 }
 
-var soundMap = newSoundMap()
+var soundMap map[uint]*WAV
 
-func newSoundMap() map[uint]*WAV {
-	soundMap := map[uint]*WAV{}
-
+func init() {
+	soundMap = map[uint]*WAV{}
 	soundMap[SFX_TINK] = newWav(store.FS, "/tink.wav")
 	soundMap[SFX_START_MENU] = newWav(store.FS, "/start_menu.wav")
 	soundMap[SFX_PRESS_AB] = newWav(store.FS, "/press_ab.wav")
@@ -65,7 +67,7 @@ func newSoundMap() map[uint]*WAV {
 	soundMap[SFX_SLOTS_NEW_SPIN] = newWav(store.FS, "/slots_new_spin.wav")
 	soundMap[SFX_SHOOTING_STAR] = newWav(store.FS, "/shooting_star.wav")
 	soundMap[SFX_SHRINK] = newWav(store.FS, "/shrink.wav")
-	return soundMap
+	soundMap[SFX_KEY_ITEM] = newWav(store.FS, "/get_key_item.wav")
 }
 
 func newWav(fs http.FileSystem, path string) *WAV {
@@ -79,6 +81,13 @@ func newWav(fs http.FileSystem, path string) *WAV {
 	defer f.Close()
 	w.stream, _ = wav.Decode(audioContext, f)
 	w.player, _ = audio.NewPlayer(audioContext, w.stream)
+
+	asmName := "SFX:" + strings.ReplaceAll(path[1:], ".wav", "")
+	txt.RegisterAsmText(asmName, func() string {
+		PlaySound(SFX_KEY_ITEM)
+		return ""
+	})
+
 	return w
 }
 

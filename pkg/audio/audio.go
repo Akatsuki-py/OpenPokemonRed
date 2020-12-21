@@ -13,7 +13,7 @@ const (
 
 const reloadFadeOut = 10
 
-var baseVolume = 0.01
+var baseVolume = 0.025
 
 var audioContext = audio.NewContext(sampleRate)
 

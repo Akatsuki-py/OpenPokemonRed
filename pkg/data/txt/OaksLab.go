@@ -45,7 +45,7 @@ var OaksLabReceivedMonText = `
 This #MON is
 really energetic!
 
-${PLAYER} received
+${SFX:get_key_item}${PLAYER} received
 a ${PStarter}!
 `
 
@@ -115,7 +115,7 @@ this one, then!
 `
 
 var OaksLabRivalReceivedMonText = `
-${RIVAL} received
+${SFX:get_key_item}${RIVAL} received
 a ${RStarter}!
 `
 
