@@ -1,5 +1,4 @@
 {
-    "go.useLanguageServer": true,
     "go.alternateTools": {
         "go-langserver": "gopls"
     },
@@ -10,9 +9,6 @@
         }
     },
     "go.autocompleteUnimportedPackages": true,
-    "gopls": {
-        "usePlaceholders": true
-    },
     "files.exclude": {
         "pkg/data/statik": true,
         "build": true,
