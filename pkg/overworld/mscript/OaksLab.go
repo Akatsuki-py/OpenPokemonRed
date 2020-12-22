@@ -188,6 +188,7 @@ func oaksLabLookAtSquirtle() string {
 	if !event.CheckEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON) {
 		return txt.OaksLabText39
 	}
+	// dex
 	store.Player.Starter = pkmnd.SQUIRTLE
 	return oaksLabMonChoiceMenu()
 }

@@ -41,6 +41,8 @@ OAK: Hey! Don't go
 away yet!
 `
 
+// OaksLabReceivedMonText This #MON is
+// really energetic!
 var OaksLabReceivedMonText = `
 This #MON is
 really energetic!
@@ -155,6 +157,7 @@ var OaksLabText26 = `
 var OaksLabText27 = `
 `
 
+// OaksLabText39 Those are PokeBALLs. They...
 var OaksLabText39 = `
 Those are #
 BALLs. They
@@ -168,4 +171,25 @@ greedy like you!
 
 Go ahead and
 choose, ${PLAYER}!
+`
+
+// OaksLabCharmanderText So! You want the
+var OaksLabCharmanderText = `
+So! You want the
+fire #MON,
+CHARMANDER?
+`
+
+// OaksLabSquirtleText So! You want the
+var OaksLabSquirtleText = `
+So! You want the
+water #MON,
+SQUIRTLE?
+`
+
+// OaksLabBulbasaurText So! You want the
+var OaksLabBulbasaurText = `
+So! You want the
+plant #MON,
+BULBASAUR?
 `

@@ -92,3 +92,8 @@ func HandleSelectMenuInput() joypad.Input {
 	s.current = HandleMenuInput(s.current, maxItem, s.wrap)
 	return joypad.Joy5
 }
+
+// NewYesNoMenu creates Y/N menu
+func NewYesNoMenu() {
+	NewSelectMenu([]string{"YES", "NO"}, 14, 7, 6, 5, false, false, 0)
+}
