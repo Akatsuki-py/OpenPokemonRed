@@ -5,6 +5,7 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
+	"pokered/pkg/widget"
 	"pokered/pkg/world"
 )
 
@@ -29,6 +30,8 @@ func newScriptMap() map[uint]func() {
 	result[store.WidgetPartyMenuSelect] = widgetPartyMenuSelect
 	result[store.WidgetStats] = widgetStats
 	result[store.WidgetStats2] = widgetStats2
+	result[store.WidgetPokedexPage] = widgetPokedexPage
+	result[store.WidgetStarterPokedexPage] = widgetStarterPokedexPage
 	result[store.FadeOutToBlack] = fadeOutToBlack
 	result[store.FadeOutToWhite] = fadeOutToWhite
 	result[store.LoadMapData] = loadMapData
@@ -122,7 +125,11 @@ func execText() {
 		return
 	}
 
-	text.CurText = text.PlaceStringOneByOne(text.TextBoxImage, text.CurText)
+	target := text.TextBoxImage
+	if widget.DexPageScreen() != nil {
+		target = widget.DexPageScreen()
+	}
+	text.CurText = text.PlaceStringOneByOne(target, text.CurText)
 	if len([]rune(text.CurText)) == 0 {
 		nextScript()
 	}

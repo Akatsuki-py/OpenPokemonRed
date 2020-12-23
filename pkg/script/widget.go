@@ -190,3 +190,14 @@ func widgetStats2() {
 		}
 	}
 }
+
+func widgetPokedexPage() {
+	widget.ShowPokedexData()
+	store.PushOtScript(widget.CloseDexPage)
+}
+
+func widgetStarterPokedexPage() {
+	text.TextBoxImage = nil
+	widget.ShowPokedexData()
+	store.PushOtScript(widget.CloseStarterDexPage)
+}

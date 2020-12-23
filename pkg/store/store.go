@@ -6,6 +6,10 @@ import (
 	"github.com/rakyll/statik/fs"
 )
 
+// Debug set when debug mode.
+var Debug bool
+
+// GameFrame frame count
 var GameFrame uint = 0
 
 var CurMapScript int = 0

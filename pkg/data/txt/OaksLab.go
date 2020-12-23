@@ -47,7 +47,7 @@ var OaksLabReceivedMonText = `
 This #MON is
 really energetic!
 
-${SFX:get_key_item}${PLAYER} received
+${OaksLabMonChoiceMenu}${SFX:get_key_item}${PLAYER} received
 a ${PStarter}!
 `
 

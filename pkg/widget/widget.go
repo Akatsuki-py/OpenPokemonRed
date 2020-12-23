@@ -18,4 +18,7 @@ func VBlank() {
 	if statusScreen != nil {
 		screen.AddLayerOnTop("widget/status", statusScreen, 0, 0)
 	}
+	if dexPageScreen != nil {
+		screen.AddLayerOnTop("widget/dexpage", dexPageScreen, 0, 0)
+	}
 }

@@ -12,6 +12,7 @@ import (
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
+	"pokered/pkg/widget"
 )
 
 func init() {
@@ -25,6 +26,7 @@ func init() {
 	txt.RegisterAsmText("OaksLabLookAtCharmander", oaksLabLookAtCharmander)
 	txt.RegisterAsmText("OaksLabLookAtSquirtle", oaksLabLookAtSquirtle)
 	txt.RegisterAsmText("OaksLabLookAtBulbasaur", oaksLabLookAtBulbasaur)
+	txt.RegisterAsmText("OaksLabMonChoiceMenu", oaksLabMonChoiceMenu)
 }
 
 func oaksLabScript() {
@@ -171,15 +173,25 @@ func oaksLabScript7() {
 }
 
 func oaksLabLookAtCharmander() string {
+	if store.Debug {
+		widget.TargetMonID = pkmnd.CHARMANDER
+		store.SetScriptID(store.WidgetStarterPokedexPage)
+		store.Player.Starter = pkmnd.CHARMANDER
+		store.Player.StarterName = pkmnd.Name(pkmnd.CHARMANDER)
+		return ""
+	}
 	if event.CheckEvent(event.EVENT_GOT_STARTER) {
 		return txt.OaksLabLastMonText
 	}
 	if !event.CheckEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON) {
 		return txt.OaksLabText39
 	}
+
+	widget.TargetMonID = pkmnd.CHARMANDER
+	store.SetScriptID(store.WidgetStarterPokedexPage)
 	store.Player.Starter = pkmnd.CHARMANDER
 	store.Player.StarterName = pkmnd.Name(pkmnd.CHARMANDER)
-	return oaksLabMonChoiceMenu()
+	return ""
 }
 
 func oaksLabLookAtSquirtle() string {
@@ -189,10 +201,12 @@ func oaksLabLookAtSquirtle() string {
 	if !event.CheckEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON) {
 		return txt.OaksLabText39
 	}
-	// dex
+
+	widget.TargetMonID = pkmnd.SQUIRTLE
+	store.SetScriptID(store.WidgetStarterPokedexPage)
 	store.Player.Starter = pkmnd.SQUIRTLE
 	store.Player.StarterName = pkmnd.Name(pkmnd.SQUIRTLE)
-	return oaksLabMonChoiceMenu()
+	return ""
 }
 
 func oaksLabLookAtBulbasaur() string {
@@ -202,9 +216,12 @@ func oaksLabLookAtBulbasaur() string {
 	if !event.CheckEvent(event.EVENT_OAK_ASKED_TO_CHOOSE_MON) {
 		return txt.OaksLabText39
 	}
+
+	widget.TargetMonID = pkmnd.BULBASAUR
+	store.SetScriptID(store.WidgetStarterPokedexPage)
 	store.Player.Starter = pkmnd.BULBASAUR
 	store.Player.StarterName = pkmnd.Name(pkmnd.BULBASAUR)
-	return oaksLabMonChoiceMenu()
+	return ""
 }
 
 func oaksLabMonChoiceMenu() string {
@@ -221,7 +238,7 @@ func oaksLabMonChoiceMenu() string {
 	joypad.JoyIgnore = joypad.ByteToInput(0xfc)
 	pkmn.AddPlayerPartyMon(store.Player.Starter, 5)
 
-	return txt.OaksLabReceivedMonText
+	return ""
 }
 
 func oaksLabScript8() {

@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 
-os.chdir("/Users/akatsuki/Documents/PokemonRed/tools")
+os.chdir("/Users/akatsuki/Dev/PokemonRed/tools")
 if os.path.exists("public"):
     shutil.rmtree("public")
 os.mkdir("public")

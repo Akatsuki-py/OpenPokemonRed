@@ -26,6 +26,7 @@ type Game struct {
 func (g *Game) Update() error {
 	if store.GameFrame == 0 {
 		// initialize()
+		store.Debug = true
 		initializeWorld()
 	}
 	exec()
@@ -48,13 +49,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 // If you don't have to adjust the screen size with the outside size, just return a fixed size.
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
 	return 160, 144
-}
-func debug(g *Game, frame int) {
-	if frame >= 0 && int(store.GameFrame) != frame {
-		return
-	}
-	{
-	}
 }
 
 func exec() {
