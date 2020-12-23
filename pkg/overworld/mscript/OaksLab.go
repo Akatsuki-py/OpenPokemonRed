@@ -178,6 +178,7 @@ func oaksLabLookAtCharmander() string {
 		return txt.OaksLabText39
 	}
 	store.Player.Starter = pkmnd.CHARMANDER
+	store.Player.StarterName = pkmnd.Name(pkmnd.CHARMANDER)
 	return oaksLabMonChoiceMenu()
 }
 
@@ -190,6 +191,7 @@ func oaksLabLookAtSquirtle() string {
 	}
 	// dex
 	store.Player.Starter = pkmnd.SQUIRTLE
+	store.Player.StarterName = pkmnd.Name(pkmnd.SQUIRTLE)
 	return oaksLabMonChoiceMenu()
 }
 
@@ -201,6 +203,7 @@ func oaksLabLookAtBulbasaur() string {
 		return txt.OaksLabText39
 	}
 	store.Player.Starter = pkmnd.BULBASAUR
+	store.Player.StarterName = pkmnd.Name(pkmnd.BULBASAUR)
 	return oaksLabMonChoiceMenu()
 }
 
@@ -227,18 +230,21 @@ func oaksLabScript8() {
 	switch store.Player.Starter {
 	case pkmnd.CHARMANDER:
 		store.Rival.Starter = pkmnd.SQUIRTLE
+		store.Rival.StarterName = pkmnd.Name(pkmnd.SQUIRTLE)
 		blue.Simulated = []uint{util.Down, util.Right, util.Right, util.Right}
 		if p.MapYCoord == 4 {
 			blue.Simulated = []uint{util.Down, util.Down, util.Right, util.Right, util.Right, util.Up}
 		}
 	case pkmnd.SQUIRTLE:
 		store.Rival.Starter = pkmnd.BULBASAUR
+		store.Rival.StarterName = pkmnd.Name(pkmnd.BULBASAUR)
 		blue.Simulated = []uint{util.Down, util.Right, util.Right, util.Right, util.Right}
 		if p.MapYCoord == 4 {
 			blue.Simulated = []uint{util.Down, util.Down, util.Right, util.Right, util.Right, util.Right, util.Up}
 		}
 	case pkmnd.BULBASAUR:
 		store.Rival.Starter = pkmnd.CHARMANDER
+		store.Rival.StarterName = pkmnd.Name(pkmnd.CHARMANDER)
 		blue.Simulated = []uint{util.Down, util.Right, util.Right}
 	}
 

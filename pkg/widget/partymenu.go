@@ -69,14 +69,14 @@ func drawPartyPokemon(offset int) {
 func drawPartyCursor()      {}
 func drawWhitePartyCursor() {}
 
-func printStatusCondition(offset int, hp uint, status pkmnd.NonVolatileStatus) {
+func printStatusCondition(offset int, hp uint, status store.NonVolatileStatus) {
 	x, y := 17, offset*2
 	if hp == 0 {
 		text.PlaceStringAtOnce(partyMenu, "FNT", x, y)
 		return
 	}
 
-	if status != pkmnd.OK {
+	if status != store.OK {
 		text.PlaceStringAtOnce(partyMenu, status.String(), x, y)
 	}
 }

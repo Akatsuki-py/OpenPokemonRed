@@ -66,7 +66,7 @@ func NewBoxMon(id, level uint, dvs store.DVStat, OTID uint, OTName string) *stor
 		ID:        id,
 		HP:        CalcHP(header.BaseStatsGen1.HP, CalcHPDV(dvs), 0, level),
 		BoxLevel:  level,
-		Status:    pkmnd.OK,
+		Status:    store.OK,
 		Type:      header.Type,
 		CatchRate: header.CatchRate,
 		Moves:     NewMoves(id, level),

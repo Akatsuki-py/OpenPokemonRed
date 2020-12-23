@@ -1,9 +1,10 @@
 package store
 
 type RivalState struct {
-	Name      string
-	Starter   uint
-	PartyMons [6]PartyMon
+	Name        string
+	Starter     uint
+	StarterName string
+	PartyMons   [6]PartyMon
 }
 
 var Rival = RivalState{

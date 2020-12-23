@@ -25,6 +25,7 @@ type PHeader struct {
 	Learnset      []uint
 	Evos          []Evo
 	LvMoves       [][2]uint // (Level, MoveID)[]
+	DexEntry      DexEntry
 }
 
 type Evo struct {
@@ -38,13 +39,13 @@ type Evo struct {
 func Header(id uint) *PHeader {
 	switch id {
 	case 1:
-		return &Bulbasaur
+		return &bulbasaur
 	case 4:
-		return &Charmander
+		return &charmander
 	case 7:
-		return &Squirtle
+		return &squirtle
 	case 63:
-		return &AbraHeader
+		return &abra
 	}
 	return nil
 }
@@ -54,25 +55,7 @@ func BaseStatsGen1(id uint) StatsGen1 {
 	return h.BaseStatsGen1
 }
 
-var AbraHeader = PHeader{
-	ID:            63,
-	Name:          "abra",
-	IconGen1:      MonMon,
-	BaseStatsGen1: StatsGen1{25, 20, 15, 90, 105},
-	BaseStats:     Stats{25, 20, 15, 90, 105, 55},
-	Type:          [2]uint{Psychic},
-	CatchRate:     200,
-	BaseExp:       73,
-	Lv0MoveIDs:    [4]uint{TELEPORT},
-	GrowthRate:    Exp1050k,
-	Learnset:      []uint{},
-	Evos: []Evo{
-		{KADABRA, 16, 0, false},
-	},
-	LvMoves: [][2]uint{},
-}
-
-var Bulbasaur = PHeader{
+var bulbasaur = PHeader{
 	ID:            1,
 	Name:          "bulbasaur",
 	IconGen1:      GrassMon,
@@ -96,9 +79,10 @@ var Bulbasaur = PHeader{
 		{41, SLEEP_POWDER},
 		{48, SOLARBEAM},
 	},
+	DexEntry: bulbasaurDexEntry,
 }
 
-var Charmander = PHeader{
+var charmander = PHeader{
 	ID:            4,
 	Name:          "charmander",
 	IconGen1:      MonMon,
@@ -121,9 +105,10 @@ var Charmander = PHeader{
 		{38, FLAMETHROWER},
 		{46, FIRE_SPIN},
 	},
+	DexEntry: charmanderDexEntry,
 }
 
-var Squirtle = PHeader{
+var squirtle = PHeader{
 	ID:            7,
 	Name:          "squirtle",
 	IconGen1:      WaterMon,
@@ -146,4 +131,24 @@ var Squirtle = PHeader{
 		{35, SKULL_BASH},
 		{42, HYDRO_PUMP},
 	},
+	DexEntry: squirtleDexEntry,
+}
+
+var abra = PHeader{
+	ID:            63,
+	Name:          "abra",
+	IconGen1:      MonMon,
+	BaseStatsGen1: StatsGen1{25, 20, 15, 90, 105},
+	BaseStats:     Stats{25, 20, 15, 90, 105, 55},
+	Type:          [2]uint{Psychic},
+	CatchRate:     200,
+	BaseExp:       73,
+	Lv0MoveIDs:    [4]uint{TELEPORT},
+	GrowthRate:    Exp1050k,
+	Learnset:      []uint{},
+	Evos: []Evo{
+		{KADABRA, 16, 0, false},
+	},
+	LvMoves:  [][2]uint{},
+	DexEntry: abraDexEntry,
 }

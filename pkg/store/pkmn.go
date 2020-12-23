@@ -1,9 +1,5 @@
 package store
 
-import (
-	"pokered/pkg/data/pkmnd"
-)
-
 // Move data stored in pokemon move slot
 type Move struct {
 	ID    uint
@@ -16,7 +12,7 @@ type BoxMon struct {
 	ID        uint
 	HP        uint
 	BoxLevel  uint
-	Status    pkmnd.NonVolatileStatus
+	Status    NonVolatileStatus
 	Type      [2]uint
 	CatchRate byte
 	Moves     [4]Move
@@ -83,32 +79,31 @@ func PartyMonLen() int {
 	return 6
 }
 
-func defaultPartyMon() *PartyMon {
-	return &PartyMon{
-		Initialized: true,
-		BoxMon: &BoxMon{
-			ID:        pkmnd.CHARMANDER,
-			HP:        22,
-			BoxLevel:  6,
-			Status:    pkmnd.OK,
-			Type:      [2]uint{pkmnd.Fire},
-			CatchRate: 255,
-			Moves: [4]Move{
-				{pkmnd.SCRATCH, 35, 35},
-				{pkmnd.GROWL, 40, 40},
-			}, // scratch growl
-			OTID:   48024,
-			Exp:    205,
-			EVs:    EVStat{},
-			DVs:    DVStat{},
-			OTName: "RED",
-			Nick:   "CHARMANDER",
-		},
-		Level:   6,
-		MaxHP:   22,
-		Attack:  12,
-		Defense: 11,
-		Speed:   13,
-		SpAtk:   11,
+// NonVolatileStatus type for non-volatile statuses
+type NonVolatileStatus uint
+
+// non-volatile statuses
+const (
+	OK  NonVolatileStatus = 0
+	Psn NonVolatileStatus = 3
+	Brn NonVolatileStatus = 4
+	Frz NonVolatileStatus = 5
+	Par NonVolatileStatus = 6
+	Slp NonVolatileStatus = 7
+)
+
+func (n *NonVolatileStatus) String() string {
+	switch *n {
+	case Psn:
+		return "PSN"
+	case Brn:
+		return "BRN"
+	case Frz:
+		return "FRZ"
+	case Par:
+		return "PAR"
+	case Slp:
+		return "SLP"
 	}
+	return ""
 }
