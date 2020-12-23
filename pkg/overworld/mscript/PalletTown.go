@@ -42,6 +42,7 @@ func palletTownScript() {
 func palletTownScript0() {
 	// イベント消化済み
 	if event.CheckEvent(event.EVENT_FOLLOWED_OAK_INTO_LAB) {
+		hideObject(1)
 		return
 	}
 

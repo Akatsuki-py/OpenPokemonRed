@@ -131,6 +131,7 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 
 	runes := []rune(str)
 	c := string(runes[0])
+	isParaOrDone := false
 	switch c {
 	case "$":
 		lParen := strings.Index(str, "{")
@@ -157,6 +158,7 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 			placeNext()
 			str = string(runes[2:])
 		case "p":
+			isParaOrDone = true
 			Blink(target, "")
 			if pressed := placePara(target); pressed {
 				str = string(runes[2:])
@@ -176,6 +178,7 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 				}
 			}
 		case "d":
+			isParaOrDone = true
 			if pressed := placeDone(); pressed {
 				TextBoxImage = nil
 				str = ""
@@ -224,6 +227,12 @@ func PlaceStringOneByOne(target *ebiten.Image, str string) string {
 			placeCharNext(target, c, x, y)
 		}
 		str = string(runes[1:])
+	}
+
+	// for pokedex text
+	if isDexMode && !isParaOrDone {
+		str = PlaceStringOneByOne(target, str)
+		return str
 	}
 	return str
 }

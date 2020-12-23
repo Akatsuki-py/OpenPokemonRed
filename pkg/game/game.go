@@ -26,7 +26,7 @@ type Game struct {
 func (g *Game) Update() error {
 	if store.GameFrame == 0 {
 		// initialize()
-		store.Debug = true
+		// store.Debug = true
 		initializeWorld()
 	}
 	exec()

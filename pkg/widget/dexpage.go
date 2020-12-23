@@ -49,7 +49,7 @@ func CloseDexPage() {
 // CloseStarterDexPage close dex page
 func CloseStarterDexPage() {
 	dexPageScreen = nil
-	text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabReceivedMonText, false)
+	text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabReceivedMonText, true)
 }
 
 func DexPageScreen() *ebiten.Image {
