@@ -2,6 +2,7 @@ package script
 
 import (
 	"pokered/pkg/joypad"
+	"pokered/pkg/menu"
 	"pokered/pkg/store"
 	"pokered/pkg/text"
 	"pokered/pkg/util"
@@ -28,6 +29,7 @@ func newScriptMap() map[uint]func() {
 	result[store.WidgetRivalNamingScreen] = widgetRivalNamingScreen
 	result[store.WidgetPartyMenu] = widgetPartyMenu
 	result[store.WidgetPartyMenuSelect] = widgetPartyMenuSelect
+	result[store.TwoOptionMenu] = handleTwoOption
 	result[store.WidgetStats] = widgetStats
 	result[store.WidgetStats2] = widgetStats2
 	result[store.WidgetPokedexPage] = widgetPokedexPage
@@ -216,4 +218,16 @@ func InOakSpeech() bool {
 func InTitle() bool {
 	scriptID := store.ScriptID()
 	return scriptID >= store.TitleCopyright && scriptID <= store.TitleMenu2
+}
+
+func handleTwoOption() {
+	m := menu.CurSelectMenu()
+	pressed := menu.HandleSelectMenuInput()
+
+	switch {
+	case pressed.A:
+		m.Close()
+		store.TwoOptionResult = m.Index()
+		store.PopScript()
+	}
 }

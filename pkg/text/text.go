@@ -376,3 +376,7 @@ func DisplayTextID(target *ebiten.Image, texts []string, textID int) {
 	}
 	PrintText(target, texts[textID])
 }
+
+func CloseTextBox() {
+	TextBoxImage = nil
+}

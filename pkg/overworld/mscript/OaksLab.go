@@ -7,6 +7,7 @@ import (
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/event"
 	"pokered/pkg/joypad"
+	"pokered/pkg/menu"
 	"pokered/pkg/pkmn"
 	"pokered/pkg/sprite"
 	"pokered/pkg/store"
@@ -26,6 +27,7 @@ func init() {
 	txt.RegisterAsmText("OaksLabLookAtCharmander", oaksLabLookAtCharmander)
 	txt.RegisterAsmText("OaksLabLookAtSquirtle", oaksLabLookAtSquirtle)
 	txt.RegisterAsmText("OaksLabLookAtBulbasaur", oaksLabLookAtBulbasaur)
+	txt.RegisterAsmText("OaksYesNo", oaksYesNo)
 	txt.RegisterAsmText("OaksLabMonChoiceMenu", oaksLabMonChoiceMenu)
 }
 
@@ -299,4 +301,21 @@ func oaksLabScript9() {
 		store.CurMapScript = 10
 		script9Phase++
 	}
+}
+
+func oaksYesNo() string {
+	store.SetScriptID(store.TwoOptionMenu)
+	store.PushOtScript(func() {
+		switch store.TwoOptionResult {
+		case 0:
+			text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabReceivedMonText, true)
+		case 1:
+			text.CloseTextBox()
+			store.Player.Starter = 0
+			store.CurMapScript = 6
+			return
+		}
+	})
+	menu.NewYesNoMenu()
+	return ""
 }

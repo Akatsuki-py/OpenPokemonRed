@@ -44,3 +44,6 @@ var BagItems = []string{}
 
 // EventMap event ID -> flag
 var EventMap = map[uint]bool{}
+
+// TwoOptionResult two option index
+var TwoOptionResult = uint(0)

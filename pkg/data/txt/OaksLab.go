@@ -177,19 +177,19 @@ choose, ${PLAYER}!
 var OaksLabCharmanderText = `
 So! You want the
 fire #MON,
-CHARMANDER?
+CHARMANDER?${OaksYesNo}
 `
 
 // OaksLabSquirtleText So! You want the
 var OaksLabSquirtleText = `
 So! You want the
 water #MON,
-SQUIRTLE?
+SQUIRTLE?${OaksYesNo}
 `
 
 // OaksLabBulbasaurText So! You want the
 var OaksLabBulbasaurText = `
 So! You want the
 plant #MON,
-BULBASAUR?
+BULBASAUR?${OaksYesNo}
 `

@@ -197,7 +197,7 @@ func widgetPokedexPage() {
 }
 
 func widgetStarterPokedexPage() {
-	text.TextBoxImage = nil
+	text.CloseTextBox()
 	widget.ShowPokedexData()
 	store.PushOtScript(widget.CloseStarterDexPage)
 }

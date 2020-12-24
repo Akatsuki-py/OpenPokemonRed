@@ -33,6 +33,13 @@ func (s *SelectMenu) Close() {
 	s.z = 0
 }
 
+func (s *SelectMenu) Index() uint {
+	if s.current >= uint(len(s.Elm)) {
+		return 0
+	}
+	return s.current
+}
+
 func (s *SelectMenu) Item() string {
 	if s.current >= uint(len(s.Elm)) {
 		return ""
@@ -95,5 +102,5 @@ func HandleSelectMenuInput() joypad.Input {
 
 // NewYesNoMenu creates Y/N menu
 func NewYesNoMenu() {
-	NewSelectMenu([]string{"YES", "NO"}, 14, 7, 6, 5, false, false, 0)
+	NewSelectMenu([]string{"YES", "NO"}, 14, 7, 4, 3, false, false, 0)
 }

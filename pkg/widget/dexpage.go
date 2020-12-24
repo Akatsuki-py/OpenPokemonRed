@@ -49,7 +49,14 @@ func CloseDexPage() {
 // CloseStarterDexPage close dex page
 func CloseStarterDexPage() {
 	dexPageScreen = nil
-	text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabReceivedMonText, true)
+	switch store.Player.Starter {
+	case pkmnd.CHARMANDER:
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabCharmanderText, true)
+	case pkmnd.SQUIRTLE:
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabSquirtleText, true)
+	case pkmnd.BULBASAUR:
+		text.DoPrintTextScript(text.TextBoxImage, txt.OaksLabBulbasaurText, true)
+	}
 }
 
 func DexPageScreen() *ebiten.Image {

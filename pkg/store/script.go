@@ -1,5 +1,6 @@
 package store
 
+// ScriptID
 const (
 	Halt uint = iota
 	WhiteScreen
@@ -12,6 +13,7 @@ const (
 	WidgetNickNamingScreen
 	WidgetPartyMenu
 	WidgetPartyMenuSelect
+	TwoOptionMenu
 	WidgetStats
 	WidgetStats2
 	WidgetPokedexPage
