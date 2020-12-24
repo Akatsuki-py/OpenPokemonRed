@@ -19,16 +19,30 @@ import (
 func init() {
 	txt.RegisterAsmText("OaksLabText1", func() string {
 		if event.CheckEvent(event.EVENT_FOLLOWED_OAK_INTO_LAB_2) {
-			return txt.OaksLabText40
-		} else {
-			return txt.OaksLabGaryText1
+			if store.CurMapScript == 6 {
+				return txt.OaksLabText40
+			}
+			return txt.OaksLabText41
 		}
+		return txt.OaksLabGaryText1
 	})
 	txt.RegisterAsmText("OaksLabLookAtCharmander", oaksLabLookAtCharmander)
 	txt.RegisterAsmText("OaksLabLookAtSquirtle", oaksLabLookAtSquirtle)
 	txt.RegisterAsmText("OaksLabLookAtBulbasaur", oaksLabLookAtBulbasaur)
 	txt.RegisterAsmText("OaksYesNo", oaksYesNo)
 	txt.RegisterAsmText("OaksLabMonChoiceMenu", oaksLabMonChoiceMenu)
+	txt.RegisterAsmText("OaksLabText5", func() string {
+		if event.CheckEvent(event.EVENT_FOLLOWED_OAK_INTO_LAB_2) {
+			switch store.CurMapScript {
+			case 6:
+				return txt.OaksLabWhichMonText
+			case 14:
+				return txt.OaksLabRaiseMonText
+			}
+			return txt.OaksLabFightText
+		}
+		return txt.OaksLabGaryText1
+	})
 }
 
 func oaksLabScript() {
@@ -53,6 +67,8 @@ func oaksLabScript() {
 		oaksLabScript8()
 	case 9:
 		oaksLabScript9()
+	case 14:
+		oaksLabScript14()
 	}
 }
 
@@ -298,7 +314,7 @@ func oaksLabScript9() {
 	case 2:
 		event.UpdateEvent(event.EVENT_GOT_STARTER, true)
 		joypad.JoyIgnore = joypad.ByteToInput(0x00)
-		store.CurMapScript = 10
+		store.CurMapScript = 14
 		script9Phase++
 	}
 }
@@ -318,4 +334,7 @@ func oaksYesNo() string {
 	})
 	menu.NewYesNoMenu()
 	return ""
+}
+
+func oaksLabScript14() {
 }

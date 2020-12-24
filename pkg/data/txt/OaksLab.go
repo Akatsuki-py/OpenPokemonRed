@@ -4,6 +4,7 @@ var OaksLabText1 = `
 ${OaksLabText1}
 `
 
+// OaksLabGaryText1 SONY: Yo NINTEN! Gramps isn't around!
 var OaksLabGaryText1 = `
 ${RIVAL}: Yo
 ${PLAYER}! Gramps
@@ -20,7 +21,9 @@ var OaksLabText4 = `
 ${OaksLabLookAtBulbasaur}
 `
 var OaksLabText5 = `
+${OaksLabText5}
 `
+
 var OaksLabText6 = `
 `
 var OaksLabText7 = `
@@ -54,6 +57,26 @@ a ${PStarter}!
 var OaksLabLastMonText = `
 That's PROF.OAK's
 last #MON!
+`
+
+var OaksLabWhichMonText = `
+OAK: Now, ${PLAYER},
+which #MON do
+you want?
+`
+
+var OaksLabFightText = `
+OAK: If a wild
+#MON appears,
+your #MON can
+fight against it!
+`
+
+var OaksLabRaiseMonText = `
+OAK: <PLAYER>,
+raise your young
+#MON by making
+it fight!
 `
 
 var OaksLabText13 = `
@@ -164,6 +187,7 @@ BALLs. They
 contain #MON!
 `
 
+// OaksLabText40 SONY: Heh, I don't need to be
 var OaksLabText40 = `
 ${RIVAL}: Heh, I
 don't need to be
@@ -171,6 +195,12 @@ greedy like you!
 
 Go ahead and
 choose, ${PLAYER}!
+`
+
+var OaksLabText41 = `
+${RIVAL}: My
+#MON looks a
+lot stronger.
 `
 
 // OaksLabCharmanderText So! You want the

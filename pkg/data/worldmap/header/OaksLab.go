@@ -26,5 +26,6 @@ var OaksLab = &Header{
 		txt.OaksLabText2,
 		txt.OaksLabText3,
 		txt.OaksLabText4,
+		txt.OaksLabText5,
 	},
 }
