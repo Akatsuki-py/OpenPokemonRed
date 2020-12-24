@@ -329,10 +329,8 @@ func ScrollTextUpOneLine(target *ebiten.Image) {
 	maxX, maxY := util.TileToPixel(19, 17)
 	max := image.Point{maxX, maxY}
 	texts := ebiten.NewImageFromImage(target.SubImage(image.Rectangle{min, max}))
+	util.ClearScreenArea(target, 1, 14, 3, 18)
 	util.DrawImage(target, texts, 1, 13)
-	for w := 1; w < 19; w++ {
-		PlaceChar(target, " ", w, 16)
-	}
 	store.DelayFrames = 5
 	InScroll = !InScroll
 	Seek(1, 16)
