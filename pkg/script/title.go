@@ -510,12 +510,12 @@ func checkForUserInterruption() bool {
 func titleMenu() {
 	store.SetScriptID(store.TitleMenu2)
 	screen.FillWhite()
-	height := 3 * 2
 	elm := []string{
-		"CONTINUE",
+		// "CONTINUE",
 		"NEW GAME",
 		"OPTION",
 	}
+	height := len(elm) * 2
 	menu.NewSelectMenu(elm, 0, 0, 13, height, true, false, 0)
 }
 
@@ -526,7 +526,7 @@ func titleMenu2() {
 	switch {
 	case pressed.A:
 		switch m.Item() {
-		case "CONTINUE":
+		// case "CONTINUE":
 		case "NEW GAME":
 			m.Close()
 			store.SetScriptID(store.OakSpeech0)

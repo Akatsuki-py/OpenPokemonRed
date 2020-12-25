@@ -44,3 +44,16 @@ Screenshots as of v0.1.0 (Text engine, Menu engine, Sprites engine, some Widgets
 <img src="./screenshots/title.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/oak_speech.png" width="360px" height="360px" />
 
 <img src="./screenshots/overworld.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/status_screen.png" width="360px" height="360px" />
+
+## Key
+
+| keyboard             | game pad      |
+| -------------------- | ------------- |
+| <kbd>&larr;</kbd>    | &larr; button |
+| <kbd>&uarr;</kbd>    | &uarr; button |
+| <kbd>&darr;</kbd>    | &darr; button |
+| <kbd>&rarr;</kbd>    | &rarr; button |
+| <kbd>S</kbd>         | A button      |
+| <kbd>A</kbd>         | B button      |
+| <kbd>Enter</kbd>     | Start button  |
+| <kbd>Right shift</kbd> | Select button |
