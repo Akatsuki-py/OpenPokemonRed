@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image/png"
 	"pokered/pkg/data/sprdata"
+	"pokered/pkg/data/worldmap/object"
 	"pokered/pkg/joypad"
 	"pokered/pkg/screen"
 	"pokered/pkg/store"
@@ -245,7 +246,7 @@ func VBlank() {
 	screen.AddLayer("sprite", screen.Sprite, l, 0, 0)
 }
 
-// GetFrontSpriteOrSign hoge
+// GetFrontSpriteOrSign check sprite or sign is in front of player
 func GetFrontSpriteOrSign(offset int) int {
 	s := store.SpriteData[offset]
 	if s == nil {
@@ -290,4 +291,29 @@ func GetFrontSpriteOrSign(offset int) int {
 	}
 
 	return -1
+}
+
+func GetFrontHiddentObject() (object.HiddenObject, bool) {
+	p := store.SpriteData[0]
+
+	xCoord, yCoord, direction := p.MapXCoord, p.MapYCoord, p.Direction
+	switch direction {
+	case util.Up:
+		yCoord--
+	case util.Down:
+		yCoord++
+	case util.Left:
+		xCoord--
+	case util.Right:
+		xCoord++
+	}
+
+	objects := world.CurWorld.Object.HO
+	for _, o := range objects {
+		if xCoord == o.XCoord && yCoord == o.YCoord {
+			return o, true
+		}
+	}
+
+	return object.HiddenObject{}, false
 }

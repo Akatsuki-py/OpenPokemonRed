@@ -2,6 +2,7 @@ package object
 
 import (
 	"pokered/pkg/data/sprdata"
+	"pokered/pkg/data/txt"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/util"
 )
@@ -39,4 +40,28 @@ var OaksLab = &Object{
 		0x05: true,
 		0x08: true,
 	},
+
+	HO: []HiddenObject{
+		{4, 0, txt.DisplayOakLabLeftPoster, true},
+		{5, 0, txt.DisplayOakLabRightPoster, true},
+		{0, 1, txt.DisplayOakLabEmailText, true},
+		{1, 1, txt.DisplayOakLabEmailText, true},
+	},
 }
+
+/*
+OaksLabHiddenObjects:
+	db $00,$04,$04
+	db BANK(DisplayOakLabLeftPoster)
+	dw DisplayOakLabLeftPoster
+	db $00,$05,$04
+	db BANK(DisplayOakLabRightPoster)
+	dw DisplayOakLabRightPoster
+	db $01,$00,$04
+	db BANK(DisplayOakLabEmailText)
+	dw DisplayOakLabEmailText
+	db $01,$01,$04
+	db BANK(DisplayOakLabEmailText)
+	dw DisplayOakLabEmailText
+	db $FF
+*/

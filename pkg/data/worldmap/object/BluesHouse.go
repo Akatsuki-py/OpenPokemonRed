@@ -2,6 +2,7 @@ package object
 
 import (
 	"pokered/pkg/data/sprdata"
+	"pokered/pkg/data/txt"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/util"
 )
@@ -29,5 +30,11 @@ var BluesHouse = &Object{
 
 	HS: map[int]bool{
 		0x02: true,
+	},
+
+	HO: []HiddenObject{
+		{0, 1, txt.BookcaseText, true},
+		{1, 1, txt.BookcaseText, true},
+		{7, 1, txt.BookcaseText, true},
 	},
 }

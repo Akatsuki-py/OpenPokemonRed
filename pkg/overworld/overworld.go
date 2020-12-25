@@ -2,6 +2,7 @@ package overworld
 
 import (
 	"pokered/pkg/audio"
+	"pokered/pkg/data/worldmap/object"
 	"pokered/pkg/joypad"
 	"pokered/pkg/overworld/mscript"
 	"pokered/pkg/palette"
@@ -45,6 +46,10 @@ func ExecOverworld() {
 			store.SetScriptID(store.WidgetStartMenu)
 			return
 		case joypad.JoyPressed.A:
+			if ho, ok := sprite.GetFrontHiddentObject(); ok {
+				execHORoutine(ho)
+				return
+			}
 			if offset := sprite.GetFrontSpriteOrSign(0); offset > 0 {
 				sprite.MakeNPCFacePlayer(uint(offset))
 				DisplayDialogue(offset)
@@ -163,4 +168,14 @@ func DisplayDialogue(offset int) {
 	texts, textID := world.CurWorld.Header.Text, offset
 	text.DisplayTextID(text.TextBoxImage, texts, textID)
 	store.SetScriptID(store.ExecText)
+}
+
+func execHORoutine(ho object.HiddenObject) {
+	routine := ho.Routine
+	switch r := routine.(type) {
+	case string:
+		text.DoPrintTextScript(text.TextBoxImage, r, false)
+	case uint:
+		// item ID
+	}
 }

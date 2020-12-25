@@ -25,18 +25,39 @@ ${OaksLabText5}
 `
 
 var OaksLabText6 = `
+It's encyclopedia-
+like, but the
+pages are blank!
 `
+
 var OaksLabText7 = `
+It's encyclopedia-
+like, but the
+pages are blank!
 `
+
 var OaksLabText8 = `
 ?
 `
 
 var OaksLabText9 = `
+PROF.OAK is the
+authority on
+#MON!
+
+Many #MON
+trainers hold him
+in high regard!
 `
+
 var OaksLabText10 = `
+I study #MON as
+PROF.OAK's AIDE.
 `
+
 var OaksLabText11 = `
+I study #MON as
+PROF.OAK's AIDE.
 `
 
 var OaksLabText12 = `

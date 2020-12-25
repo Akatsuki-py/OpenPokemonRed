@@ -25,9 +25,9 @@ type Game struct {
 // Update proceeds the game state.
 func (g *Game) Update() error {
 	if store.GameFrame == 0 {
-		initialize()
+		// initialize()
 		// store.Debug = true
-		// initializeWorld()
+		initializeWorld()
 	}
 	exec()
 	vBlank()

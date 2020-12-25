@@ -2,6 +2,7 @@ package object
 
 import (
 	"pokered/pkg/data/sprdata"
+	"pokered/pkg/data/txt"
 	"pokered/pkg/data/worldmap"
 	"pokered/pkg/util"
 )
@@ -27,5 +28,10 @@ var RedsHouse1F = &Object{
 		{2, 7, 4},
 		{3, 7, 4},
 		{7, 1, 4},
+	},
+
+	HO: []HiddenObject{
+		{0, 1, txt.BookcaseText, true},
+		{1, 1, txt.BookcaseText, true},
 	},
 }

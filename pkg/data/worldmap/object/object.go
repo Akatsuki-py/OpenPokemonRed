@@ -21,6 +21,7 @@ type Object struct {
 	Sprites     []Sprite
 	WarpTos     []WarpTo
 	HS          map[int]bool // spriteID -> isHidden
+	HO          []HiddenObject
 }
 
 // Warp this coord can warp to dest
@@ -47,6 +48,13 @@ type Sprite struct {
 type WarpTo struct {
 	XCoord, YCoord int
 	Width          uint
+}
+
+// HiddenObject hidden_item, statue, PC, trashbox, slotmachine, bookshelf, ...
+type HiddenObject struct {
+	XCoord, YCoord int
+	Routine        interface{} // uint or textdata
+	Valid          bool
 }
 
 // Get Map Object
