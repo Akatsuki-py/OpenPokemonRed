@@ -109,7 +109,7 @@ func PlaySound(soundID uint) {
 
 // Cry play pokemon cry
 func Cry(id uint) {
-	path := "/" + util.Padding(id, 3, "0") + "Cry.wav"
+	path := "/" + util.PaddingLeft(id, 3, "0") + "Cry.wav"
 	sound := newWav(store.FS, path)
 	if sound == nil {
 		return

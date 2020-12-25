@@ -112,17 +112,17 @@ func RenderStatusScreen1() {
 
 	text.PlaceStringAtOnce(statusScreen, mon.Nick, 9, 1)
 	text.PlaceStringAtOnce(statusScreen, mon.OTName, 12, 16)
-	text.PlaceStringAtOnce(statusScreen, util.Padding(mon.OTID, 5, "0"), 12, 14)
+	text.PlaceStringAtOnce(statusScreen, util.PaddingLeft(mon.OTID, 5, "0"), 12, 14)
 
 	base := pkmnd.BaseStatsGen1(mon.ID)
 	atk := pkmn.CalcStat(base.Attack, mon.DVs.Attack, mon.EVs.Attack, mon.BoxLevel)
-	text.PlaceStringAtOnce(statusScreen, util.Padding(atk, 3, " "), 6, 10)
+	text.PlaceStringAtOnce(statusScreen, util.PaddingLeft(atk, 3, " "), 6, 10)
 	def := pkmn.CalcStat(base.Defense, mon.DVs.Defense, mon.EVs.Defense, mon.BoxLevel)
-	text.PlaceStringAtOnce(statusScreen, util.Padding(def, 3, " "), 6, 12)
+	text.PlaceStringAtOnce(statusScreen, util.PaddingLeft(def, 3, " "), 6, 12)
 	spd := pkmn.CalcStat(base.Speed, mon.DVs.Speed, mon.EVs.Speed, mon.BoxLevel)
-	text.PlaceStringAtOnce(statusScreen, util.Padding(spd, 3, " "), 6, 14)
+	text.PlaceStringAtOnce(statusScreen, util.PaddingLeft(spd, 3, " "), 6, 14)
 	sp := pkmn.CalcStat(base.Special, mon.DVs.SpAtk, mon.EVs.SpAtk, mon.BoxLevel)
-	text.PlaceStringAtOnce(statusScreen, util.Padding(sp, 3, " "), 6, 16)
+	text.PlaceStringAtOnce(statusScreen, util.PaddingLeft(sp, 3, " "), 6, 16)
 }
 
 func RenderPokemonAndCryOnStatusScreen1() {
@@ -147,8 +147,8 @@ func RenderStatusScreen2() {
 	// LEVEL UP
 	gr := pkmnd.Header(mon.ID).GrowthRate
 	neededExp := pkmn.CalcExpToLevelUp(mon.BoxLevel, uint(mon.Exp), gr)
-	text.PlaceStringAtOnce(statusScreen, util.Padding(neededExp, 5, " "), 9, 6) // needed exp
-	PrintLevel(statusScreen, mon.BoxLevel+1, 16, 6)                             // next level
+	text.PlaceStringAtOnce(statusScreen, util.PaddingLeft(neededExp, 5, " "), 9, 6) // needed exp
+	PrintLevel(statusScreen, mon.BoxLevel+1, 16, 6)                                 // next level
 
 	// MOVE
 	pp := util.OpenImage(store.FS, "/pp.png")

@@ -33,7 +33,17 @@ func ShowPokedexData() {
 
 	header := pkmnd.Header(TargetMonID)
 	text.PlaceStringAtOnce(dexPageScreen, header.DexEntry.Species, 9, 4)
-	text.PlaceUintAtOnce(dexPageScreen, header.ID, 4, 8)
+	text.PlaceStringAtOnce(dexPageScreen, util.PaddingLeft(header.ID, 3, "0"), 4, 8)
+
+	// height
+	text.PlaceStringAtOnce(dexPageScreen, util.PaddingLeft(header.DexEntry.HT[0], 2, " "), 12, 6)
+	text.PlaceStringAtOnce(dexPageScreen, util.PaddingLeft(header.DexEntry.HT[0], 2, "0"), 15, 6)
+
+	// weight
+	wt0, wt1 := header.DexEntry.WT/10, header.DexEntry.WT%10
+	text.PlaceStringAtOnce(dexPageScreen, util.PaddingLeft(wt0, 3, " "), 12, 8)
+	text.PlaceStringAtOnce(dexPageScreen, ".", 15, 8)
+	text.PlaceUintAtOnce(dexPageScreen, wt1, 16, 8)
 
 	pic := pkmn.Picture(TargetMonID, false)
 	util.DrawImage(dexPageScreen, pic, 1, 1)

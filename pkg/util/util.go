@@ -133,19 +133,38 @@ func OpenImage(fs http.FileSystem, path string) *ebiten.Image {
 	return result
 }
 
-func Padding(num interface{}, digit int, char string) string {
-	result, paddingLength := "", digit
-	switch n := num.(type) {
-	case int, uint:
+// PaddingLeft string or int
+func PaddingLeft(target interface{}, length int, char string) string {
+	result, paddingLength := "", length
+	switch n := target.(type) {
+	case int, uint, uint64:
 		result = fmt.Sprintf("%d", n)
-		paddingLength = digit - len(result)
+		paddingLength = length - len(result)
 	case string:
 		result = n
-		paddingLength = digit - len(n)
+		paddingLength = length - len(n)
 	}
 
 	for i := 0; i < paddingLength; i++ {
 		result = char + result
+	}
+	return result
+}
+
+// PaddingRight string or int
+func PaddingRight(target interface{}, length int, char string) string {
+	result, paddingLength := "", length
+	switch n := target.(type) {
+	case int, uint, uint64:
+		result = fmt.Sprintf("%d", n)
+		paddingLength = length - len(result)
+	case string:
+		result = n
+		paddingLength = length - len(n)
+	}
+
+	for i := 0; i < paddingLength; i++ {
+		result = result + char
 	}
 	return result
 }
