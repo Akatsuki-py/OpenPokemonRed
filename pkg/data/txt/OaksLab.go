@@ -94,7 +94,7 @@ fight against it!
 `
 
 var OaksLabRaiseMonText = `
-OAK: <PLAYER>,
+OAK: ${PLAYER},
 raise your young
 #MON by making
 it fight!
