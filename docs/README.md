@@ -45,7 +45,7 @@ The ROM version is not Japanese but English.
 
 <img src="./screenshots/overworld.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/status_screen.png" width="360px" height="360px" />
 
-## Try
+## 🎡 Try
 
 ### Download
 
@@ -62,7 +62,7 @@ gh repo clone pokemium/OpenPokemonRed
 cd OpenPokemonRed && make build # For Mac OS. If your OS is windows, please `make build-windows`.
 ```
 
-## Key
+## 💻 Key
 
 | keyboard             | game pad      |
 | -------------------- | ------------- |
