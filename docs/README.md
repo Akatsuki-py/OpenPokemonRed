@@ -39,7 +39,7 @@ The ROM version is not Japanese but English.
 
 ## 🏞 Screenshots
 
-Screenshots as of v0.1.0 (Text engine, Menu engine, Sprites engine, some Widgets, part of Map engine, Title, OakSpeech, ...)
+**Screenshots as of v0.1.0**
 
 <img src="./screenshots/title.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/oak_speech.png" width="360px" height="360px" />
 
