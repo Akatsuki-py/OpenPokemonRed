@@ -100,7 +100,7 @@ func RenderStatusScreen1() {
 	}
 	text.PlaceStringAtOnce(statusScreen, status, 16, 6)
 	PrintLevel(statusScreen, mon.BoxLevel, 14, 2)
-	text.PlaceUintAtOnce(statusScreen, mon.ID, 3, 7)
+	text.PlaceStringAtOnce(statusScreen, util.PaddingLeft(mon.ID, 3, "0"), 3, 7)
 	type1 := mon.Type[0]
 	if type1 > 0 {
 		text.PlaceStringAtOnce(statusScreen, pkmnd.TypeString(type1), 11, 10)
@@ -138,7 +138,7 @@ func RenderStatusScreen2() {
 
 	pic := pkmn.Picture(mon.ID, true)
 	util.DrawImage(statusScreen, pic, 1, 0)
-	text.PlaceUintAtOnce(statusScreen, mon.ID, 3, 7)
+	text.PlaceStringAtOnce(statusScreen, util.PaddingLeft(mon.ID, 3, "0"), 3, 7)
 	text.PlaceStringAtOnce(statusScreen, mon.Nick, 9, 1)
 
 	// EXP POINTS
