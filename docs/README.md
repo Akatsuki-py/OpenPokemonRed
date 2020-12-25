@@ -45,6 +45,23 @@ The ROM version is not Japanese but English.
 
 <img src="./screenshots/overworld.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/status_screen.png" width="360px" height="360px" />
 
+## Try
+
+### Download
+
+Please download binary from [Release](https://github.com/pokemium/OpenPokemonRed/releases) page.
+
+### Build
+
+Requirements:
+- Go 1.15
+- Windows10 or MacOS(<= Big Sur)
+
+```sh
+gh repo clone pokemium/OpenPokemonRed
+cd OpenPokemonRed && make build # For Mac OS. If your OS is windows, please `make build-windows`.
+```
+
 ## Key
 
 | keyboard             | game pad      |
