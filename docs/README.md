@@ -26,16 +26,16 @@ The ROM version is not Japanese but English.
 - [x] Title
 - [x] Oak speech
 - [x] Naming screen
-- [] Combat system
-- [] Wild pokemon battle
-- [] Trainer battle
-- [] Use item
-- [] PC
-- [] Pokecenter
-- [] Pokemart
-- [] Pokedex
-- [] Save function
-- [] Field move(Cut, Strength, Surf...)
+- [ ] Combat system
+- [ ] Wild pokemon battle
+- [ ] Trainer battle
+- [ ] Use item
+- [ ] PC
+- [ ] Pokecenter
+- [ ] Pokemart
+- [ ] Pokedex
+- [ ] Save function
+- [ ] Field move(Cut, Strength, Surf...)
 
 ## 🏞 Screenshots
 
