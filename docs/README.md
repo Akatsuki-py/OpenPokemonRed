@@ -6,7 +6,6 @@
 
 <img src="header.png" />
 
-
 ## 🔰 Description
 
 **🚧 WARNING: This project is unofficial!! 🚧**
@@ -18,15 +17,29 @@ The ROM version is not Japanese but English.
 ## 🏜 Roadmap
 
 **This project is in the middle of development and is currently creating the underlying system part.**  
-For example, text drawing, sound playback, and combat systems.
 
-## 📽 Demo
-
-<img src="./screenshots/demo.gif" width="280px" height="280px" />
+- [x] Text engine
+- [x] Menu engine
+- [x] Sprite engine
+- [x] Statue screen
+- [x] Trainer card
+- [x] Title
+- [x] Oak speech
+- [x] Naming screen
+- [] Combat system
+- [] Wild pokemon battle
+- [] Trainer battle
+- [] Use item
+- [] PC
+- [] Pokecenter
+- [] Pokemart
+- [] Pokedex
+- [] Save function
+- [] Field move(Cut, Strength, Surf...)
 
 ## 🏞 Screenshots
 
-Screenshots as of v0.0.11 (Text engine, Menu engine, Sprites engine, some Widgets, part of Map engine, Title, OakSpeech, ...)
+Screenshots as of v0.1.0 (Text engine, Menu engine, Sprites engine, some Widgets, part of Map engine, Title, OakSpeech, ...)
 
 <img src="./screenshots/title.png" width="360px" height="360px" /> &nbsp;&nbsp; <img src="./screenshots/oak_speech.png" width="360px" height="360px" />
 
