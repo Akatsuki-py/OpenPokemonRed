@@ -9,15 +9,14 @@ import (
 	ebiten "github.com/hajimehoshi/ebiten/v2"
 )
 
-var version string
-
 const (
 	exitCodeOK int = iota
 	exitCodeError
 )
 
 const (
-	title = "PokemonRed"
+	Version = "Develop"
+	title   = "PokemonRed"
 )
 
 func main() {
@@ -31,7 +30,7 @@ func Run() int {
 	)
 	flag.Parse()
 	if *showVersion {
-		fmt.Println(title+":", getVersion())
+		fmt.Println(title+":", Version)
 		return exitCodeOK
 	}
 
@@ -42,11 +41,4 @@ func Run() int {
 		return exitCodeError
 	}
 	return exitCodeOK
-}
-
-func getVersion() string {
-	if version == "" {
-		return "Develop"
-	}
-	return version
 }
