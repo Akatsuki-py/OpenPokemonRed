@@ -47,6 +47,8 @@ The ROM version is not Japanese but English.
 
 ## 🎡 Try
 
+**12/27: This cannot be played now! Since this repo uses Nintendo assets, I have temporarily suspended the publish of encrypted asset file. Please wait until I come up with a good solution ...**
+
 ### Download
 
 Please download binary from [Release](https://github.com/pokemium/OpenPokemonRed/releases) page.
