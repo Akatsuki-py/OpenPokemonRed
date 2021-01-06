@@ -114,13 +114,6 @@ func StopMusicImmediately() {
 	}
 }
 
-func stopMusic() {
-	if CurMusic != nil {
-		CurMusic.Pause()
-		CurMusic.Seek(0)
-	}
-}
-
 // PlayDefaultMusic play BGM accroding to Player's state
 // ref: PlayDefaultMusic
 func PlayDefaultMusic(mapID int) {
