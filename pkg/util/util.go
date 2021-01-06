@@ -7,7 +7,6 @@ import (
 	"math/rand"
 	"net/http"
 	"reflect"
-	"runtime"
 	"strings"
 	"time"
 
@@ -27,14 +26,6 @@ func Contains(list interface{}, target interface{}) bool {
 		return strings.Contains(list.(string), target.(string))
 	}
 	return false
-}
-
-// LF return line feed
-func LF() string {
-	if runtime.GOOS == "windows" {
-		return "\r\n"
-	}
-	return "\n"
 }
 
 // XOR exclusive-OR

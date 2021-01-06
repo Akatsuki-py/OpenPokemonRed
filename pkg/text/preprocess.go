@@ -1,12 +1,13 @@
 package text
 
 import (
-	"pokered/pkg/util"
 	"strings"
 )
 
 func preprocess(src string) string {
-	s := strings.Split(src, util.LF())[1:]
+	// Normalize newlines
+	src = strings.Replace(src, "\r\n", "\n", -1)
+	s := strings.Split(src, "\n")[1:]
 	result := ""
 	cont := false
 	for _, line := range s {
