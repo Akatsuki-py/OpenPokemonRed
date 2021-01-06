@@ -76,7 +76,7 @@ func newMusic(fs http.FileSystem, path string, intro string) *Music {
 // PlayMusic play BGM
 func PlayMusic(id int) {
 	if CurMusic != nil && CurMusic.IsPlaying() {
-		stopMusic()
+		StopMusicImmediately()
 	}
 
 	if id == stopSound {
@@ -108,13 +108,6 @@ func StopMusic(fadeout uint) {
 
 // StopMusicImmediately stop BGM
 func StopMusicImmediately() {
-	if CurMusic != nil {
-		CurMusic.Pause()
-		CurMusic.Seek(0)
-	}
-}
-
-func stopMusic() {
 	if CurMusic != nil {
 		CurMusic.Pause()
 		CurMusic.Seek(0)
