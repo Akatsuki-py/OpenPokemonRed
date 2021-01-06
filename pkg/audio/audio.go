@@ -59,7 +59,7 @@ func FadeOutAudio() {
 		if volume == 0 {
 			// start next music
 			FadeOut.Control, FadeOut.Counter = 0, 0
-			stopMusic()
+			StopMusicImmediately()
 			PlayMusic(NewMusicID)
 			return
 		}
